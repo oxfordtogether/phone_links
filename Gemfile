@@ -71,3 +71,5 @@ gem "kms_encrypted"
 gem "aws-sdk-kms"
 
 gem "dotenv-rails"
+
+gem "view_component", require: "view_component/engine"
