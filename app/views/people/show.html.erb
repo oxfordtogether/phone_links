@@ -1,4 +1,3 @@
 <p id="notice"><%= notice %></p>
-
-<%= link_to 'Edit', edit_person_path(@person) %> |
-<%= link_to 'Back', people_path %>
+<div><%= @person.title %> <%= @person.name %></div>
+<%= @person.phone %>, <%= @person.email %>

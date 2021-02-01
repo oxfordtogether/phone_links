@@ -32,7 +32,7 @@ class PeopleController < ApplicationController
   private
 
   def set_person
-    @person = Person.find(params[:id])
+    @person = Person.with_roles.find(params[:id])
   end
 
   def person_params
