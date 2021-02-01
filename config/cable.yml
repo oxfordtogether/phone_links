@@ -1,0 +1,15 @@
+redis: &default
+  adapter: redis
+  url: redis://localhost:6379/1
+
+development:
+  <<: *default
+  channel_prefix: oxford_hub_phone_links_development
+
+test:
+  <<: *default
+  channel_prefix: oxford_hub_phone_links_test
+
+production:
+  <<: *default
+  channel_prefix: oxford_hub_phone_links_production

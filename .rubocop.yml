@@ -1,0 +1,109 @@
+# defaults: https://github.com/rubocop-hq/rubocop/blob/master/config/default.yml
+
+AllCops:
+  NewCops: disable
+  Exclude:
+    - "**/*.erb"
+    - "vendor/**/*"
+    - "db/migrate/*"
+
+# documentation
+Style/Documentation:
+  Enabled: false
+
+Style/CommentedKeyword:
+  Enabled: false
+
+# other
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/CaseEquality:
+  Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false
+
+Style/ClassVars:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+# strings/quotes
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: double_quotes
+  ConsistentQuotesInMultiline: false
+
+# trailing commas
+Style/TrailingCommaInArguments:
+  Enabled: true
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInArrayLiteral:
+  Enabled: true
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInBlockArgs:
+  Enabled: true
+
+Style/TrailingCommaInHashLiteral:
+  Enabled: true
+  EnforcedStyleForMultiline: comma
+
+# metrics
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/BlockNesting:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/ParameterLists:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+# Linting
+Lint/UselessAssignment:
+  Enabled: false
+
+Lint/ShadowingOuterLocalVariable:
+  Enabled: false
+
+# Naming
+Naming/MethodParameterName:
+  Enabled: false
+
+Naming/MemoizedInstanceVariableName:
+  Enabled: false
+
+Naming/PredicateName:
+  Enabled: false
+
+# layout
+Layout/LineLength:
+  Enabled: false
+
+Layout/EndAlignment:
+  Enabled: true
+  AutoCorrect: true
