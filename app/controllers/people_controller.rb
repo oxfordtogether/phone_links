@@ -1,5 +1,9 @@
 class PeopleController < ApplicationController
-  before_action :set_person, only: %i[edit update]
+  before_action :set_person, only: %i[show edit update]
+
+  def index
+    @people = Person.all
+  end
 
   def new
     @person = Person.new
