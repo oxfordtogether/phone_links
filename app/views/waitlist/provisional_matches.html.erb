@@ -1,0 +1,18 @@
+<%= render(WaitlistHeadComponent.new()) %>
+<% if @pending_matches.length > 0 %>
+  <%= table @pending_matches.sort_by { |m| m.caller.name }, row_url: ->(m) { url_for(m) } do |tbl| %>
+    <% tbl.col "Caller" do |match| %>
+      <%= match.caller.name %>
+    <% end %>
+    <% tbl.col "Callee" do |match| %>
+      <%= match.callee.name %>
+    <% end %>
+    <% tbl.col "Last updated" do |match| %>
+      <%= match.updated_at %>
+    <% end %>
+  <% end %>
+<% else %>
+  <div class="flex justify-center text-gray-600">
+    No provisional matches
+  </div>
+<% end %>

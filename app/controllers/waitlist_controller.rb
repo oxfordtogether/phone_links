@@ -1,8 +1,17 @@
 class WaitlistController < ApplicationController
-  before_action :set_person, only: %i[show edit update]
-
   def index
-    @callers = Caller.all.filter { |c| c.waiting? }
-    @callees = Callee.all.filter { |c| c.waiting? }
+    redirect_to "/waitlist/callers"
+  end
+
+  def callers
+    @waiting_callers = Caller.all.filter(&:waiting?)
+  end
+
+  def callees
+    @waiting_callees = Callee.all.filter(&:waiting?)
+  end
+
+  def provisional_matches
+    @pending_matches = Match.where(pending: true)
   end
 end

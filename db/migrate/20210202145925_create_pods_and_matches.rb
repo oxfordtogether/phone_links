@@ -11,6 +11,7 @@ class CreatePodsAndMatches < ActiveRecord::Migration[6.0]
     create_table :matches do |t|
       t.date :start_date, null: false
       t.date :end_date, null: true
+      t.boolean :pending
 
       t.references :caller, null: false, foreign_key: true
       t.references :callee, null: false, foreign_key: true

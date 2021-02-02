@@ -1,0 +1,8 @@
+<% content_for :page_title do %>
+  Waiting list
+<% end %>
+<%= nav_tabs do |nav| %>
+  <% nav.link "Waiting callers", waitlist_callers_path %>
+  <% nav.link "Waiting callees", waitlist_callees_path %>
+  <% nav.link "Provisional matches", waitlist_provisional_matches_path %>
+<% end %>

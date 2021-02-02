@@ -1,0 +1,18 @@
+<%= render(WaitlistHeadComponent.new()) %>
+<% if @waiting_callees.length > 0 %>
+  <%= table @waiting_callees.sort_by(&:name), row_url: ->(p) { url_for(p) } do |tbl| %>
+    <% tbl.col "Name" do |person| %>
+      <%= person.name %>
+    <% end %>
+    <% tbl.col "" do |person| %>
+      ..role..
+    <% end %>
+    <% tbl.col "" do |person| %>
+      <%= person.waiting_since %>
+    <% end %>
+  <% end %>
+<% else %>
+  <div class="flex justify-center text-gray-600">
+    No-one on the waiting list :)
+  </div>
+<% end %>

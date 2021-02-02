@@ -130,6 +130,7 @@ CREATE TABLE public.matches (
     id bigint NOT NULL,
     start_date date NOT NULL,
     end_date date,
+    pending boolean,
     caller_id bigint NOT NULL,
     callee_id bigint NOT NULL,
     pod_id bigint NOT NULL,

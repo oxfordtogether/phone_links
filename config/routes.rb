@@ -9,8 +9,12 @@ Rails.application.routes.draw do
 
   resources :people, only: %i[show new create edit update]
   resources :caller, only: %i[new create edit update]
+  resources :callee, only: %i[new create edit update]
   resources :matches, only: %i[show new create edit update]
   resources :pods, only: %i[show index new create edit update]
 
   get "waitlist" => "waitlist#index"
+  get "waitlist/callers" => "waitlist#callers"
+  get "waitlist/callees" => "waitlist#callees"
+  get "waitlist/provisional_matches" => "waitlist#provisional_matches"
 end
