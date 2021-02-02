@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
   resources :people, only: %i[show new create edit update]
   resources :caller, only: %i[new create edit update]
+  resources :matches, only: %i[show new create edit update]
+  resources :pods, only: %i[show index new create edit update]
 
   get "waitlist" => "waitlist#index"
 end

@@ -8,6 +8,7 @@
     "@rails/webpacker": "5.2.1",
     "@tailwindcss/forms": "^0.2.1",
     "autoprefixer": "^9",
+    "ocl_tools": "oxfordtogether/ocl_tools.git",
     "postcss": "^7",
     "stimulus": "^2.0.0",
     "stimulus_reflex": "^3.4.1",

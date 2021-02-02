@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Start date:</strong>
+  <%= @match.start_date %>
+</p>
+
+<p>
+  <strong>End date:</strong>
+  <%= @match.end_date %>
+</p>
+
+<p>
+  <strong>Pod:</strong>
+  <%= @match.pod_id %>
+</p>
+
+<p>
+  <strong>Caller:</strong>
+  <%= @match.caller_id %>
+</p>
+
+<p>
+  <strong>Callee:</strong>
+  <%= @match.callee_id %>
+</p>
+
+<%= link_to 'Edit', edit_match_path(@match) %> |
+<%= link_to 'Back', matches_path %>

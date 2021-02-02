@@ -1,0 +1,21 @@
+<% content_for :page_title do %>
+  Pods
+<% end %>
+<% if @pods.length > 0 %>
+  <%= table @pods.sort_by(&:name), row_url: ->(p) { url_for(p) } do |tbl| %>
+    <% tbl.col "Name" do |pod| %>
+      <%= pod.name %>
+    <% end %>
+    <% tbl.col "Pod Leader" do |pod| %>
+      <% if pod.pod_leader %>
+        <%= pod.pod_leader.name %>
+      <% else %>
+        <div class="italic text-blue-500">Not assigned to a pod leader</div>
+      <% end %>
+    <% end %>
+  <% end %>
+<% else %>
+  <div class="flex justify-center text-gray-600">
+    No pods have been added yet :(
+  </div>
+<% end %>

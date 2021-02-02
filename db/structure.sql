@@ -123,6 +123,41 @@ ALTER SEQUENCE public.callers_id_seq OWNED BY public.callers.id;
 
 
 --
+-- Name: matches; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.matches (
+    id bigint NOT NULL,
+    start_date date NOT NULL,
+    end_date date,
+    caller_id bigint NOT NULL,
+    callee_id bigint NOT NULL,
+    pod_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: matches_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.matches_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: matches_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.matches_id_seq OWNED BY public.matches.id;
+
+
+--
 -- Name: people; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -196,6 +231,38 @@ ALTER SEQUENCE public.pod_leaders_id_seq OWNED BY public.pod_leaders.id;
 
 
 --
+-- Name: pods; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.pods (
+    id bigint NOT NULL,
+    name character varying,
+    pod_leader_id bigint,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: pods_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.pods_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: pods_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.pods_id_seq OWNED BY public.pods.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -226,6 +293,13 @@ ALTER TABLE ONLY public.callers ALTER COLUMN id SET DEFAULT nextval('public.call
 
 
 --
+-- Name: matches id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.matches ALTER COLUMN id SET DEFAULT nextval('public.matches_id_seq'::regclass);
+
+
+--
 -- Name: people id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -237,6 +311,13 @@ ALTER TABLE ONLY public.people ALTER COLUMN id SET DEFAULT nextval('public.peopl
 --
 
 ALTER TABLE ONLY public.pod_leaders ALTER COLUMN id SET DEFAULT nextval('public.pod_leaders_id_seq'::regclass);
+
+
+--
+-- Name: pods id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pods ALTER COLUMN id SET DEFAULT nextval('public.pods_id_seq'::regclass);
 
 
 --
@@ -272,6 +353,14 @@ ALTER TABLE ONLY public.callers
 
 
 --
+-- Name: matches matches_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.matches
+    ADD CONSTRAINT matches_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: people people_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -285,6 +374,14 @@ ALTER TABLE ONLY public.people
 
 ALTER TABLE ONLY public.pod_leaders
     ADD CONSTRAINT pod_leaders_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pods pods_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pods
+    ADD CONSTRAINT pods_pkey PRIMARY KEY (id);
 
 
 --
@@ -317,10 +414,38 @@ CREATE INDEX index_callers_on_person_id ON public.callers USING btree (person_id
 
 
 --
+-- Name: index_matches_on_callee_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_matches_on_callee_id ON public.matches USING btree (callee_id);
+
+
+--
+-- Name: index_matches_on_caller_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_matches_on_caller_id ON public.matches USING btree (caller_id);
+
+
+--
+-- Name: index_matches_on_pod_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_matches_on_pod_id ON public.matches USING btree (pod_id);
+
+
+--
 -- Name: index_pod_leaders_on_person_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_pod_leaders_on_person_id ON public.pod_leaders USING btree (person_id);
+
+
+--
+-- Name: index_pods_on_pod_leader_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_pods_on_pod_leader_id ON public.pods USING btree (pod_leader_id);
 
 
 --
@@ -332,11 +457,35 @@ ALTER TABLE ONLY public.pod_leaders
 
 
 --
+-- Name: pods fk_rails_464113068e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pods
+    ADD CONSTRAINT fk_rails_464113068e FOREIGN KEY (pod_leader_id) REFERENCES public.pod_leaders(id);
+
+
+--
+-- Name: matches fk_rails_51008760a5; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.matches
+    ADD CONSTRAINT fk_rails_51008760a5 FOREIGN KEY (caller_id) REFERENCES public.callers(id);
+
+
+--
 -- Name: admins fk_rails_53af473728; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.admins
     ADD CONSTRAINT fk_rails_53af473728 FOREIGN KEY (person_id) REFERENCES public.people(id);
+
+
+--
+-- Name: matches fk_rails_69b1603b02; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.matches
+    ADD CONSTRAINT fk_rails_69b1603b02 FOREIGN KEY (callee_id) REFERENCES public.callees(id);
 
 
 --
@@ -356,12 +505,21 @@ ALTER TABLE ONLY public.callers
 
 
 --
+-- Name: matches fk_rails_ae1d288fdb; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.matches
+    ADD CONSTRAINT fk_rails_ae1d288fdb FOREIGN KEY (pod_id) REFERENCES public.pods(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
-('20210201135857');
+('20210201135857'),
+('20210202145925');
 
 
