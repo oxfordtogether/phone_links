@@ -10,4 +10,9 @@ class Callee < ApplicationRecord
   def name
     person.name
   end
+
+  def waiting?
+    # active and no match
+    true # to do
+  end
 end
