@@ -1,6 +1,7 @@
 <% content_for :page_title do %>
   Waiting list
 <% end %>
+<%= button_link_to "New person", new_person_path, icon: "icon-add" %>
 <%= nav_tabs do |nav| %>
   <% nav.link "Waiting callers", waitlist_callers_path %>
   <% nav.link "Waiting callees", waitlist_callees_path %>

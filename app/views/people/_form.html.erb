@@ -1,17 +1,13 @@
-<%= form_with(model: person, local: true) do |form| %>
-  <% if person.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(person.errors.count, "error") %> prohibited this person from being saved:</h2>
-
-      <ul>
-        <% person.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
+<%= tailwind_form_with(model: @person, local: true) do |form| %>
+  <%= form.section do %>
+    <%= form.text_field :title, width: :third %>
+    <%= form.text_field :first_name, width: :third %>
+    <%= form.text_field :last_name, width: :third %>
+    <%= form.text_field :phone, width: :half %>
+    <%= form.text_field :email, width: :half %>
   <% end %>
-
-  <div class="actions">
+  <%= form.button_section do %>
+    <%= form.cancel '/waitlist' %>
     <%= form.submit %>
-  </div>
+  <% end %>
 <% end %>

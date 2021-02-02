@@ -1,17 +1,17 @@
 class Person < ApplicationRecord
   validates :first_name, :last_name, presence: { message: "This field is required" }
 
-  has_many :callees
-  has_many :callers
-  has_many :pod_leaders
-  has_many :admins
+  has_one :callee
+  has_one :caller
+  has_one :pod_leader
+  has_one :admin
 
   scope :with_roles, lambda {
     includes(
-      :callees,
-      :callers,
-      :pod_leaders,
-      :admins
+      :callee,
+      :caller,
+      :pod_leader,
+      :admin,
     )
   }
 
@@ -30,6 +30,6 @@ class Person < ApplicationRecord
   end
 
   def roles
-    callees + callers + pod_leaders + admins
+    [callee, caller, admin, pod_leader].filter { |p| !p.nil? }
   end
 end

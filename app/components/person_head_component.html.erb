@@ -1,5 +1,10 @@
 <% content_for :page_title do %>
   <%= @person.name %>
+  <span class="text-sm">
+    <% @person.roles.each do |role| %>
+      <%= role.class.name %>
+    <% end %>
+  </span>
 <% end %>
 <div class="mt-2 sm:mt-2 mr-6 flex items-center text-sm text-gray-900">
   <%= icon("telephone-fill", class: "flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400") %>
@@ -18,5 +23,6 @@
   <% end %>
 </div>
 <%= nav_tabs do |nav| %>
-  <% nav.link "Events", "#" %>
+  <% nav.link "Events", events_person_path(@person) %>
+  <% nav.link "Details", details_person_path(@person) %>
 <% end %>

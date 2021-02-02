@@ -1,9 +1,13 @@
 class PeopleController < ApplicationController
-  before_action :set_person, only: %i[show edit update]
+  before_action :set_person, only: %i[show events details edit update]
 
-  def index
-    @people = Person.all
+  def show
+    redirect_to events_person_path(@person)
   end
+
+  def events; end
+
+  def details; end
 
   def new
     @person = Person.new

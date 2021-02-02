@@ -1,17 +1,11 @@
-<%= form_with(model: caller, local: true) do |form| %>
-  <% if caller.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(caller.errors.count, "error") %> prohibited this caller from being saved:</h2>
-
-      <ul>
-        <% caller.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
+<%= tailwind_form_with(model: @person, local: true) do |form| %>
+  <%= form.section do %>
+    <%= form.text_field :caller, width: :half %>
+    <%= form.text_field :callee, width: :half %>
+    <%= form.date_picker :start_date, width: :third %>
   <% end %>
-
-  <div class="actions">
+  <%= form.button_section do %>
+    <%= form.cancel '/waitlist' %>
     <%= form.submit %>
-  </div>
+  <% end %>
 <% end %>

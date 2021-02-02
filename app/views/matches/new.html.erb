@@ -1,5 +1,12 @@
 <h1>New Match</h1>
-
-<%= render 'form', match: @match %>
-
-<%= link_to 'Back', matches_path %>
+<%= tailwind_form_with(model: @match, local: true) do |form| %>
+  <%= form.section do %>
+    <%= form.text_field :caller, width: :half %>
+    <%= form.text_field :callee, width: :half %>
+    <%= form.date_picker :start_date, width: :third %>
+  <% end %>
+  <%= form.button_section do %>
+    <%= form.cancel '#' %>
+    <%= form.submit %>
+  <% end %>
+<% end %>

@@ -1,0 +1,9 @@
+<%= render(PersonHeadComponent.new(person: @person)) %>
+<div>
+  <% @person.roles.each do |role| %>
+    <div>
+      <%= role.class.name %>
+      <%= role.start_date %> - <%= role.end_date %>
+    </div>
+  <% end %>
+</div>

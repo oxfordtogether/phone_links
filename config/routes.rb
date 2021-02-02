@@ -7,7 +7,13 @@ Rails.application.routes.draw do
   get "auth/auth0/callback" => "auth0#callback"
   get "auth/failure" => "auth0#failure"
 
-  resources :people, only: %i[show new create edit update]
+  resources :people, only: %i[show new create edit update] do
+    member do
+      get :events
+      get :details
+    end
+  end
+
   resources :caller, only: %i[new create edit update]
   resources :callee, only: %i[new create edit update]
   resources :matches, only: %i[show new create edit update]
