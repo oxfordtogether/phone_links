@@ -1,0 +1,62 @@
+Description:
+    Authentication via Auth0
+
+Example:
+    rails generate auth Auth0
+
+README:
+
+After running the generator, do the following:
+
+# controllers/auth0_controller.rb
+Configure what is stored in the session depending on the use case.
+
+# login/show.html.erb, invalid_permissions.html.erb, unauthorized.html.erb
+Fill in the missing info (App Title, Program Name)
+
+# controllers/concerns/secured.rb
+Fill in the missing info (tenant, permissions)
+
+# spec/support/login.rb
+Fill in missing info (tenant, permissions)
+
+# IMPORTANT controllers/application_controller.rb
+Add `include Secured` to application_controller.rb
+
+# .env.development
+Add `BYPASS_AUTH=true` to .env.development if you want to bypass auth in dev
+
+# add the following gems
+```
+gem "auth0"
+gem "omniauth-auth0", "~> 2.2"
+gem "omniauth-rails_csrf_protection", "~> 0.1"
+```
+
+# add the following to config/routes.rb
+```
+get "login", to: "login#show"
+get "invalid_permissions", to: "login#invalid_permissions"
+get "logout", to: "logout#logout"
+get "auth/auth0/callback" => "auth0#callback"
+get "auth/failure" => "auth0#failure"
+```
+
+# add logout link somewhere
+`<%= link_to "Logout", logout_path, data: { turbolinks: false } %>`
+
+# create application on auth0
+create regular web appliation, copy settings from another application
+on the connections tab, turn off social - google-oauth2
+create api, add permissions, set "Enable RBAC" and "Add Permissions in the Access Token" to true
+create role, add permission just created, give access to relevant users
+
+# add auth0 creds to secrets (auth0_domain, auth0_client_id, auth0_client_secret)
+EDITOR="code --wait" rails credentials:edit --environment development
+
+# check tests pass (especially login_spec.rb, logout_spec.rb)
+Run `bundle exec rspec`
+
+## Qs
+
+session[:userinfo][:extra] -> session[:userinfo]["extra"]

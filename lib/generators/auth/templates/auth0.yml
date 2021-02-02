@@ -1,0 +1,11 @@
+default: &default
+  domain: <%= ENV["AUTH0_DOMAIN"] || Rails.application.credentials.auth0_domain %>
+  client_id: <%= ENV["AUTH0_CLIENT_ID"] || Rails.application.credentials.auth0_client_id %>
+  client_secret: <%= ENV["AUTH0_CLIENT_SECRET"] || Rails.application.credentials.auth0_client_secret %>
+
+development:
+  <<: *default
+test:
+  <<: *default
+production:
+  <<: *default

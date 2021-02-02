@@ -75,3 +75,7 @@ gem "dotenv-rails"
 gem "view_component", require: "view_component/engine"
 
 gem "ocl_tools", git: "git@github.com:oxfordtogether/ocl_tools.git"
+
+gem "auth0"
+gem "omniauth-auth0", "~> 2.2"
+gem "omniauth-rails_csrf_protection", "~> 0.1"
