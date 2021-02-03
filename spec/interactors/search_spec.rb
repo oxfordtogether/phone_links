@@ -14,6 +14,7 @@ RSpec.describe "search cache", type: :model do
     it "can find people using a fragment of the name" do
       expect(SearchCache.get_people_ids("blog").records).to match_array([person.id, person2.id, person3.id])
     end
+
     it "can limit the number of results" do
       people_ids = SearchCache.get_people_ids("blog", limit: 2)
       expect(people_ids.length).to eq(2)
@@ -22,28 +23,17 @@ RSpec.describe "search cache", type: :model do
   end
 
   describe "searching roles" do
-    skip "Needs configuring"
-
-    # configure for use case
-    let!(:pwd) { create(:person_with_dementia, person: person) }
-    let!(:carer) { create(:carer, person: person2) }
-    let!(:volunteer) { create(:volunteer, person: person2) }
-    let!(:dementia_adviser) { create(:dementia_adviser, person: person3) }
+    let!(:caller) { create(:caller, person: person) }
+    let!(:callee) { create(:callee, person: person2) }
+    let!(:admin) { create(:admin, person: person2) }
+    let!(:pod_leader) { create(:pod_leader, person: person3) }
 
     before do
       SearchCache.refresh
     end
 
     it "returns all relevant roles" do
-      expect(SearchCache.get_roles("blog").records).to match_array([pwd, carer, volunteer, dementia_adviser])
-    end
-
-    it "can limit the number of results" do
-      skip "need to redesign search cache to handle this"
-      roles = SearchCache.get_roles("blog", limit: 2)
-      expect(roles.length).to eq(2)
-      # NOTE: 3 people but 4 roles
-      expect(roles.total_count).to eq(4)
+      expect(SearchCache.get_roles("blog").records).to match_array([caller, callee, admin, pod_leader])
     end
   end
 end
