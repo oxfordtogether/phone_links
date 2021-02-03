@@ -1,6 +1,9 @@
 class SidebarLinkComponent < ViewComponent::Base
-  def initialize(name:, url:)
+  delegate :icon, to: :helpers
+
+  def initialize(name:, url:, icon: nil)
     @name = name
     @url = url
+    @icon = icon
   end
 end

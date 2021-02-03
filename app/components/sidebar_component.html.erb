@@ -40,20 +40,28 @@
           <div class="ml-2 text-white">Phone Links</div>
         </div>
         <nav class="mt-5 px-2 space-y-1">
-          <%= render(SidebarLinkComponent.new(name: "Home", url: "/")) %>
-          <%= render(SidebarLinkComponent.new(name: "Pods", url: "/pods")) %>
-          <%= render(SidebarLinkComponent.new(name: "Waiting list", url: "/waitlist")) %>
+          <div class="px-2 space-y-1">
+            <%= render(SidebarLinkComponent.new(name: "Search", url: "/", icon: "search")) %>
+          </div>
+          <div class="my-4" aria-hidden="true"></div>
+          <div class="px-2 space-y-1">
+            <%= render(SidebarLinkComponent.new(name: "Home", url: "/", icon: "heroicon-home")) %>
+            <%= render(SidebarLinkComponent.new(name: "Pods", url: "/pods", icon: 'heroicon-home')) %>
+            <%= render(SidebarLinkComponent.new(name: "Waiting list", url: "/waitlist", icon: 'heroicon-home')) %>
+          </div>
+          <hr class="border-t border-gray-700 my-5" aria-hidden="true">
+          <div class="px-2 space-y-1">
+            <%= render(SidebarLinkComponent.new(name: "Profile", url: "/waitlist", icon: 'person-badge')) %>
+            <%= render(SidebarLinkComponent.new(name: "Support", url: "/waitlist", icon: 'question-mark-circle')) %>
+          </div>
         </nav>
       </div>
       <div class="flex-shrink-0 flex bg-gray-700 p-4">
         <a href="#" class="flex-shrink-0 group block">
           <div class="flex items-center">
             <div class="ml-3">
-              <p class="text-base font-medium text-white">
-                Vicky Close
-              </p>
-              <p class="text-sm font-medium text-gray-400 group-hover:text-gray-300">
-                View profile
+              <p class="text-sm font-normal text-gray-200">
+                Created by Oxford Code Lab
               </p>
             </div>
           </div>
@@ -75,24 +83,29 @@
           <img class="h-8 w-auto" src="/oxford_hub_logo.jpg" alt="Phone Links">
           <div class="ml-2 text-white">Phone Links</div>
         </div>
-        <nav class="mt-5 flex-1 px-2 bg-gray-800 space-y-1">
-          <%= render(SidebarLinkComponent.new(name: "Home", url: "/")) %>
-          <%= render(SidebarLinkComponent.new(name: "Pods", url: "/pods")) %>
-          <%= render(SidebarLinkComponent.new(name: "Waiting list", url: "/waitlist")) %>
+        <nav class="mt-7 flex-1 bg-gray-800">
+          <div class="px-2 space-y-1">
+            <%= render(SidebarLinkComponent.new(name: "Search", url: "/", icon: "search")) %>
+          </div>
+          <div class="my-4" aria-hidden="true"></div>
+          <div class="px-2 space-y-1">
+            <%= render(SidebarLinkComponent.new(name: "Home", url: "/", icon: "house-fill")) %>
+            <%= render(SidebarLinkComponent.new(name: "Pods", url: "/pods", icon: 'phone')) %>
+            <%= render(SidebarLinkComponent.new(name: "Waiting list", url: "/waitlist", icon: 'calendar')) %>
+          </div>
+          <hr class="border-t border-gray-700 my-5" aria-hidden="true">
+          <div class="px-2 space-y-1">
+            <%= render(SidebarLinkComponent.new(name: "Profile", url: "/waitlist", icon: 'person-badge')) %>
+            <%= render(SidebarLinkComponent.new(name: "Support", url: "/waitlist", icon: 'question-mark-circle')) %>
+          </div>
         </nav>
       </div>
       <div class="flex-shrink-0 flex bg-gray-700 p-4">
         <a href="#" class="flex-shrink-0 w-full group block">
           <div class="flex items-center">
-            <div>
-              <img class="inline-block h-9 w-9 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-            </div>
             <div class="ml-3">
-              <p class="text-sm font-medium text-white">
-                Tom Cook
-              </p>
-              <p class="text-xs font-medium text-gray-300 group-hover:text-gray-200">
-                View profile
+              <p class="text-sm font-normal text-gray-200">
+                Created by Oxford Code Lab
               </p>
             </div>
           </div>
