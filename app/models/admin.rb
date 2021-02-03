@@ -10,4 +10,8 @@ class Admin < ApplicationRecord
   def name
     person.name
   end
+
+  def role_description
+    :admin
+  end
 end

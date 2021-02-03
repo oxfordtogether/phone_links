@@ -15,6 +15,10 @@ class Callee < ApplicationRecord
     person.name
   end
 
+  def role_description
+    :callee
+  end
+
   def active_matches
     matches.filter { |m| m.active? }
   end

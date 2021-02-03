@@ -4,10 +4,44 @@
 <div class="flex flex-col space-y-6">
   <% @person.roles.each do |role| %>
     <div class="bg-white overflow-hidden shadow rounded-lg">
-      <div class="px-3 py-3 sm:px-4">
-        <%= role.class.name %><%= role.start_date %> - <%= role.end_date %>
+      <div class="flex justify-between px-3 py-3 sm:px-4">
+        <%= role_badge(role) %>
+        <div class="text-sm text-gray-600"><%= role.start_date %> - <%= role.end_date %></div>
       </div>
       <div class="bg-gray-50 px-4 py-5 sm:p-6">
+        <% if @person&.callee&.active_matches.present? %>
+          <div class="my-4 text-gray-600">
+            Matched with
+            <% @person.callee.active_matches.each_with_index do |match, index| %>
+              <span>
+                <%= link_to match.caller.name, url_for(match.caller.person), class: "text-gray-900 hover:text-blue-800 hover:underline" %> since <%= match.start_date %>
+                <% if @person.callee.active_matches.size - 1 != index %>, <% end %>
+              </span>
+            <% end %>
+          </div>
+        <% end %>
+        <% if @person&.caller&.active_matches.present? %>
+          <div class="my-4 text-gray-600">
+            Matched with
+            <% @person.caller.active_matches.each_with_index do |match, index| %>
+              <span>
+                <%= link_to match.callee.name, url_for(match.callee.person), class: "text-gray-900 hover:text-blue-800 hover:underline" %> since <%= match.start_date %>
+                <% if @person.caller.active_matches.size - 1 != index %>, <% end %>
+              </span>
+            <% end %>
+          </div>
+        <% end %>
+        <% if @person&.pod_leader&.pods.present? %>
+          <div class="my-4 text-gray-600">
+            Pod leader of
+            <% @person.pod_leader.pods.each_with_index do |pod, index| %>
+              <span>
+                <%= link_to pod.name, url_for(pod), class: "text-gray-900 hover:text-blue-800 hover:underline" %>
+                <% if @person.pod_leader.pods.size - 1 != index %>, <% end %>
+              </span>
+            <% end %>
+          </div>
+        <% end %>
       </div>
     </div>
   <% end %>

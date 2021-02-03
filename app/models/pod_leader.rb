@@ -12,4 +12,8 @@ class PodLeader < ApplicationRecord
   def name
     person.name
   end
+
+  def role_description
+    :pod_leader
+  end
 end
