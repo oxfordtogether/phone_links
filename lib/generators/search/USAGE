@@ -1,0 +1,41 @@
+Description:
+    Adds search cache and page
+
+Example:
+    rails generate search search
+
+Set up
+
+Add application_reflex (if it doesn't already exist)
+```
+# app/reflexes/application_reflex.rb
+class ApplicationReflex < StimulusReflex::Reflex
+end
+```
+
+Add route:
+```
+# config/route.rb
+get "search", to: "pages#search"
+
+# pages_controller.rb
+def search
+    @status ||= :start
+    @results ||= []
+end
+```
+
+Seed cache
+```
+# seed.rb
+SearchCache.refresh
+```
+
+Add debounced package
+```
+yarn install debounced
+
+# app/javascript/packs/application.js
+import debounced from "debounced";
+debounced.initialize();
+```
