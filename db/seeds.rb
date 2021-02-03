@@ -16,3 +16,5 @@ callers = Caller.all
 (0..100).to_a.each do |_i|
   FactoryBot.create(:match, caller: callers.sample)
 end
+
+SearchCache.refresh

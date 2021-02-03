@@ -4,6 +4,9 @@ import "channels";
 
 import "css/application.css";
 
+import debounced from "debounced";
+debounced.initialize();
+
 Rails.start();
 Turbolinks.start();
 Turbolinks.setProgressBarDelay(200)

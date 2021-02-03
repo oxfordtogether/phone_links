@@ -1,0 +1,57 @@
+<div class="mb-8 md:flex md:items-center md:justify-between">
+  <div class="flex-1 min-w-0">
+    <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+      Person Search
+    </h2>
+  </div>
+</div>
+<div id="search-container" data-controller='search' data-reflex-root='#search-results'>
+  <!-- Sidebar Search -->
+  <label for="search" class="sr-only">Search</label>
+  <div class="mt-1 relative rounded-md shadow-sm">
+    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" aria-hidden="true">
+      <%= icon "heroicon-search", class: "h-6 w-6 mr-3 text-gray-400" %>
+    </div>
+    <input autocomplete="off" data-search-target='query' data-action="debounced:input->search#perform" type="text" name="search" id="search" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-12 sm:text-sm border-gray-300 h-12 rounded-lg" placeholder="Search by name">
+  </div>
+  <div id='search-results'>
+    <div class="mt-4 ml-4 text-sm text-gray-500">
+      <div data-search-target='activity' hidden>
+        <%= icon "spinner", class: "animate-spin -ml-1 mr-3 h-4 w-4 text-grey-600 inline-block" %>
+        <span>
+          Searching
+        </span>
+      </div>
+      <div data-search-target='count'>
+        <% if @status == :start %>
+          Type something to start the search.
+        <% elsif @results.length < @results.total_count %>
+          <%= @results.total_count %> people found. Showing <%= @results.length %> of them. Keep typing to refine your search.
+        <% else %>
+          <%= @results.length %> <%= "person".pluralize(@results.length) %> found
+        <% end %>
+      </div>
+    </div>
+    <ul class="mt-4">
+      <% @results.each do |result| %>
+        <li class="m-2 bg-white shadow sm:rounded-md">
+          <%= link_to url_for(result.person), class: "block hover:bg-gray-50" do %>
+            <div class="px-4 py-4 sm:px-6">
+              <div class="flex items-center justify-start">
+                <p class="flex items-center text-sm text-gray-500">
+                  <%= icon("person-badge", class: "flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400") %>
+                </p>
+                <p class="text-sm font-medium text-grey-900 truncate">
+                  <%= result.name %>
+                </p>
+                <p class="text-sm font-medium text-grey-900 truncate">
+                  <%= result.class.name %>
+                </p>
+              </div>
+            </div>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

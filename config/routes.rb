@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root to: "pages#home"
   get "support", to: "pages#support"
+  get "search", to: "pages#search"
 
   get "login", to: "login#show"
   get "invalid_permissions", to: "login#invalid_permissions"
