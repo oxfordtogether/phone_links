@@ -36,23 +36,30 @@
       </div>
       <div class="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
         <div class="flex-shrink-0 flex items-center px-4">
-          <img class="h-8 w-auto" src="/oxford_hub_logo.jpg" alt="Phone Links">
-          <div class="ml-2 text-white">Phone Links</div>
+          <!-- <img class="h-8 w-auto" src="/oxford_hub_logo.jpg" alt="Phone Links"> -->
+          <svg class="text-white" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-link-45deg" viewBox="0 0 16 16">
+            <path d="M4.715 6.542L3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.001 1.001 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"/>
+            <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 0 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 0 0-4.243-4.243L6.586 4.672z"/>
+          </svg>
+          <div>
+            <div class="ml-2 text-white">Phone Links</div>
+            <!-- <div class="ml-2 text-sm text-gray-400">Oxford Hub</div> -->
+          </div>
         </div>
         <nav class="mt-5 px-2 space-y-1">
           <div class="px-2 space-y-1">
-            <%= render(SidebarLinkComponent.new(name: "Search", url: "/", icon: "search")) %>
+            <%= render(SidebarLinkComponent.new(name: "Search", url: "/search", icon: "search")) %>
           </div>
           <div class="my-4" aria-hidden="true"></div>
           <div class="px-2 space-y-1">
-            <%= render(SidebarLinkComponent.new(name: "Home", url: "/", icon: "heroicon-home")) %>
-            <%= render(SidebarLinkComponent.new(name: "Pods", url: "/pods", icon: 'heroicon-home')) %>
-            <%= render(SidebarLinkComponent.new(name: "Waiting list", url: "/waitlist", icon: 'heroicon-home')) %>
+            <%= render(SidebarLinkComponent.new(name: "Home", url: "/", icon: "heroicon-home-unfilled")) %>
+            <%= render(SidebarLinkComponent.new(name: "Pods", url: "/pods", icon: 'phone')) %>
+            <%= render(SidebarLinkComponent.new(name: "Waiting list", url: "/waitlist", icon: 'watch')) %>
           </div>
           <hr class="border-t border-gray-700 my-5" aria-hidden="true">
           <div class="px-2 space-y-1">
             <%= render(SidebarLinkComponent.new(name: "Profile", url: "/waitlist", icon: 'person-badge')) %>
-            <%= render(SidebarLinkComponent.new(name: "Support", url: "/waitlist", icon: 'question-mark-circle')) %>
+            <%= render(SidebarLinkComponent.new(name: "Support", url: "/support", icon: 'question-mark-circle')) %>
           </div>
         </nav>
       </div>
@@ -80,23 +87,30 @@
     <div class="flex flex-col h-0 flex-1 bg-gray-800">
       <div class="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
         <div class="flex items-center flex-shrink-0 px-4">
-          <img class="h-8 w-auto" src="/oxford_hub_logo.jpg" alt="Phone Links">
-          <div class="ml-2 text-white">Phone Links</div>
+          <!-- <img class="h-8 w-auto" src="/oxford_hub_logo.jpg" alt="Phone Links"> -->
+          <svg class="text-white" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-link-45deg" viewBox="0 0 16 16">
+            <path d="M4.715 6.542L3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.001 1.001 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"/>
+            <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 0 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 0 0-4.243-4.243L6.586 4.672z"/>
+          </svg>
+          <div>
+            <div class="ml-2 text-white">Phone Links</div>
+            <!-- <div class="ml-2 text-sm text-gray-400">Oxford Hub</div> -->
+          </div>
         </div>
         <nav class="mt-7 flex-1 bg-gray-800">
           <div class="px-2 space-y-1">
-            <%= render(SidebarLinkComponent.new(name: "Search", url: "/", icon: "search")) %>
+            <%= render(SidebarLinkComponent.new(name: "Search", url: "/search", icon: "search")) %>
           </div>
           <div class="my-4" aria-hidden="true"></div>
           <div class="px-2 space-y-1">
-            <%= render(SidebarLinkComponent.new(name: "Home", url: "/", icon: "house-fill")) %>
+            <%= render(SidebarLinkComponent.new(name: "Home", url: "/", icon: "heroicon-home-unfilled")) %>
             <%= render(SidebarLinkComponent.new(name: "Pods", url: "/pods", icon: 'phone')) %>
-            <%= render(SidebarLinkComponent.new(name: "Waiting list", url: "/waitlist", icon: 'calendar')) %>
+            <%= render(SidebarLinkComponent.new(name: "Waiting list", url: "/waitlist", icon: 'watch')) %>
           </div>
           <hr class="border-t border-gray-700 my-5" aria-hidden="true">
           <div class="px-2 space-y-1">
             <%= render(SidebarLinkComponent.new(name: "Profile", url: "/waitlist", icon: 'person-badge')) %>
-            <%= render(SidebarLinkComponent.new(name: "Support", url: "/waitlist", icon: 'question-mark-circle')) %>
+            <%= render(SidebarLinkComponent.new(name: "Support", url: "/support", icon: 'question-mark-circle')) %>
           </div>
         </nav>
       </div>
