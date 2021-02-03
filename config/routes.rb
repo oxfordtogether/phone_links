@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     member do
       get :events
       get :details
+      get :new_role
+      post :create_role
     end
   end
 

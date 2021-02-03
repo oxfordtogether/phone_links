@@ -1,0 +1,15 @@
+<%= render(PersonHeadComponent.new(person: @person)) %>
+<%= button_link_to "New caller", new_role_person_path(@person) + '?role=caller' %>
+<%= button_link_to "New callee", new_role_person_path(@person) + '?role=callee' %>
+<%= button_link_to "New admin", new_role_person_path(@person) + '?role=admin' %>
+<%= button_link_to "New pod leader", new_role_person_path(@person) + '?role=pod_leader' %>
+<%= tailwind_form_with(model: @role, url: create_role_person_path(@person), local: true) do |form| %>
+  <%= form.hidden_field :role, @role.class.name %>
+  <%= form.hidden_field :start_date, "2020-01-01" %>
+  <%= form.section do %>
+  <% end %>
+  <%= form.button_section do %>
+    <%= form.cancel events_person_path(@person) %>
+    <%= form.submit %>
+  <% end %>
+<% end %>
