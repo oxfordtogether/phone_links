@@ -1,4 +1,6 @@
-<%= render(WaitlistHeadComponent.new()) %>
+<% content_for :page_head do %>
+  <%= render(WaitlistHeadComponent.new()) %>
+<% end %>
 <% if @pending_matches.length > 0 %>
   <%= table @pending_matches.sort_by { |m| m.caller.name }, row_url: ->(m) { url_for(m) } do |tbl| %>
     <% tbl.col "Caller" do |match| %>

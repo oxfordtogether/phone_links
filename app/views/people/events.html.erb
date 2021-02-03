@@ -1,1 +1,3 @@
-<%= render(PersonHeadComponent.new(person: @person)) %>
+<% content_for :page_head do %>
+  <%= render(PersonHeadComponent.new(person: @person)) %>
+<% end %>

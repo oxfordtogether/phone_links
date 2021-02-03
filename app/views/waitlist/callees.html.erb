@@ -1,4 +1,6 @@
-<%= render(WaitlistHeadComponent.new()) %>
+<% content_for :page_head do %>
+  <%= render(WaitlistHeadComponent.new()) %>
+<% end %>
 <% if @waiting_callees.length > 0 %>
   <%= table @waiting_callees.sort_by(&:name), row_url: ->(p) { url_for(p) } do |tbl| %>
     <% tbl.col "Name" do |person| %>

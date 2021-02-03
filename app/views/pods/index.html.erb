@@ -1,6 +1,6 @@
-<% content_for :page_title do %>
+<h1 class="text-2xl font-semibold text-gray-900">
   Pods
-<% end %>
+</h1>
 <% if @pods.length > 0 %>
   <%= table @pods.sort_by(&:name), row_url: ->(p) { url_for(p) } do |tbl| %>
     <% tbl.col "Name" do |pod| %>

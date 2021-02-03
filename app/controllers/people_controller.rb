@@ -10,6 +10,11 @@ class PeopleController < ApplicationController
   def details; end
 
   def new_role
+    @role_options = [{ label: "Caller", value: "caller", disabled: false, selected: false },
+                     { label: "Callee", value: "callee", disabled: false, selected: true },
+                     { label: "Pod leader", value: "pod_leader", disabled: false, selected: false },
+                     { label: "Admin", value: "admin", disabled: false, selected: false }]
+
     @role = case params["role"]
             when "caller"
               Caller.new(start_date: Date.today)
@@ -25,18 +30,18 @@ class PeopleController < ApplicationController
   end
 
   def create_role
-    @role = case params["role"]
-            when "Caller"
+    @role = if params.key?("caller")
               Caller.new(caller_params)
-            when "Callee"
+            elsif params.key?("callee")
               Callee.new(callee_params)
-            when "PodLeader"
+            elsif params.key?("pod_leader")
               PodLeader.new(pod_leader_params)
-            when "Admin"
+            elsif params.key?("admin")
               Admin.new(admin_params)
-            else
-              Caller.new(caller_params)
+              # add an else, raise error
             end
+
+    debugger
 
     if @role.save
       redirect_to @person, notice: "Role was successfully created."
@@ -80,18 +85,18 @@ class PeopleController < ApplicationController
   end
 
   def caller_params
-    params.require(:caller).permit(:start_date, :role)
+    params.require(:caller).permit(:start_date, :person_id)
   end
 
   def callee_params
-    params.require(:callee).permit(:start_date, :role)
+    params.require(:callee).permit(:start_date, :person_id)
   end
 
   def admin_params
-    params.require(:admin).permit(:start_date, :role)
+    params.require(:admin).permit(:start_date, :person_id)
   end
 
   def pod_leader_params
-    params.require(:pod_leader).permit(:start_date, :role)
+    params.require(:pod_leader).permit(:start_date, :person_id)
   end
 end

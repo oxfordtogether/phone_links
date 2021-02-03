@@ -1,11 +1,6 @@
-<p>
-  <strong>Name:</strong>
-  <%= @pod.name %>
-</p>
-<p>
-  <strong>Pod leader:</strong>
-  <%= @pod.pod_leader.name %>
-</p>
+<% content_for :page_head do %>
+  <%= render PodHeadComponent.new(pod: @pod) %>
+<% end %>
 <% if @pod.matches.length > 0 %>
   <%= table @pod.matches.sort_by { |m| m.caller.name }, row_url: ->(m) { url_for(m) } do |tbl| %>
     <% tbl.col "Caller" do |match| %>
