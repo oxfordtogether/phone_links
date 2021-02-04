@@ -1,9 +1,8 @@
 <h1 class="text-2xl font-semibold text-gray-900">
   Waiting list
 </h1>
-<%= button_link_to "New person", new_person_path, icon: "icon-add" %>
 <%= nav_tabs do |nav| %>
-  <% nav.link "Waiting callers", waitlist_callers_path %>
-  <% nav.link "Waiting callees", waitlist_callees_path %>
-  <% nav.link "Provisional matches", waitlist_provisional_matches_path %>
+  <% nav.link "Waiting callers (#{@waiting_callers_count})", waitlist_callers_path %>
+  <% nav.link "Waiting callees (#{@waiting_callees_count})", waitlist_callees_path %>
+  <% nav.link "Provisional matches (#{@pending_matches_count})", waitlist_provisional_matches_path %>
 <% end %>

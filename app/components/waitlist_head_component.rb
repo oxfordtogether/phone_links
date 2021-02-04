@@ -2,5 +2,9 @@ class WaitlistHeadComponent < ViewComponent::Base
   delegate :nav_tabs, to: :helpers
   delegate :button_link_to, to: :helpers
 
-  def initialize; end
+  def initialize(waiting_callers_count:, waiting_callees_count:, pending_matches_count:)
+    @waiting_callers_count = waiting_callers_count
+    @waiting_callees_count = waiting_callees_count
+    @pending_matches_count = pending_matches_count
+  end
 end

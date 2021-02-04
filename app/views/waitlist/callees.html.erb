@@ -1,16 +1,29 @@
 <% content_for :page_head do %>
-  <%= render(WaitlistHeadComponent.new()) %>
+  <%= render(WaitlistHeadComponent.new(waiting_callers_count: @waiting_callers_count, waiting_callees_count: @waiting_callees_count, pending_matches_count: @pending_matches_count)) %>
 <% end %>
+<div class="flex justify-end pb-3">
+  <%= button_link_to "New callee", new_person_path %>
+</div>
 <% if @waiting_callees.length > 0 %>
-  <%= table @waiting_callees.sort_by(&:name), row_url: ->(p) { url_for(p) } do |tbl| %>
+  <%= table @waiting_callees.sort_by(&:name), row_url: ->(p) { url_for(p.person) } do |tbl| %>
     <% tbl.col "Name" do |person| %>
-      <%= person.name %>
+      <div class="flex">
+        <div class="mr-2"><%= person.name %></div>
+        <% if person.matches.present? %>
+          <div class="text-blue-600">
+            <% if person.matches.count == 1 %>
+              <%= person.matches.count %> previous match
+            <% else %>
+              <%= person.matches.count %> previous pending_matches
+            <% end %>
+          </div>
+        <% else %>
+          <div class="text-red-500 font-medium uppercase tracking-wide">New</div>
+        <% end %>
+      </div>
     <% end %>
-    <% tbl.col "" do |person| %>
-      ..role..
-    <% end %>
-    <% tbl.col "" do |person| %>
-      <%= person.waiting_since %>
+    <% tbl.col "On waiting list since" do |person| %>
+      <%= format_date_as_relative(person.waiting_since) %>
     <% end %>
   <% end %>
 <% else %>

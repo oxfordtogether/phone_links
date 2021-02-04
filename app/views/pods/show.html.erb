@@ -10,7 +10,7 @@
       <%= match.callee.name %>
     <% end %>
     <% tbl.col "Dates" do |match| %>
-      ...
+      <%= format_date_range(match) %>
     <% end %>
   <% end %>
 <% else %>
