@@ -10,10 +10,14 @@ class PeopleController < ApplicationController
   def details; end
 
   def new_role
-    @role_options = [{ label: "Caller", value: "caller", disabled: false, selected: false },
-                     { label: "Callee", value: "callee", disabled: false, selected: true },
-                     { label: "Pod leader", value: "pod_leader", disabled: false, selected: false },
-                     { label: "Admin", value: "admin", disabled: false, selected: false }]
+    all_role_options = [{ label: "Caller", value: "caller", disabled: false, selected: false },
+                        { label: "Callee", value: "callee", disabled: false, selected: true },
+                        { label: "Pod leader", value: "pod_leader", disabled: false, selected: false },
+                        { label: "Admin", value: "admin", disabled: false, selected: false }]
+
+    # @role_options = all_role_options.filter { |r| .. }
+    # filter out invalid options
+    @role_options = all_role_options
 
     @role = case params["role"]
             when "caller"

@@ -1,7 +1,11 @@
 <% content_for :page_head do %>
   <%= render(PersonHeadComponent.new(person: @person)) %>
 <% end %>
-<ul class="flex space-x-3">
+<div class="flex items-center text-blue-600">
+  <%= icon("info-circle", class: "mr-2 h-5 w-5 text-blue-500") %>
+  <div class="">Use this form to add another role to <%= @person.first_name %>'s profile</div>
+</div>
+<ul class="my-8 flex space-x-3">
   <% @role_options.each do |role| %>
     <li class="group relative bg-white rounded-lg shadow-sm cursor-pointer focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-indigo-500">
       <%= link_to new_role_person_path(@person) + "?role=#{role[:value]}" do %>
