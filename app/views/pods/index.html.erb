@@ -1,6 +1,8 @@
-<h1 class="text-2xl font-semibold text-gray-900">
-  Pods
-</h1>
+<% content_for :page_head do %>
+  <h1 class="text-2xl font-semibold text-gray-900">
+    Pods
+  </h1>
+<% end %>
 <% if @pods.length > 0 %>
   <%= table @pods.sort_by(&:name), row_url: ->(p) { url_for(p) } do |tbl| %>
     <% tbl.col "Name" do |pod| %>
