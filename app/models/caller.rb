@@ -1,7 +1,6 @@
 class Caller < ApplicationRecord
   include HasActiveDates
 
-  validates :start_date, presence: { message: "This field is required" }
   validates_associated :person
 
   belongs_to :person

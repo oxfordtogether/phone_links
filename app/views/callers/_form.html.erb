@@ -1,7 +1,8 @@
 <%= tailwind_form_with(model: @caller, local: true) do |form| %>
   <%= form.section do %>
     <%= form.hidden_field :person_id, value: @caller.person.id %>
-    <%= form.date_field :start_date, width: :third %>
+    <%= form.check_box :active, true, label: "Active", width: :full %>
+    <%= form.text_area :experience, with: :full %>
   <% end %>
   <%= form.button_section do %>
     <%= form.cancel '#' %>

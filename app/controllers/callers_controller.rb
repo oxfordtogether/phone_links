@@ -7,6 +7,7 @@ class CallersController < ApplicationController
   end
 
   def create
+    debugger
     @caller = Caller.new(caller_params)
 
     if @caller.save
@@ -37,6 +38,6 @@ class CallersController < ApplicationController
   end
 
   def caller_params
-    params.require(:caller).permit(:start_date, :end_date, :person_id)
+    params.require(:caller).permit(:start_date, :end_date, :person_id, :active, :experience)
   end
 end
