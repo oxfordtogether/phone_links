@@ -7,7 +7,6 @@ class CallersController < ApplicationController
   end
 
   def create
-    debugger
     @caller = Caller.new(caller_params)
 
     if @caller.save

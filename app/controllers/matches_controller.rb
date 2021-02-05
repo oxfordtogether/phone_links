@@ -4,7 +4,7 @@ class MatchesController < ApplicationController
   def show; end
 
   def new
-    @match = Match.new
+    @match = Match.new(start_date: Date.today)
   end
 
   def edit; end

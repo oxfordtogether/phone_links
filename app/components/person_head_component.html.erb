@@ -59,7 +59,11 @@
 <% end %>
 <%= nav_tabs do |nav| %>
   <% nav.link "Events", events_person_path(@person) %>
-  <% nav.link "Details", details_person_path(@person) %>
+  <% if @person.caller.present? || @person.callee.present? %>
+    <% nav.link "Details", details_person_path(@person) %>
+  <% end %>
   <% nav.link "Edit", edit_person_path(@person) %>
-  <% nav.link "New role", new_role_person_path(@person) %>
+  <% if @person.pod_leader.present? || @person.callee.present? || @person.admin.present? %>
+    <% nav.link "New role", new_role_person_path(@person) %>
+  <% end %>
 <% end %>

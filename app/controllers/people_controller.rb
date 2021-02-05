@@ -2,7 +2,7 @@ class PeopleController < ApplicationController
   before_action :set_person, only: %i[show new_role create_role events details edit update disambiguate]
 
   def show
-    redirect_to events_person_path(@person)
+    redirect_to details_person_path(@person)
   end
 
   def events; end
@@ -60,8 +60,6 @@ class PeopleController < ApplicationController
     @results ||= []
   end
 
-  def edit; end
-
   def create
     @role = person_params[:role]
     @person = Person.new(person_params.except(:role))
@@ -78,12 +76,15 @@ class PeopleController < ApplicationController
   end
 
   def disambiguate
+    # to do
     @similar_people = Person.take(4)
   end
 
+  def edit; end
+
   def update
     if @person.update(person_params)
-      redirect_to @person, notice: "Person was successfully updated."
+      redirect_to @person, notice: "Profile was successfully updated."
     else
       render :edit
     end
@@ -96,22 +97,12 @@ class PeopleController < ApplicationController
   end
 
   def person_params
-    params.require(:person).permit(:role, :title, :first_name, :last_name, :email, :phone)
-  end
-
-  def caller_params
-    params.require(:caller).permit(:start_date, :person_id)
-  end
-
-  def callee_params
-    params.require(:callee).permit(:start_date, :person_id)
-  end
-
-  def admin_params
-    params.require(:admin).permit(:start_date, :person_id)
-  end
-
-  def pod_leader_params
-    params.require(:pod_leader).permit(:start_date, :person_id)
+    params.require(:person).permit(
+      :role, :title, :first_name, :last_name, :email, :phone,
+      callee_attributes: %i[id active reason_for_referral living_situation other_information additional_needs],
+      caller_attributes: %i[id active experience],
+      admin_attributes: %i[id active],
+      pod_leader_attributes: %i[id active]
+    )
   end
 end

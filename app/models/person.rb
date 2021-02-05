@@ -6,6 +6,11 @@ class Person < ApplicationRecord
   has_one :pod_leader
   has_one :admin
 
+  accepts_nested_attributes_for :admin
+  accepts_nested_attributes_for :caller
+  accepts_nested_attributes_for :callee
+  accepts_nested_attributes_for :pod_leader
+
   scope :with_roles, lambda {
     includes(
       :callee,

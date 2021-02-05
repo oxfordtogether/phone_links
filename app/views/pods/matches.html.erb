@@ -9,13 +9,10 @@
 <% end %>
 <% if @pod.matches.length > 0 %>
   <%= table @pod.matches.sort_by { |m| m.caller.name }, row_url: ->(m) { url_for(m) } do |tbl| %>
-    <% tbl.col "Caller" do |match| %>
-      <%= match.caller.name %>
+    <% tbl.col "Caller - Callee" do |match| %>
+      <%= match.caller.name %> - <%= match.callee.name %>
     <% end %>
-    <% tbl.col "Callee" do |match| %>
-      <%= match.callee.name %>
-    <% end %>
-    <% tbl.col "Dates" do |match| %>
+    <% tbl.col "Dates", classes: "text-right" do |match| %>
       <%= format_date_range(match) %>
     <% end %>
   <% end %>

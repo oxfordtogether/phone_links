@@ -37,6 +37,20 @@ class SearchCache
     SearchResult.new(roles, people_ids.total_count)
   end
 
+  # TODO: limit/total_count is a bit broken, as it's a limit/total_count on the people not the pwds
+  def self.get_callers(query, limit: nil)
+    people_ids = get_people_ids(query, limit: limit)
+    callers = Caller.where(person_id: people_ids.to_a).all
+    SearchResult.new(callers, people_ids.total_count)
+  end
+
+  # TODO: limit/total_count is a bit broken, as it's a limit/total_count on the people not the pwds
+  def self.get_callees(query, limit: nil)
+    people_ids = get_people_ids(query, limit: limit)
+    callees = Callees.where(person_id: people_ids.to_a).all
+    SearchResult.new(callees, people_ids.total_count)
+  end
+
   def self.get_people(query, limit: nil)
     result = get_people_ids(query, limit: limit)
     SearchResult.new(Person.where(id: result.to_a).all, result.total_count)

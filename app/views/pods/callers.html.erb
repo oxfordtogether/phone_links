@@ -12,7 +12,7 @@
     <% tbl.col "Caller" do |caller| %>
       <%= caller.name %>
     <% end %>
-    <% tbl.col "Match(es)" do |caller| %>
+    <% tbl.col "Active match(es)" do |caller| %>
       <% if caller.active_matches.present? %>
         <% caller.active_matches.each_with_index do |match, index| %>
           <%= match.callee.name %><% if caller.active_matches.count - 1 != index %>, <% end %>

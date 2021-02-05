@@ -1,10 +1,15 @@
-<h1>New Match</h1>
+<% content_for :page_head do %>
+  <h1 class="text-2xl font-semibold text-gray-900">
+    New match
+  </h1>
+<% end %>
 <%= tailwind_form_with(model: @match, local: true) do |form| %>
   <%= form.section do %>
-    <%= form.text_field :caller, width: :half %>
-    <%= form.text_field :callee, width: :half %>
-    <%= form.text_field :pod, width: :half %>
-    <%= form.date_picker :start_date, width: :third %>
+    <%= form.autocomplete_field :caller_id, :caller_id, :name, {class: SearchCache, method: :get_callers, limit: 10}, label: "Caller", width: :half, list_item_component: PersonListItemComponent %>
+    <%= form.autocomplete_field :callee_id, :callee_id, :name, {class: SearchCache, method: :get_callees, limit: 10}, label: "Callee", width: :half, list_item_component: PersonListItemComponent %>
+    <%= form.date_picker :start_date, width: :half %>
+    <%= form.collection_select :pod_id, Pod.all, :id, :name, label: "Pod", width: :half %>
+    <%= form.check_box :pending, true, label: "Provisional", width: :full %>
   <% end %>
   <%= form.button_section do %>
     <%= form.cancel '#' %>
