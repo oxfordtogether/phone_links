@@ -1,7 +1,24 @@
 <h1 class="text-2xl font-semibold text-gray-900">
-  <%= @pod.name %>
+  Pod: <%= @pod.name %>
 </h1>
-<div>Lead by: <%= @pod.pod_leader.name %></div>
+<div class="flex flex-wrap">
+  <div class="mt-2 sm:mt-2 mr-6 flex items-center text-base text-gray-900">
+    <div class="mr-1.5 text-gray-600">Pod leader: </div>
+    <% if @pod&.pod_leader %>
+      <%= link_to @pod.pod_leader.name, person_path(@pod.pod_leader.person) %>
+    <% else %>
+      <span class="italic">No-one assigned</span>
+    <% end %>
+  </div>
+  <div class="mt-2 sm:mt-2 mr-6 flex items-center text-base text-gray-900">
+    <div class="mr-1.5 text-gray-600">Theme: </div>
+    <% if @pod&.theme %>
+      <%= @pod.theme %>
+    <% else %>
+      <span class="italic">unknown</span>
+    <% end %>
+  </div>
+</div>
 <%= nav_tabs do |nav| %>
   <% nav.link "Matches", matches_pod_path(@pod) %>
   <% nav.link "Callers", callers_pod_path(@pod) %>

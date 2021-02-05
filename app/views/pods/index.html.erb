@@ -13,6 +13,9 @@
     <% tbl.col "Name" do |pod| %>
       <%= pod.name %>
     <% end %>
+    <% tbl.col "Theme" do |pod| %>
+      <%= pod&.theme %>
+    <% end %>
     <% tbl.col "Pod Leader" do |pod| %>
       <% if pod.pod_leader %>
         <%= pod.pod_leader.name %>
