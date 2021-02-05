@@ -10,6 +10,7 @@ class Callee < ApplicationRecord
   accepts_nested_attributes_for :person
 
   default_scope { includes(:person) }
+  scope :with_matches, -> { includes(:matches) }
 
   def name
     person.name

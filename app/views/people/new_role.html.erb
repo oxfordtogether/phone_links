@@ -1,3 +1,9 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "People", "/search" %>
+    <% list.link @person.name, person_path(@person) %>
+  <% end %>
+<% end %>
 <% content_for :page_head do %>
   <%= render(PersonHeadComponent.new(person: @person)) %>
 <% end %>
@@ -24,7 +30,7 @@
 </ul>
 <%= tailwind_form_with(model: @role, url: create_role_person_path(@person), local: true) do |form| %>
   <%= form.section do %>
-    <%= form.date_field :start_date, width: :third %> <!-- TO DO: use a date picker -->
+    <%= form.date_picker :start_date, width: :third %> <!-- TO DO: use a date picker -->
   <% end %>
   <%= form.button_section do %>
     <%= form.cancel events_person_path(@person) %>

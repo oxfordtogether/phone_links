@@ -20,8 +20,8 @@ class WaitlistController < ApplicationController
   private
 
   def set_counts
-    @waiting_callees_count = Callee.all.filter(&:waiting?).count
-    @waiting_callers_count = Caller.all.filter(&:waiting?).count
+    @waiting_callees_count = Callee.with_matches.all.filter(&:waiting?).count
+    @waiting_callers_count = Caller.with_matches.all.filter(&:waiting?).count
     @pending_matches_count = Match.where(pending: true).count
   end
 end

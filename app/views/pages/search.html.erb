@@ -1,10 +1,13 @@
-<div class="mb-8 md:flex md:items-center md:justify-between">
-  <div class="flex-1 min-w-0">
-    <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
-      Person Search
-    </h2>
-  </div>
-</div>
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "People", "/search" %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <h1 class="text-2xl font-semibold text-gray-900">
+    Person Search
+  </h1>
+<% end %>
 <div id="search-container" data-controller='search' data-reflex-root='#search-results'>
   <label for="search" class="sr-only">Search</label>
   <div class="mt-1 relative rounded-md shadow-sm">

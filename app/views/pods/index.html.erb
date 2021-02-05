@@ -1,3 +1,8 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Pods", pods_path %>
+  <% end %>
+<% end %>
 <% content_for :page_head do %>
   <h1 class="text-2xl font-semibold text-gray-900">
     Pods

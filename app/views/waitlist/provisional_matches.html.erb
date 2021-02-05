@@ -1,3 +1,9 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Waiting list", waitlist_path %>
+    <% list.link "Provisional matches", waitlist_provisional_matches_path %>
+  <% end %>
+<% end %>
 <% content_for :page_head do %>
   <%= render(WaitlistHeadComponent.new(waiting_callers_count: @waiting_callers_count, waiting_callees_count: @waiting_callees_count, pending_matches_count: @pending_matches_count)) %>
 <% end %>
@@ -22,7 +28,7 @@
         <div class="italic">Not assigned to a pod</div>
       <% end %>
     <% end %>
-    <% tbl.col "Last updated" do |match| %>
+    <% tbl.col "Last updated", classes: "text-right" do |match| %>
       <%= format_date_as_relative(match.updated_at) %>
     <% end %>
   <% end %>

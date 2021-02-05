@@ -2488,9 +2488,9 @@ dashdash@^1.12.0:
     assert-plus "^1.0.0"
 
 date-fns@^2.16.1:
-  version "2.16.1"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.16.1.tgz#05775792c3f3331da812af253e1a935851d3834b"
-  integrity sha512-sAJVKx/FqrLYHAQeN7VpJrPhagZc9R4ImZIWYRFZaaohR3KzmuK88touwsSwSVT8Qcbd4zoDsnGfX4GFB4imyQ==
+  version "2.17.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.17.0.tgz#afa55daea539239db0a64e236ce716ef3d681ba1"
+  integrity sha512-ZEhqxUtEZeGgg9eHNSOAJ8O9xqSgiJdrL0lzSSfMF54x6KXWJiOH/xntSJ9YomJPrYH/p08t6gWjGWq1SDJlSA==
 
 debounced@^0.0.5:
   version "0.0.5"
@@ -5041,7 +5041,7 @@ obuf@^1.0.0, obuf@^1.1.2:
 
 ocl_tools@oxfordtogether/ocl_tools.git:
   version "0.1.0"
-  resolved "git+ssh://git@github.com/oxfordtogether/ocl_tools.git#429f0f14cc36991db742643d4e4aead64ad8c468"
+  resolved "https://codeload.github.com/oxfordtogether/ocl_tools/tar.gz/ba631dee70ac60fc9abd73dfb18e333373ba9c64"
   dependencies:
     "@rails/ujs" "^6.0.0"
     "@rails/webpacker" "5.2.1"

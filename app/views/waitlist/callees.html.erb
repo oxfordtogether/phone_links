@@ -1,8 +1,14 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Waiting list", waitlist_path %>
+    <% list.link "Callees", waitlist_callees_path %>
+  <% end %>
+<% end %>
 <% content_for :page_head do %>
   <%= render(WaitlistHeadComponent.new(waiting_callers_count: @waiting_callers_count, waiting_callees_count: @waiting_callees_count, pending_matches_count: @pending_matches_count)) %>
 <% end %>
 <div class="flex justify-end pb-3">
-  <%= button_link_to "New callee", new_person_path %>
+  <%= button_link_to "New Callee", new_person_path %>
 </div>
 <% if @waiting_callees.length > 0 %>
   <%= table @waiting_callees.sort_by(&:name), row_url: ->(p) { url_for(p.person) } do |tbl| %>
@@ -22,7 +28,7 @@
         <% end %>
       </div>
     <% end %>
-    <% tbl.col "On waiting list since" do |person| %>
+    <% tbl.col "On waiting list since", classes: "text-right" do |person| %>
       <%= format_date_as_relative(person.waiting_since) %>
     <% end %>
   <% end %>

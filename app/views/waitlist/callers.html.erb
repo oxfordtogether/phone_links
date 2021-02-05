@@ -1,3 +1,9 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Waiting list", waitlist_path %>
+    <% list.link "Callers", waitlist_callers_path %>
+  <% end %>
+<% end %>
 <% content_for :page_head do %>
   <%= render(WaitlistHeadComponent.new(waiting_callers_count: @waiting_callers_count, waiting_callees_count: @waiting_callees_count, pending_matches_count: @pending_matches_count)) %>
 <% end %>
@@ -22,7 +28,7 @@
         <% end %>
       </div>
     <% end %>
-    <% tbl.col "On waiting list since" do |person| %>
+    <% tbl.col "On waiting list since", classes: "text-right" do |person| %>
       <%= format_date_as_relative(person.waiting_since) %>
     <% end %>
   <% end %>

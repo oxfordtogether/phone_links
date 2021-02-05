@@ -63,12 +63,16 @@ class PeopleController < ApplicationController
   def edit; end
 
   def create
-    role = person_params[:role]
+    @role = person_params[:role]
     @person = Person.new(person_params.except(:role))
 
     if @person.save
-      redirect_to "#{disambiguate_person_path(@person)}?role=#{role}", notice: "Person was successfully created."
+      redirect_to "#{disambiguate_person_path(@person)}?role=#{@role}", notice: "Person was successfully created."
     else
+      @status ||= :start
+      @results ||= []
+
+      # after rendering :new, search starts hanging
       render :new
     end
   end
