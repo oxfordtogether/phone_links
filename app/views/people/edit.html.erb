@@ -1,16 +1,74 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "People", "/search" %>
+    <% list.link @person.name, person_path(@person) %>
+  <% end %>
+<% end %>
 <% content_for :page_head do %>
-  <h1 class="text-2xl font-semibold text-gray-900">Edit profile</h1>
+  <%= render(PersonHeadComponent.new(person: @person)) %>
 <% end %>
 <%= tailwind_form_with(model: @person, local: true) do |form| %>
-  <%= form.section do %>
-    <%= form.text_field :title, width: :full %>
-    <%= form.text_field :first_name, width: :full %>
-    <%= form.text_field :last_name, width: :full %>
-    <%= form.text_field :phone, width: :full %>
-    <%= form.text_field :email, width: :full %>
+  <%= form.section "Name and Contact Information" do %>
+    <%= form.text_field :title, width: :third %>
+    <%= form.text_field :first_name, width: :third %>
+    <%= form.text_field :last_name, width: :third %>
+    <%= form.text_field :phone, width: :half %>
+    <%= form.text_field :email, width: :half %>
   <% end %>
   <%= form.button_section do %>
-    <%= form.cancel '/waitlist' %>
-    <%= form.submit "Next" %>
+    <%= form.submit "Save" %>
   <% end %>
+<% end %>
+<% if @person.callee.present? %>
+  <div class="mt-10">
+    <%= tailwind_form_with(model: @person.callee, local: true) do |form| %>
+      <%= form.section "More about Callee" do %>
+        <%= form.check_box :active, true, label: "Active", width: :full %>
+        <%= form.text_area :reason_for_referral, width: :full %>
+        <%= form.text_area :living_arrangements, width: :full %>
+        <%= form.text_area :other_information, width: :full %>
+        <%= form.text_area :additional_needs, width: :full %>
+      <% end %>
+      <%= form.button_section do %>
+        <%= form.submit "Save" %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+<% if @person.caller.present? %>
+  <div class="mt-10">
+    <%= tailwind_form_with(model: @person.caller, local: true) do |form| %>
+      <%= form.section "Caller Role" do %>
+        <%= form.check_box :active, true, label: "Active", width: :full %>
+        <%= form.text_area :experience, width: :full %>
+      <% end %>
+      <%= form.button_section do %>
+        <%= form.submit "Save" %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+<% if @person.pod_leader.present? %>
+  <div class="mt-10">
+    <%= tailwind_form_with(model: @person.caller, local: true) do |form| %>
+      <%= form.section "Pod Leader Role" do %>
+        <%= form.check_box :active, true, label: "Active", width: :full %>
+      <% end %>
+      <%= form.button_section do %>
+        <%= form.submit "Save" %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+<% if @person.admin.present? %>
+  <div class="mt-10">
+    <%= tailwind_form_with(model: @person.admin, local: true) do |form| %>
+      <%= form.section "Admin Role" do %>
+        <%= form.check_box :active, true, label: "Active", width: :full %>
+      <% end %>
+      <%= form.button_section do %>
+        <%= form.submit "Save" %>
+      <% end %>
+    <% end %>
+  </div>
 <% end %>

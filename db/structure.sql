@@ -21,7 +21,8 @@ CREATE TABLE public.admins (
     updated_at timestamp(6) without time zone NOT NULL,
     person_id bigint NOT NULL,
     start_date date NOT NULL,
-    end_date date
+    end_date date,
+    active boolean
 );
 
 
@@ -66,7 +67,12 @@ CREATE TABLE public.callees (
     updated_at timestamp(6) without time zone NOT NULL,
     person_id bigint NOT NULL,
     start_date date NOT NULL,
-    end_date date
+    end_date date,
+    active boolean,
+    reason_for_referral_ciphertext text,
+    living_arrangements_ciphertext text,
+    other_information_ciphertext text,
+    additional_needs_ciphertext text
 );
 
 
@@ -99,7 +105,9 @@ CREATE TABLE public.callers (
     updated_at timestamp(6) without time zone NOT NULL,
     person_id bigint NOT NULL,
     start_date date NOT NULL,
-    end_date date
+    end_date date,
+    active boolean,
+    experience_ciphertext text
 );
 
 
@@ -208,7 +216,8 @@ CREATE TABLE public.pod_leaders (
     updated_at timestamp(6) without time zone NOT NULL,
     person_id bigint NOT NULL,
     start_date date NOT NULL,
-    end_date date
+    end_date date,
+    active boolean
 );
 
 
@@ -240,7 +249,8 @@ CREATE TABLE public.pods (
     name character varying,
     pod_leader_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    theme character varying
 );
 
 
@@ -521,6 +531,7 @@ SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
 ('20210201135857'),
-('20210202145925');
+('20210202145925'),
+('20210205174703');
 
 

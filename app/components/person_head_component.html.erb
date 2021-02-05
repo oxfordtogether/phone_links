@@ -22,41 +22,44 @@
     <% end %>
   </div>
 </div>
-<% if @person&.callee&.active_matches.present? %>
-  <div class="my-4 text-gray-600">
-    Matched with
-    <% @person.callee.active_matches.each_with_index do |match, index| %>
-      <span>
-        <%= link_to match.caller.name, url_for(match.caller.person), class: "text-gray-900 hover:text-blue-800 hover:underline" %> since <%= match.start_date %>
-        <% if @person.callee.active_matches.size - 1 != index %>, <% end %>
-      </span>
-    <% end %>
-  </div>
-<% end %>
-<% if @person&.caller&.active_matches.present? %>
-  <div class="my-4 text-gray-600">
-    Matched with
-    <% @person.caller.active_matches.each_with_index do |match, index| %>
-      <span>
-        <%= link_to match.callee.name, url_for(match.callee.person), class: "text-gray-900 hover:text-blue-800 hover:underline" %> since <%= match.start_date %>
-        <% if @person.caller.active_matches.size - 1 != index %>, <% end %>
-      </span>
-    <% end %>
-  </div>
-<% end %>
-<% if @person&.pod_leader&.pods.present? %>
-  <div class="my-4 text-gray-600">
-    Pod leader of
-    <% @person.pod_leader.pods.each_with_index do |pod, index| %>
-      <span>
-        <%= link_to pod.name, url_for(pod), class: "text-gray-900 hover:text-blue-800 hover:underline" %>
-        <% if @person.pod_leader.pods.size - 1 != index %>, <% end %>
-      </span>
-    <% end %>
-  </div>
+<% if false %>
+  <% if @person&.callee&.active_matches.present? %>
+    <div class="my-4 text-gray-600">
+      Matched with
+      <% @person.callee.active_matches.each_with_index do |match, index| %>
+        <span>
+          <%= link_to match.caller.name, url_for(match.caller.person), class: "text-gray-900 hover:text-blue-800 hover:underline" %> since <%= match.start_date %>
+          <% if @person.callee.active_matches.size - 1 != index %>, <% end %>
+        </span>
+      <% end %>
+    </div>
+  <% end %>
+  <% if @person&.caller&.active_matches.present? %>
+    <div class="my-4 text-gray-600">
+      Matched with
+      <% @person.caller.active_matches.each_with_index do |match, index| %>
+        <span>
+          <%= link_to match.callee.name, url_for(match.callee.person), class: "text-gray-900 hover:text-blue-800 hover:underline" %> since <%= match.start_date %>
+          <% if @person.caller.active_matches.size - 1 != index %>, <% end %>
+        </span>
+      <% end %>
+    </div>
+  <% end %>
+  <% if @person&.pod_leader&.pods.present? %>
+    <div class="my-4 text-gray-600">
+      Pod leader of
+      <% @person.pod_leader.pods.each_with_index do |pod, index| %>
+        <span>
+          <%= link_to pod.name, url_for(pod), class: "text-gray-900 hover:text-blue-800 hover:underline" %>
+          <% if @person.pod_leader.pods.size - 1 != index %>, <% end %>
+        </span>
+      <% end %>
+    </div>
+  <% end %>
 <% end %>
 <%= nav_tabs do |nav| %>
   <% nav.link "Events", events_person_path(@person) %>
   <% nav.link "Details", details_person_path(@person) %>
+  <% nav.link "Edit", edit_person_path(@person) %>
   <% nav.link "New role", new_role_person_path(@person) %>
 <% end %>

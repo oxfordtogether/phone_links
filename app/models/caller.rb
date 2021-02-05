@@ -12,6 +12,8 @@ class Caller < ApplicationRecord
   default_scope { includes(:person) }
   scope :with_matches, -> { includes(:matches) }
 
+  encrypts :experience, type: :string, key: :kms_key
+
   def name
     person.name
   end

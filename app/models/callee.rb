@@ -12,6 +12,11 @@ class Callee < ApplicationRecord
   default_scope { includes(:person) }
   scope :with_matches, -> { includes(:matches) }
 
+  encrypts :reason_for_referral, type: :string, key: :kms_key
+  encrypts :living_arrangements, type: :string, key: :kms_key
+  encrypts :other_information, type: :string, key: :kms_key
+  encrypts :additional_needs, type: :string, key: :kms_key
+
   def name
     person.name
   end
