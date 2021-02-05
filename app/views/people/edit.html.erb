@@ -1,6 +1,16 @@
-<h1>Editing Person</h1>
-
-<%= render 'form', person: @person %>
-
-<%= link_to 'Show', @person %> |
-<%= link_to 'Back', people_path %>
+<% content_for :page_head do %>
+  <h1 class="text-2xl font-semibold text-gray-900">Edit profile</h1>
+<% end %>
+<%= tailwind_form_with(model: @person, local: true) do |form| %>
+  <%= form.section do %>
+    <%= form.text_field :title, width: :full %>
+    <%= form.text_field :first_name, width: :full %>
+    <%= form.text_field :last_name, width: :full %>
+    <%= form.text_field :phone, width: :full %>
+    <%= form.text_field :email, width: :full %>
+  <% end %>
+  <%= form.button_section do %>
+    <%= form.cancel '/waitlist' %>
+    <%= form.submit "Next" %>
+  <% end %>
+<% end %>
