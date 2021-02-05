@@ -1,11 +1,10 @@
-<%= tailwind_form_with(model: @person, local: true) do |form| %>
+<%= tailwind_form_with(model: @caller, local: true) do |form| %>
   <%= form.section do %>
-    <%= form.text_field :caller, width: :half %>
-    <%= form.text_field :callee, width: :half %>
-    <%= form.date_picker :start_date, width: :third %>
+    <%= form.hidden_field :person_id, value: @caller.person.id %>
+    <%= form.date_field :start_date, width: :third %>
   <% end %>
   <%= form.button_section do %>
-    <%= form.cancel '/waitlist' %>
+    <%= form.cancel '#' %>
     <%= form.submit %>
   <% end %>
 <% end %>

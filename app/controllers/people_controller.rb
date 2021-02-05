@@ -1,5 +1,5 @@
 class PeopleController < ApplicationController
-  before_action :set_person, only: %i[show new_role create_role events details edit update]
+  before_action :set_person, only: %i[show new_role create_role events details edit update disambiguate]
 
   def show
     redirect_to events_person_path(@person)
@@ -45,8 +45,6 @@ class PeopleController < ApplicationController
               # add an else, raise error
             end
 
-    debugger
-
     if @role.save
       redirect_to @person, notice: "Role was successfully created."
     else
@@ -56,19 +54,26 @@ class PeopleController < ApplicationController
 
   def new
     @person = Person.new
+    @role = params[:role]
+
+    @status ||= :start
+    @results ||= []
   end
 
   def edit; end
 
   def create
-    @person = Person.new(person_params)
+    role = person_params[:role]
+    @person = Person.new(person_params.except(:role))
 
     if @person.save
-      redirect_to @person, notice: "Person was successfully created."
+      redirect_to "#{disambiguate_person_path(@person)}?role=#{role}", notice: "Person was successfully created."
     else
       render :new
     end
   end
+
+  def disambiguate; end
 
   def update
     if @person.update(person_params)
@@ -85,7 +90,7 @@ class PeopleController < ApplicationController
   end
 
   def person_params
-    params.require(:person).permit(:title, :first_name, :last_name, :email, :phone)
+    params.require(:person).permit(:role, :title, :first_name, :last_name, :email, :phone)
   end
 
   def caller_params

@@ -11,15 +11,19 @@ Rails.application.routes.draw do
 
   resources :people, only: %i[show new create edit update] do
     member do
+      get :disambiguate
       get :events
       get :details
       get :new_role
       post :create_role
+
+      get "caller/new", to: "callers#new"
     end
   end
 
-  resources :caller, only: %i[new create edit update]
-  resources :callee, only: %i[new create edit update]
+  resources :callers, only: %i[new create edit update]
+
+  resources :callees, only: %i[new create edit update]
   resources :matches, only: %i[show new create edit update]
   resources :pods, only: %i[show index new create edit update]
 
