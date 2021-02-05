@@ -1,25 +1,75 @@
-<h1 class="text-2xl font-semibold text-gray-900">
-  <%= @person.name %>
-</h1>
-<div class="flex flex-wrap">
-  <div class="mt-2 sm:mt-2 mr-6 flex items-center text-sm text-gray-900">
-    <%= icon("telephone-fill", class: "flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400") %>
-    <% if @person.phone %>
-      <%= @person.phone %>
-    <% else %>
-      <span class="italic">unknown</span>
-    <% end %>
-  </div>
-  <div class="mt-2 sm:mt-2 mr-6 flex items-center text-sm text-gray-900">
-    <%= icon("email-fill", class: "flex-shrink-0 mr-2 h-5 w-5 text-gray-400") %>
-    <% if @person.email %>
-      <%= mail_to @person.email %>
-    <% else %>
-      <span class="italic">unknown</span>
+<% content_for :page_head do %>
+  <h1 class="text-2xl font-semibold text-gray-900">
+    Duplicate checking
+  </h1>
+<% end %>
+<div>We've found some similar profiles already in the system</div>
+<div>Click on a person to add a role to an existing profile or continue with the new profile</div>
+<div class="m-3 bg-white overflow-hidden shadow rounded-lg">
+  <div class="px-4 py-5 sm:p-6">
+    <div class="flex justify-between">
+      <h1 class="text-2xl font-semibold text-gray-900">
+        <%= @person.name %>
+      </h1>
+      <div class="text-red-500 font-medium uppercase tracking-wide">New</div>
+    </div>
+    <div class="flex flex-wrap">
+      <div class="mt-2 sm:mt-2 mr-6 flex items-center text-sm text-gray-900">
+        <%= icon("telephone-fill", class: "flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400") %>
+        <% if @person.phone %>
+          <%= @person.phone %>
+        <% else %>
+          <span class="italic">unknown</span>
+        <% end %>
+      </div>
+      <div class="mt-2 sm:mt-2 mr-6 flex items-center text-sm text-gray-900">
+        <%= icon("email-fill", class: "flex-shrink-0 mr-2 h-5 w-5 text-gray-400") %>
+        <% if @person.email %>
+          <%= mail_to @person.email %>
+        <% else %>
+          <span class="italic">unknown</span>
+        <% end %>
+      </div>
+    </div>
+    <% if params[:role] %>
+      <div class="flex justify-end">
+        <%= button_link_to "Create new profile", "/people/#{@person.id}/caller/new" %>
+      </div>
     <% end %>
   </div>
 </div>
-<h1>You've created a profile for Vicky Close, here are some similar people in our system... </h1>
-<% if params[:role] %>
-  <%= button_link_to "Continue", "/people/#{@person.id}/caller/new" %>
-<% end %>
+<div class="flex flex-wrap">
+  <% @similar_people.each do |person| %>
+    <div class="m-3 bg-white overflow-hidden shadow rounded-lg">
+      <div class="px-4 py-5 sm:p-6">
+        <h1 class="text-xl font-semibold text-gray-900">
+          <%= @person.name %>
+          <span class="text-xs text-blue-600 font-normal">created <%= format_date_as_relative(@person.created_at) %></span>
+        </h1>
+        <% @person.roles.each do |role| %>
+          <%= role_badge(role) %>
+        <% end %>
+        <div class="mt-2 sm:mt-2 mr-6 flex items-center text-sm text-gray-900">
+          <%= icon("telephone-fill", class: "flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400") %>
+          <% if @person.phone %>
+            <%= @person.phone %>
+          <% else %>
+            <span class="italic">unknown</span>
+          <% end %>
+        </div>
+        <div class="mt-2 sm:mt-2 mr-6 flex items-center text-sm text-gray-900">
+          <%= icon("email-fill", class: "flex-shrink-0 mr-2 h-5 w-5 text-gray-400") %>
+          <% if @person.email %>
+            <%= mail_to @person.email %>
+          <% else %>
+            <span class="italic">unknown</span>
+          <% end %>
+        </div>
+        <div>
+          <%= blue_link("go to profile", person_path(@person)) %>
+          <%= blue_link("Add new role", "/people/#{@person.id}/caller/new") %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

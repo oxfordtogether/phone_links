@@ -73,7 +73,9 @@ class PeopleController < ApplicationController
     end
   end
 
-  def disambiguate; end
+  def disambiguate
+    @similar_people = Person.take(4)
+  end
 
   def update
     if @person.update(person_params)
