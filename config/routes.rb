@@ -25,7 +25,13 @@ Rails.application.routes.draw do
 
   resources :callees, only: %i[new create edit update]
   resources :matches, only: %i[show new create edit update]
-  resources :pods, only: %i[show index new create edit update]
+  resources :pods, only: %i[show index new create edit update] do
+    member do
+      get :matches
+      get :callers
+      get :callees
+    end
+  end
 
   get "waitlist" => "waitlist#index"
   get "waitlist/callers" => "waitlist#callers"

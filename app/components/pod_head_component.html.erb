@@ -3,5 +3,7 @@
 </h1>
 <div>Lead by: <%= @pod.pod_leader.name %></div>
 <%= nav_tabs do |nav| %>
-  <% nav.link "Matches", pod_path(@pod) %>
+  <% nav.link "Matches", matches_pod_path(@pod) %>
+  <% nav.link "Callers", callers_pod_path(@pod) %>
+  <% nav.link "Callees", callees_pod_path(@pod) %>
 <% end %>

@@ -6,7 +6,21 @@ class PodsController < ApplicationController
   end
 
   def show
+    redirect_to matches_pod_path(@pod)
+  end
+
+  def matches
     @pod = Pod.with_matches.find(params[:id])
+  end
+
+  def callers
+    @pod = Pod.with_matches.find(params[:id])
+    @callers = @pod.matches.map { |m| m.caller }
+  end
+
+  def callees
+    @pod = Pod.with_matches.find(params[:id])
+    @callees = @pod.matches.map { |m| m.caller }
   end
 
   def new
