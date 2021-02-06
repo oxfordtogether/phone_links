@@ -11,7 +11,7 @@
     <% tbl.col "Name" do |caller| %>
       <%= caller.name %>
     <% end %>
-    <% tbl.col "Active", classes: "text-right" do |caller| %>
+    <% tbl.col "Active", classes: "flex justify-end" do |caller| %>
       <% if caller.active %>
         <%= icon("check-circle", class: "h-5 w-5 text-green-500") %>
       <% else %>

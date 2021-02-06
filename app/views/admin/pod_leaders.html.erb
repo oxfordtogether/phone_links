@@ -11,7 +11,7 @@
     <% tbl.col "Name" do |pod_leader| %>
       <%= pod_leader.name %>
     <% end %>
-    <% tbl.col "Active", classes: "text-right" do |pod_leader| %>
+    <% tbl.col "Active", classes: "flex justify-end" do |pod_leader| %>
       <% if pod_leader.active %>
         <%= icon("check-circle", class: "h-5 w-5 text-green-500") %>
       <% else %>
