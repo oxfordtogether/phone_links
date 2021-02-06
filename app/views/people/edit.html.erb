@@ -50,8 +50,9 @@
     <div class="mt-10">
       <%= form.fields_for :caller do |caller_fields| %>
         <%= caller_fields.section "Caller Role" do %>
-          <%= caller_fields.check_box :active, true, label: "Active", width: :full %>
+          <%= caller_fields.collection_select :pod_id, Pod.all, :id, :name, label: "Pod", width: :half %>
           <%= caller_fields.text_area :experience, width: :full %>
+          <%= caller_fields.check_box :active, true, label: "Active", width: :full %>
         <% end %>
       <% end %>
     </div>

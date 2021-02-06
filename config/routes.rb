@@ -6,7 +6,6 @@ Rails.application.routes.draw do
   get "admin/admins", to: "admins#index"
   get "admin/pod_leaders", to: "pod_leaders#index"
   get "admin/callers", to: "pages#callers"
-  get "admin/new_user", to: "pages#new_user"
   get "form_responses", to: "pages#form_responses"
 
   get "login", to: "login#show"

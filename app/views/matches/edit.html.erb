@@ -12,7 +12,6 @@
   <%= form.section "" do %>
     <%= form.date_picker :start_date, width: :half %>
     <%= form.date_picker :end_date, width: :half %>
-    <%= form.collection_select :pod_id, Pod.all, :id, :name, label: "Pod", width: :half %>
     <%= form.check_box :pending, true, label: "Provisional", width: :full %>
   <% end %>
   <%= form.button_section do %>

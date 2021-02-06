@@ -8,7 +8,6 @@
     <%= form.autocomplete_field :caller_id, :caller_id, :name, {class: SearchCache, method: :get_callers, limit: 10}, label: "Caller", width: :half, list_item_component: PersonListItemComponent %>
     <%= form.autocomplete_field :callee_id, :callee_id, :name, {class: SearchCache, method: :get_callees, limit: 10}, label: "Callee", width: :half, list_item_component: PersonListItemComponent %>
     <%= form.date_picker :start_date, width: :half %>
-    <%= form.collection_select :pod_id, Pod.all, :id, :name, label: "Pod", width: :half %>
     <%= form.check_box :pending, true, label: "Provisional", width: :full %>
   <% end %>
   <%= form.button_section do %>

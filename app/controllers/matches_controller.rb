@@ -34,6 +34,6 @@ class MatchesController < ApplicationController
   end
 
   def match_params
-    params.require(:match).permit(:start_date, :end_date, :pod_id, :caller_id, :callee_id)
+    params.require(:match).permit(:start_date, :end_date, :caller_id, :callee_id)
   end
 end
