@@ -1,5 +1,7 @@
 class PagesController < ApplicationController
   def home
+    @current_user = current_user
+
     @inbox_items = [
       { summary: "Referral for Jane Johns", date: "10:45" },
       { summary: "Caller application from Mark Matthews", date: "yesterday" },

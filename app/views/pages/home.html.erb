@@ -9,7 +9,7 @@
               <div class="flex items-center">
                 <%= icon("person-circle", class: "h-8 w-8 rounded-full sm:block text-gray-600") %>
                 <h1 class="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
-                  Hi Vicky Close
+                  Hi <%= @current_user&.name || "Unknown User" %>
                 </h1>
                 <div>
                 </div>

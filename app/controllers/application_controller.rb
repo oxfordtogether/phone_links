@@ -5,4 +5,8 @@ class ApplicationController < ActionController::Base
   include Secured
 
   default_form_builder OclTools::TailwindFormBuilder
+
+  def current_user
+    Person.find(session[:person_id]) if session[:person_id]
+  end
 end
