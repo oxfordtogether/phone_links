@@ -6,6 +6,9 @@
 <% content_for :page_head do %>
   <%= render AdminHeadComponent.new %>
 <% end %>
+<div class="flex justify-end pb-3">
+  <%= button_link_to "New Pod Leader", "#{new_person_path}?role=pod_leader" %>
+</div>
 <% if @pod_leaders.length > 0 %>
   <%= table @pod_leaders.sort_by(&:name), row_url: ->(p) { person_path(p.person) } do |tbl| %>
     <% tbl.col "Name" do |pod_leader| %>

@@ -86,7 +86,7 @@ class PeopleController < ApplicationController
     @person = Person.new(person_params.except(:role))
 
     if @person.save
-      redirect_to "/people/#{@person.id}/caller/new", notice: "Profile was successfully created."
+      redirect_to "/people/#{@person.id}/#{@role}/new", notice: "Profile was successfully created."
     else
       # should not reach this point as data is already validated
       render :new

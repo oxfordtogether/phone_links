@@ -3,8 +3,8 @@ Rails.application.routes.draw do
   get "support", to: "pages#support"
   get "search", to: "pages#search"
   get "admin", to: "pages#admin"
-  get "admin/admins", to: "pages#admins"
-  get "admin/pod_leaders", to: "pages#pod_leaders"
+  get "admin/admins", to: "admins#index"
+  get "admin/pod_leaders", to: "pod_leaders#index"
   get "admin/callers", to: "pages#callers"
   get "admin/new_user", to: "pages#new_user"
 
@@ -27,10 +27,14 @@ Rails.application.routes.draw do
       post :create_role
 
       get "caller/new", to: "callers#new"
+      get "admin/new", to: "admins#new"
+      get "pod_leader/new", to: "pod_leaders#new"
     end
   end
 
   resources :callers, only: %i[new create edit update]
+  resources :admins, only: %i[create]
+  resources :pod_leaders, only: %i[create]
 
   resources :callees, only: %i[new create edit update]
   resources :matches, only: %i[show new create edit update]

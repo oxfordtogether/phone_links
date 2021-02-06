@@ -1,0 +1,82 @@
+<!-- TO DO: make this responsive -->
+<%= tailwind_form_with(model: @person, url: "/people/new/validate", local: true) do |form| %>
+  <div class="flex">
+    <div class="flex-1">
+      <%= form.section "Select an existing profile" do %>
+        <div class="sm:col-span-6" id="search-container" data-controller='search' data-reflex-root='#search-results'>
+          <div class="text-gray-500 -mt-5 text-sm">Is the person already in the program with a different role? Use the search box to find their profile.</div>
+          <div  class="mt-12">
+            <label for="search" class="sr-only">Search</label>
+            <div class="mt-1 relative rounded-md shadow-sm">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" aria-hidden="true">
+                <%= icon "heroicon-search", class: "h-6 w-6 mr-3 text-gray-400" %>
+              </div>
+              <input autocomplete="off" data-search-target='query' data-action="debounced:input->search#perform" type="text" name="search" id="search" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-12 sm:text-sm border-gray-300 h-12 rounded-lg" placeholder="Search by name">
+            </div>
+            <div id='search-results'>
+              <div class="mt-4 ml-4 text-sm text-gray-500">
+                <div data-search-target='activity' hidden>
+                  <%= icon "spinner", class: "animate-spin -ml-1 mr-3 h-4 w-4 text-grey-600 inline-block" %>
+                  <span>
+                    Searching
+                  </span>
+                </div>
+                <div data-search-target='count'>
+                  <% if @status == :start %>
+                    Type something to start the search.
+                  <% elsif @results.length < @results.total_count %>
+                    <%= @results.total_count %> people found. Showing <%= @results.length %> of them. Keep typing to refine your search.
+                  <% else %>
+                    <%= @results.length %> <%= "person".pluralize(@results.length) %> found
+                  <% end %>
+                </div>
+              </div>
+              <ul class="mt-4">
+                <% @results.each do |result| %>
+                  <li class="m-2 bg-white shadow sm:rounded-md">
+                    <div class="px-4 py-4 sm:px-6">
+                      <div class="flex items-center justify-between">
+                        <div class="flex items-center justify-start">
+                          <p class="text-sm font-medium text-grey-900 truncate">
+                            <%= result.name %>
+                          </p>
+                          <p class="ml-2 text-sm font-medium text-grey-900 truncate">
+                            <% result.roles.each do |role| %>
+                              <%= role_badge(role) %>
+                            <% end %>
+                          </p>
+                        </div>
+                        <div>
+                          <% if !result.send(role).present? %>
+                            <%= link_to "add #{role} role", "/people/#{result.id.to_s}/#{role}/new", class: "text-sm text-blue-600 text-semibold hover:underline hover:text-blue-700" %>
+                          <% end %>
+                          <%= link_to "go to profile", "/people/#{result.id.to_s}", class: "ml-2 text-sm text-gray-400 italic hover:underline hover:text-gray-500" %>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="ml-5 mr-7 py-4">OR</div>
+    <div class="flex-1">
+      <%= form.section "Create a new profile" do %>
+        <div class="text-gray-500 -mt-5 text-sm sm:col-span-6">Is the person new to the program? Create a profile for them.</div>
+        <%= form.hidden_field :role, value: @role %>
+        <%= form.text_field :title, width: :full %>
+        <%= form.text_field :first_name, width: :full %>
+        <%= form.text_field :last_name, width: :full %>
+        <%= form.text_field :phone, width: :full %>
+        <%= form.text_field :email, width: :full %>
+      <% end %>
+    </div>
+  </div>
+  <%= form.button_section do %>
+    <%= form.cancel '/waitlist' %>
+    <%= form.submit "Next" %>
+  <% end %>
+<% end %>

@@ -22,16 +22,6 @@ class PagesController < ApplicationController
     redirect_to "/admin/admins"
   end
 
-  def admins
-    @admins = Admin.all
-    render "admin/admins"
-  end
-
-  def pod_leaders
-    @pod_leaders = PodLeader.all
-    render "admin/pod_leaders"
-  end
-
   def callers
     @callers = Caller.all
     render "admin/callers"
