@@ -1,3 +1,5 @@
+require "fuzzystringmatch"
+
 class SearchResult
   include Enumerable
   def initialize(records, total_count = nil)
@@ -22,6 +24,17 @@ class SearchCache
     value = Person.all.sort_by(&:name).map { |p| [p.id, to_searchable_string(p)] }.to_json
     redis.set(KEY, value)
     value
+  end
+
+  def self.get_similar_people(person, limit: 10)
+    jarow = FuzzyStringMatch::JaroWinkler.create(:pure)
+
+    people = JSON.parse(redis.get(KEY) || refresh)
+
+    sorted_people_ids = people.map { |id, details| [id, details, jarow.getDistance(normalize(person.name), details)] }.sort_by { |p| p[1] }.reverse.map { |p| p[0] }
+
+    results = SearchResult.new(limit ? sorted_people_ids[0...limit] : sorted_people_ids, sorted_people_ids.length)
+    SearchResult.new(Person.where(id: results.to_a).all, results.total_count)
   end
 
   def self.get_people_ids(query, limit: nil)

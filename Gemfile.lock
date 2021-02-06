@@ -11,6 +11,9 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    RubyInline (3.12.5)
+      ZenTest (~> 4.3)
+    ZenTest (4.12.0)
     actioncable (6.0.3.4)
       actionpack (= 6.0.3.4)
       nio4r (~> 2.0)
@@ -128,6 +131,8 @@ GEM
     faraday-net_http (1.0.1)
     ffaker (2.17.0)
     ffi (1.14.2)
+    fuzzy-string-match (1.0.1)
+      RubyInline (>= 3.8.6)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     hashie (4.1.0)
@@ -356,6 +361,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   ffaker
+  fuzzy-string-match
   kms_encrypted
   listen (~> 3.2)
   lockbox

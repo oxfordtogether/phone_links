@@ -14,6 +14,9 @@ Rails.application.routes.draw do
   get "auth/auth0/callback" => "auth0#callback"
   get "auth/failure" => "auth0#failure"
 
+  # need this to get search to work on people/new after failed validation in form
+  get "people" => "people#new"
+
   resources :people, only: %i[show new create edit update] do
     member do
       get :disambiguate

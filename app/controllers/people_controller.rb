@@ -80,8 +80,7 @@ class PeopleController < ApplicationController
   end
 
   def disambiguate
-    # to do
-    @similar_people = Person.take(4)
+    @similar_people = SearchCache.get_similar_people(@person, limit: 5)
   end
 
   def edit; end
