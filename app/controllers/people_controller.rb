@@ -64,12 +64,14 @@ class PeopleController < ApplicationController
     @results ||= []
   end
 
-  def create
+  def validate
     @role = person_params[:role]
     @person = Person.new(person_params.except(:role))
 
-    if @person.save
-      redirect_to "#{disambiguate_person_path(@person)}?role=#{@role}", notice: "Person was successfully created."
+    if @person.valid?
+      @similar_people = SearchCache.get_similar_people(@person, limit: 5)
+
+      render :disambiguate
     else
       @status ||= :start
       @results ||= []
@@ -79,8 +81,16 @@ class PeopleController < ApplicationController
     end
   end
 
-  def disambiguate
-    @similar_people = SearchCache.get_similar_people(@person, limit: 5)
+  def create
+    @role = person_params[:role]
+    @person = Person.new(person_params.except(:role))
+
+    if @person.save
+      redirect_to "/people/#{@person.id}/caller/new", notice: "Profile was successfully created."
+    else
+      # should not reach this point as data is already validated
+      render :new
+    end
   end
 
   def edit; end

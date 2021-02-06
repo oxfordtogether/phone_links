@@ -8,7 +8,7 @@
   <h1 class="text-2xl font-semibold text-gray-900">New Caller</h1>
 <% end %>
 <!-- TO DO: make this responsive -->
-<%= tailwind_form_with(model: @person, local: true) do |form| %>
+<%= tailwind_form_with(model: @person, url: "/people/new/validate", local: true) do |form| %>
   <div class="flex">
     <div class="flex-1">
       <%= form.section "Select an existing profile" do %>

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   resources :people, only: %i[show new create edit update] do
     member do
+      post :validate
       get :disambiguate
       get :events
       get :details

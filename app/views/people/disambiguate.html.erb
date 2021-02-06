@@ -11,33 +11,42 @@
   <div class="mt-2 text-gray-700 text-base">...select an existing profile or continue creating a new profile</div>
 <% end %>
 <div class="mt-6 flex flex-wrap">
-  <div class="m-3 bg-white overflow-hidden shadow rounded-lg">
-    <div class="px-4 py-5 sm:p-6">
-      <h1 class="text-xl font-semibold text-gray-900">
-        <%= @person.name %>
-      </h1>
-      <div class="mt-2 mb-6 text-sm text-red-500 font-medium uppercase tracking-wide">New Profile</div>
-      <div class="mt-2 sm:mt-2 mr-6 flex items-center text-sm text-gray-900">
-        <%= icon("telephone-fill", class: "flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400") %>
-        <% if @person.phone %>
-          <%= @person.phone %>
-        <% else %>
-          <span class="italic">unknown</span>
-        <% end %>
-      </div>
-      <div class="mt-2 sm:mt-2 mr-6 flex items-center text-sm text-gray-900">
-        <%= icon("email-fill", class: "flex-shrink-0 mr-2 h-5 w-5 text-gray-400") %>
-        <% if @person.email %>
-          <%= mail_to @person.email %>
-        <% else %>
-          <span class="italic">unknown</span>
-        <% end %>
-      </div>
-      <div class="mt-6 flex justify-end">
-        <%= link_to "continue", "/people/#{@person.id.to_s}/caller/new", class: "text-sm text-blue-600 text-semibold underline hover:text-blue-700" %>
+  <%= tailwind_form_with(model: @person, local: true) do |form| %>
+    <%= form.hidden_field :role, value: @role %>
+    <%= form.hidden_field :title, value: @person.title %>
+    <%= form.hidden_field :first_name, value: @person.first_name %>
+    <%= form.hidden_field :last_name, value: @person.last_name %>
+    <%= form.hidden_field :phone, value: @person.phone %>
+    <%= form.hidden_field :email, value: @person.email %>
+    <div class="m-3 bg-white overflow-hidden shadow rounded-lg">
+      <div class="px-4 py-5 sm:p-6">
+        <h1 class="text-xl font-semibold text-gray-900">
+          <%= @person.name %>
+        </h1>
+        <div class="mt-2 mb-6 text-sm text-red-500 font-medium uppercase tracking-wide">New Profile</div>
+        <div class="mt-2 sm:mt-2 mr-6 flex items-center text-sm text-gray-900">
+          <%= icon("telephone-fill", class: "flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400") %>
+          <% if @person.phone %>
+            <%= @person.phone %>
+          <% else %>
+            <span class="italic">unknown</span>
+          <% end %>
+        </div>
+        <div class="mt-2 sm:mt-2 mr-6 flex items-center text-sm text-gray-900">
+          <%= icon("email-fill", class: "flex-shrink-0 mr-2 h-5 w-5 text-gray-400") %>
+          <% if @person.email %>
+            <%= mail_to @person.email %>
+          <% else %>
+            <span class="italic">unknown</span>
+          <% end %>
+        </div>
+        <div class="mt-6 flex justify-end">
+          <%= form.submit "continue" %>
+          <!-- <%= link_to "continue", "/people/#{@person.id.to_s}/caller/new", class: "text-sm text-blue-600 text-semibold underline hover:text-blue-700" %> -->
+        </div>
       </div>
     </div>
-  </div>
+  <% end %>
   <% @similar_people.each do |person| %>
     <div class="m-3 bg-white overflow-hidden shadow rounded-lg">
       <div class="px-4 py-5 sm:p-6">
