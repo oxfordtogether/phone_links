@@ -31,7 +31,7 @@
             <div class="flex-1 px-4 py-2 text-sm truncate">
               <a href="#" class="text-gray-500 font-medium hover:text-gray-600">
                 Pending matches:
-                <div class="inline text-lg font-medium text-gray-900">10</div>
+                <div class="inline text-lg font-medium text-gray-900"><%= @pending_matches_count || "?"  %></div>
               </a>
             </div>
           </div>
@@ -42,7 +42,7 @@
             <div class="flex-1 px-4 py-2 text-sm truncate">
               <a href="#" class="text-gray-500 font-medium hover:text-gray-600">
                 Referrals:
-                <div class="inline text-lg font-medium text-gray-900">N/A</div>
+                <div class="inline text-lg font-medium text-gray-900"><%= @referrals_count || "?" %></div>
               </a>
             </div>
           </div>
@@ -52,8 +52,8 @@
           <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
             <div class="flex-1 px-4 py-2 text-sm truncate">
               <a href="#" class="text-gray-500 font-medium hover:text-gray-600">
-                Waiting list:
-                <div class="inline text-lg font-medium text-gray-900">40</div>
+                Waiting callees:
+                <div class="inline text-lg font-medium text-gray-900"><%= @waiting_list_count || "?" %></div>
               </a>
             </div>
           </div>
@@ -64,9 +64,10 @@
     <h2 class="max-w-6xl mx-auto mt-8 px-4 text-xs leading-6 font-medium uppercase tracking-wide text-gray-800 sm:px-6 lg:px-8">
       Inbox
     </h2>
-    <!-- Activity table (small breakopoint and up) -->
+    <!-- Activity table (small breakpoint and up) -->
     <div class="hidden sm:block">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <%= alert(title: 'Work in progress', info: 'This section is mocked up with fake data') %>
         <div class="flex flex-col mt-2">
           <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
             <%= table @inbox_items do |tbl| %>

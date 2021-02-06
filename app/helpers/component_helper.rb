@@ -6,4 +6,8 @@ module ComponentHelper
   def blue_link(*args)
     render LinkToComponent.new(*args)
   end
+
+  def alert(*args)
+    render AlertComponent.new(*args)
+  end
 end

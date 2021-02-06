@@ -6,6 +6,9 @@ class PagesController < ApplicationController
       { summary: "Safeguarding flag raised by Poppy Patal", date: "5 days ago" },
       { summary: "Referral for Alisha Anderson", date: "8th Jan" },
     ]
+
+    @waiting_list_count = Callee.with_matches.all.filter(&:waiting?).count
+    @pending_matches_count = Match.where(pending: true).count
   end
 
   def support; end
