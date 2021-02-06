@@ -1,5 +1,5 @@
 class PeopleController < ApplicationController
-  before_action :set_person, only: %i[show new_role create_role events details edit update disambiguate]
+  before_action :set_person, only: %i[show new_role create_role events details edit update]
 
   def show
     if @person.callee.present? || @person.caller.present?
@@ -64,23 +64,6 @@ class PeopleController < ApplicationController
     @results ||= []
   end
 
-  def validate
-    @role = person_params[:role]
-    @person = Person.new(person_params.except(:role))
-
-    if @person.valid?
-      @similar_people = SearchCache.get_similar_people(@person, limit: 5)
-
-      render :disambiguate
-    else
-      @status ||= :start
-      @results ||= []
-
-      # after rendering :new, search starts hanging
-      render :new
-    end
-  end
-
   def create
     @role = person_params[:role]
     @person = Person.new(person_params.except(:role))
@@ -88,7 +71,10 @@ class PeopleController < ApplicationController
     if @person.save
       redirect_to "/people/#{@person.id}/#{@role}/new", notice: "Profile was successfully created."
     else
-      # should not reach this point as data is already validated
+      @status ||= :start
+      @results ||= []
+
+      # after rendering :new, search starts hanging
       render :new
     end
   end
