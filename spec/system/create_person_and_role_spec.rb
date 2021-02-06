@@ -33,10 +33,6 @@ RSpec.describe "create person and role flow", type: :system do
 
     expect(page).to have_current_path("/people/#{new_person.id}/caller/new")
 
-    fill_in "caller_start_date(3i)", with: "01"
-    fill_in "caller_start_date(2i)", with: "11"
-    fill_in "caller_start_date(1i)", with: "2020"
-
     expect { click_on "Save" }.to change { Caller.count }.from(0).to(1)
 
     expect(page).to have_current_path("/people/#{new_person.id}/events")
@@ -59,10 +55,6 @@ RSpec.describe "create person and role flow", type: :system do
     find("p", text: "Tim Thompson").click
 
     expect(page).to have_current_path("/people/#{person.id}/caller/new")
-
-    fill_in "caller_start_date(3i)", with: "01"
-    fill_in "caller_start_date(2i)", with: "11"
-    fill_in "caller_start_date(1i)", with: "2020"
 
     expect { click_on "Save" }.to change { Caller.count }.from(0).to(1)
 

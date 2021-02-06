@@ -1,7 +1,4 @@
 class Callee < ApplicationRecord
-  include HasActiveDates
-
-  validates :start_date, presence: { message: "This field is required" }
   validates_associated :person
 
   belongs_to :person
@@ -38,7 +35,8 @@ class Callee < ApplicationRecord
       if matches.present?
         matches.max_by(&:end_date).end_date
       else
-        start_date
+        # not quite the right defn
+        created_at
       end
     end
   end

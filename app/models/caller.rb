@@ -1,6 +1,4 @@
 class Caller < ApplicationRecord
-  include HasActiveDates
-
   validates_associated :person
 
   belongs_to :person
@@ -27,7 +25,7 @@ class Caller < ApplicationRecord
   end
 
   def waiting?
-    active? && !active_matches.present?
+    active && !active_matches.present?
   end
 
   def waiting_since
@@ -35,7 +33,8 @@ class Caller < ApplicationRecord
       if matches.present?
         matches.max_by(&:end_date).end_date
       else
-        start_date
+        # not quite the right defn
+        created_at
       end
     end
   end

@@ -20,8 +20,6 @@ CREATE TABLE public.admins (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     person_id bigint NOT NULL,
-    start_date date NOT NULL,
-    end_date date,
     active boolean
 );
 
@@ -66,8 +64,6 @@ CREATE TABLE public.callees (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     person_id bigint NOT NULL,
-    start_date date NOT NULL,
-    end_date date,
     active boolean,
     reason_for_referral_ciphertext text,
     living_arrangements_ciphertext text,
@@ -104,8 +100,6 @@ CREATE TABLE public.callers (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     person_id bigint NOT NULL,
-    start_date date NOT NULL,
-    end_date date,
     active boolean,
     experience_ciphertext text,
     pod_id bigint
@@ -215,8 +209,6 @@ CREATE TABLE public.pod_leaders (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     person_id bigint NOT NULL,
-    start_date date NOT NULL,
-    end_date date,
     active boolean
 );
 
@@ -533,6 +525,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210201135857'),
 ('20210202145925'),
 ('20210205174703'),
-('20210206134510');
+('20210206134510'),
+('20210206182028');
 
 

@@ -25,15 +25,15 @@ class PeopleController < ApplicationController
 
     @role = case params["role"]
             when "caller"
-              Caller.new(start_date: Date.today)
+              Caller.new
             when "callee"
-              Callee.new(start_date: Date.today)
+              Callee.new(y)
             when "pod_leader"
-              PodLeader.new(start_date: Date.today)
+              PodLeader.new
             when "admin"
-              Admin.new(start_date: Date.today)
+              Admin.new
             else
-              Caller.new(start_date: Date.today)
+              Caller.new
             end
   end
 

@@ -37,6 +37,6 @@ class CallersController < ApplicationController
   end
 
   def caller_params
-    params.require(:caller).permit(:start_date, :end_date, :person_id, :active, :experience)
+    params.require(:caller).permit(:person_id, :pod_id, :active, :experience)
   end
 end
