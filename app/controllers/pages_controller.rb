@@ -30,4 +30,6 @@ class PagesController < ApplicationController
   def new_user
     render "admin/new_user"
   end
+
+  def form_responses; end
 end
