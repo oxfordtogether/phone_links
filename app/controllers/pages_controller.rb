@@ -14,4 +14,27 @@ class PagesController < ApplicationController
     @status ||= :start
     @results ||= []
   end
+
+  def admin
+    redirect_to "/admin/admins"
+  end
+
+  def admins
+    @admins = Admin.all
+    render "admin/admins"
+  end
+
+  def pod_leaders
+    @pod_leaders = PodLeader.all
+    render "admin/pod_leaders"
+  end
+
+  def callers
+    @callers = Caller.all
+    render "admin/callers"
+  end
+
+  def new_user
+    render "admin/new_user"
+  end
 end

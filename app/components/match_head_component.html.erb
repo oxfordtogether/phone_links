@@ -12,10 +12,10 @@
 </h1>
 -->
 <h1 class="flex justify-start text-2xl font-semibold text-gray-900">
-  <div><%= @match.caller.name %></div>
+  <div><%= link_to @match.caller.name, person_path(@match.caller.person) %></div>
   <div class="mx-2"><%= role_badge(@match.caller) %></div>
   <div class="ml-1 mr-3"> - </div>
-  <div><%= @match.callee.name %></div>
+  <div><%= link_to @match.callee.name, person_path(@match.callee.person) %></div>
   <div class="mx-2"><%= role_badge(@match.callee) %></div>
 </h1>
 <div class="flex flex-wrap">
@@ -26,7 +26,7 @@
       </span>
     <% else %>
       <div class="text-gray-900 mr-2">
-        <span class="text-gray-500">Matched since</span>
+        <span class="text-gray-500">Matched since:</span>
         <%= format_date_as_relative(@match.start_date) %>
       </div>
     <% end %>
@@ -35,16 +35,16 @@
 <div class="flex flex-wrap">
   <div class="mt-2 sm:mt-2 mr-6 flex items-center text-sm text-gray-900">
     <div class="text-gray-500 mr-2">Pod:</div>
-    <% if @match&.pod %>
-      <%= @match.pod.name %>
+    <% if @match&.caller&.pod %>
+      <%= @match.caller.pod.name %>
     <% else %>
       <span class="italic">N/A</span>
     <% end %>
   </div>
   <div class="mt-2 sm:mt-2 mr-6 flex items-center text-sm text-gray-900">
     <div class="text-gray-500 mr-2">Pod leader:</div>
-    <% if @match&.pod&.pod_leader %>
-      <%= @match.pod.pod_leader.name %>
+    <% if @match&.caller.pod&.pod_leader %>
+      <%= link_to @match.caller.pod.pod_leader.name, person_path(@match.caller.pod.pod_leader.person) %>
     <% else %>
       <span class="italic">N/A</span>
     <% end %>

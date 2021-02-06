@@ -37,7 +37,7 @@
     <ul class="mt-4">
       <% @results.each do |result| %>
         <li class="m-2 bg-white shadow sm:rounded-md">
-          <%= link_to url_for(result.person), class: "block hover:bg-gray-50" do %>
+          <%= link_to url_for(result), class: "block hover:bg-gray-50" do %>
             <div class="px-4 py-4 sm:px-6">
               <div class="flex items-center justify-start">
                 <p class="flex items-center text-sm text-gray-500">
@@ -46,8 +46,10 @@
                 <p class="text-sm font-medium text-grey-900 truncate">
                   <%= result.name %>
                 </p>
-                <p class="text-sm font-medium text-grey-900 truncate">
-                  <%= result.class.name %>
+                <p class="ml-2 text-sm font-medium text-grey-900 truncate">
+                  <% result.roles.each do |role| %>
+                    <%= role_badge(role) %>
+                  <% end %>
                 </p>
               </div>
             </div>

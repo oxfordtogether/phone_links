@@ -15,12 +15,12 @@ class PodsController < ApplicationController
 
   def callers
     @pod = Pod.with_matches.find(params[:id])
-    @callers = @pod.matches.map { |m| m.caller }
+    @callers = @pod.callers
   end
 
   def callees
     @pod = Pod.with_matches.find(params[:id])
-    @callees = @pod.matches.map { |m| m.caller }
+    @callees = @pod.active_matches.map { |m| m.caller }
   end
 
   def new
@@ -54,6 +54,6 @@ class PodsController < ApplicationController
   end
 
   def pod_params
-    params.require(:pod).permit(:name, :pod_leader_id)
+    params.require(:pod).permit(:name, :pod_leader_id, :theme)
   end
 end

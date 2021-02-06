@@ -2,6 +2,11 @@ Rails.application.routes.draw do
   root to: "pages#home"
   get "support", to: "pages#support"
   get "search", to: "pages#search"
+  get "admin", to: "pages#admin"
+  get "admin/admins", to: "pages#admins"
+  get "admin/pod_leaders", to: "pages#pod_leaders"
+  get "admin/callers", to: "pages#callers"
+  get "admin/new_user", to: "pages#new_user"
 
   get "login", to: "login#show"
   get "invalid_permissions", to: "login#invalid_permissions"

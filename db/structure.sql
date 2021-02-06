@@ -107,7 +107,8 @@ CREATE TABLE public.callers (
     start_date date NOT NULL,
     end_date date,
     active boolean,
-    experience_ciphertext text
+    experience_ciphertext text,
+    pod_id bigint
 );
 
 
@@ -141,7 +142,6 @@ CREATE TABLE public.matches (
     pending boolean,
     caller_id bigint NOT NULL,
     callee_id bigint NOT NULL,
-    pod_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
@@ -425,6 +425,13 @@ CREATE INDEX index_callers_on_person_id ON public.callers USING btree (person_id
 
 
 --
+-- Name: index_callers_on_pod_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_callers_on_pod_id ON public.callers USING btree (pod_id);
+
+
+--
 -- Name: index_matches_on_callee_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -439,13 +446,6 @@ CREATE INDEX index_matches_on_caller_id ON public.matches USING btree (caller_id
 
 
 --
--- Name: index_matches_on_pod_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_matches_on_pod_id ON public.matches USING btree (pod_id);
-
-
---
 -- Name: index_pod_leaders_on_person_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -457,6 +457,14 @@ CREATE INDEX index_pod_leaders_on_person_id ON public.pod_leaders USING btree (p
 --
 
 CREATE INDEX index_pods_on_pod_leader_id ON public.pods USING btree (pod_leader_id);
+
+
+--
+-- Name: callers fk_rails_2fcae7eb33; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.callers
+    ADD CONSTRAINT fk_rails_2fcae7eb33 FOREIGN KEY (pod_id) REFERENCES public.pods(id);
 
 
 --
@@ -516,14 +524,6 @@ ALTER TABLE ONLY public.callers
 
 
 --
--- Name: matches fk_rails_ae1d288fdb; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.matches
-    ADD CONSTRAINT fk_rails_ae1d288fdb FOREIGN KEY (pod_id) REFERENCES public.pods(id);
-
-
---
 -- PostgreSQL database dump complete
 --
 
@@ -532,6 +532,7 @@ SET search_path TO "$user", public;
 INSERT INTO "schema_migrations" (version) VALUES
 ('20210201135857'),
 ('20210202145925'),
-('20210205174703');
+('20210205174703'),
+('20210206134510');
 
 

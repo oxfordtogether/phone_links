@@ -28,6 +28,11 @@
         <% end %>
       </div>
     <% end %>
+    <% tbl.col "Pod", classes: "text-right" do |person| %>
+      <% if person&.pod %><%= person.pod.name %><% else %>
+        <div class="italic">Not assigned to a pod</div>
+      <% end %>
+    <% end %>
     <% tbl.col "On waiting list since", classes: "text-right" do |person| %>
       <%= format_date_as_relative(person.waiting_since) %>
     <% end %>

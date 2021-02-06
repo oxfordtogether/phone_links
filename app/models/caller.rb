@@ -4,6 +4,7 @@ class Caller < ApplicationRecord
   validates_associated :person
 
   belongs_to :person
+  belongs_to :pod, optional: true
   has_many :matches
 
   accepts_nested_attributes_for :person

@@ -1,14 +1,14 @@
 <% content_for :breadcrumbs do %>
   <%= breadcrumbs do |list| %>
     <% list.link "Pods", pods_path %>
-    <% list.link @pod.name, pod_path(@pod) %>
+    <% list.link "Pod #{@pod.name}", pod_path(@pod) %>
   <% end %>
 <% end %>
 <% content_for :page_head do %>
   <%= render PodHeadComponent.new(pod: @pod) %>
 <% end %>
-<% if @pod.matches.length > 0 %>
-  <%= table @pod.matches.sort_by { |m| m.caller.name }, row_url: ->(m) { url_for(m) } do |tbl| %>
+<% if @pod.active_matches.length > 0 %>
+  <%= table @pod.active_matches.sort_by { |m| m.caller.name }, row_url: ->(m) { url_for(m) } do |tbl| %>
     <% tbl.col "Caller - Callee" do |match| %>
       <%= match.caller.name %> - <%= match.callee.name %>
     <% end %>

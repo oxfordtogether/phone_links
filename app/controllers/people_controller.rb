@@ -2,7 +2,11 @@ class PeopleController < ApplicationController
   before_action :set_person, only: %i[show new_role create_role events details edit update disambiguate]
 
   def show
-    redirect_to details_person_path(@person)
+    if @person.callee.present? || @person.caller.present?
+      redirect_to details_person_path(@person)
+    else
+      redirect_to events_person_path(@person)
+    end
   end
 
   def events; end

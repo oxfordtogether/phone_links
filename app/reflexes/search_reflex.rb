@@ -4,7 +4,7 @@ class SearchReflex < ApplicationReflex
       @status = :start
     else
       @status = :search_complete
-      @results = SearchCache.get_roles(query, limit: 10)
+      @results = SearchCache.get_people(query, limit: 10)
     end
   end
 end

@@ -1,0 +1,26 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Pod leaders", "/admin/pod_leaders" %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <%= render AdminHeadComponent.new %>
+<% end %>
+<% if @pod_leaders.length > 0 %>
+  <%= table @pod_leaders.sort_by(&:name), row_url: ->(p) { person_path(p.person) } do |tbl| %>
+    <% tbl.col "Name" do |pod_leader| %>
+      <%= pod_leader.name %>
+    <% end %>
+    <% tbl.col "Active", classes: "text-right" do |pod_leader| %>
+      <% if pod_leader.active %>
+        <%= icon("check-circle", class: "h-5 w-5 text-green-500") %>
+      <% else %>
+        <%= icon("cross", class: "h-5 w-5 text-red-500") %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% else %>
+  <div class="flex justify-center text-gray-600">
+    No Pod Leader have been added yet :(
+  </div>
+<% end %>

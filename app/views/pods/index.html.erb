@@ -4,9 +4,7 @@
   <% end %>
 <% end %>
 <% content_for :page_head do %>
-  <h1 class="text-2xl font-semibold text-gray-900">
-    Pods
-  </h1>
+  <%= render PodsHeadComponent.new %>
 <% end %>
 <% if @pods.length > 0 %>
   <%= table @pods.sort_by(&:name), row_url: ->(p) { url_for(p) } do |tbl| %>
@@ -22,6 +20,12 @@
     <% end %>
     <% tbl.col "Theme" do |pod| %>
       <%= pod&.theme %>
+    <% end %>
+    <% tbl.col "Callers" do |pod| %>
+      <%= pod.callers.filter(&:active).count %>
+    <% end %>
+    <% tbl.col "Callees" do |pod| %>
+      <%= pod.active_matches.count %>
     <% end %>
   <% end %>
 <% else %>
