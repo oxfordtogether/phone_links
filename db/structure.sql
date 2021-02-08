@@ -68,7 +68,8 @@ CREATE TABLE public.callees (
     reason_for_referral_ciphertext text,
     living_arrangements_ciphertext text,
     other_information_ciphertext text,
-    additional_needs_ciphertext text
+    additional_needs_ciphertext text,
+    pod_id bigint
 );
 
 
@@ -410,6 +411,13 @@ CREATE INDEX index_callees_on_person_id ON public.callees USING btree (person_id
 
 
 --
+-- Name: index_callees_on_pod_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_callees_on_pod_id ON public.callees USING btree (pod_id);
+
+
+--
 -- Name: index_callers_on_person_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -508,6 +516,14 @@ ALTER TABLE ONLY public.callees
 
 
 --
+-- Name: callees fk_rails_9c9ab4a301; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.callees
+    ADD CONSTRAINT fk_rails_9c9ab4a301 FOREIGN KEY (pod_id) REFERENCES public.pods(id);
+
+
+--
 -- Name: callers fk_rails_a909fc7ff6; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -526,6 +542,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210202145925'),
 ('20210205174703'),
 ('20210206134510'),
-('20210206182028');
+('20210206182028'),
+('20210208194108');
 
 

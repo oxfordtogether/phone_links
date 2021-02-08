@@ -3,6 +3,7 @@ class Pod < ApplicationRecord
   validates_uniqueness_of :name, message: "This field must be unique, given value already taken"
 
   has_many :callers
+  has_many :callees
   belongs_to :pod_leader, optional: true
 
   scope :with_matches, lambda {

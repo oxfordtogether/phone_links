@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       get :events
       get :details
       get :new_role
+      get :actions
       post :create_role
 
       get "callee/new", to: "callees#new"

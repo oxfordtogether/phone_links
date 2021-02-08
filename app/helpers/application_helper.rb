@@ -17,6 +17,18 @@ module ApplicationHelper
     return unless date
 
     if date.today?
+      "today"
+    elsif (Date.today.to_date - date.to_date).to_i == 1
+      "1 day"
+    else
+      "#{(Date.today.to_date - date.to_date).to_i} days"
+    end
+  end
+
+  def format_date(date)
+    return unless date
+
+    if date.today?
       date.strftime("%H:%M")
     elsif date.year == Date.today.year
       date.strftime("#{date.day.ordinalize} %b")

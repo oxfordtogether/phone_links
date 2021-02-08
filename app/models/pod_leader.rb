@@ -2,7 +2,7 @@ class PodLeader < ApplicationRecord
   validates_associated :person
 
   belongs_to :person
-  has_many :pods
+  has_one :pod
 
   accepts_nested_attributes_for :person
 

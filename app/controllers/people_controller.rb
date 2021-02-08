@@ -1,5 +1,5 @@
 class PeopleController < ApplicationController
-  before_action :set_person, only: %i[show new_role create_role events details edit update]
+  before_action :set_person, only: %i[show new_role create_role events details actions edit update]
 
   def show
     if @person.callee.present? || @person.caller.present?
@@ -88,6 +88,8 @@ class PeopleController < ApplicationController
       render :edit
     end
   end
+
+  def actions; end
 
   private
 

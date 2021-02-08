@@ -1,6 +1,6 @@
 <% content_for :breadcrumbs do %>
   <%= breadcrumbs do |list| %>
-    <% list.link "Waiting list", waitlist_path %>
+    <% list.link "Waiting List", waitlist_path %>
     <% list.link "Callees", waitlist_callees_path %>
   <% end %>
 <% end %>
@@ -20,7 +20,7 @@
             <% if person.matches.count == 1 %>
               <%= person.matches.count %> previous match
             <% else %>
-              <%= person.matches.count %> previous pending_matches
+              <%= person.matches.count %> previous matches
             <% end %>
           </div>
         <% else %>
@@ -28,7 +28,7 @@
         <% end %>
       </div>
     <% end %>
-    <% tbl.col "On waiting list since", classes: "text-right" do |person| %>
+    <% tbl.col "Waiting for", classes: "text-right" do |person| %>
       <%= format_date_as_relative(person.waiting_since) %>
     <% end %>
   <% end %>

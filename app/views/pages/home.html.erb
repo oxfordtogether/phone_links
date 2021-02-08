@@ -71,7 +71,7 @@
         <div class="flex flex-col mt-2">
           <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
             <%= table @inbox_items do |tbl| %>
-              <% tbl.col "Summary" do |item| %>
+              <% tbl.col "Task" do |item| %>
                 <%= item[:summary] %>
               <% end %>
               <% tbl.col "Date" do |item| %>
