@@ -8,7 +8,7 @@
   <%= render(WaitlistHeadComponent.new(waiting_callers_count: @waiting_callers_count, waiting_callees_count: @waiting_callees_count, pending_matches_count: @pending_matches_count)) %>
 <% end %>
 <div class="flex justify-end pb-3">
-  <%= button_link_to "New Callee", new_person_path %>
+  <%= button_link_to "New Callee", "#{new_person_path}?role=callee" %>
 </div>
 <% if @waiting_callees.length > 0 %>
   <%= table @waiting_callees.sort_by(&:name), row_url: ->(p) { url_for(p.person) } do |tbl| %>

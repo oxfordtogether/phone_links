@@ -24,12 +24,14 @@ Rails.application.routes.draw do
       get :new_role
       post :create_role
 
+      get "callee/new", to: "callees#new"
       get "caller/new", to: "callers#new"
       get "admin/new", to: "admins#new"
       get "pod_leader/new", to: "pod_leaders#new"
     end
   end
 
+  resources :callees, only: %i[new create edit update]
   resources :callers, only: %i[new create edit update]
   resources :admins, only: %i[create]
   resources :pod_leaders, only: %i[create]

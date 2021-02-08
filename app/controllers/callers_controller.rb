@@ -32,10 +32,6 @@ class CallersController < ApplicationController
     @caller = Caller.find(params[:id])
   end
 
-  def person_params
-    params.require(:person).permit(:title, :first_name, :last_name, :email, :phone)
-  end
-
   def caller_params
     params.require(:caller).permit(:person_id, :pod_id, :active, :experience)
   end
