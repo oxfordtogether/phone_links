@@ -69,6 +69,7 @@ class PeopleController < ApplicationController
     @person = Person.new(person_params.except(:role))
 
     if @person.save
+      SearchCacheRefresh.perform_async
       redirect_to "/people/#{@person.id}/#{@role}/new", notice: "Profile was successfully created."
     else
       @status ||= :start
@@ -83,6 +84,7 @@ class PeopleController < ApplicationController
 
   def update
     if @person.update(person_params)
+      SearchCacheRefresh.perform_async
       redirect_to @person, notice: "Profile was successfully updated."
     else
       render :edit
@@ -100,7 +102,7 @@ class PeopleController < ApplicationController
   def person_params
     params.require(:person).permit(
       :role, :title, :first_name, :last_name, :email, :phone,
-      callee_attributes: %i[id active reason_for_referral living_arrangements other_information additional_needs],
+      callee_attributes: %i[id pod_id active reason_for_referral living_arrangements other_information additional_needs],
       caller_attributes: %i[id pod_id active experience],
       admin_attributes: %i[id active],
       pod_leader_attributes: %i[id active]

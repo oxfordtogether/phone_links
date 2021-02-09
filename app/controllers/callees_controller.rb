@@ -7,22 +7,13 @@ class CalleesController < ApplicationController
   end
 
   def create
-    @callee = Caller.new(callee_params)
+    @callee = Callee.new(callee_params)
 
     if @callee.save
+      SearchCacheRefresh.perform_async
       redirect_to @callee.person, notice: "Callee was successfully created."
     else
       render :new
-    end
-  end
-
-  def edit; end
-
-  def update
-    if @callee.update(callee_params)
-      redirect_to @callee.person, notice: "Caller was successfully updated."
-    else
-      render :edit
     end
   end
 
@@ -33,6 +24,6 @@ class CalleesController < ApplicationController
   end
 
   def callee_params
-    params.require(:callee).permit(:person_id, :active, :reason_for_referral, :living_arrangements, :other_information, :additional_needs)
+    params.require(:callee).permit(:person_id, :pod_id, :active, :reason_for_referral, :living_arrangements, :other_information, :additional_needs)
   end
 end

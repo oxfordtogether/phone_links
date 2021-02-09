@@ -3,6 +3,7 @@ require "rails_helper"
 RSpec.describe "edit person and callee role", type: :system do
   let!(:person) { create(:person) }
   let!(:callee) { create(:callee, person: person) }
+  let!(:pods) { create_list(:pod, 10) }
 
   it "works" do
     login_as nil
@@ -18,6 +19,7 @@ RSpec.describe "edit person and callee role", type: :system do
     expect(find_field("Phone").value).to eq person.phone
 
     expect(find_field("person_callee_attributes_active").checked?).to eq callee.active
+    expect(find_field("person_callee_attributes_pod_id").value).to eq callee.pod.id.to_s
     expect(find_field("person_callee_attributes_reason_for_referral").value).to eq callee.reason_for_referral
     expect(find_field("person_callee_attributes_living_arrangements").value).to eq callee.living_arrangements
     expect(find_field("person_callee_attributes_other_information").value).to eq callee.other_information
@@ -34,6 +36,7 @@ RSpec.describe "edit person and callee role", type: :system do
     fill_in "Living arrangements", with: "living"
     fill_in "Other information", with: "other"
     fill_in "Additional needs", with: "needs"
+    select pods[1].name, from: "Pod"
 
     expect { click_on "Save" }.to change { Person.count }.by(0)
 
@@ -47,9 +50,9 @@ RSpec.describe "edit person and callee role", type: :system do
     expect(person.last_name).to eq("Jones")
     expect(person.email).to eq("bob.jones@gmail.com")
     expect(person.phone).to eq("12345")
-
     expect(person.callee).to eq(callee)
 
+    expect(callee.pod).to eq(pods[1])
     expect(callee.reason_for_referral).to eq("referral")
     expect(callee.living_arrangements).to eq("living")
     expect(callee.other_information).to eq("other")

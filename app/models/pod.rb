@@ -4,6 +4,7 @@ class Pod < ApplicationRecord
 
   has_many :callers
   has_many :callees
+  has_many :matches
   belongs_to :pod_leader, optional: true
 
   scope :with_matches, lambda {

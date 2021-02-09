@@ -138,7 +138,10 @@ CREATE TABLE public.matches (
     caller_id bigint NOT NULL,
     callee_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    pod_id bigint NOT NULL,
+    end_reason character varying,
+    end_reason_notes_ciphertext text
 );
 
 
@@ -446,6 +449,13 @@ CREATE INDEX index_matches_on_caller_id ON public.matches USING btree (caller_id
 
 
 --
+-- Name: index_matches_on_pod_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_matches_on_pod_id ON public.matches USING btree (pod_id);
+
+
+--
 -- Name: index_pod_leaders_on_person_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -532,6 +542,14 @@ ALTER TABLE ONLY public.callers
 
 
 --
+-- Name: matches fk_rails_ae1d288fdb; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.matches
+    ADD CONSTRAINT fk_rails_ae1d288fdb FOREIGN KEY (pod_id) REFERENCES public.pods(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -544,6 +562,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210206134510'),
 ('20210206182028'),
 ('20210208194108'),
-('20210209092549');
+('20210209092549'),
+('20210209171012');
 
 

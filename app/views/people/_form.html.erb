@@ -34,7 +34,7 @@
               <ul class="mt-4">
                 <% @results.each do |result| %>
                   <li class="m-2 bg-white shadow sm:rounded-md">
-                    <div class="px-4 py-4 sm:px-6">
+                    <div class="px-4 py-4 sm:px-6" id="result_person_<%= result.id %>">
                       <div class="flex items-center justify-between">
                         <div class="flex items-center justify-start">
                           <p class="text-sm font-medium text-grey-900 truncate">
@@ -47,8 +47,14 @@
                           </p>
                         </div>
                         <div>
-                          <% if !result.send(role).present? %>
-                            <%= link_to "add #{role} role", "/people/#{result.id.to_s}/#{role}/new", class: "text-sm text-blue-600 text-semibold hover:underline hover:text-blue-700" %>
+                          <% if role == "callee" %>
+                            <% if result.roles == [] %>
+                              <%= link_to "add #{role} role", "/people/#{result.id.to_s}/#{role}/new", class: "text-sm text-blue-600 text-semibold hover:underline hover:text-blue-700" %>
+                            <% end %>
+                          <% else %>
+                            <% if !result.send(role).present? %>
+                              <%= link_to "add #{role} role", "/people/#{result.id.to_s}/#{role}/new", class: "text-sm text-blue-600 text-semibold hover:underline hover:text-blue-700" %>
+                            <% end %>
                           <% end %>
                           <%= link_to "go to profile", "/people/#{result.id.to_s}", class: "ml-2 text-sm text-gray-400 italic hover:underline hover:text-gray-500" %>
                         </div>

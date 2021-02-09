@@ -15,6 +15,7 @@ class AdminsController < ApplicationController
     @admin = Admin.new(admin_params.except(:redirect_on_cancel))
 
     if @admin.save
+      SearchCacheRefresh.perform_async
       redirect_to @admin.person, notice: "Admin was successfully created."
     else
       @redirect_on_cancel || person_path(@admin.person)

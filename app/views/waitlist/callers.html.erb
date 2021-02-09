@@ -33,7 +33,7 @@
         <div class="italic">Not assigned to a pod</div>
       <% end %>
     <% end %>
-    <% tbl.col "Waiting for", classes: "text-right" do |person| %>
+    <% tbl.col "Added", classes: "text-right" do |person| %>
       <%= format_date_as_relative(person.waiting_since) %>
     <% end %>
   <% end %>

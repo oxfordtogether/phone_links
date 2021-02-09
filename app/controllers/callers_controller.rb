@@ -12,6 +12,7 @@ class CallersController < ApplicationController
     @caller = Caller.new(caller_params)
 
     if @caller.save
+      SearchCacheRefresh.perform_async
       redirect_to @caller.person, notice: "Caller was successfully created."
     else
       @redirect_on_cancel ||= person_path(@caller.person)
