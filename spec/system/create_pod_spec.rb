@@ -35,7 +35,7 @@ RSpec.describe "create pod", type: :system do
     expect(pod.pod_leader).to eq(pod_leaders[7])
   end
 
-  it "cancels" do
+  it "redirect back to correct page on cancel" do
     login_as nil
 
     visit "/pods/new"

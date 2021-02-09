@@ -5,12 +5,6 @@ class PodsController < ApplicationController
     @pods = Pod.all
   end
 
-  # /pods/select_for_new_match?redirect_on_cancel=...
-  def select_for_new_match
-    @redirect_on_cancel = params["redirect_on_cancel"] || "/waitlist/provisional_matches"
-    @pods = Pod.all
-  end
-
   def show
     redirect_to matches_pod_path(@pod)
   end

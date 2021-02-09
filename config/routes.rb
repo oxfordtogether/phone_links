@@ -40,8 +40,6 @@ Rails.application.routes.draw do
   resources :callees, only: %i[new create edit update]
   resources :matches, only: %i[show new create edit update]
 
-  get "pods/select_for_new_match", to: "pods#select_for_new_match"
-
   resources :pods, only: %i[show index new create edit update] do
     member do
       get :matches

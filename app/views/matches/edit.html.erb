@@ -10,6 +10,7 @@
 <% end %>
 <%= tailwind_form_with(model: @match, local: true) do |form| %>
   <%= form.section "" do %>
+    <%= form.collection_select :pod_id, Pod.all, :id, :name, label: "Pod", width: :full %>
     <%= form.date_picker :start_date, width: :half %>
     <%= form.date_picker :end_date, width: :half %>
     <%= form.check_box :pending, true, "Provisional" %>

@@ -3,25 +3,23 @@ class MatchesController < ApplicationController
 
   def show; end
 
-  # pod/:id/match/new?redirect_on_cancel=/waitlist/matches
+  # matches/new
   def new
-    @pod = Pod.find(params[:id])
-    @match = Match.new(start_date: Date.today)
-    @redirect_on_cancel = params["redirect_on_cancel"] || pod_path(@pod)
+    pod_id = params[:pod_id]
+    @match = Match.new(start_date: Date.today, pod_id: pod_id)
+    @redirect_on_cancel = params["redirect_on_cancel"] || "/waitlist/provisional_matches"
   end
 
   def edit; end
 
   def create
-    @pod_id = match_params[:pod_id]
     @redirect_on_cancel = match_params[:redirect_on_cancel]
-    @match = Match.new(match_params.except(:pod_id))
+    @match = Match.new(match_params.except(:redirect_on_cancel))
 
     if @match.save
       redirect_to @match, notice: "Match was successfully created."
     else
-      @redirect_on_cancel ||= pod_path(@pod)
-      @pod = Pod.find(@pod_id)
+      @redirect_on_cancel ||= "/waitlist/provisional_matches"
       render :new
     end
   end

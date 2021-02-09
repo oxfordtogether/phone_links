@@ -8,7 +8,7 @@
   <%= render PodHeadComponent.new(pod: @pod) %>
 <% end %>
 <div class="flex justify-end pb-3">
-  <%= button_link_to "New Match", "/pods/#{@pod.id}/match/new" %>
+  <%= button_link_to "New Match", "#{new_match_path}?pod_id=#{@pod.id}&redirect_on_cancel=/pods/#{@pod.id}/matches" %>
 </div>
 <% if @pod.matches.length > 0 %>
   <%= table @pod.matches.sort_by { |m| m.caller.name }, row_url: ->(m) { url_for(m) } do |tbl| %>
