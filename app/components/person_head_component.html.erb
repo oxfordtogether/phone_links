@@ -63,11 +63,6 @@
     <% nav.link "Details", details_person_path(@person) %>
   <% end %>
   <% nav.link "Edit", edit_person_path(@person) %>
-  <% if false %>
-    <% if @person.pod_leader.present? || @person.caller.present? || @person.admin.present? %>
-      <% nav.link "New role", new_role_person_path(@person) %>
-    <% end %>
-  <% end %>
   <% if !@person.callee.present? %>
     <% nav.link "More actions", actions_person_path(@person) %>
   <% end %>

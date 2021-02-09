@@ -1,5 +1,5 @@
 class PeopleController < ApplicationController
-  before_action :set_person, only: %i[show new_role create_role events details actions edit update]
+  before_action :set_person, only: %i[show events details actions edit update]
 
   def show
     if @person.callee.present? || @person.caller.present?
@@ -13,69 +13,29 @@ class PeopleController < ApplicationController
 
   def details; end
 
-  def new_role
-    all_role_options = [{ label: "Caller", value: "caller", disabled: false, selected: false },
-                        { label: "Callee", value: "callee", disabled: false, selected: true },
-                        { label: "Pod leader", value: "pod_leader", disabled: false, selected: false },
-                        { label: "Admin", value: "admin", disabled: false, selected: false }]
-
-    # @role_options = all_role_options.filter { |r| .. }
-    # filter out invalid options
-    @role_options = all_role_options
-
-    @role = case params["role"]
-            when "caller"
-              Caller.new
-            when "callee"
-              Callee.new(y)
-            when "pod_leader"
-              PodLeader.new
-            when "admin"
-              Admin.new
-            else
-              Caller.new
-            end
-  end
-
-  def create_role
-    @role = if params.key?("caller")
-              Caller.new(caller_params)
-            elsif params.key?("callee")
-              Callee.new(callee_params)
-            elsif params.key?("pod_leader")
-              PodLeader.new(pod_leader_params)
-            elsif params.key?("admin")
-              Admin.new(admin_params)
-              # add an else, raise error
-            end
-
-    if @role.save
-      redirect_to @person, notice: "Role was successfully created."
-    else
-      render :new_role
-    end
-  end
-
   def new
     @person = Person.new
     @role = params[:role]
+    @redirect_on_cancel = params[:redirect_on_cancel] || "/" # TO DO: better default
 
     @status ||= :start
     @results ||= []
   end
 
   def create
+    @redirect_on_cancel = person_params[:redirect_on_cancel]
     @role = person_params[:role]
-    @person = Person.new(person_params.except(:role))
+    @person = Person.new(person_params.except(:role, :redirect_on_cancel))
 
     if @person.save
       SearchCacheRefresh.perform_async
       redirect_to "/people/#{@person.id}/#{@role}/new", notice: "Profile was successfully created."
     else
+      @redirect_on_cancel || "/"
+
       @status ||= :start
       @results ||= []
 
-      # after rendering :new, search starts hanging
       render :new
     end
   end
