@@ -15,6 +15,7 @@ class PodLeadersController < ApplicationController
     @pod_leader = PodLeader.new(pod_leader_params.except(:redirect_on_cancel))
 
     if @pod_leader.save
+      SearchCacheRefresh.perform_async
       redirect_to @pod_leader, notice: "Pod Leader was successfully created."
     else
       @redirect_on_cancel || person_path(@pod_leader.person)

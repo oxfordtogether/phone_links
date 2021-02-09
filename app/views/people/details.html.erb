@@ -11,7 +11,7 @@
   <div class="bg-gray-50 px-2 py-1 sm:px-4 sm:py-2">
     <% if @person&.callee %>
       <dl class="m-3 grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-        <div class="sm:col-span-2">
+        <div class="sm:col-span-1">
           <dt class="text-sm font-medium text-gray-500">
             Matched with
           </dt>
@@ -30,6 +30,23 @@
           <% else %>
             <div class="mt-1 text-sm text-gray-900 italic">None</div>
           <% end %>
+        </div>
+        <div class="sm:col-span-1">
+          <dt class="text-sm font-medium text-gray-500">
+            Pod
+          </dt>
+          <dd class="mt-1 text-sm text-gray-900">
+            <% if @person&.callee&.pod %>
+              <%= link_to @person.callee.pod.name, pod_path(@person.callee.pod) %>
+              <% if @person&.callee&.pod&.pod_leader %>
+                (<%= link_to @person.callee.pod.pod_leader.name, person_path(@person.callee.pod.pod_leader.person) %>)
+              <% else %>
+                <div class="italic">(No Pod Leader)</div>
+              <% end %>
+            <% else %>
+              <div class="italic">None</div>
+            <% end %>
+          </dd>
         </div>
       </dl>
       <hr class="border-t border-gray-200 my-5" aria-hidden="true">

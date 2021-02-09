@@ -25,6 +25,11 @@
     <% tbl.col "Dates", classes: "text-right" do |match| %>
       <%= format_date_range(match) %>
     <% end %>
+    <% tbl.col "", classes: "flex justify-end" do |match| %>
+      <% if match.pod_mismatch.present? %>
+        <%= icon('exclamation', class: "h-5 w-5 text-yellow-400") %>
+      <% end %>
+    <% end %>
   <% end %>
 <% else %>
   <div class="flex justify-center text-gray-600">

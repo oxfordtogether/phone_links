@@ -3,6 +3,7 @@ class MatchHeadComponent < ViewComponent::Base
   delegate :role_badge, to: :helpers
   delegate :format_date, to: :helpers
   delegate :format_date_range, to: :helpers
+  delegate :alert, to: :helpers
 
   def initialize(match:)
     @match = match
