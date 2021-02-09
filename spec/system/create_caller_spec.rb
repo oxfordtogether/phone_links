@@ -83,7 +83,9 @@ RSpec.describe "create caller", type: :system do
     click_on "New Caller"
     fill_in "Search", with: "Tim"
     find("a", text: "add caller role").click
+    expect(page).to have_current_path("/people/#{person.id}/caller/new")
+    find("h1", text: "New Caller") # make sure page actually loaded
     click_on "Cancel"
-    expect(page).to have_current_path("/people/#{person.id}/details") # TO DO
+    expect(page).to have_current_path("/people/#{person.id}/events")
   end
 end

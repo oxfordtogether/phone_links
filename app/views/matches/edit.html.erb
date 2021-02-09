@@ -13,6 +13,8 @@
     <%= form.collection_select :pod_id, Pod.all, :id, :name, label: "Pod", width: :full %>
     <%= form.date_picker :start_date, width: :half %>
     <%= form.date_picker :end_date, width: :half %>
+    <%= form.select :end_reason, Match.end_reasons.map {|t| [t.humanize, t]}, width: :half %>
+    <%= form.text_area :end_reason_notes, width: :half %>
     <%= form.check_box :pending, true, "Provisional" %>
   <% end %>
   <%= form.button_section do %>

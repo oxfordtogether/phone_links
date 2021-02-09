@@ -7,7 +7,7 @@
   <%= render AdminHeadComponent.new %>
 <% end %>
 <div class="flex justify-end pb-3">
-  <%= button_link_to "New Admin", "#{new_person_path}?role=admin" %>
+  <%= button_link_to "New Admin", "#{new_person_path}?role=admin&redirect_on_cancel=/admin/admins" %>
 </div>
 <% if @admins.length > 0 %>
   <%= table @admins.sort_by(&:name), row_url: ->(p) { person_path(p.person) } do |tbl| %>

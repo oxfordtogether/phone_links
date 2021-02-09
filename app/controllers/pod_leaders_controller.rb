@@ -16,7 +16,7 @@ class PodLeadersController < ApplicationController
 
     if @pod_leader.save
       SearchCacheRefresh.perform_async
-      redirect_to @pod_leader, notice: "Pod Leader was successfully created."
+      redirect_to @pod_leader.person, notice: "Pod Leader was successfully created."
     else
       @redirect_on_cancel || person_path(@pod_leader.person)
       render :new
@@ -30,6 +30,6 @@ class PodLeadersController < ApplicationController
   end
 
   def pod_leader_params
-    params.require(:pod_leader).permit(:active, :pod_id, :person_id, :redirect_on_cancel)
+    params.require(:pod_leader).permit(:active, :person_id, :redirect_on_cancel)
   end
 end
