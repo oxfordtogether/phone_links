@@ -1,0 +1,28 @@
+<% content_for :page_head do %>
+  <h1 class="text-2xl font-semibold text-gray-900">
+    New Match
+  </h1>
+<% end %>
+<ul class="mt-4">
+  <div class="m-2">Select a pod. Only pods with callees on the waiting list are shown</div>
+  <% @pods.each do |pod| %>
+    <li class="m-2 bg-white shadow sm:rounded-md">
+      <%= link_to "/pods/#{pod.id}/match/new", class: "block hover:bg-gray-50" do %>
+        <div class="px-4 py-4 sm:px-6">
+          <div class="flex items-center justify-center">
+            <p class="flex items-center text-sm text-gray-500">
+              Pod: <%= pod.name %>
+              <% if pod.pod_leader %>
+                (<%= pod.pod_leader.name %>)
+              <% else %>
+                (
+                <div class="italic text-blue-500">Not assigned to a pod leader</div>
+                )
+              <% end %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

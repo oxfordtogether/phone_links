@@ -16,6 +16,15 @@ class Caller < ApplicationRecord
     person.name
   end
 
+  def name_pod_capacity
+    # to do: add capacity
+    if pod
+      "#{person.name} (Pod: #{pod.name})"
+    else
+      "#{person.name} (not assigned to a pod)"
+    end
+  end
+
   def role_description
     :caller
   end

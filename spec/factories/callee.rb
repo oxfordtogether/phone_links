@@ -3,6 +3,7 @@ FactoryBot.define do
     person factory: :person
 
     active { !(rand(10) == 1) }
+    pod { Pod.order("RANDOM()").first || create(:pod) }
 
     reason_for_referral { FFaker::Lorem.phrase }
     living_arrangements { FFaker::Lorem.phrase }

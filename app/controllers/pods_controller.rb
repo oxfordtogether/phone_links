@@ -5,6 +5,10 @@ class PodsController < ApplicationController
     @pods = Pod.all
   end
 
+  def select_for_new_match
+    @pods = Pod.all
+  end
+
   def show
     redirect_to matches_pod_path(@pod)
   end

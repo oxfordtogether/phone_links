@@ -3,18 +3,22 @@ class MatchesController < ApplicationController
 
   def show; end
 
+  # pod/:id/match/new
   def new
+    @pod = Pod.find(params[:id])
     @match = Match.new(start_date: Date.today)
   end
 
   def edit; end
 
   def create
-    @match = Match.new(match_params)
+    @pod_id = match_params[:pod_id]
+    @match = Match.new(match_params.except(:pod_id))
 
     if @match.save
       redirect_to @match, notice: "Match was successfully created."
     else
+      @pod = Pod.find(@pod_id)
       render :new
     end
   end
@@ -34,6 +38,6 @@ class MatchesController < ApplicationController
   end
 
   def match_params
-    params.require(:match).permit(:start_date, :end_date, :caller_id, :callee_id)
+    params.require(:match).permit(:pod_id, :pending, :start_date, :end_date, :caller_id, :callee_id)
   end
 end

@@ -1,12 +1,16 @@
 <% content_for :page_head do %>
   <h1 class="text-2xl font-semibold text-gray-900">
-    New match
+    New Match for Pod <%= @pod.name %>
   </h1>
 <% end %>
+<div>Can't find a caller or callee? Make sure they are assigned to Pod <%= @pod.name %>.</div>
 <%= tailwind_form_with(model: @match, local: true) do |form| %>
   <%= form.section do %>
-    <%= form.autocomplete_field :caller_id, :caller_id, :name, {class: SearchCache, method: :get_callers, limit: 10}, label: "Caller", width: :half, list_item_component: PersonListItemComponent %>
-    <%= form.autocomplete_field :callee_id, :callee_id, :name, {class: SearchCache, method: :get_callees, limit: 10}, label: "Callee", width: :half, list_item_component: PersonListItemComponent %>
+    <%= form.hidden_field :pod_id, value: @pod.id %>
+    <%= form.collection_select :callee_id, Callee.where(pod_id: @pod.id).filter(&:waiting?).sort_by { |c| [c.pod.name, c.person.name] }, :id, :name_and_pod, label: "Callee", width: :half %>
+    <div class="col-span-3">Only showing callees assigned to Pod X that don't have an active match</div>
+    <%= form.collection_select :caller_id, Caller.where(pod_id: @pod.id).sort_by { |c| [c.pod.name, c.person.name] }, :id, :name_pod_capacity, label: "Caller", width: :half %>
+    <div class="col-span-3">Only showing callers assigned to Pod X with capacity</div>
     <%= form.date_picker :start_date, width: :half %>
     <%= form.check_box :pending, true, label: "Provisional", width: :full %>
   <% end %>
