@@ -1,11 +1,11 @@
 <%= tailwind_form_with(model: @pod, local: true) do |form| %>
   <%= form.section do %>
-    <%= form.text_field :name, width: :third %>
+    <%= form.text_field :name, width: :third, required_asterix: true %>
     <%= form.text_field :theme, width: :third %>
-    <%= form.collection_select :pod_leader_id, PodLeader.all.sort_by(&:name), :id, :name, label: "Pod Leader", width: :third %>
+    <%= form.collection_select :pod_leader_id, PodLeader.all.filter { |p| p.pod.nil? || p.pod.id == @pod.id }.sort_by(&:name), :id, :name, label: "Pod Leader", width: :third, info_message: "Dropdown includes pod leaders not already leading to a pod." %>
   <% end %>
   <%= form.button_section do %>
-    <%= form.cancel pods_path %>
+    <%= form.cancel action == :new ? pods_path : matches_pod_path(@pod) %>
     <%= form.submit %>
   <% end %>
 <% end %>

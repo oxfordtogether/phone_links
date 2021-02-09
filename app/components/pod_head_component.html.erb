@@ -7,7 +7,7 @@
     <% if @pod&.pod_leader %>
       <%= link_to @pod.pod_leader.name, person_path(@pod.pod_leader.person) %>
     <% else %>
-      <span class="italic">No-one assigned</span>
+      <span class="text-sm italic">No-one assigned</span>
     <% end %>
   </div>
   <div class="mt-2 sm:mt-2 mr-6 flex items-center text-base text-gray-900">

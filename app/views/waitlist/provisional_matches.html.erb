@@ -8,7 +8,7 @@
   <%= render(WaitlistHeadComponent.new(waiting_callers_count: @waiting_callers_count, waiting_callees_count: @waiting_callees_count, pending_matches_count: @pending_matches_count)) %>
 <% end %>
 <div class="flex justify-end pb-3">
-  <%= button_link_to "New Match", new_match_path %>
+  <%= button_link_to "New Match", "#{pods_select_for_new_match_path}?redirect_on_cancel=/waitlist/provisional_matches" %>
 </div>
 <% if @pending_matches.length > 0 %>
   <%= table @pending_matches.sort_by { |m| m.caller.name }, row_url: ->(m) { url_for(m) } do |tbl| %>

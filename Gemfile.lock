@@ -1,6 +1,6 @@
 GIT
   remote: git@github.com:oxfordtogether/ocl_tools.git
-  revision: ba631dee70ac60fc9abd73dfb18e333373ba9c64
+  revision: 22f9ee31b992ff3109eefd7cd0018f24cb394849
   specs:
     ocl_tools (0.1.0)
       rails (~> 6.0.3, >= 6.0.3.4)

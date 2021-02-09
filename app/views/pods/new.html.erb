@@ -6,4 +6,4 @@
 <% content_for :page_head do %>
   <%= render PodsHeadComponent.new %>
 <% end %>
-<%= render 'form', pod: @pod %>
+<%= render 'form', pod: @pod, action: :new %>

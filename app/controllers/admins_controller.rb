@@ -7,14 +7,17 @@ class AdminsController < ApplicationController
 
   def new
     @admin = Admin.new(person_id: params[:id])
+    @redirect_on_cancel = params[:redirect_on_cancel] || person_path(@admin.person)
   end
 
   def create
-    @admin = Admin.new(admin_params)
+    @redirect_on_cancel = admin_params[:redirect_on_cancel]
+    @admin = Admin.new(admin_params.except(:redirect_on_cancel))
 
     if @admin.save
       redirect_to @admin.person, notice: "Admin was successfully created."
     else
+      @redirect_on_cancel || person_path(@admin.person)
       render :new
     end
   end
@@ -26,6 +29,6 @@ class AdminsController < ApplicationController
   end
 
   def admin_params
-    params.require(:admin).permit(:active, :person_id)
+    params.require(:admin).permit(:active, :person_id, :redirect_on_cancel)
   end
 end

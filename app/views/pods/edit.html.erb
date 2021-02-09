@@ -7,4 +7,4 @@
 <% content_for :page_head do %>
   <%= render PodHeadComponent.new(pod: @pod) %>
 <% end %>
-<%= render 'form', pod: @pod %>
+<%= render 'form', pod: @pod, action: :edit %>

@@ -1,11 +1,12 @@
 <%= tailwind_form_with(model: @pod_leader, local: true) do |form| %>
   <%= form.section do %>
+    <%= form.hidden_field :redirect_on_cancel, value: @redirect_on_cancel %>
     <%= form.hidden_field :person_id, value: @pod_leader.person.id %>
     <%= form.collection_select :pod_id, Pod.where(pod_leader: nil).all, :id, :name, label: "Pod", width: :third %>
     <%= form.check_box :active, true, label: "Active", width: :third %>
   <% end %>
   <%= form.button_section do %>
-    <%= form.cancel '#' %>
+    <%= form.cancel @redirect_on_cancel %>
     <%= form.submit %>
   <% end %>
 <% end %>

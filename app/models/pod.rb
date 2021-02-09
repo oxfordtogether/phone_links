@@ -16,4 +16,8 @@ class Pod < ApplicationRecord
   def active_matches
     callers.map { |c| c.active_matches }.flatten
   end
+
+  def matches
+    callers.map { |c| c.matches }.flatten
+  end
 end

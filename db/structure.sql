@@ -456,7 +456,7 @@ CREATE INDEX index_pod_leaders_on_person_id ON public.pod_leaders USING btree (p
 -- Name: index_pods_on_pod_leader_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_pods_on_pod_leader_id ON public.pods USING btree (pod_leader_id);
+CREATE UNIQUE INDEX index_pods_on_pod_leader_id ON public.pods USING btree (pod_leader_id);
 
 
 --
@@ -543,6 +543,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210205174703'),
 ('20210206134510'),
 ('20210206182028'),
-('20210208194108');
+('20210208194108'),
+('20210209092549');
 
 

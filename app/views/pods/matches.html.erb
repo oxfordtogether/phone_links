@@ -7,10 +7,20 @@
 <% content_for :page_head do %>
   <%= render PodHeadComponent.new(pod: @pod) %>
 <% end %>
-<% if @pod.active_matches.length > 0 %>
-  <%= table @pod.active_matches.sort_by { |m| m.caller.name }, row_url: ->(m) { url_for(m) } do |tbl| %>
+<div class="flex justify-end pb-3">
+  <%= button_link_to "New Match", "/pods/#{@pod.id}/match/new" %>
+</div>
+<% if @pod.matches.length > 0 %>
+  <%= table @pod.matches.sort_by { |m| m.caller.name }, row_url: ->(m) { url_for(m) } do |tbl| %>
     <% tbl.col "Caller - Callee" do |match| %>
       <%= match.caller.name %> - <%= match.callee.name %>
+      <% if match.pending %>
+        <span class="italic text-blue-500">(provisional)</div>
+      <% elsif match.active? %>
+        <span class="italic text-green-500">(active)</div>
+      <% else %>
+        <span class="italic">(ended)</div>
+      <% end %>
     <% end %>
     <% tbl.col "Dates", classes: "text-right" do |match| %>
       <%= format_date_range(match) %>
@@ -18,6 +28,6 @@
   <% end %>
 <% else %>
   <div class="flex justify-center text-gray-600">
-    No matches have been added to this pod yet :(
+    Add some matches to this pod!
   </div>
 <% end %>

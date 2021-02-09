@@ -1,6 +1,10 @@
 class Person < ApplicationRecord
   validates :first_name, :last_name, presence: { message: "This field is required" }
 
+  def self.titles
+    %w[MR MRS MISS MS MX DR PROFESSOR]
+  end
+
   has_one :callee
   has_one :caller
   has_one :pod_leader

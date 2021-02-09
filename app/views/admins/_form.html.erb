@@ -4,7 +4,7 @@
     <%= form.check_box :active, true, label: "Active", width: :third %>
   <% end %>
   <%= form.button_section do %>
-    <%= form.cancel '#' %>
+    <%= form.cancel @redirect_on_cancel %>
     <%= form.submit %>
   <% end %>
 <% end %>
