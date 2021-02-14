@@ -10,10 +10,10 @@
 <%= tailwind_form_with(model: @person, local: true) do |form| %>
   <%= form.section "Name and Contact Information" do %>
     <%= form.select :title, Person.titles.map {|t| [t.humanize, t]}, width: :third %>
-    <%= form.text_field :first_name, width: :third %>
-    <%= form.text_field :last_name, width: :third %>
+    <%= form.text_field :first_name, width: :third, required_asterix: true %>
+    <%= form.text_field :last_name, width: :third, required_asterix: true %>
     <%= form.text_field :phone, width: :half %>
-    <%= form.text_field :email, width: :half %>
+    <%= form.text_field :email, width: :half, required_asterix: true %>
   <% end %>
   <% if @person.callee.present? %>
     <div class="mt-10">

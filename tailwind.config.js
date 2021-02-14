@@ -1,7 +1,7 @@
 module.exports = {
-  purge: {
-    content: ["./app/**/*.html.erb", "./app/components/*", "./app/helpers/*"],
-  },
+  // purge: {
+  //   content: ["./app/**/*.html.erb", "./app/components/*", "./app/helpers/*"],
+  // },
   darkMode: false,
   theme: {
     extend: {},
