@@ -79,3 +79,6 @@ gem "ocl_tools", git: "https://github.com/oxfordtogether/ocl_tools.git"
 gem "auth0"
 gem "omniauth-auth0", "~> 2.2"
 gem "omniauth-rails_csrf_protection", "~> 0.1"
+
+gem "hiredis"
+gem "redis"
