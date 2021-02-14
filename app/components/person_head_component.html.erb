@@ -1,7 +1,7 @@
 <div class="sm:flex sm:justify-between">
   <div>
     <h1 class="text-2xl font-semibold text-gray-900">
-      <%= Person.titles.present? ? "#{@person.title.humanize} " : "" %><%= @person.name %>
+      <%= @person&.title.present? ? "#{@person.title.humanize} " : "" %><%= @person.name %>
       <% @person.roles.each do |role| %>
         <%= role_badge(role) %>
       <% end %>
