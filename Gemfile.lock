@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:oxfordtogether/ocl_tools.git
+  remote: https://github.com/oxfordtogether/ocl_tools.git
   revision: 22f9ee31b992ff3109eefd7cd0018f24cb394849
   specs:
     ocl_tools (0.1.0)
