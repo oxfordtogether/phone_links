@@ -13,7 +13,7 @@ module Secured
       return
     end
 
-    redirect_to("/invalid_permissions", turbolinks: false) unless session["admin_id"].present?
+    redirect_to("/invalid_permissions", turbolinks: false) unless session[:admin_id].present?
   end
 
   def auth0_user
