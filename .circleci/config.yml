@@ -27,6 +27,7 @@ jobs:
       # - run: bundle clean --force # see https://circleci.com/docs/2.0/caching/#bundler-ruby
 
       # Bundle install dependencies
+      - run: gem install bundler -v 2.2.1
       - run: bundle install --path vendor/bundle
 
       # Store bundle cache
