@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "create match", type: :system do
   let!(:callers) { create_list(:caller, 10) }
-  let!(:callees) { create_list(:callee, 10) }
+  let!(:callees) { create_list(:callee, 10, active: true) }
   let!(:pods) { create_list(:pod, 10) }
 
   it "works from waitlist page" do
