@@ -6,9 +6,9 @@ class Auth0Controller < ApplicationController
     # and the IdP
     session[:userinfo] = request.env["omniauth.auth"]
 
-    # This may need to be configured depending on use case
     person = Person.where(auth0_id: session[:userinfo]["uid"]).first
     session[:person_id] = person.id if person
+    session[:admin_id] = person.admin.id if person&.admin&.active
 
     # Redirect to the URL you want after successful auth
     redirect_to "/"

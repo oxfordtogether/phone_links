@@ -1,0 +1,78 @@
+version: 2
+jobs:
+  build:
+    parallelism: 1
+    docker:
+      # this is important to use proper image with browsers support
+      - image: circleci/ruby:2.6.6-node-browsers
+        environment:
+          PGHOST: 127.0.0.1
+          PGUSER: postgres
+          RAILS_ENV: test
+      - image: circleci/postgres:11.6-alpine
+        environment:
+          POSTGRES_DB: oxford_hub_phone_links_test
+          POSTGRES_PASSWORD: ""
+          POSTGRES_USER: postgres
+      - image: redis:3.2.7
+    steps:
+      - checkout
+
+      # Restore bundle cache
+      - restore_cache:
+          keys:
+            - gem-cache-v2-{{ checksum "Gemfile.lock" }}
+            - gem-cache-v2-
+
+      # - run: bundle clean --force # see https://circleci.com/docs/2.0/caching/#bundler-ruby
+
+      # Bundle install dependencies
+      - run: bundle install --path vendor/bundle
+
+      # Store bundle cache
+      - save_cache:
+          key: gem-cache-v2-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+      - restore_cache:
+          keys:
+            # when lock file changes, use increasingly general patterns to restore cache
+            - yarn-cache-v2-{{ checksum "yarn.lock" }}
+            - yarn-cache-v2-
+
+      - run: yarn
+
+      - save_cache:
+          paths:
+            - ~/.cache/yarn
+          key: yarn-cache-v2-{{ checksum "yarn.lock" }}
+
+      # Get psql
+      - run: sudo apt-get update && sudo apt install -y postgresql-client
+      - run: which psql
+
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      # Database setup
+      - run:
+          name: Database setup
+          command: bin/rails db:structure:load --trace
+
+      # Run rspec in parallel
+      - type: shell
+        command: |
+          bundle exec rspec --profile 10 \
+                            --format RspecJunitFormatter \
+                            --out /tmp/test-results/rspec.xml \
+                            --format progress
+
+      # Save results
+      - type: store_test_results
+        path: /tmp/results
+
+      # Save artifacts
+      - type: store_artifacts
+        path: ./tmp/screenshots

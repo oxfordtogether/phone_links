@@ -13,18 +13,7 @@ module Secured
       return
     end
 
-    # TO DO
-    # app_metadata = session[:userinfo][:extra]["raw_info"]["https://oxfordtogether.org/claims/app_metadata"]
-    # has_tenant = if app_metadata
-    #                app_metadata["authorization"]["tenants"].include?("...app-tenant...")
-    #              else
-    #                false
-    #              end
-
-    permissions = session[:userinfo]["extra"]["raw_info"]["https://oxfordtogether.org/claims/permissions"]
-    has_permissions = permissions.include?("access:oxford-hub-phone-links")
-
-    redirect_to("/invalid_permissions", turbolinks: false) unless has_permissions
+    redirect_to("/invalid_permissions", turbolinks: false) unless session[:admin_id].present?
   end
 
   def auth0_user
