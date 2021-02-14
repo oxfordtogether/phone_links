@@ -23,7 +23,7 @@ RSpec.describe "create match", type: :system do
     end.to change { Match.count }.by(1)
 
     match = Match.last
-    expect(match.pod).to eq(pods[1])
+    expect(match.pod.id).to eq(pods[1].id)
     expect(match.caller).to eq(callers[5])
     expect(match.callee).to eq(callees[5])
     expect(match.start_date.strftime("%Y-%m-%d")).to eq("2020-01-01")
@@ -48,7 +48,7 @@ RSpec.describe "create match", type: :system do
     end.to change { Match.count }.by(1)
 
     match = Match.last
-    expect(match.pod).to eq(pods[1])
+    expect(match.pod.id).to eq(pods[1].id)
     expect(match.caller).to eq(callers[5])
     expect(match.callee).to eq(callees[5])
     expect(match.start_date.strftime("%Y-%m-%d")).to eq("2020-01-01")

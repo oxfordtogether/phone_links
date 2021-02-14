@@ -31,7 +31,7 @@ RSpec.describe "edit match", type: :system do
 
     expect(page).to have_current_path("/matches/#{match.id}")
 
-    expect(match.pod).to eq(pods[1])
+    expect(match.pod.id).to eq(pods[1].id)
     expect(match.end_reason).to eq("NOT_A_FIT")
     expect(match.end_reason_notes).to eq("didn't work")
     expect(match.start_date.strftime("%Y-%m-%d")).to eq("2020-01-01")

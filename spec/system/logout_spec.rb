@@ -1,8 +1,18 @@
 require "rails_helper"
 
 RSpec.describe "logout", type: :system do
+  let!(:admin) { create(:admin) }
+
+  before do
+    ENV["BYPASS_AUTH"] = "false"
+  end
+
+  after do
+    ENV["BYPASS_AUTH"] = "true"
+  end
+
   it "works" do
-    login_as nil
+    login_as admin.person
 
     visit "/"
 
