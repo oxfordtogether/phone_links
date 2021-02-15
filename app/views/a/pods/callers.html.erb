@@ -11,6 +11,9 @@
   <%= table @callers.sort_by { |c| c.name }, row_url: ->(c) { a_person_path(c.person) } do |tbl| %>
     <% tbl.col "Caller" do |caller| %>
       <%= caller.name %>
+      <% if !caller.active %>
+        <span class="italic text-red-500">(not active)</div>
+      <% end %>
     <% end %>
     <% tbl.col "Active match(es)" do |caller| %>
       <% if caller.active_matches.present? %>

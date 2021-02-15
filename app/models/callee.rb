@@ -36,7 +36,7 @@ class Callee < ApplicationRecord
   end
 
   def waiting?
-    active? && !active_matches.present?
+    active && !active_matches.present?
   end
 
   def waiting_since
