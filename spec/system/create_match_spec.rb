@@ -8,7 +8,7 @@ RSpec.describe "create match", type: :system do
   it "works from waitlist page" do
     login_as nil
 
-    visit "/waitlist/provisional_matches"
+    visit "/a/waitlist/provisional_matches"
     click_on "New Match"
 
     select pods[1].name, from: "Pod"
@@ -33,7 +33,7 @@ RSpec.describe "create match", type: :system do
   it "works from pod page" do
     login_as nil
 
-    visit "/pods/#{pods[1].id}/matches"
+    visit "/a/pods/#{pods[1].id}/matches"
     click_on "New Match"
 
     expect(find_field("match_pod_id").value).to eq pods[1].id.to_s
@@ -58,14 +58,14 @@ RSpec.describe "create match", type: :system do
   it "redirect back to correct page on cancel" do
     login_as nil
 
-    visit "/pods/#{pods[1].id}/matches"
+    visit "/a/pods/#{pods[1].id}/matches"
     click_on "New Match"
     click_on "Cancel"
-    expect(page).to have_current_path("/pods/#{pods[1].id}/matches")
+    expect(page).to have_current_path("/a/pods/#{pods[1].id}/matches")
 
-    visit "/waitlist/provisional_matches"
+    visit "/a/waitlist/provisional_matches"
     click_on "New Match"
     click_on "Cancel"
-    expect(page).to have_current_path("/waitlist/provisional_matches")
+    expect(page).to have_current_path("/a/waitlist/provisional_matches")
   end
 end

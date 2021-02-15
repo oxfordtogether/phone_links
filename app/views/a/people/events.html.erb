@@ -1,0 +1,9 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "People", a_search_path %>
+    <% list.link @person.name, a_person_path(@person) %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <%= render(PersonHeadComponent.new(person: @person)) %>
+<% end %>

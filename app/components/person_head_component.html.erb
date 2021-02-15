@@ -37,7 +37,7 @@
       Matched with
       <% @person.callee.active_matches.each_with_index do |match, index| %>
         <span>
-          <%= link_to match.caller.name, url_for(match.caller.person), class: "text-gray-900 hover:text-blue-800 hover:underline" %> since <%= match.start_date %>
+          <%= link_to match.caller.name, a_person_path(match.caller.person), class: "text-gray-900 hover:text-blue-800 hover:underline" %> since <%= match.start_date %>
           <% if @person.callee.active_matches.size - 1 != index %>, <% end %>
         </span>
       <% end %>
@@ -48,7 +48,7 @@
       Matched with
       <% @person.caller.active_matches.each_with_index do |match, index| %>
         <span>
-          <%= link_to match.callee.name, url_for(match.callee.person), class: "text-gray-900 hover:text-blue-800 hover:underline" %> since <%= match.start_date %>
+          <%= link_to match.callee.name, a_person_path(match.callee.person), class: "text-gray-900 hover:text-blue-800 hover:underline" %> since <%= match.start_date %>
           <% if @person.caller.active_matches.size - 1 != index %>, <% end %>
         </span>
       <% end %>
@@ -59,7 +59,7 @@
       Pod leader of
       <% @person.pod_leader.pods.each_with_index do |pod, index| %>
         <span>
-          <%= link_to pod.name, url_for(pod), class: "text-gray-900 hover:text-blue-800 hover:underline" %>
+          <%= link_to pod.name, a_pod_path(pod), class: "text-gray-900 hover:text-blue-800 hover:underline" %>
           <% if @person.pod_leader.pods.size - 1 != index %>, <% end %>
         </span>
       <% end %>
@@ -67,12 +67,12 @@
   <% end %>
 <% end %>
 <%= nav_tabs do |nav| %>
-  <% nav.link "Events", events_person_path(@person) %>
+  <% nav.link "Events", events_a_person_path(@person) %>
   <% if @person.caller.present? || @person.callee.present? %>
-    <% nav.link "Details", details_person_path(@person) %>
+    <% nav.link "Details", details_a_person_path(@person) %>
   <% end %>
-  <% nav.link "Edit", edit_person_path(@person) %>
+  <% nav.link "Edit", edit_a_person_path(@person) %>
   <% if !@person.callee.present? %>
-    <% nav.link "More actions", actions_person_path(@person) %>
+    <% nav.link "More actions", actions_a_person_path(@person) %>
   <% end %>
 <% end %>

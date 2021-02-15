@@ -15,9 +15,9 @@ RSpec.describe "edit person and role", type: :system do
   it "works" do
     login_as nil
 
-    visit "/people/#{person.id}"
+    visit "/a/people/#{person.id}"
     click_on "Edit"
-    expect(page).to have_current_path("/people/#{person.id}/edit")
+    expect(page).to have_current_path("/a/people/#{person.id}/edit")
 
     expect(find_field("Title").value).to eq person.title
     expect(find_field("First name").value).to eq person.first_name
@@ -45,7 +45,7 @@ RSpec.describe "edit person and role", type: :system do
 
     expect { click_on "Save" }.to change { Person.count }.by(0)
 
-    expect(page).to have_current_path("/people/#{person.id}/details")
+    expect(page).to have_current_path("/a/people/#{person.id}/details")
 
     person.reload
     admin.reload

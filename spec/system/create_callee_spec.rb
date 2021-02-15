@@ -14,9 +14,9 @@ RSpec.describe "create callee", type: :system do
   it "creates new person and callee role" do
     login_as nil
 
-    visit "/waitlist/callees"
+    visit "/a/waitlist/callees"
     click_on "New Callee"
-    expect(page).to have_current_path("/people/new?role=callee")
+    expect(page).to have_current_path("/a/people/new?role=callee")
 
     select "Mx", from: "Title"
     fill_in "First name", with: "Bob"
@@ -27,7 +27,7 @@ RSpec.describe "create callee", type: :system do
     expect { click_on "Next" }.to change { Person.count }.by(1)
     person = Person.last
 
-    expect(page).to have_current_path("/people/#{person.id}/callee/new")
+    expect(page).to have_current_path("/a/people/#{person.id}/callee/new")
 
     select pods[1].name, from: "Pod"
     fill_in "Reason for referral", with: "referral"
@@ -39,7 +39,7 @@ RSpec.describe "create callee", type: :system do
     expect { click_on "Save" }.to change { Callee.count }.by(1)
     callee = Callee.last
 
-    expect(page).to have_current_path("/people/#{person.id}/details")
+    expect(page).to have_current_path("/a/people/#{person.id}/details")
 
     person.reload
     expect(person.title).to eq("MX")
@@ -60,7 +60,7 @@ RSpec.describe "create callee", type: :system do
   it "creates new callee for existing person" do
     login_as nil
 
-    visit "/people/new?role=callee"
+    visit "/a/people/new?role=callee"
 
     fill_in "Search", with: "Tim"
 
@@ -71,20 +71,20 @@ RSpec.describe "create callee", type: :system do
     expect(person_result).to have_link("add callee role")
 
     find("a", text: "add callee role").click
-    expect(page).to have_current_path("/people/#{person.id}/callee/new")
+    expect(page).to have_current_path("/a/people/#{person.id}/callee/new")
 
     expect { click_on "Save" }.to change { Callee.count }.by(1)
 
-    expect(page).to have_current_path("/people/#{person.id}/details")
+    expect(page).to have_current_path("/a/people/#{person.id}/details")
   end
 
   it "links to person profile" do
     login_as nil
 
-    visit "/people/new?role=callee"
+    visit "/a/people/new?role=callee"
 
     fill_in "Search", with: "Tim"
     first("a", text: "go to profile").click
-    expect(page).to have_current_path("/people/#{person.id}/events")
+    expect(page).to have_current_path("/a/people/#{person.id}/events")
   end
 end

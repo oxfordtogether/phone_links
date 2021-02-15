@@ -1,0 +1,65 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "People", a_search_path %>
+    <% list.link @person.name, a_person_path(@person) %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <%= render(PersonHeadComponent.new(person: @person)) %>
+<% end %>
+<%= tailwind_form_with(model: [:a, @person], local: true) do |form| %>
+  <%= form.section "Name and Contact Information" do %>
+    <%= form.select :title, Person.titles.map {|t| [t.humanize, t]}, width: :third %>
+    <%= form.text_field :first_name, width: :third, required_asterix: true %>
+    <%= form.text_field :last_name, width: :third, required_asterix: true %>
+    <%= form.text_field :phone, width: :half %>
+    <%= form.text_field :email, width: :half, required_asterix: true %>
+  <% end %>
+  <% if @person.callee.present? %>
+    <div class="mt-10">
+      <%= form.fields_for :callee do |callee_fields| %>
+        <%= callee_fields.section "More about Callee" do %>
+          <%= callee_fields.collection_select :pod_id, Pod.all, :id, :name, label: "Pod", width: :full %>
+          <%= callee_fields.text_area :reason_for_referral, width: :full %>
+          <%= callee_fields.text_area :living_arrangements, width: :full %>
+          <%= callee_fields.text_area :other_information, width: :full %>
+          <%= callee_fields.text_area :additional_needs, width: :full %>
+          <%= callee_fields.check_box :active, true, label: "Active", width: :full %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+  <% if @person.pod_leader.present? %>
+    <div class="mt-10">
+      <%= form.fields_for :pod_leader do |pod_leader_fields| %>
+        <%= pod_leader_fields.section "Pod Leader Role" do %>
+          <%= pod_leader_fields.check_box :active, true, label: "Active", width: :full %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+  <% if @person.admin.present? %>
+    <div class="mt-10">
+      <%= form.fields_for :admin do |admin_fields| %>
+        <%= admin_fields.section "Admin Role" do %>
+          <%= admin_fields.check_box :active, true, label: "Active", width: :full %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+  <% if @person.caller.present? %>
+    <div class="mt-10">
+      <%= form.fields_for :caller do |caller_fields| %>
+        <%= caller_fields.section "Caller Role" do %>
+          <%= caller_fields.collection_select :pod_id, Pod.all, :id, :name, label: "Pod", width: :half %>
+          <%= caller_fields.text_area :experience, width: :full %>
+          <%= caller_fields.check_box :active, true, label: "Active", width: :full %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+  <%= form.button_section do %>
+    <%= form.cancel details_a_person_path(@person) %>
+    <%= form.submit "Save" %>
+  <% end %>
+<% end %>

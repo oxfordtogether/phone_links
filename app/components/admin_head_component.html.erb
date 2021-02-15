@@ -5,7 +5,7 @@
   <%= alert(title: "TO DO", info: "Account management") %>
 </div>
 <%= nav_tabs do |nav| %>
-  <% nav.link "Admins", "/admin/admins" %>
-  <% nav.link "Pod Leaders", "/admin/pod_leaders" %>
-  <% nav.link "Callers", "/admin/callers" %>
+  <% nav.link "Admins", a_admin_admins_path %>
+  <% nav.link "Pod Leaders", a_admin_pod_leaders_path %>
+  <% nav.link "Callers", a_admin_callers_path %>
 <% end %>

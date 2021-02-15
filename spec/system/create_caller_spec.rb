@@ -11,9 +11,9 @@ RSpec.describe "create caller", type: :system do
   it "creates new person and caller role" do
     login_as nil
 
-    visit "/waitlist/callers"
+    visit "/a/waitlist/callers"
     click_on "New Caller"
-    expect(page).to have_current_path("/people/new?role=caller&redirect_on_cancel=/waitlist/callers")
+    expect(page).to have_current_path("/a/people/new?role=caller&redirect_on_cancel=/a/waitlist/callers")
 
     select "Mx", from: "Title"
     fill_in "First name", with: "Bob"
@@ -24,7 +24,7 @@ RSpec.describe "create caller", type: :system do
     expect { click_on "Next" }.to change { Person.count }.by(1)
     person = Person.last
 
-    expect(page).to have_current_path("/people/#{person.id}/caller/new")
+    expect(page).to have_current_path("/a/people/#{person.id}/caller/new")
 
     select pods[1].name, from: "Pod"
     fill_in "Experience", with: "experience"
@@ -33,7 +33,7 @@ RSpec.describe "create caller", type: :system do
     expect { click_on "Save" }.to change { Caller.count }.by(1)
     caller = Caller.last
 
-    expect(page).to have_current_path("/people/#{person.id}/details")
+    expect(page).to have_current_path("/a/people/#{person.id}/details")
 
     person.reload
     expect(person.title).to eq("MX")
@@ -50,42 +50,42 @@ RSpec.describe "create caller", type: :system do
   it "creates new caller for existing person" do
     login_as nil
 
-    visit "/people/new?role=caller"
+    visit "/a/people/new?role=caller"
 
     fill_in "Search", with: "Tim"
     find("a", text: "add caller role").click
-    expect(page).to have_current_path("/people/#{person.id}/caller/new")
+    expect(page).to have_current_path("/a/people/#{person.id}/caller/new")
 
     expect { click_on "Save" }.to change { Caller.count }.by(1)
 
-    expect(page).to have_current_path("/people/#{person.id}/details")
+    expect(page).to have_current_path("/a/people/#{person.id}/details")
   end
 
   it "links to person profile" do
     login_as nil
 
-    visit "/people/new?role=caller"
+    visit "/a/people/new?role=caller"
 
     fill_in "Search", with: "Tim"
     find("a", text: "go to profile").click
-    expect(page).to have_current_path("/people/#{person.id}/events")
+    expect(page).to have_current_path("/a/people/#{person.id}/events")
   end
 
   it "redirect back to correct page on cancel" do
     login_as nil
 
-    visit "/waitlist/callers"
+    visit "/a/waitlist/callers"
     click_on "New Caller"
     click_on "Cancel"
-    expect(page).to have_current_path("/waitlist/callers")
+    expect(page).to have_current_path("/a/waitlist/callers")
 
-    visit "/waitlist/callers"
+    visit "/a/waitlist/callers"
     click_on "New Caller"
     fill_in "Search", with: "Tim"
     find("a", text: "add caller role").click
-    expect(page).to have_current_path("/people/#{person.id}/caller/new")
+    expect(page).to have_current_path("/a/people/#{person.id}/caller/new")
     find("h1", text: "New Caller") # make sure page actually loaded
     click_on "Cancel"
-    expect(page).to have_current_path("/people/#{person.id}/events")
+    expect(page).to have_current_path("/a/people/#{person.id}/events")
   end
 end

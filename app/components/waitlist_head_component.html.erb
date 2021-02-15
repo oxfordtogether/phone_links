@@ -2,7 +2,7 @@
   Waiting List
 </h1>
 <%= nav_tabs do |nav| %>
-  <% nav.link "Callers (#{@waiting_callers_count})", waitlist_callers_path %>
-  <% nav.link "Callees (#{@waiting_callees_count})", waitlist_callees_path %>
-  <% nav.link "Provisional Matches (#{@pending_matches_count})", waitlist_provisional_matches_path %>
+  <% nav.link "Callers (#{@waiting_callers_count})", a_waitlist_callers_path %>
+  <% nav.link "Callees (#{@waiting_callees_count})", a_waitlist_callees_path %>
+  <% nav.link "Provisional Matches (#{@pending_matches_count})", a_waitlist_provisional_matches_path %>
 <% end %>

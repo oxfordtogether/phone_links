@@ -48,16 +48,16 @@
         </div>
         <nav class="mt-5 px-2 space-y-1">
           <div class="px-2 space-y-1">
-            <%= render(SidebarLinkComponent.new(name: "Search", url: "/search", icon: "search")) %>
+            <%= render(SidebarLinkComponent.new(name: "Search", url: a_search_path, icon: "search")) %>
           </div>
           <div class="my-4" aria-hidden="true"></div>
           <div class="px-2 space-y-1">
-            <%= render(SidebarLinkComponent.new(name: "Home", url: "/", icon: "heroicon-home-unfilled")) %>
-            <%= render(SidebarLinkComponent.new(name: "Pods", url: "/pods", icon: 'phone')) %>
-            <%= render(SidebarLinkComponent.new(name: "Waiting List", url: "/waitlist", icon: 'watch')) %>
-            <%= render(SidebarLinkComponent.new(name: "Referrals (TO DO)", url: "/referrals", icon: 'heroicon-document-text-small')) %>
-            <%= render(SidebarLinkComponent.new(name: "Applicants (TO DO)", url: "/applicants", icon: 'user-group')) %>
-            <%= render(SidebarLinkComponent.new(name: "Admin", url: "/admin", icon: 'person-badge')) %>
+            <%= render(SidebarLinkComponent.new(name: "Home", url: a_path, icon: "heroicon-home-unfilled")) %>
+            <%= render(SidebarLinkComponent.new(name: "Pods", url: a_pods_path, icon: 'phone')) %>
+            <%= render(SidebarLinkComponent.new(name: "Waiting List", url: a_waitlist_path, icon: 'watch')) %>
+            <%= render(SidebarLinkComponent.new(name: "Referrals (TO DO)", url: "/", icon: 'heroicon-document-text-small')) %>
+            <%= render(SidebarLinkComponent.new(name: "Applicants (TO DO)", url: "/", icon: 'user-group')) %>
+            <%= render(SidebarLinkComponent.new(name: "Admin", url: a_admin_path, icon: 'person-badge')) %>
           </div>
           <% if false %>
             <hr class="border-t border-gray-700 my-5" aria-hidden="true">
@@ -68,7 +68,7 @@
           <hr class="border-t border-gray-700 my-5" aria-hidden="true">
           <div class="px-2 space-y-1">
             <!-- <%= render(SidebarLinkComponent.new(name: "Profile", url: "/profile", icon: 'person-badge')) %> -->
-            <%= render(SidebarLinkComponent.new(name: "Support", url: "/support", icon: 'question-mark-circle')) %>
+            <%= render(SidebarLinkComponent.new(name: "Support", url: a_support_path, icon: 'question-mark-circle')) %>
           </div>
         </nav>
         <%= link_to logout_path, data: { turbolinks: false }, class: "ml-3 text-gray-300 hover:text-white items-center px-2 py-2 text-base font-medium" do %>
@@ -107,27 +107,27 @@
         </div>
         <nav class="mt-7 flex-1 bg-gray-800">
           <div class="px-2 space-y-1">
-            <%= render(SidebarLinkComponent.new(name: "Search", url: "/search", icon: "search")) %>
+            <%= render(SidebarLinkComponent.new(name: "Search", url: a_search_path, icon: "search")) %>
           </div>
           <div class="my-4" aria-hidden="true"></div>
           <div class="px-2 space-y-1">
-            <%= render(SidebarLinkComponent.new(name: "Home", url: "/", icon: "heroicon-home-unfilled")) %>
-            <%= render(SidebarLinkComponent.new(name: "Pods", url: "/pods", icon: 'phone')) %>
-            <%= render(SidebarLinkComponent.new(name: "Waiting list", url: "/waitlist", icon: 'watch')) %>
-            <%= render(SidebarLinkComponent.new(name: "Referrals (TO DO)", url: "/referrals", icon: 'heroicon-document-text-small')) %>
-            <%= render(SidebarLinkComponent.new(name: "Applicants (TO DO)", url: "/applicants", icon: 'user-group')) %>
-            <%= render(SidebarLinkComponent.new(name: "Admin", url: "/admin", icon: 'person-badge')) %>
+            <%= render(SidebarLinkComponent.new(name: "Home", url: a_path, icon: "heroicon-home-unfilled")) %>
+            <%= render(SidebarLinkComponent.new(name: "Pods", url: a_pods_path, icon: 'phone')) %>
+            <%= render(SidebarLinkComponent.new(name: "Waiting list", url: a_waitlist_path, icon: 'watch')) %>
+            <%= render(SidebarLinkComponent.new(name: "Referrals (TO DO)", url: "/", icon: 'heroicon-document-text-small')) %>
+            <%= render(SidebarLinkComponent.new(name: "Applicants (TO DO)", url: "/", icon: 'user-group')) %>
+            <%= render(SidebarLinkComponent.new(name: "Admin", url: a_admin_path, icon: 'person-badge')) %>
           </div>
           <% if false %>
             <hr class="border-t border-gray-700 my-5" aria-hidden="true">
             <div class="px-2 space-y-1">
-              <%= render(SidebarLinkComponent.new(name: "Call Summaries", url: "/form_responses", icon: 'file-text')) %>
+              <%= render(SidebarLinkComponent.new(name: "Call Summaries", url: "/", icon: 'file-text')) %>
             </div>
           <% end %>
           <hr class="border-t border-gray-700 my-5" aria-hidden="true">
           <div class="px-2 space-y-1">
             <!-- <%= render(SidebarLinkComponent.new(name: "Profile", url: "/profile", icon: 'person-badge')) %> -->
-            <%= render(SidebarLinkComponent.new(name: "Support", url: "/support", icon: 'question-mark-circle')) %>
+            <%= render(SidebarLinkComponent.new(name: "Support", url: a_support_path, icon: 'question-mark-circle')) %>
           </div>
         </nav>
         <%= link_to logout_path, data: { turbolinks: false }, class: "ml-3 text-gray-300 hover:text-white items-center px-2 py-2 text-base font-medium" do %>
