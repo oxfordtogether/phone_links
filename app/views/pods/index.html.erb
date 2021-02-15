@@ -25,7 +25,7 @@
       <%= pod.callers.filter(&:active).count %>
     <% end %>
     <% tbl.col "Callees" do |pod| %>
-      <%= pod.active_matches.count %>
+      <%= pod.callees.filter(&:active).count %>
     <% end %>
   <% end %>
 <% else %>

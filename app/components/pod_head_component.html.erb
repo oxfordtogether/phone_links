@@ -4,7 +4,7 @@
 <div class="flex flex-wrap">
   <div class="mt-2 sm:mt-2 mr-6 flex items-center text-base text-gray-900">
     <div class="mr-1.5 text-gray-600">Pod leader: </div>
-    <% if @pod&.pod_leader %>
+    <% if @pod.pod_leader.present? %>
       <%= link_to @pod.pod_leader.name, person_path(@pod.pod_leader.person) %>
     <% else %>
       <span class="text-sm italic">No-one assigned</span>
@@ -12,7 +12,7 @@
   </div>
   <div class="mt-2 sm:mt-2 mr-6 flex items-center text-base text-gray-900">
     <div class="mr-1.5 text-gray-600">Theme: </div>
-    <% if @pod&.theme %>
+    <% if @pod.theme.present? %>
       <%= @pod.theme %>
     <% else %>
       <span class="italic">unknown</span>
