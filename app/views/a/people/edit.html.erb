@@ -13,7 +13,7 @@
     <%= form.text_field :first_name, width: :third, required_asterix: true %>
     <%= form.text_field :last_name, width: :third, required_asterix: true %>
     <%= form.text_field :phone, width: :half %>
-    <%= form.text_field :email, width: :half, required_asterix: true %>
+    <%= form.text_field :email, width: :half, required_asterix: true, info_message: "Required for callers, pod leaders and admin, specify 'unknown' if not known for callees." %>
   <% end %>
   <% if @person.callee.present? %>
     <div class="mt-10">

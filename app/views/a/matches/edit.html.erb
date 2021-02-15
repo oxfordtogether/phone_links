@@ -1,7 +1,7 @@
 <% content_for :breadcrumbs do %>
   <%= breadcrumbs do |list| %>
     <% list.link "Pods", a_pods_path %>
-    <% list.link "Pod #{@match.caller.pod.name}", a_pod_path(@match.caller.pod) %>
+    <% list.link "Pod #{@match.pod.name}", a_pod_path(@match.pod) %>
     <% list.link "#{@match.caller.name} - #{@match.callee.name}", a_match_path(@match) %>
   <% end %>
 <% end %>

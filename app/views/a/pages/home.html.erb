@@ -21,7 +21,26 @@
     </div>
   </div>
   <div class="mt-8">
+    <!-- Quick links - TO DO: improve responsive behavior -->
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-gray-800 text-xs font-medium uppercase tracking-wide">Quick links</h2>
+      <ul class="flex flex-wrap mt-3">
+        <li class="relative col-span-1 flex shadow-sm rounded-md mr-3 py-2">
+          <%= button_link_to "New Caller", "#{new_a_person_path}?role=caller&redirect_on_cancel=#{a_path}" %>
+        </li>
+        <li class="relative col-span-1 flex shadow-sm rounded-md mr-3 py-2">
+          <%= button_link_to "New Callee", "#{new_a_person_path}?role=callee&redirect_on_cancel=#{a_path}" %>
+        </li>
+        <li class="relative col-span-1 flex shadow-sm rounded-md mr-3 py-2">
+          <%= button_link_to "New Pod Leader", "#{new_a_person_path}?role=pod_leader&redirect_on_cancel=#{a_path}" %>
+        </li>
+        <li class="relative col-span-1 flex shadow-sm rounded-md mr-3 py-2">
+          <%= button_link_to "New Admin", "#{new_a_person_path}?role=admin&redirect_on_cancel=#{a_path}" %>
+        </li>
+      </ul>
+    </div>
+    <!-- Overview  -->
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 ">
       <h2 class="text-gray-800 text-xs font-medium uppercase tracking-wide">Overview</h2>
       <ul class="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 xl:grid-cols-4 mt-3">
         <!-- start -->
@@ -61,11 +80,11 @@
         <!-- end -->
       </ul>
     </div>
-    <h2 class="max-w-6xl mx-auto mt-8 px-4 text-xs leading-6 font-medium uppercase tracking-wide text-gray-800 sm:px-6 lg:px-8">
-      Inbox
-    </h2>
     <!-- Activity table (small breakpoint and up) -->
-    <div class="hidden sm:block">
+    <div class="hidden sm:block mt-8">
+      <h2 class="max-w-6xl mx-auto px-4 text-xs leading-6 font-medium uppercase tracking-wide text-gray-800 sm:px-6 lg:px-8">
+        Inbox
+      </h2>
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <%= alert(title: 'Work in progress', info: 'This section is mocked up with fake data') %>
         <div class="flex flex-col mt-2">

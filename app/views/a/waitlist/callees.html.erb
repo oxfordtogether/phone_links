@@ -8,7 +8,7 @@
   <%= render(WaitlistHeadComponent.new(waiting_callers_count: @waiting_callers_count, waiting_callees_count: @waiting_callees_count, pending_matches_count: @pending_matches_count)) %>
 <% end %>
 <div class="flex justify-end pb-3">
-  <%= button_link_to "New Callee", "#{new_a_person_path}?role=callee" %>
+  <%= button_link_to "New Callee", "#{new_a_person_path}?role=callee&redirect_on_cancel=#{a_waitlist_callees_path}" %>
 </div>
 <% if @waiting_callees.length > 0 %>
   <%= table @waiting_callees.sort_by(&:name), row_url: ->(p) { a_person_path(p.person) } do |tbl| %>
@@ -27,6 +27,11 @@
           <div class="text-red-500 font-medium uppercase tracking-wide">New</div>
         <% end %>
       </div>
+    <% end %>
+    <% tbl.col "Pod", classes: "text-right" do |person| %>
+      <% if person&.pod %><%= person.pod.name %><% else %>
+        <div class="italic">Not assigned to a pod</div>
+      <% end %>
     <% end %>
     <% tbl.col "Added", classes: "text-right" do |person| %>
       <%= format_date_as_relative(person.waiting_since) == "today" ? format_date_as_relative(person.waiting_since) : format_date_as_relative(person.waiting_since) + " ago" %>
