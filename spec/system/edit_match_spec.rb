@@ -8,7 +8,7 @@ RSpec.describe "edit match", type: :system do
   it "works" do
     login_as nil
 
-    visit "/matches/#{match.id}"
+    visit "/a/matches/#{match.id}"
     click_on "Edit"
 
     expect(find_field("match_pod_id").value).to eq match.pod.id.to_s
@@ -29,7 +29,7 @@ RSpec.describe "edit match", type: :system do
 
     match.reload
 
-    expect(page).to have_current_path("/matches/#{match.id}")
+    expect(page).to have_current_path("/a/matches/#{match.id}")
 
     expect(match.pod.id).to eq(pods[1].id)
     expect(match.end_reason).to eq("NOT_A_FIT")
@@ -42,9 +42,9 @@ RSpec.describe "edit match", type: :system do
   it "cancels" do
     login_as nil
 
-    visit "/matches/#{match.id}/edit"
+    visit "/a/matches/#{match.id}/edit"
 
     click_on "Cancel"
-    expect(page).to have_current_path("/matches/#{match.id}")
+    expect(page).to have_current_path("/a/matches/#{match.id}")
   end
 end

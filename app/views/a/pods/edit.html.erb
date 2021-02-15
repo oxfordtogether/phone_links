@@ -1,0 +1,10 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Pods", a_pods_path %>
+    <% list.link "Pod #{@pod.name}", a_pod_path(@pod) %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <%= render PodHeadComponent.new(pod: @pod) %>
+<% end %>
+<%= render 'form', pod: @pod, action: :edit %>

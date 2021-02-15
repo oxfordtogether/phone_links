@@ -12,10 +12,10 @@
 </h1>
 -->
 <h1 class="flex justify-start text-2xl font-semibold text-gray-900">
-  <div><%= link_to @match.caller.name, person_path(@match.caller.person) %></div>
+  <div><%= link_to @match.caller.name, a_person_path(@match.caller.person) %></div>
   <div class="mx-2"><%= role_badge(@match.caller) %></div>
   <div class="ml-1 mr-3"> - </div>
-  <div><%= link_to @match.callee.name, person_path(@match.callee.person) %></div>
+  <div><%= link_to @match.callee.name, a_person_path(@match.callee.person) %></div>
   <div class="mx-2"><%= role_badge(@match.callee) %></div>
 </h1>
 <div class="flex flex-wrap">
@@ -36,7 +36,7 @@
   <div class="mt-2 sm:mt-2 mr-6 flex items-center text-sm text-gray-900">
     <div class="text-gray-500 mr-2">Pod:</div>
     <% if @match&.pod %>
-      <%= link_to @match.pod.name, pod_path(@match.pod) %>
+      <%= link_to @match.pod.name, a_pod_path(@match.pod) %>
     <% else %>
       <span class="italic">N/A</span>
     <% end %>
@@ -44,7 +44,7 @@
   <div class="mt-2 sm:mt-2 mr-6 flex items-center text-sm text-gray-900">
     <div class="text-gray-500 mr-2">Pod leader:</div>
     <% if @match&.pod&.pod_leader %>
-      <%= link_to @match.pod.pod_leader.name, person_path(@match.pod.pod_leader.person) %>
+      <%= link_to @match.pod.pod_leader.name, a_person_path(@match.pod.pod_leader.person) %>
     <% else %>
       <span class="italic">N/A</span>
     <% end %>
@@ -56,6 +56,6 @@
   </div>
 <% end %>
 <%= nav_tabs do |nav| %>
-  <% nav.link "Call summaries", match_path(@match) %>
-  <% nav.link "Edit", edit_match_path(@match) %>
+  <% nav.link "Call summaries", a_match_path(@match) %>
+  <% nav.link "Edit", edit_a_match_path(@match) %>
 <% end %>

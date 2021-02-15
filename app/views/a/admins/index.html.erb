@@ -1,0 +1,29 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Admin", a_admin_admins_path %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <%= render AdminHeadComponent.new %>
+<% end %>
+<div class="flex justify-end pb-3">
+  <%= button_link_to "New Admin", "#{new_a_person_path}?role=admin&redirect_on_cancel=#{a_admin_admins_path}" %>
+</div>
+<% if @admins.length > 0 %>
+  <%= table @admins.sort_by(&:name), row_url: ->(p) { a_person_path(p.person) } do |tbl| %>
+    <% tbl.col "Name" do |admin| %>
+      <%= admin.name %>
+    <% end %>
+    <% tbl.col "Active", classes: "flex justify-end" do |admin| %>
+      <% if admin.active %>
+        <%= icon("check-circle", class: "h-5 w-5 text-green-500") %>
+      <% else %>
+        <%= icon("cross", class: "h-5 w-5 text-red-500") %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% else %>
+  <div class="flex justify-center text-gray-600">
+    No admin have been added yet :(
+  </div>
+<% end %>

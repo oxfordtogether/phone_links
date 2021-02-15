@@ -10,7 +10,7 @@ RSpec.describe "login", type: :system do
     login_as nil
 
     visit "/"
-    expect(current_path).to eq("/")
+    expect(current_path).to eq("/a")
   end
 
   it "prevents access given invalid permissions" do

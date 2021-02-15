@@ -5,7 +5,7 @@
   <div class="mt-2 sm:mt-2 mr-6 flex items-center text-base text-gray-900">
     <div class="mr-1.5 text-gray-600">Pod leader: </div>
     <% if @pod.pod_leader.present? %>
-      <%= link_to @pod.pod_leader.name, person_path(@pod.pod_leader.person) %>
+      <%= link_to @pod.pod_leader.name, a_person_path(@pod.pod_leader.person) %>
     <% else %>
       <span class="text-sm italic">No-one assigned</span>
     <% end %>
@@ -20,10 +20,10 @@
   </div>
 </div>
 <%= nav_tabs do |nav| %>
-  <% nav.link "Matches", matches_pod_path(@pod) %>
-  <% nav.link "Callers", callers_pod_path(@pod) %>
+  <% nav.link "Matches", matches_a_pod_path(@pod) %>
+  <% nav.link "Callers", callers_a_pod_path(@pod) %>
   <% if false %>
-    <% nav.link "Callees", callees_pod_path(@pod) %>
+    <% nav.link "Callees", callees_a_pod_path(@pod) %>
   <% end %>
-  <% nav.link "Edit", edit_pod_path(@pod) %>
+  <% nav.link "Edit", edit_a_pod_path(@pod) %>
 <% end %>

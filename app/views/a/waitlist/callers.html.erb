@@ -1,0 +1,44 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Waiting List", a_waitlist_path %>
+    <% list.link "Callers", a_waitlist_callers_path %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <%= render(WaitlistHeadComponent.new(waiting_callers_count: @waiting_callers_count, waiting_callees_count: @waiting_callees_count, pending_matches_count: @pending_matches_count)) %>
+<% end %>
+<div class="flex justify-end pb-3">
+  <%= button_link_to "New Caller", "#{new_a_person_path}?role=caller&redirect_on_cancel=#{a_waitlist_callers_path}" %>
+</div>
+<% if @waiting_callers.length > 0 %>
+  <%= table @waiting_callers.sort_by(&:name), row_url: ->(p) { a_person_path(p.person) } do |tbl| %>
+    <% tbl.col "Name" do |person| %>
+      <div class="flex">
+        <div class="mr-2"><%= person.name %></div>
+        <% if person.matches.present? %>
+          <div class="text-blue-600">
+            <% if person.matches.count == 1 %>
+              <%= person.matches.count %> previous match
+            <% else %>
+              <%= person.matches.count %> previous pending_matches
+            <% end %>
+          </div>
+        <% else %>
+          <div class="text-red-500 font-medium uppercase tracking-wide">New</div>
+        <% end %>
+      </div>
+    <% end %>
+    <% tbl.col "Pod", classes: "text-right" do |person| %>
+      <% if person&.pod %><%= person.pod.name %><% else %>
+        <div class="italic">Not assigned to a pod</div>
+      <% end %>
+    <% end %>
+    <% tbl.col "Added", classes: "text-right" do |person| %>
+      <%= format_date_as_relative(person.waiting_since) == "today" ? format_date_as_relative(person.waiting_since) : format_date_as_relative(person.waiting_since) + " ago" %>
+    <% end %>
+  <% end %>
+<% else %>
+  <div class="flex justify-center text-gray-600">
+    No-one on the waiting list :)
+  </div>
+<% end %>

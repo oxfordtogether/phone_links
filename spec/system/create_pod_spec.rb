@@ -13,7 +13,7 @@ RSpec.describe "create pod", type: :system do
   it "works" do
     login_as nil
 
-    visit "/"
+    visit "/a"
     click_on "Pods"
     click_on "New"
 
@@ -28,7 +28,7 @@ RSpec.describe "create pod", type: :system do
 
     pod = Pod.last
 
-    expect(page).to have_current_path("/pods/#{pod.id}/matches")
+    expect(page).to have_current_path("/a/pods/#{pod.id}/matches")
 
     expect(pod.name).to eq("ABCD")
     expect(pod.theme).to eq("Parents")
@@ -38,9 +38,9 @@ RSpec.describe "create pod", type: :system do
   it "redirect back to correct page on cancel" do
     login_as nil
 
-    visit "/pods/new"
+    visit "/a/pods/new"
 
     click_on "Cancel"
-    expect(page).to have_current_path("/pods")
+    expect(page).to have_current_path("/a/pods")
   end
 end

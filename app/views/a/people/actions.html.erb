@@ -1,0 +1,31 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "People", a_search_path %>
+    <% list.link @person.name, a_person_path(@person) %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <%= render(PersonHeadComponent.new(person: @person)) %>
+<% end %>
+<% if !@person.callee.present? %>
+  <div class="">
+    <h1 class="my-3">Manage roles</h1>
+    <% if !@person.pod_leader.present? %><%= button_link_to "Add Pod Leader role", "#{a_person_path(@person.id)}/pod_leader/new" %><% end %>
+    <% if !@person.caller.present? %><%= button_link_to "Add Caller role", "#{a_person_path(@person.id)}/caller/new" %><% end %>
+    <% if !@person.admin.present? %><%= button_link_to "Add Admin role", "#{a_person_path(@person.id)}/admin/new" %><% end %>
+  </div>
+<% end %>
+<% if false %>
+  <div class="my-9">
+    <h1 class="my-3">Manage matches</h1>
+    <% if @person.callee.present? || @person.caller.present? %>
+      <%= button_link_to "New Match", new_a_match_path %>
+    <% end %>
+  </div>
+  <% if !@person.callee.present? %>
+    <div class="my-6">
+      <h1 class="my-3">Account management</h1>
+      <%= button_link_to "Invite to system", "" %>
+    </div>
+  <% end %>
+<% end %>

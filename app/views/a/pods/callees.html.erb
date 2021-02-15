@@ -1,0 +1,29 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Pods", a_pods_path %>
+    <% list.link "Pod #{@pod.name}", a_pod_path(@pod) %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <%= render PodHeadComponent.new(pod: @pod) %>
+<% end %>
+<% if @callees.length > 0 %>
+  <%= table @callees.sort_by { |c| c.name }, row_url: ->(c) { a_person_path(c.person) } do |tbl| %>
+    <% tbl.col "Callee" do |callee| %>
+      <%= callee.name %>
+    <% end %>
+    <% tbl.col "Match(es)" do |callee| %>
+      <% if callee.active_matches.present? %>
+        <% callee.active_matches.each_with_index do |match, index| %>
+          <%= match.caller.name %><% if callee.active_matches.count - 1 != index %>, <% end %>
+        <% end %>
+      <% else %>
+        <div class="italic">No active matches</div>
+      <% end %>
+    <% end %>
+  <% end %>
+<% else %>
+  <div class="flex justify-center text-gray-600">
+    No callees have been added to this pod yet :(
+  </div>
+<% end %>

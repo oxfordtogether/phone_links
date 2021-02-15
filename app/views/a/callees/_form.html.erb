@@ -1,0 +1,15 @@
+<%= tailwind_form_with(model: [:a, @callee], local: true) do |form| %>
+  <%= form.section do %>
+    <%= form.hidden_field :person_id, value: @callee.person.id %>
+    <%= form.collection_select :pod_id, Pod.all, :id, :name, label: "Pod", width: :full %>
+    <%= form.text_area :reason_for_referral, width: :full %>
+    <%= form.text_area :living_arrangements, width: :full %>
+    <%= form.text_area :other_information, width: :full %>
+    <%= form.text_area :additional_needs, width: :full %>
+    <%= form.check_box :active, true, label: "Active", width: :third %>
+  <% end %>
+  <%= form.button_section do %>
+    <%= form.cancel @redirect_on_cancel %>
+    <%= form.submit %>
+  <% end %>
+<% end %>

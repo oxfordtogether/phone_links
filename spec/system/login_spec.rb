@@ -22,7 +22,7 @@ RSpec.describe "login", type: :system do
     login_as admin.person
 
     visit "/"
-    expect(current_path).to eq("/")
+    expect(current_path).to eq("/a")
   end
 
   it "prevents access for non-active admin" do
