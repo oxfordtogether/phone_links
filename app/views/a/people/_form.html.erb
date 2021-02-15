@@ -1,6 +1,5 @@
-<!-- TO DO: make this responsive -->
 <%= tailwind_form_with(model: [:a, @person], local: true) do |form| %>
-  <div class="flex">
+  <div class="sm:flex">
     <div class="flex-1">
       <%= form.section "Select an existing profile" do %>
         <div class="sm:col-span-6" id="search-container" data-controller='search' data-reflex-root='#search-results'>
@@ -68,7 +67,7 @@
         </div>
       <% end %>
     </div>
-    <div class="ml-5 mr-7 py-4">OR</div>
+    <div class="pb-10 sm:ml-5 sm:mr-7 sm:py-4">OR</div>
     <div class="flex-1">
       <%= form.section "Create a new profile" do %>
         <div class="text-gray-500 -mt-5 text-sm sm:col-span-6">Is the person new to the program? Create a profile for them.</div>
