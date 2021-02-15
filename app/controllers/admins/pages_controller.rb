@@ -29,9 +29,5 @@ class PagesController < ApplicationController
     render "admin/callers"
   end
 
-  def new_user
-    render "admin/new_user"
-  end
-
   def form_responses; end
 end
