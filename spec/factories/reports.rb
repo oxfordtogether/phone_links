@@ -27,10 +27,6 @@ SUMMARY_EXAMPLE ||= [
 
 CALLEE_STATE_EXAMPLE ||= [
   "Great!",
-  "Happy",
-  "Down",
   "Ok",
   "Not great",
-  "Depressed",
-  "Ill",
 ].freeze

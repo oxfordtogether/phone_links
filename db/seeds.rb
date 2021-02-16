@@ -22,6 +22,6 @@ callers = Caller.all
 end
 
 #Create some reports
-FactoryBot.create_list(:report, 100)
+FactoryBot.create_list(:report, 500)
 
 SearchCache.refresh
