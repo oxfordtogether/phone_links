@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   get "logout", to: "logout#logout"
   get "auth/auth0/callback" => "auth0#callback"
   get "auth/failure" => "auth0#failure"
-
+  resources :reports
+  
   namespace :a do
     get "/", to: "pages#home"
 
@@ -32,7 +33,7 @@ Rails.application.routes.draw do
         get "pod_leader/new", to: "pod_leaders#new"
       end
     end
-    resources :reports
+    
     resources :callees, only: %i[new create edit update]
     resources :callers, only: %i[new create edit update]
     resources :admins, only: %i[create]
