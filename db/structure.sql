@@ -282,7 +282,6 @@ CREATE TABLE public.reports (
     callee_state character varying,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    matches_id bigint NOT NULL,
     summary_ciphertext text,
     match_id bigint NOT NULL
 );
@@ -530,13 +529,6 @@ CREATE INDEX index_reports_on_match_id ON public.reports USING btree (match_id);
 
 
 --
--- Name: index_reports_on_matches_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_reports_on_matches_id ON public.reports USING btree (matches_id);
-
-
---
 -- Name: callers fk_rails_2fcae7eb33; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -601,14 +593,6 @@ ALTER TABLE ONLY public.callees
 
 
 --
--- Name: reports fk_rails_8ebc5932fd; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.reports
-    ADD CONSTRAINT fk_rails_8ebc5932fd FOREIGN KEY (matches_id) REFERENCES public.matches(id);
-
-
---
 -- Name: callees fk_rails_9c9ab4a301; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -649,6 +633,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210209171012'),
 ('20210216093905'),
 ('20210216095558'),
-('20210216112002');
+('20210216112002'),
+('20210216113251');
 
 
