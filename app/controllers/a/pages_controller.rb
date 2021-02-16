@@ -30,4 +30,15 @@ class A::PagesController < A::AController
   end
 
   def form_responses; end
+
+  def sudo_login
+    person = Person.find(params[:id])
+
+    session[:person_id] = person ? person.id : nil
+    session[:admin_id] = person&.admin&.active ? person.admin.id : nil
+    session[:pod_leader_id] = person&.pod_leader&.active ? person.pod_leader.id : nil
+    session[:caller_id] = person&.caller&.active ? person.caller.id : nil
+
+    redirect_to "/"
+  end
 end
