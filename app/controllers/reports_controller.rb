@@ -53,6 +53,6 @@ class ReportsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def report_params
-      params.require(:report).permit(:duration, :summary, :datetime, :callee_state)
+      params.require(:report).permit(:match_id, :duration, :summary, :datetime, :callee_state)
     end
 end

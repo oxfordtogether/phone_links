@@ -12,9 +12,6 @@ FactoryBot.create_list(:admin, 1)
 FactoryBot.create(:admin, person: PodLeader.all.sample.person)
 FactoryBot.create(:pod_leader, person: Caller.all.sample.person)
 
-#Create some reports
-FactoryBot.create_list(:report, 100)
-
 callers = Caller.all
 (0..150).to_a.each do |_i|
   # callees should only have one active match
@@ -23,5 +20,8 @@ callers = Caller.all
                     callee: Callee.with_matches.all.filter { |c| c.active_matches.size == 0 }.sample,
                     pending: rand(10) == 1)
 end
+
+#Create some reports
+FactoryBot.create_list(:report, 100)
 
 SearchCache.refresh
