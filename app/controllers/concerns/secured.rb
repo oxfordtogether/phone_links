@@ -5,8 +5,12 @@ module Secured
     before_action :logged_in_using_omniauth?
   end
 
-  def logged_in_using_omniauth?
+  def bypass_auth?
     return true if !Rails.env.production? && ENV["BYPASS_AUTH"] == "true"
+  end
+
+  def logged_in_using_omniauth?
+    return if bypass_auth?
 
     unless session[:userinfo].present?
       redirect_to("/login", turbolinks: false)
@@ -17,14 +21,20 @@ module Secured
   end
 
   def admin_only
+    return if bypass_auth?
+
     redirect_to "/invalid_permissions" unless session[:admin_id].present?
   end
 
   def pod_leader_only
+    return if bypass_auth?
+
     redirect_to "/invalid_permissions" unless session[:pod_leader_id].present?
   end
 
   def caller_only
+    return if bypass_auth?
+
     redirect_to "/invalid_permissions" unless session[:caller_id].present?
   end
 
