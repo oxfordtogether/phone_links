@@ -283,7 +283,8 @@ CREATE TABLE public.reports (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     matches_id bigint NOT NULL,
-    summary_ciphertext text
+    summary_ciphertext text,
+    match_id bigint NOT NULL
 );
 
 
@@ -522,6 +523,13 @@ CREATE UNIQUE INDEX index_pods_on_pod_leader_id ON public.pods USING btree (pod_
 
 
 --
+-- Name: index_reports_on_match_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_reports_on_match_id ON public.reports USING btree (match_id);
+
+
+--
 -- Name: index_reports_on_matches_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -550,6 +558,14 @@ ALTER TABLE ONLY public.pod_leaders
 
 ALTER TABLE ONLY public.pods
     ADD CONSTRAINT fk_rails_464113068e FOREIGN KEY (pod_leader_id) REFERENCES public.pod_leaders(id);
+
+
+--
+-- Name: reports fk_rails_4d81dc2685; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reports
+    ADD CONSTRAINT fk_rails_4d81dc2685 FOREIGN KEY (match_id) REFERENCES public.matches(id);
 
 
 --
@@ -632,6 +648,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210209092549'),
 ('20210209171012'),
 ('20210216093905'),
-('20210216095558');
+('20210216095558'),
+('20210216112002');
 
 
