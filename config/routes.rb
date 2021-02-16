@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   root to: "home#home"
-
   get "login", to: "login#show"
   get "invalid_permissions", to: "login#invalid_permissions"
   get "logout", to: "logout#logout"
@@ -33,7 +32,7 @@ Rails.application.routes.draw do
         get "pod_leader/new", to: "pod_leaders#new"
       end
     end
-
+    resources :reports
     resources :callees, only: %i[new create edit update]
     resources :callers, only: %i[new create edit update]
     resources :admins, only: %i[create]

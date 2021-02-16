@@ -10,6 +10,7 @@ class Match < ApplicationRecord
   belongs_to :caller
   belongs_to :callee
   belongs_to :pod
+  has_many :report
 
   encrypts :end_reason_notes, type: :string, key: :kms_key
 
