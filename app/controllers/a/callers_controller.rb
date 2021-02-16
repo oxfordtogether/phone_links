@@ -1,4 +1,4 @@
-class A::CallersController < ApplicationController
+class A::CallersController < A::AController
   before_action :set_caller, only: %i[edit update]
 
   # GET people/:id/caller/new

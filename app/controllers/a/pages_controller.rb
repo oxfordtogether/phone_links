@@ -1,4 +1,4 @@
-class A::PagesController < ApplicationController
+class A::PagesController < A::AController
   def home
     @current_user = current_user
 

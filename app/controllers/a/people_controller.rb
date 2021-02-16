@@ -1,4 +1,4 @@
-class A::PeopleController < ApplicationController
+class A::PeopleController < A::AController
   before_action :set_person, only: %i[show events details actions edit update]
 
   def show

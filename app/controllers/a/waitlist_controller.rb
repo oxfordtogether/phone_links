@@ -1,4 +1,4 @@
-class A::WaitlistController < ApplicationController
+class A::WaitlistController < A::AController
   before_action :set_counts, only: %i[callers callees provisional_matches]
 
   def index

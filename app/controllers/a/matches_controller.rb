@@ -1,4 +1,4 @@
-class A::MatchesController < ApplicationController
+class A::MatchesController < A::AController
   before_action :set_match, only: %i[show edit update move_pods]
 
   def show; end

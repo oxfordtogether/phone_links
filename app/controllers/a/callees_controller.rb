@@ -1,4 +1,4 @@
-class A::CalleesController < ApplicationController
+class A::CalleesController < A::AController
   before_action :set_callee, only: %i[edit update]
 
   # GET people/:id/callee/new
