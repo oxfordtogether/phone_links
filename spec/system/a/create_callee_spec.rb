@@ -16,7 +16,7 @@ RSpec.describe "create callee", type: :system do
 
     visit "/a/waitlist/callees"
     click_on "New Callee"
-    expect(page).to have_current_path("/a/people/new?role=callee")
+    expect(page).to have_current_path("/a/people/new?role=callee&redirect_on_cancel=/a/waitlist/callees")
 
     select "Mx", from: "Title"
     fill_in "First name", with: "Bob"
@@ -60,6 +60,10 @@ RSpec.describe "create callee", type: :system do
   it "creates new callee for existing person" do
     login_as nil
 
+    visit "/a/waitlist/callees"
+    click_on "New Callee"
+    expect(page).to have_current_path("/a/people/new?role=callee&redirect_on_cancel=/a/waitlist/callees")
+
     visit "/a/people/new?role=callee"
 
     fill_in "Search", with: "Tim"
@@ -85,6 +89,24 @@ RSpec.describe "create callee", type: :system do
 
     fill_in "Search", with: "Tim"
     first("a", text: "go to profile").click
+    expect(page).to have_current_path("/a/people/#{person.id}/events")
+  end
+
+  it "redirect back to correct page on cancel" do
+    login_as nil
+
+    visit "/a/waitlist/callees"
+    click_on "New Callee"
+    click_on "Cancel"
+    expect(page).to have_current_path("/a/waitlist/callees")
+
+    visit "/a/waitlist/callees"
+    click_on "New Callee"
+    fill_in "Search", with: "Tim"
+    find("a", text: "add callee role").click
+    expect(page).to have_current_path("/a/people/#{person.id}/callee/new")
+    find("h1", text: "New Callee") # make sure page actually loaded
+    click_on "Cancel"
     expect(page).to have_current_path("/a/people/#{person.id}/events")
   end
 end
