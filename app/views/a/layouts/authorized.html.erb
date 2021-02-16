@@ -1,0 +1,26 @@
+<% content_for :navbar_content do %>
+  <div class="px-2 space-y-1">
+    <%= render(SidebarLinkComponent.new(name: "Search", url: a_search_path, icon: "search")) %>
+  </div>
+  <div class="my-4" aria-hidden="true"></div>
+  <div class="px-2 space-y-1">
+    <%= render(SidebarLinkComponent.new(name: "Home", url: a_path, icon: "heroicon-home-unfilled")) %>
+    <%= render(SidebarLinkComponent.new(name: "Pods", url: a_pods_path, icon: 'phone')) %>
+    <%= render(SidebarLinkComponent.new(name: "Waiting list", url: a_waitlist_path, icon: 'watch')) %>
+    <%= render(SidebarLinkComponent.new(name: "Referrals (TO DO)", url: "/", icon: 'heroicon-document-text-small')) %>
+    <%= render(SidebarLinkComponent.new(name: "Applicants (TO DO)", url: "/", icon: 'user-group')) %>
+    <%= render(SidebarLinkComponent.new(name: "Admin", url: a_admin_path, icon: 'person-badge')) %>
+  </div>
+  <% if false %>
+    <hr class="border-t border-gray-700 my-5" aria-hidden="true">
+    <div class="px-2 space-y-1">
+      <%= render(SidebarLinkComponent.new(name: "Call Summaries", url: "/", icon: 'file-text')) %>
+    </div>
+  <% end %>
+  <hr class="border-t border-gray-700 my-5" aria-hidden="true">
+  <div class="px-2 space-y-1">
+    <!-- <%= render(SidebarLinkComponent.new(name: "Profile", url: "/profile", icon: 'person-badge')) %> -->
+    <%= render(SidebarLinkComponent.new(name: "Support", url: a_support_path, icon: 'question-mark-circle')) %>
+  </div>
+<% end %>
+<%= render template: "layouts/application" %>
