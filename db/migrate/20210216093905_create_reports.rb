@@ -5,9 +5,7 @@ class CreateReports < ActiveRecord::Migration[6.0]
       t.text :summary
       t.date :datetime
       t.string :callee_state
-
       t.timestamps
-
       t.references :matches, null: false, foreign_key: true
     end
   end
