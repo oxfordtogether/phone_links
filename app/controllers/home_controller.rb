@@ -1,5 +1,7 @@
 class HomeController < ApplicationController
   def home
+    return redirect_to a_path if bypass_auth?
+
     if current_admin_id.present?
       redirect_to a_path
     elsif current_pod_leader_id.present?
