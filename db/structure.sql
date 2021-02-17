@@ -11,8 +11,6 @@ SET row_security = off;
 
 SET default_tablespace = '';
 
-SET default_table_access_method = heap;
-
 --
 -- Name: admins; Type: TABLE; Schema: public; Owner: -
 --
@@ -278,12 +276,12 @@ ALTER SEQUENCE public.pods_id_seq OWNED BY public.pods.id;
 CREATE TABLE public.reports (
     id bigint NOT NULL,
     duration character varying,
-    datetime date,
+    summary_ciphertext text,
+    datetime timestamp without time zone,
     callee_state character varying,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    summary_ciphertext text,
-    match_id bigint NOT NULL
+    match_id bigint
 );
 
 
@@ -631,9 +629,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210208194108'),
 ('20210209092549'),
 ('20210209171012'),
-('20210216093905'),
-('20210216095558'),
-('20210216112002'),
-('20210216113251');
+('20210216093905');
 
 
