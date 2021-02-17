@@ -2,11 +2,11 @@ class CreateReports < ActiveRecord::Migration[6.0]
   def change
     create_table :reports do |t|
       t.string :duration
-      t.text :summary
-      t.date :datetime
+      t.text :summary_ciphertext
+      t.datetime :datetime
       t.string :callee_state
       t.timestamps
-      t.references :matches, null: false, foreign_key: true
+      t.references :match, null: true, foreign_key: true
     end
   end
 end
