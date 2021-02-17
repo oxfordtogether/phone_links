@@ -21,4 +21,7 @@ callers = Caller.all
                     pending: rand(10) == 1)
 end
 
+#Create some reports
+FactoryBot.create_list(:report, 500)
+
 SearchCache.refresh

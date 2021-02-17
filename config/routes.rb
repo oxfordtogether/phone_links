@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   root to: "home#home"
-
   get "login", to: "login#show"
   get "invalid_permissions", to: "login#invalid_permissions"
   get "logout", to: "logout#logout"

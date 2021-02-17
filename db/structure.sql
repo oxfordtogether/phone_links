@@ -11,6 +11,8 @@ SET row_security = off;
 
 SET default_tablespace = '';
 
+SET default_table_access_method = heap;
+
 --
 -- Name: admins; Type: TABLE; Schema: public; Owner: -
 --
@@ -270,6 +272,41 @@ ALTER SEQUENCE public.pods_id_seq OWNED BY public.pods.id;
 
 
 --
+-- Name: reports; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.reports (
+    id bigint NOT NULL,
+    duration character varying,
+    datetime date,
+    callee_state character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    summary_ciphertext text,
+    match_id bigint NOT NULL
+);
+
+
+--
+-- Name: reports_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.reports_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: reports_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.reports_id_seq OWNED BY public.reports.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -325,6 +362,13 @@ ALTER TABLE ONLY public.pod_leaders ALTER COLUMN id SET DEFAULT nextval('public.
 --
 
 ALTER TABLE ONLY public.pods ALTER COLUMN id SET DEFAULT nextval('public.pods_id_seq'::regclass);
+
+
+--
+-- Name: reports id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reports ALTER COLUMN id SET DEFAULT nextval('public.reports_id_seq'::regclass);
 
 
 --
@@ -389,6 +433,14 @@ ALTER TABLE ONLY public.pod_leaders
 
 ALTER TABLE ONLY public.pods
     ADD CONSTRAINT pods_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: reports reports_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reports
+    ADD CONSTRAINT reports_pkey PRIMARY KEY (id);
 
 
 --
@@ -470,6 +522,13 @@ CREATE UNIQUE INDEX index_pods_on_pod_leader_id ON public.pods USING btree (pod_
 
 
 --
+-- Name: index_reports_on_match_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_reports_on_match_id ON public.reports USING btree (match_id);
+
+
+--
 -- Name: callers fk_rails_2fcae7eb33; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -491,6 +550,14 @@ ALTER TABLE ONLY public.pod_leaders
 
 ALTER TABLE ONLY public.pods
     ADD CONSTRAINT fk_rails_464113068e FOREIGN KEY (pod_leader_id) REFERENCES public.pod_leaders(id);
+
+
+--
+-- Name: reports fk_rails_4d81dc2685; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reports
+    ADD CONSTRAINT fk_rails_4d81dc2685 FOREIGN KEY (match_id) REFERENCES public.matches(id);
 
 
 --
@@ -563,6 +630,10 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210206182028'),
 ('20210208194108'),
 ('20210209092549'),
-('20210209171012');
+('20210209171012'),
+('20210216093905'),
+('20210216095558'),
+('20210216112002'),
+('20210216113251');
 
 
