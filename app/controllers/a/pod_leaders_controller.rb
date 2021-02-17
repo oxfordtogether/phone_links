@@ -1,4 +1,4 @@
-class A::PodLeadersController < ApplicationController
+class A::PodLeadersController < A::AController
   before_action :set_pod_leader, only: %i[]
 
   def index

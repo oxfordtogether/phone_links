@@ -57,4 +57,12 @@ Rails.application.routes.draw do
     get "waitlist/callees" => "waitlist#callees"
     get "waitlist/provisional_matches" => "waitlist#provisional_matches"
   end
+
+  namespace :pl do
+    get "/", to: "pages#home"
+  end
+
+  namespace :c do
+    get "/", to: "pages#home"
+  end
 end

@@ -1,4 +1,4 @@
-class A::AdminsController < ApplicationController
+class A::AdminsController < A::AController
   before_action :set_admin, only: %i[]
 
   def index

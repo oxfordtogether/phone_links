@@ -1,4 +1,4 @@
-class A::PodsController < ApplicationController
+class A::PodsController < A::AController
   before_action :set_pod, only: %i[show edit update]
 
   def index

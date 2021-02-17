@@ -4,6 +4,8 @@ class LogoutController < ApplicationController
   def logout
     reset_session
 
+    return redirect_to "/a" if bypass_auth?
+
     redirect_to logout_url.to_s
   end
 
