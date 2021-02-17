@@ -1,4 +1,12 @@
 <p id="notice"><%= notice %></p>
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Reports", c_reports_path %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <%= render ReportsHeadComponent.new %>
+<% end %>
 <div class="flow-root">
   <ul class="-mb-8">
     <% @reports.each do |report| %>
