@@ -3,7 +3,8 @@ FactoryBot.define do
     match { Match.order("RANDOM()").first || create(:match) }
     duration { DURATION_EXAMPLE.sample }
     summary { SUMMARY_EXAMPLE.sample }
-    datetime { FFaker::Time.between("2019-01-01", Date.today) }
+    # datetime { FFaker::Time.between("2019-01-01", Date.today) }
+    datetime { FFaker::Time.datetime }
     callee_state { CALLEE_STATE_EXAMPLE.sample }
   end
 end
@@ -15,7 +16,6 @@ DURATION_EXAMPLE ||= [
   "Over one hour",
   "Did not answer",
 ].freeze
-
 
 SUMMARY_EXAMPLE ||= [
   "We had our usual chat, nothing particular",
