@@ -1,7 +1,7 @@
 <% content_for :navbar_content do %>
   <div class="px-2 space-y-1">
     <%= render(SidebarLinkComponent.new(name: "Home", url: c_path, icon: "heroicon-home-unfilled")) %>
-    <%= render(SidebarLinkComponent.new(name: "Reports", url: c_reports_path, icon: "heroicon-home-unfilled")) %>
+    <%= render(SidebarLinkComponent.new(name: "Reports", url: c_reports_path, icon: "heroicon-document-text-small")) %>
   </div>
 <% end %>
 <%= render template: "layouts/application" %>
