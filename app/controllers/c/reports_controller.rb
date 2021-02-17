@@ -12,6 +12,7 @@ class C::ReportsController < C::CController
   # GET /reports/new
   def new
     @report = Report.new
+    @redirect_on_cancel = params[:redirect_on_cancel] || c_reports_path
   end
 
   # GET /reports/1/edit
