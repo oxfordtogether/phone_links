@@ -65,5 +65,6 @@ Rails.application.routes.draw do
 
   namespace :c do
     get "/", to: "pages#home"
+    resources :reports
   end
 end
