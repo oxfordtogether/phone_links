@@ -74,13 +74,15 @@ RSpec.describe "login", type: :system do
   end
 
   describe "restricts access:" do
-    it "prevents access to areas of site depending on role" do
+    it "allows admin to access whole site" do
       login_as admin.person
       visit "/pl"
-      expect(current_path).to eq("/invalid_permissions")
+      expect(current_path).to eq("/pl")
       visit "/c"
-      expect(current_path).to eq("/invalid_permissions")
+      expect(current_path).to eq("/c")
+    end
 
+    it "prevents access to areas of site depending on role" do
       login_as pod_leader.person
       visit "/a"
       expect(current_path).to eq("/invalid_permissions")

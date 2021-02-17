@@ -56,8 +56,6 @@ Rails.application.routes.draw do
     get "waitlist/callers" => "waitlist#callers"
     get "waitlist/callees" => "waitlist#callees"
     get "waitlist/provisional_matches" => "waitlist#provisional_matches"
-
-    get "sudo_login/person/:id" => "pages#sudo_login"
   end
 
   namespace :pl do

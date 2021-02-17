@@ -9,6 +9,18 @@ module Secured
     return true if !Rails.env.production? && ENV["BYPASS_AUTH"] == "true"
   end
 
+  def current_admin_id
+    session[:admin_id]
+  end
+
+  def current_pod_leader_id
+    session[:pod_leader_id]
+  end
+
+  def current_caller_id
+    session[:caller_id]
+  end
+
   def logged_in_using_omniauth?
     return if bypass_auth?
 
@@ -17,25 +29,25 @@ module Secured
       return
     end
 
-    redirect_to("/invalid_permissions", turbolinks: false) unless session[:admin_id].present? || session[:pod_leader_id].present? || session[:caller_id].present?
+    redirect_to("/invalid_permissions", turbolinks: false) unless current_admin_id.present? || current_pod_leader_id.present? || current_caller_id.present?
   end
 
   def admin_only
     return if bypass_auth?
 
-    redirect_to "/invalid_permissions" unless session[:admin_id].present?
+    redirect_to "/invalid_permissions" unless current_admin_id.present?
   end
 
   def pod_leader_only
     return if bypass_auth?
 
-    redirect_to "/invalid_permissions" unless session[:pod_leader_id].present?
+    redirect_to "/invalid_permissions" unless current_pod_leader_id.present? || current_admin_id.present?
   end
 
   def caller_only
     return if bypass_auth?
 
-    redirect_to "/invalid_permissions" unless session[:caller_id].present?
+    redirect_to "/invalid_permissions" unless current_caller_id.present? || current_admin_id.present?
   end
 
   def auth0_user
