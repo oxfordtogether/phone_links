@@ -12,8 +12,7 @@ class C::CController < ApplicationController
   end
 
   def current_caller
-    caller = Caller.find(params[:caller_id])
-    @current_caller = caller
+    @current_caller ||= Caller.find(params[:caller_id])
   rescue StandardError
     redirect_to "/page_does_not_exist"
   end
