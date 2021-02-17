@@ -29,25 +29,7 @@ module Secured
       return
     end
 
-    redirect_to("/invalid_permissions", turbolinks: false) unless current_admin_id.present? || current_pod_leader_id.present? || current_caller_id.present?
-  end
-
-  def admin_only
-    return if bypass_auth?
-
-    redirect_to "/invalid_permissions" unless current_admin_id.present?
-  end
-
-  def pod_leader_only
-    return if bypass_auth?
-
-    redirect_to "/invalid_permissions" unless current_pod_leader_id.present? || current_admin_id.present?
-  end
-
-  def caller_only
-    return if bypass_auth?
-
-    redirect_to "/invalid_permissions" unless current_caller_id.present? || current_admin_id.present?
+    redirect_to("/invalid_permissions_for_app", turbolinks: false) unless current_admin_id.present? || current_pod_leader_id.present? || current_caller_id.present?
   end
 
   def auth0_user

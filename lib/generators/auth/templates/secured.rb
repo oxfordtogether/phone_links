@@ -24,7 +24,7 @@ module Secured
     permissions = session[:userinfo][:extra]["raw_info"]["https://oxfordtogether.org/claims/permissions"]
     has_permissions = permissions.include?("...access:app-permissions...")
 
-    redirect_to("/invalid_permissions", turbolinks: false) unless has_tenant && has_permissions
+    redirect_to("/invalid_permissions_for_app", turbolinks: false) unless has_tenant && has_permissions
   end
 
   def auth0_user
