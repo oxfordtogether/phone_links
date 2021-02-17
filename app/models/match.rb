@@ -14,6 +14,10 @@ class Match < ApplicationRecord
 
   encrypts :end_reason_notes, type: :string, key: :kms_key
 
+  def names
+    "#{caller.person.first_name} - #{callee.person.first_name}"
+  end
+
   def pod_mismatch
     # handle caller/callee not having a pod
     return "Caller and Callee are not assigned to a pod, match is assigned to #{pod.name}." unless caller.pod.present? && callee.pod.present?

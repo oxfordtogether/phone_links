@@ -12,7 +12,8 @@ class C::ReportsController < C::CController
   # GET /reports/new
   def new
     @report = Report.new
-    @redirect_on_cancel = params[:redirect_on_cancel] || c_reports_path
+    @redirect_on_cancel = params[:redirect_on_cancel] || c_path
+    # @redirect_on_submit = params[:redirect_on_submit] || c_report_path
   end
 
   # GET /reports/1/edit
@@ -23,7 +24,7 @@ class C::ReportsController < C::CController
     @report = Report.new(report_params)
 
     if @report.save
-      redirect_to @report, notice: "Report was successfully created."
+      redirect_to c_reports_path(@report), notice: "Report was successfully created."
     else
       render :new
     end
