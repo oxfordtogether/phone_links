@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "create report", type: :system do
   let!(:person) { create(:person) }
   let!(:caller) { create(:caller) }
-  let!(:reports) { create_list(:report, 10) }
+  let!(:match) { create_list(:report, 10) }
 
   it "works" do
     # login_as nil
@@ -12,7 +12,7 @@ RSpec.describe "create report", type: :system do
     click_on "Reports"
     click_on "New"
 
-    select matches[7].names, from: "Match"
+    select match[7].names, from: "Match"
     select "Great!", from: "How was the call?"
     date_picker_fill_in "Call date", datetime: Datetime.parse("2020-01-01")
     select "12", from: "report[datetime(4i)]"
