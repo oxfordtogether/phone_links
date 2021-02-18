@@ -1,0 +1,13 @@
+<div class="mt-2 flow-root">
+  <% if @events.empty? %>
+    <div class="flex justify-center">
+      <div class="text-sm text-gray-500">No events recorded</div>
+    </div>
+  <% else %>
+    <ul class="-mb-8">
+      <% @events.each_with_index do |event, index| %>
+        <%= render EventComponent.new(event: event, last_event: @events.size - 1 == index) %>
+      <% end %>
+    </ul>
+  <% end %>
+</div>
