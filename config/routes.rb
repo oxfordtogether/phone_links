@@ -28,6 +28,7 @@ Rails.application.routes.draw do
         get :events
         get :details
         get :actions
+        get :flag
 
         get "callee/new", to: "callees#new"
         get "caller/new", to: "callers#new"

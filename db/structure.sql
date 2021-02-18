@@ -69,7 +69,11 @@ CREATE TABLE public.callees (
     living_arrangements_ciphertext text,
     other_information_ciphertext text,
     additional_needs_ciphertext text,
-    pod_id bigint
+    pod_id bigint,
+    flag_in_progress boolean,
+    flag_updated_at timestamp without time zone,
+    flag_updated_by_id integer,
+    flag_note_ciphertext text
 );
 
 
@@ -276,11 +280,11 @@ ALTER SEQUENCE public.pods_id_seq OWNED BY public.pods.id;
 CREATE TABLE public.reports (
     id bigint NOT NULL,
     duration character varying,
+    summary_ciphertext text,
     callee_state character varying,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    summary_ciphertext text,
-    match_id bigint NOT NULL,
+    match_id bigint,
     datetime timestamp without time zone
 );
 
@@ -634,4 +638,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210216112002'),
 ('20210216113251'),
 ('20210217150541'),
-('20210217150818');
+('20210217150818'),
+('20210217150541'),
+('20210217150818'),
+('20210218162712');

@@ -73,6 +73,9 @@
   <% end %>
   <% nav.link "Edit", edit_a_person_path(@person) %>
   <% if !@person.callee.present? %>
+    <% nav.link "Raise flag", raise_flag_a_person_path(@person) %>
+  <% end %>
+  <% if !@person.callee.present? %>
     <% nav.link "More actions", actions_a_person_path(@person) %>
   <% end %>
 <% end %>

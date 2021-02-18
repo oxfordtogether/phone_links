@@ -4,9 +4,9 @@ FactoryBot.create_list(:pod, 10)
 FactoryBot.create(:pod, pod_leader: nil)
 
 # create people/roles
+FactoryBot.create_list(:admin, 1)
 FactoryBot.create_list(:caller, 75)
 FactoryBot.create_list(:callee, 150)
-FactoryBot.create_list(:admin, 1)
 
 # create some people with multiple roles
 FactoryBot.create(:admin, person: PodLeader.all.sample.person)
@@ -21,7 +21,7 @@ callers = Caller.all
                     pending: rand(10) == 1)
 end
 
-#Create some reports
+# create some reports
 FactoryBot.create_list(:report, 500)
 
 SearchCache.refresh
