@@ -1,14 +1,5 @@
 <%= tailwind_form_with(model: [:c, @report], local: true) do |form| %>
-  <% if report.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(report.errors.count, "error") %> prohibited this report from being saved:</h2>
-      <ul>
-        <% report.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+
   <%= form.section do %>
     
     <%= form.collection_select :match_id, Match.all, :id, :names, width: :half, required_asterix: true, info_message: "Please select your callee for this report" %>

@@ -44,8 +44,8 @@
             </div>
             <div class="min-w-0 flex-1 flex justify-between space-x-4">
               <div>
-                <p class="text-sm text-gray-500"><%= report.match.caller.person.first_name %> called <%= report.match.callee.person.first_name %> for <a href="#" class="font-medium text-gray-900"><%= report.duration %></a> <i>submission on  <%= format_date(report.created_at) %> </i> </p>
-                <p> <a href="#" class=" text-gray-900"><%= report.summary %></a></p>
+                <p class="text-sm text-gray-500"><%= report.match.caller.person.first_name %> called <%= report.match.callee.person.first_name %> for <a href="#" class="font-medium text-gray-900"><%= report.duration %></a> and created the report on  <%= format_date(report.created_at) %> </p>
+                <p> <a href="#" class="pl-2  text-gray-700"><%= report.summary %></a></p>
                 
               </div>
               <div class="text-right text-sm whitespace-nowrap text-gray-500"> <%= format_datetime(report.datetime) %> </div>
@@ -54,6 +54,6 @@
         </div>
       </li>
     <% end %>
-  <div class="flow-root">
-<ul class="-mb-8">
+  </div>
+</ul>
 </div>
