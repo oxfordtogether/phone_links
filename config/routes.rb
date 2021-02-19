@@ -37,7 +37,11 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :callees, only: %i[new create edit update]
+    resources :callees, only: %i[new create edit update] do
+      member do
+        resources :notes, only: %i[new create]
+      end
+    end
     resources :callers, only: %i[new create edit update]
     resources :admins, only: %i[create]
     resources :pod_leaders, only: %i[create]

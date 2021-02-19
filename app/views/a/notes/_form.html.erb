@@ -1,0 +1,11 @@
+<%= tailwind_form_with(model: [:a, @note], local: true) do |form| %>
+  <%= form.section do %>
+    <%= form.hidden_field :callee_id, value: @note.callee.id %>
+    <%= form.hidden_field :created_by_id, value: @note&.created_by&.id %>
+    <%= form.text_area :content %>
+  <% end %>
+  <%= form.button_section do %>
+    <%= form.cancel a_person_path(@note.callee.person) %>
+    <%= form.submit %>
+  <% end %>
+<% end %>

@@ -169,6 +169,39 @@ ALTER SEQUENCE public.matches_id_seq OWNED BY public.matches.id;
 
 
 --
+-- Name: notes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.notes (
+    id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    callee_id bigint,
+    created_by_id bigint NOT NULL,
+    content_ciphertext text
+);
+
+
+--
+-- Name: notes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.notes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: notes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.notes_id_seq OWNED BY public.notes.id;
+
+
+--
 -- Name: people; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -346,6 +379,13 @@ ALTER TABLE ONLY public.matches ALTER COLUMN id SET DEFAULT nextval('public.matc
 
 
 --
+-- Name: notes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.notes ALTER COLUMN id SET DEFAULT nextval('public.notes_id_seq'::regclass);
+
+
+--
 -- Name: people id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -411,6 +451,14 @@ ALTER TABLE ONLY public.callers
 
 ALTER TABLE ONLY public.matches
     ADD CONSTRAINT matches_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: notes notes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.notes
+    ADD CONSTRAINT notes_pkey PRIMARY KEY (id);
 
 
 --
@@ -510,6 +558,20 @@ CREATE INDEX index_matches_on_pod_id ON public.matches USING btree (pod_id);
 
 
 --
+-- Name: index_notes_on_callee_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_notes_on_callee_id ON public.notes USING btree (callee_id);
+
+
+--
+-- Name: index_notes_on_created_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_notes_on_created_by_id ON public.notes USING btree (created_by_id);
+
+
+--
 -- Name: index_pod_leaders_on_person_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -555,6 +617,14 @@ ALTER TABLE ONLY public.pods
 
 
 --
+-- Name: notes fk_rails_492bbd23f7; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.notes
+    ADD CONSTRAINT fk_rails_492bbd23f7 FOREIGN KEY (created_by_id) REFERENCES public.people(id);
+
+
+--
 -- Name: reports fk_rails_4d81dc2685; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -576,6 +646,14 @@ ALTER TABLE ONLY public.matches
 
 ALTER TABLE ONLY public.admins
     ADD CONSTRAINT fk_rails_53af473728 FOREIGN KEY (person_id) REFERENCES public.people(id);
+
+
+--
+-- Name: notes fk_rails_5bf9146f3c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.notes
+    ADD CONSTRAINT fk_rails_5bf9146f3c FOREIGN KEY (callee_id) REFERENCES public.callees(id);
 
 
 --

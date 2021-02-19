@@ -4,6 +4,7 @@ class Callee < ApplicationRecord
   belongs_to :person
   belongs_to :pod, optional: true
   has_many :matches
+  has_many :notes
 
   accepts_nested_attributes_for :person
 
