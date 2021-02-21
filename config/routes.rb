@@ -36,6 +36,10 @@ Rails.application.routes.draw do
           post :contact_details, action: :save_contact_details, as: :save_contact_details
           get :flag
           post :flag, action: :save_flag, as: :save_flag
+          get :referral_details
+          post :referral_details, action: :save_referral_details, as: :save_referral_details
+          get :experience
+          post :experience, action: :save_experience, as: :save_experience
         end
 
         resources :notes, only: %i[new create]

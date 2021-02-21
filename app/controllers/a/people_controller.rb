@@ -1,5 +1,5 @@
 class A::PeopleController < A::AController
-  before_action :set_person, only: %i[show events details actions edit update personal_details save_personal_details contact_details save_contact_details flag save_flag]
+  before_action :set_person, only: %i[show events details actions edit update personal_details save_personal_details contact_details save_contact_details flag save_flag referral_details save_referral_details experience save_experience]
 
   def show
     redirect_to events_a_person_path(@person)
@@ -112,6 +112,38 @@ class A::PeopleController < A::AController
     end
   end
 
+  def referral_details
+    render "a/people/edit/referral_details"
+  end
+
+  def save_referral_details
+    @person.assign_attributes(referral_details_params)
+
+    if @person.save
+      @person.create_events!
+      SearchCacheRefresh.perform_async
+      redirect_to a_person_path(@person), notice: "Profile was successfully updated."
+    else
+      render "edit/referral_details"
+    end
+  end
+
+  def experience
+    render "a/people/edit/experience"
+  end
+
+  def save_experience
+    @person.assign_attributes(experience_params)
+
+    if @person.save
+      @person.create_events!
+      SearchCacheRefresh.perform_async
+      redirect_to a_person_path(@person), notice: "Profile was successfully updated."
+    else
+      render "edit/experience"
+    end
+  end
+
   private
 
   def set_person
@@ -138,5 +170,13 @@ class A::PeopleController < A::AController
 
   def flag_params
     params.require(:person).permit(:id, :flag_in_progress, :flag_updated_at, :flag_updated_by_id, :flag_note)
+  end
+
+  def referral_details_params
+    params.require(:person).permit(:id, callee_attributes: %(id reason_for_referral living_arrangements other_information additional_needs))
+  end
+
+  def experience_params
+    params.require(:person).permit(:id, caller_attributes: %(id experience))
   end
 end
