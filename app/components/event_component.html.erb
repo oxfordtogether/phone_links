@@ -34,4 +34,30 @@
     <%= @event.notes %>
   <% end %>
 <% end %>
+<% when Events::MatchCreated %>
+<%= render TimelineItemComponent.new(icon: "link_45deg", icon_colour: 'bg-gray-400', time: @event.occurred_at, is_last: @last_event) do |c| %>
+  <% c.with(:title) do %>
+    <%= link_to a_match_path(@event.match) do %>
+      <span class="my-1">
+        <% time = @event.occurred_at %>
+        <span class="text-xs text-gray-500 italic">Match created between <%= @event.person&.name %> and <%= @event.caller_name %></span>
+      </span>
+    <% end %>
+  <% end %>
+  <% c.with(:body) do %>
+  <% end %>
+<% end %>
+<% when Events::MatchEnded %>
+<%= render TimelineItemComponent.new(icon: "link_45deg", icon_colour: 'bg-gray-400', time: @event.occurred_at, is_last: @last_event) do |c| %>
+  <% c.with(:title) do %>
+    <%= link_to a_match_path(@event.match) do %>
+      <span class="my-1">
+        <% time = @event.occurred_at %>
+        <span class="text-xs text-gray-500 italic">Match ended between <%= @event.person&.name %> and <%= @event.caller_name %></span>
+      </span>
+    <% end %>
+  <% end %>
+  <% c.with(:body) do %>
+  <% end %>
+<% end %>
 <% end %>

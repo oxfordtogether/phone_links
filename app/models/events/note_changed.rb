@@ -1,5 +1,9 @@
 module Events
   class NoteChanged < Event
+    def note_changed?
+      true
+    end
+
     validates_presence_of :note
 
     non_sensitive_data_attr :status

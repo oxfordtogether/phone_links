@@ -11,6 +11,7 @@ class Match < ApplicationRecord
   belongs_to :callee
   belongs_to :pod
   has_many :reports
+  has_many :events
 
   encrypts :end_reason_notes, type: :string, key: :kms_key
 
@@ -30,5 +31,9 @@ class Match < ApplicationRecord
     return "Callee is assigned to #{callee.pod.name}, match is assigned to #{pod.name}." unless callee.pod == pod
 
     false
+  end
+
+  def create_events!
+    Events::MatchEventCreator.new(self).create_events!
   end
 end
