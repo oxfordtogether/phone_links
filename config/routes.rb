@@ -79,6 +79,11 @@ Rails.application.routes.draw do
   namespace :pl do
     scope "/:pod_leader_id" do
       get "/", to: "pages#home"
+
+      resources :reports, only: %i[index show]
+      resources :callers, only: %i[index show]
+      resources :callees, only: %i[index show]
+      resources :matches, only: %i[index show]
     end
   end
 

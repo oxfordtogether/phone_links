@@ -1,0 +1,38 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Reports", pl_reports_path %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <% render partial: "page_head" %>
+<% end %>
+<div class="flex items-center">
+  <%= link_to pl_reports_path, class: "flex-1 text-gray-500" do %>
+    <%= icon("arrow-left", class: "w-6 h-6") %>
+  <% end %>
+  <div class="text-sm text-medium mr-3 mt-1 text-gray-700">
+    <%= @current_report_number %> of <%= @total_reports %>
+  </div>
+  <%= link_to @prev_url, class: "mr-3 flex items-center justify-center w-8 h-8 rounded-full #{@current_report_number == 1 ? 'text-gray-300 cursor-default' : 'hover:bg-gray-200 text-gray-500'}" do %>
+    <%= icon("chevron-left", class: "w-5 h-5") %>
+  <% end %>
+  <%= link_to @next_url, class: "flex items-center justify-center w-8 h-8 rounded-full #{@current_report_number == @total_reports ? 'text-gray-300 cursor-default' : 'hover:bg-gray-200 text-gray-500'}" do %>
+    <%= icon("chevron-right", class: "w-5 h-5") %>
+  <% end %>
+</div>
+<div class="mt-10">
+  <div class="flex justify-between">
+    <div>
+      <%= @report.match.caller.name %> & <%= @report.match.callee.name %>
+    </div>
+    <div class="text-sm text-gray-500">
+      submitted: <%= format_date_as_relative(@report.created_at) %>
+    </div>
+  </div>
+  <div>
+    Date/time of call <%= @report.datetime %>
+  </div>
+  <div>
+    Summary: <%= @report.summary %>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Reports", pl_reports_path %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <% render partial: "page_head" %>
+<% end %>
+<% if @reports.length > 0 %>
+  <%= table @reports.sort_by(&:created_at), row_url: ->(r) { pl_report_path(@current_pod_leader, r) } do |tbl| %>
+    <% tbl.col "Match" do |report| %>
+      <div class="text-gray-800 font-bold"><%= report.match.caller.name %> & <%= report.match.callee.name %></div>
+      <div class="max-w-xs sm:max-w-md lg:max-w-3xl truncate"><%= report.summary + report.summary %></div>
+    <% end %>
+    <% tbl.col "Submitted", classes: "text-right" do |report| %>
+      <%= format_date_as_relative(report.created_at) %>
+    <% end %>
+  <% end %>
+<% else %>
+  <div class="flex justify-center text-gray-600">
+    No Reports to display :(
+  </div>
+<% end %>
+<% if false %>
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  <% tbl.col "Summary", classes: "hidden md:inline" do |report| %>
+    <div class="max-w-xs md:max-w-md lg:max-w-lg truncate"><%= report.summary + report.summary %></div>
+  <% end %>
+<% end %>
