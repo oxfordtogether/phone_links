@@ -69,11 +69,7 @@ CREATE TABLE public.callees (
     living_arrangements_ciphertext text,
     other_information_ciphertext text,
     additional_needs_ciphertext text,
-    pod_id bigint,
-    flag_in_progress boolean,
-    flag_updated_at timestamp without time zone,
-    flag_updated_by_id integer,
-    flag_note_ciphertext text
+    pod_id bigint
 );
 
 
@@ -131,6 +127,47 @@ ALTER SEQUENCE public.callers_id_seq OWNED BY public.callers.id;
 
 
 --
+-- Name: events; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.events (
+    id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    type character varying,
+    version character varying,
+    occurred_at timestamp without time zone,
+    sensitive_data_ciphertext text,
+    non_sensitive_data jsonb DEFAULT '{}'::jsonb NOT NULL,
+    person_id bigint NOT NULL,
+    replacement_event_id bigint,
+    created_by_id bigint,
+    match_id bigint,
+    report_id bigint,
+    note_id bigint
+);
+
+
+--
+-- Name: events_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.events_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: events_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.events_id_seq OWNED BY public.events.id;
+
+
+--
 -- Name: matches; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -176,8 +213,9 @@ CREATE TABLE public.notes (
     id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    callee_id bigint,
+    person_id bigint,
     created_by_id bigint NOT NULL,
+    deleted_at timestamp without time zone,
     content_ciphertext text
 );
 
@@ -218,7 +256,11 @@ CREATE TABLE public.people (
     address_line_2_ciphertext text,
     address_town_ciphertext text,
     address_postcode_ciphertext text,
-    auth0_id character varying
+    auth0_id character varying,
+    flag_in_progress boolean,
+    flag_updated_at timestamp without time zone,
+    flag_updated_by_id integer,
+    flag_note_ciphertext text
 );
 
 
@@ -372,6 +414,13 @@ ALTER TABLE ONLY public.callers ALTER COLUMN id SET DEFAULT nextval('public.call
 
 
 --
+-- Name: events id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.events ALTER COLUMN id SET DEFAULT nextval('public.events_id_seq'::regclass);
+
+
+--
 -- Name: matches id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -443,6 +492,14 @@ ALTER TABLE ONLY public.callees
 
 ALTER TABLE ONLY public.callers
     ADD CONSTRAINT callers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: events events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT events_pkey PRIMARY KEY (id);
 
 
 --
@@ -537,6 +594,48 @@ CREATE INDEX index_callers_on_pod_id ON public.callers USING btree (pod_id);
 
 
 --
+-- Name: index_events_on_created_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_events_on_created_by_id ON public.events USING btree (created_by_id);
+
+
+--
+-- Name: index_events_on_match_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_events_on_match_id ON public.events USING btree (match_id);
+
+
+--
+-- Name: index_events_on_note_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_events_on_note_id ON public.events USING btree (note_id);
+
+
+--
+-- Name: index_events_on_person_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_events_on_person_id ON public.events USING btree (person_id);
+
+
+--
+-- Name: index_events_on_replacement_event_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_events_on_replacement_event_id ON public.events USING btree (replacement_event_id);
+
+
+--
+-- Name: index_events_on_report_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_events_on_report_id ON public.events USING btree (report_id);
+
+
+--
 -- Name: index_matches_on_callee_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -558,17 +657,17 @@ CREATE INDEX index_matches_on_pod_id ON public.matches USING btree (pod_id);
 
 
 --
--- Name: index_notes_on_callee_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_notes_on_callee_id ON public.notes USING btree (callee_id);
-
-
---
 -- Name: index_notes_on_created_by_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_notes_on_created_by_id ON public.notes USING btree (created_by_id);
+
+
+--
+-- Name: index_notes_on_person_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_notes_on_person_id ON public.notes USING btree (person_id);
 
 
 --
@@ -590,6 +689,30 @@ CREATE UNIQUE INDEX index_pods_on_pod_leader_id ON public.pods USING btree (pod_
 --
 
 CREATE INDEX index_reports_on_match_id ON public.reports USING btree (match_id);
+
+
+--
+-- Name: events fk_rails_0dd58ac981; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT fk_rails_0dd58ac981 FOREIGN KEY (person_id) REFERENCES public.people(id);
+
+
+--
+-- Name: events fk_rails_1f2fddcdaa; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT fk_rails_1f2fddcdaa FOREIGN KEY (created_by_id) REFERENCES public.people(id);
+
+
+--
+-- Name: notes fk_rails_27aea6a7e9; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.notes
+    ADD CONSTRAINT fk_rails_27aea6a7e9 FOREIGN KEY (person_id) REFERENCES public.people(id);
 
 
 --
@@ -649,11 +772,11 @@ ALTER TABLE ONLY public.admins
 
 
 --
--- Name: notes fk_rails_5bf9146f3c; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: events fk_rails_5718cd1e6b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.notes
-    ADD CONSTRAINT fk_rails_5bf9146f3c FOREIGN KEY (callee_id) REFERENCES public.callees(id);
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT fk_rails_5718cd1e6b FOREIGN KEY (match_id) REFERENCES public.matches(id);
 
 
 --
@@ -670,6 +793,14 @@ ALTER TABLE ONLY public.matches
 
 ALTER TABLE ONLY public.callees
     ADD CONSTRAINT fk_rails_78fe3fbded FOREIGN KEY (person_id) REFERENCES public.people(id);
+
+
+--
+-- Name: events fk_rails_994e0816d3; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT fk_rails_994e0816d3 FOREIGN KEY (report_id) REFERENCES public.reports(id);
 
 
 --
@@ -697,6 +828,22 @@ ALTER TABLE ONLY public.matches
 
 
 --
+-- Name: events fk_rails_b241ca1d8a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT fk_rails_b241ca1d8a FOREIGN KEY (note_id) REFERENCES public.notes(id);
+
+
+--
+-- Name: events fk_rails_df200f81d0; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT fk_rails_df200f81d0 FOREIGN KEY (replacement_event_id) REFERENCES public.events(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -719,4 +866,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210217150818'),
 ('20210217150541'),
 ('20210217150818'),
-('20210218162712');
+('20210218162712'),
+('20210218162712'),
+('20210219100515');

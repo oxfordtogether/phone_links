@@ -1,0 +1,37 @@
+<% case @event %>
+<% when Events::NoteChanged %>
+<%= render TimelineItemComponent.new(icon: "heroicon-document-text-small", icon_colour: 'bg-blue-300', time: @event.occurred_at, is_last: @last_event) do |c| %>
+  <% c.with(:title) do %>
+    <% if @event.status == 'DELETED' %>
+      <span class="text-gray-500 italic">Note deleted</span>
+    <% else %>
+      <%= link_to edit_a_note_path(@event.note) do %>
+        <span class="my-1">
+          <% time = @event.occurred_at%>
+          <span><%= @event.created_by&.name || "?" %></span> <span class="text-xs text-gray-500 italic"><%= "at #{time.strftime("%l.%M%P")}" if time.hour != 0 %> on <%= time.strftime("%a #{time.day.ordinalize} %b") %></span>
+          <% if @event.status == "EDITED" %><span class="text-gray-500 italic">(edited)</span><% end %>
+        </span>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% c.with(:body) do %>
+    <% if @event.status != 'DELETED' %>
+      <%= @event.content %>
+    <% end %>
+  <% end %>
+<% end %>
+<% when Events::FlagChanged %>
+<%= render TimelineItemComponent.new(icon: "flag-fill", icon_colour: 'bg-red-400', time: @event.occurred_at, is_last: @last_event) do |c| %>
+  <% c.with(:title) do %>
+    <%= link_to flag_a_edit_person_path(@event.person) do %>
+      <span class="my-1">
+        <% time = @event.occurred_at%>
+        <span><%= @event.flag_in_progress ? "Flag raised by" : "Flag lowered by" %> <%= @event.created_by&.name || "?" %></span> <span class="text-xs text-gray-500 italic"><%= "at #{time.strftime("%l.%M%P")}" if time.hour != 0 %> on <%= time.strftime("%a #{time.day.ordinalize} %b") %></span>
+      </span>
+    <% end %>
+  <% end %>
+  <% c.with(:body) do %>
+    <%= @event.notes %>
+  <% end %>
+<% end %>
+<% end %>

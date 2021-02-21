@@ -4,7 +4,6 @@ class Callee < ApplicationRecord
   belongs_to :person
   belongs_to :pod, optional: true
   has_many :matches
-  has_many :notes
 
   accepts_nested_attributes_for :person
 
@@ -15,7 +14,6 @@ class Callee < ApplicationRecord
   encrypts :living_arrangements, type: :string, key: :kms_key
   encrypts :other_information, type: :string, key: :kms_key
   encrypts :additional_needs, type: :string, key: :kms_key
-  encrypts :flag_note, type: :string, key: :kms_key
 
   def name
     person.name

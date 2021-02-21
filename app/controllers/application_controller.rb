@@ -7,6 +7,10 @@ class ApplicationController < ActionController::Base
   default_form_builder OclTools::TailwindFormBuilder
 
   def current_user
-    Person.find(session[:person_id]) if session[:person_id]
+    if bypass_auth?
+      Admin.first.person
+    elsif session[:person_id]
+      Person.find(session[:person_id])
+    end
   end
 end

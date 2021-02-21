@@ -5,6 +5,11 @@
       <% @person.roles.each do |role| %>
         <%= role_badge(role) %>
       <% end %>
+      <% if @person.flag_in_progress %>
+        <%= link_to flag_a_edit_person_path do %>
+          <%= icon('bell-fill', class: "inline w-5 h-5 text-red-500") %>
+        <% end %>
+      <% end %>
     </h1>
     <div class="flex flex-wrap">
       <div class="mt-2 sm:mt-2 mr-6 flex items-center text-sm text-gray-900">
@@ -25,11 +30,9 @@
       </div>
     </div>
   </div>
-  <% if false %>
-    <div class="my-4 sm:my-0">
-      <%= button_link_to "Send invite", "" %>
-    </div>
-  <% end %>
+  <div class="mt-4 sm:my-0">
+    <%= button_link_to "Edit", personal_details_a_edit_person_path(@person), icon: "heroicon-edit" %>
+  </div>
 </div>
 <% if false %>
   <% if @person&.callee&.active_matches.present? %>
@@ -71,9 +74,12 @@
   <% if @person.caller.present? || @person.callee.present? %>
     <% nav.link "Details", details_a_person_path(@person) %>
   <% end %>
+  <% nav.link "Details", personal_details_a_edit_person_path(@person) %>
   <% nav.link "Edit", edit_a_person_path(@person) %>
-  <% if !@person.callee.present? %>
-    <% nav.link "Raise flag", raise_flag_a_person_path(@person) %>
+  <% if @note.present? && !@note.new_record? %>
+    <% nav.link "Edit note", edit_a_note_path(@note) %>
+  <% else %>
+    <% nav.link "New note", new_a_note_path(@person) %>
   <% end %>
   <% if !@person.callee.present? %>
     <% nav.link "More actions", actions_a_person_path(@person) %>
