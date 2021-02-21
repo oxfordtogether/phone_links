@@ -6,33 +6,37 @@
 <% content_for :page_head do %>
   <% render partial: "page_head" %>
 <% end %>
-<div class="flex items-center">
-  <%= link_to pl_reports_path, class: "flex-1 text-gray-500" do %>
-    <%= icon("arrow-left", class: "w-6 h-6") %>
-  <% end %>
-  <div class="text-sm text-medium mr-3 mt-1 text-gray-700">
-    <%= @current_report_number %> of <%= @total_reports %>
+<div class="shadow border-b border-gray-200 bg-gray-50 sm:rounded-lg py-4 px-6">
+  <div class="flex items-center text-gray-500">
+    <%= link_to pl_reports_path, class: "flex-1 " do %>
+      <%= icon("arrow-left", class: "w-6 h-6") %>
+    <% end %>
+    <div class="mr-5">
+      <%= icon("bookmark-check", class: "w-5 h-5") %>
+    </div>
+    <div class="text-sm text-medium mr-1 text-gray-700">
+      <%= @current_report_number %> of <%= @total_reports %>
+    </div>
+    <%= link_to @prev_url, class: "mr-3 flex items-center justify-center w-8 h-8 rounded-full #{@current_report_number == 1 ? 'text-gray-300 cursor-default' : 'hover:bg-gray-200'}" do %>
+      <%= icon("chevron-left", class: "w-5 h-5") %>
+    <% end %>
+    <%= link_to @next_url, class: "flex items-center justify-center w-8 h-8 rounded-full #{@current_report_number == @total_reports ? 'text-gray-300 cursor-default' : 'hover:bg-gray-200'}" do %>
+      <%= icon("chevron-right", class: "w-5 h-5") %>
+    <% end %>
   </div>
-  <%= link_to @prev_url, class: "mr-3 flex items-center justify-center w-8 h-8 rounded-full #{@current_report_number == 1 ? 'text-gray-300 cursor-default' : 'hover:bg-gray-200 text-gray-500'}" do %>
-    <%= icon("chevron-left", class: "w-5 h-5") %>
-  <% end %>
-  <%= link_to @next_url, class: "flex items-center justify-center w-8 h-8 rounded-full #{@current_report_number == @total_reports ? 'text-gray-300 cursor-default' : 'hover:bg-gray-200 text-gray-500'}" do %>
-    <%= icon("chevron-right", class: "w-5 h-5") %>
-  <% end %>
-</div>
-<div class="mt-10">
-  <div class="flex justify-between">
-    <div>
+  <hr class="border-t border-gray-200 my-4" aria-hidden="true">
+  <div class="flex justify-between py-2">
+    <div class="text-md leading-2 tracking-wide	font-bold">
       <%= @report.match.caller.name %> & <%= @report.match.callee.name %>
     </div>
     <div class="text-sm text-gray-500">
       submitted: <%= format_date_as_relative(@report.created_at) %>
     </div>
   </div>
-  <div>
-    Date/time of call <%= @report.datetime %>
+  <div class="text-sm text-gray-700">
+    Report submitted by <%= @report.match.caller.person.first_name %> about call made on <%= @report.datetime %>
   </div>
-  <div>
-    Summary: <%= @report.summary %>
+  <div class="mt-2">
+    <%= @report.summary %>
   </div>
 </div>

@@ -15,6 +15,8 @@ class Pl::CallersController < Pl::PlController
 
   def set_caller
     @caller = Caller.find(params[:id])
+
+    redirect_to "/invalid_permissions_for_page" if @caller.pod != current_pod_leader.pod
   end
 
   def caller_params

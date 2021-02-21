@@ -15,6 +15,8 @@ class Pl::MatchesController < Pl::PlController
 
   def set_match
     @match = Match.find(params[:id])
+
+    redirect_to "/invalid_permissions_for_page" if @match.pod != current_pod_leader.pod
   end
 
   def match_params

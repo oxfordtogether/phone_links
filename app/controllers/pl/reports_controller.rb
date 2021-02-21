@@ -31,6 +31,8 @@ class Pl::ReportsController < Pl::PlController
 
   def set_report
     @report = Report.find(params[:id])
+
+    redirect_to "/invalid_permissions_for_page" if @report.match.pod != current_pod_leader.pod
   end
 
   def report_params

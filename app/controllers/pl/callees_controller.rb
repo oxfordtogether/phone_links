@@ -15,6 +15,8 @@ class Pl::CalleesController < Pl::PlController
 
   def set_callee
     @callee = Callee.find(params[:id])
+
+    redirect_to "/invalid_permissions_for_page" if @callee.pod != current_pod_leader.pod
   end
 
   def callee_params
