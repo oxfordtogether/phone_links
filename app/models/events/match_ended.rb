@@ -18,10 +18,11 @@ module Events
 
     def self.create_from_match!(match)
       create!(
+        occurred_at: match.created_at,
         match: match,
         person_id: match.callee.person.id,
         caller_id: match.caller.id,
-        caller_id: match.caller.name,
+        caller_name: match.caller.name,
         start_date: match.start_date,
         end_date: match.end_date,
         pending: match.pending,
@@ -36,11 +37,11 @@ module Events
       occurred_at == match.created_at &&
         caller_id == match.caller.id &&
         caller_name == match.caller.name &&
-        start_date == match.start_date &&
-        end_date == match.end_date &&
+        start_date == match.start_date.strftime("%Y-%m-%d") &&
+        end_date == match.end_date.strftime("%Y-%m-%d") &&
         pending == match.pending &&
         pod_id == match.pod.id &&
-        pod_name == match.pod_name &&
+        pod_name == match.pod.name &&
         end_reason == match.end_reason &&
         end_reason_notes == match.end_reason_notes
     end
