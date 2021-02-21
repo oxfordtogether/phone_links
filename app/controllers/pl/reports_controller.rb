@@ -3,7 +3,7 @@ class Pl::ReportsController < Pl::PlController
 
   def index
     @pod = current_pod_leader.pod
-    @reports = Report.where(match_id: @pod.matches.map(&:id))
+    @pagy, @reports = pagy(Report.where(match_id: @pod.matches.map(&:id)), items: 20)
   end
 
   def show

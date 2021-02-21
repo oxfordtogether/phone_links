@@ -368,6 +368,7 @@ DEPENDENCIES
   ocl_tools!
   omniauth-auth0 (~> 2.2)
   omniauth-rails_csrf_protection (~> 0.1)
+  pagy
   pg (>= 0.18, < 2.0)
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.4)

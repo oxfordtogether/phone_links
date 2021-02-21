@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   helper OclTools::ComponentsHelper
   helper OclTools::FormHelper
+  include Pagy::Backend
 
   include Secured
 

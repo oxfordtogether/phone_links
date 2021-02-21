@@ -84,3 +84,5 @@ gem "omniauth-rails_csrf_protection", "~> 0.1"
 
 gem "hiredis"
 gem "redis"
+
+gem "pagy"
