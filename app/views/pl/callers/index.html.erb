@@ -11,6 +11,15 @@
     <% tbl.col "Name" do |caller| %>
       <%= link_to caller.name, a_person_path(caller.person) %>
     <% end %>
+    <% tbl.col "Active match(es)" do |caller| %>
+      <% if caller.active_matches.present? %>
+        <% caller.active_matches.each_with_index do |match, index| %>
+          <%= match.callee.name %><% if caller.active_matches.count - 1 != index %>, <% end %>
+        <% end %>
+      <% else %>
+        <div class="italic">No active matches</div>
+      <% end %>
+    <% end %>
     <% tbl.col "Active" do |caller| %>
       <% if caller.active %>
         <%= icon("check-circle", class: "h-5 w-5 text-green-500") %>
