@@ -80,6 +80,8 @@ Rails.application.routes.draw do
     scope "/:pod_leader_id" do
       get "/", to: "pages#home"
 
+      get "support", to: "pages#support"
+
       resources :reports, only: %i[index show]
       resources :callers, only: %i[index show]
       resources :callees, only: %i[index show]

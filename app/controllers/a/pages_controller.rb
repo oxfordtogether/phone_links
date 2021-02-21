@@ -13,7 +13,9 @@ class A::PagesController < A::AController
     @pending_matches_count = Match.where(pending: true).count
   end
 
-  def support; end
+  def support
+    render "pages/support"
+  end
 
   def search
     @status ||= :start
