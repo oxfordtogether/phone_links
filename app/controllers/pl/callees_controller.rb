@@ -4,7 +4,7 @@ class Pl::CalleesController < Pl::PlController
   def index
     @pod = current_pod_leader.pod
     @current_pod_leader = current_pod_leader
-    @callees = Callee.where(pod_id: @pod.id)
+    @callees = Callee.where(pod_id: @pod.id).where(active: true)
   end
 
   def show
