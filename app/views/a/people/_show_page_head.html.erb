@@ -34,48 +34,107 @@
     <%= button_link_to "Edit", personal_details_a_edit_person_path(@person), icon: "heroicon-edit" %>
   </div>
 </div>
-<% if false %>
-  <% if @person&.callee&.active_matches.present? %>
-    <div class="my-4 text-gray-600">
-      Matched with
-      <% @person.callee.active_matches.each_with_index do |match, index| %>
-        <span>
-          <%= link_to match.caller.name, a_person_path(match.caller.person), class: "text-gray-900 hover:text-blue-800 hover:underline" %> since <%= match.start_date %>
-          <% if @person.callee.active_matches.size - 1 != index %>, <% end %>
-        </span>
+<% if @person&.callee.present? %>
+  <dl class="mt-6 mb-3 grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+    <div class="sm:col-span-1">
+      <dt class="text-sm font-medium text-gray-500">
+        Matched with
+      </dt>
+      <% if @person&.callee&.matches.present? %>
+        <% @person&.callee&.matches.each do |match| %>
+          <dd class="mt-1 text-sm text-gray-900">
+            <% if match.pending %>
+              <%= link_to match.caller.name, a_match_path(match) %>, <span class="italic">pending</span> (<%= format_date_range(match) %>)
+            <% elsif match.active? %>
+              <%= link_to match.caller.name, a_match_path(match) %> (<%= format_date_range(match) %>)
+            <% else %>
+              <%= link_to match.caller.name, a_match_path(match) %>, <span class="italic">ended</span> (<%= format_date_range(match) %>)
+            <% end %>
+          </dd>
+        <% end %>
+      <% else %>
+        <div class="mt-1 text-sm text-gray-900 italic">None</div>
       <% end %>
     </div>
-  <% end %>
-  <% if @person&.caller&.active_matches.present? %>
-    <div class="my-4 text-gray-600">
-      Matched with
-      <% @person.caller.active_matches.each_with_index do |match, index| %>
-        <span>
-          <%= link_to match.callee.name, a_person_path(match.callee.person), class: "text-gray-900 hover:text-blue-800 hover:underline" %> since <%= match.start_date %>
-          <% if @person.caller.active_matches.size - 1 != index %>, <% end %>
-        </span>
+    <div class="sm:col-span-1">
+      <dt class="text-sm font-medium text-gray-500">
+        Pod
+      </dt>
+      <dd class="mt-1 text-sm text-gray-900">
+        <% if @person&.callee&.pod %>
+          <%= link_to @person.callee.pod.name, a_pod_path(@person.callee.pod) %>
+          <% if @person&.callee&.pod&.pod_leader %>
+            (<%= link_to @person.callee.pod.pod_leader.name, a_person_path(@person.callee.pod.pod_leader.person) %>)
+          <% else %>
+            <div class="italic">(No Pod Leader)</div>
+          <% end %>
+        <% else %>
+          <div class="italic">None</div>
+        <% end %>
+      </dd>
+    </div>
+  </dl>
+<% end %>
+<% if @person&.caller.present? %>
+  <dl class="mt-6 mb-3 grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+    <div class="sm:col-span-1">
+      <dt class="text-sm font-medium text-gray-500">
+        Matched with
+      </dt>
+      <% if @person&.caller&.matches.present? %>
+        <% @person&.caller&.matches.each do |match| %>
+          <dd class="mt-1 text-sm text-gray-900">
+            <% if match.pending %>
+              <%= link_to match.callee.name, a_match_path(match) %>, <span class="italic">pending</span> (<%= format_date_range(match) %>)
+            <% elsif match.active? %>
+              <%= link_to match.callee.name, a_match_path(match) %> (<%= format_date_range(match) %>)
+            <% else %>
+              <%= link_to match.callee.name, a_match_path(match) %>, <span class="italic">ended</span> (<%= format_date_range(match) %>)
+            <% end %>
+          </dd>
+        <% end %>
+      <% else %>
+        <div class="mt-1 text-sm text-gray-900 italic">None</div>
       <% end %>
     </div>
-  <% end %>
-  <% if @person&.pod_leader&.pods.present? %>
-    <div class="my-4 text-gray-600">
-      Pod leader of
-      <% @person.pod_leader.pods.each_with_index do |pod, index| %>
-        <span>
-          <%= link_to pod.name, a_pod_path(pod), class: "text-gray-900 hover:text-blue-800 hover:underline" %>
-          <% if @person.pod_leader.pods.size - 1 != index %>, <% end %>
-        </span>
+    <div class="sm:col-span-1">
+      <dt class="text-sm font-medium text-gray-500">
+        Pod
+      </dt>
+      <dd class="mt-1 text-sm text-gray-900">
+        <% if @person&.caller&.pod %>
+          <%= link_to @person.caller.pod.name, a_pod_path(@person.caller.pod) %>
+          <% if @person&.caller&.pod&.pod_leader %>
+            (<%= link_to @person.caller.pod.pod_leader.name, a_person_path(@person.caller.pod.pod_leader.person) %>)
+          <% else %>
+            <div class="italic">(No Pod Leader)</div>
+          <% end %>
+        <% else %>
+          <div class="italic">None</div>
+        <% end %>
+      </dd>
+    </div>
+  </dl>
+<% end %>
+<% if @person&.pod_leader.present? %>
+  <dl class="mt-6 mb-3 grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+    <div class="sm:col-span-1">
+      <dt class="text-sm font-medium text-gray-500">
+        Leads
+      </dt>
+      <% if @person&.pod_leader&.pod.present? %>
+        <dd class="mt-1 text-sm text-gray-900">
+          <%= link_to @person.pod_leader.pod.name, a_pod_path(@person.pod_leader.pod) %>
+        </dd>
+      <% else %>
+        <div class="mt-1 text-sm text-gray-900 italic">Not assigned to a pod</div>
       <% end %>
     </div>
-  <% end %>
+  </dl>
 <% end %>
 <%= nav_tabs do |nav| %>
   <% nav.link "Events", events_a_person_path(@person) %>
-  <% if @person.caller.present? || @person.callee.present? %>
-    <% nav.link "Details", details_a_person_path(@person) %>
-  <% end %>
   <% nav.link "Details", personal_details_a_edit_person_path(@person) %>
-  <% nav.link "Edit", edit_a_person_path(@person) %>
   <% if @note.present? && !@note.new_record? %>
     <% nav.link "Edit note", edit_a_note_path(@note) %>
   <% else %>
