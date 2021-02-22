@@ -9,7 +9,7 @@
     <%= render(SidebarLinkComponent.new(name: "Callees", url: pl_callees_path(@current_pod_leader.id), icon: "phone-incoming")) %>
     <%= render(SidebarLinkComponent.new(name: "Matches", url: pl_matches_path(@current_pod_leader.id), icon: "link-45deg")) %>
   </div>
-  <hr class="border-t border-gray-700 my-5" aria-hidden="true">  
+  <hr class="border-t border-gray-700 my-5" aria-hidden="true">
   <div class="px-2 space-y-1">
     <%= render(SidebarLinkComponent.new(name: "Support", url: pl_support_path(@current_pod_leader.id), icon: 'question-mark-circle')) %>
   </div>

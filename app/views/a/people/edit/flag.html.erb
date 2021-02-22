@@ -18,8 +18,8 @@
         method: :post,
         local: true) do |form| %>
       <%= form.section do %>
-        <%= form.check_box :flag_in_progress, true, label: "Raise flag", width: :full %>
-        <%= form.text_area :flag_note %>
+        <%= form.check_box :flag_in_progress, true, "Action required" %>
+        <%= form.text_area :flag_note, label: "Notes (what is the action item?)" %>
       <% end %>
       <%= form.button_section do %>
         <%= form.cancel a_person_path(@person) %>

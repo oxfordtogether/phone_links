@@ -2,7 +2,7 @@
   <%= side_nav do |nav| %>
     <% nav.link "Personal", personal_details_a_edit_person_path(@person), "user" %>
     <% nav.link "Contact", contact_details_a_edit_person_path(@person), "book-open" %>
-    <% nav.link "Flag", flag_a_edit_person_path(@person), "lightning-bolt" %>
+    <% nav.link "Actions", flag_a_edit_person_path(@person), "bell-fill" %>
     <% if @person.callee.present? %>
       <% nav.link "Referral details", referral_details_a_edit_person_path(@person), "heroicon-document-text-small" %>
     <% end %>

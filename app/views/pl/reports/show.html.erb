@@ -34,9 +34,12 @@
     </div>
   </div>
   <div class="text-sm text-gray-700">
-    Report submitted by <%= @report.match.caller.person.first_name %> about call made on <%= @report.datetime %>
+    Report submitted by <%= @report.match.caller.person.first_name %> on <%= format_date(@report.created_at) %>
   </div>
-  <div class="mt-2">
-    <%= @report.summary %>
+  <div class="mt-6">
+    <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call date: </span><%= format_date(@report.datetime) %></div>
+    <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call length: </span><%= @report.duration %></div>
+    <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Callee mood: </span>...</div>
+    <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Summary: </span><%= @report.summary %></div>
   </div>
 </div>

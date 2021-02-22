@@ -30,11 +30,8 @@ module Events
 
     def create_events!
       if !existing_created_event
-        debugger
         MatchCreated.create_from_match!(match)
       elsif !existing_created_event.matches_match?(match)
-        debugger
-
         ActiveRecord::Base.transaction do
           new_event = MatchCreated.create_from_match!(match)
           existing_created_event&.update(replacement_event_id: new_event.id)
@@ -42,12 +39,8 @@ module Events
       end
 
       if match.end_date && !existing_ended_event
-        debugger
-
         MatchEnded.create_from_match!(match)
       elsif match.end_date && !existing_ended_event.matches_match?(match)
-        debugger
-
         ActiveRecord::Base.transaction do
           new_event = MatchEnded.create_from_match!(match)
           existing_ended_event&.update(replacement_event_id: new_event.id)

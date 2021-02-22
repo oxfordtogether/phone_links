@@ -3,7 +3,16 @@ class Pl::ReportsController < Pl::PlController
 
   def index
     @pod = current_pod_leader.pod
-    @pagy, @reports = pagy(Report.where(match_id: @pod.matches.map(&:id)), items: 20)
+
+    # TO DO
+    case params[:view]
+    when "archived"
+      @pagy, @reports = pagy(Report.where(match_id: @pod.matches.map(&:id)), items: 20)
+    when "all"
+      @pagy, @reports = pagy(Report.where(match_id: @pod.matches.map(&:id)), items: 20)
+    else
+      @pagy, @reports = pagy(Report.where(match_id: @pod.matches.map(&:id)), items: 20)
+    end
   end
 
   def show

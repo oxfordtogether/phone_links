@@ -33,6 +33,10 @@ class Event < ApplicationRecord
     false
   end
 
+  def flag_changed?
+    false
+  end
+
   def active?
     !replacement_event_id
   end
