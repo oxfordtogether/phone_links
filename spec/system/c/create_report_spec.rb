@@ -1,6 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "create report", type: :system do
+  let!(:callees) { create_list(:callee, 150) }
   let!(:caller) { create(:caller) }
   let!(:match_1) { create(:match, caller: caller) }
   # can create more than one matches
@@ -30,16 +31,17 @@ RSpec.describe "create report", type: :system do
     expect(page).to have_current_path("/c/#{caller.id}/reports")
     expect(report.match.id).to eq(match_2.id)
     expect(report.callee_state).to eq("Great!")
-    expect(report.duration).to eq("5 to 30 minutes")
+    expect(report.duration).to eq("15 to 30 minutes")
     expect(report.summary).to eq("This is a test")
+    expect(report.datetime.strftime("%Y-%m-%d %H:%M:%S")).to eq("2020-01-01 12:05:00")
   end
 
   it "redirect back to correct page on cancel" do
     login_as nil
 
-    visit "/c/reports/new"
+    visit "/c/#{caller.id}/reports/new"
 
     click_on "Cancel"
-    expect(page).to have_current_path("/c")
+    expect(page).to have_current_path("/c/#{caller.id}")
   end
 end
