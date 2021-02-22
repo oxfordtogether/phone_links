@@ -56,6 +56,6 @@
   </div>
 <% end %>
 <%= nav_tabs do |nav| %>
-  <% nav.link "Reports", a_match_path(@match) %>
+  <% nav.link "Reports (#{ @match.reports.count })", a_match_path(@match) %>
   <% nav.link "Edit", edit_a_match_path(@match) %>
 <% end %>
