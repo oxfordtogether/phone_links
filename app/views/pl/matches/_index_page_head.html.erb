@@ -1,3 +1,8 @@
-<h1 class="text-2xl font-semibold text-gray-900">
-  Matches
-</h1>
+<div class="sm:flex sm:justify-between">
+  <h1 class="text-2xl font-semibold text-gray-900">
+    Matches
+  </h1>
+  <div class="mt-4 sm:mt-0">
+    <%= button_link_to "New Match", new_pl_match_path(@current_pod_leader), icon: 'icon-add' %>
+  </div>
+</div>

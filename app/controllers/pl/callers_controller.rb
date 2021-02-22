@@ -9,6 +9,7 @@ class Pl::CallersController < Pl::PlController
 
   def show
     @person = @caller.person
+    @events = @caller.person.events
   end
 
   private

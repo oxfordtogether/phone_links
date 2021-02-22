@@ -13,11 +13,14 @@ FactoryBot.create(:admin, person: PodLeader.all.sample.person)
 FactoryBot.create(:pod_leader, person: Caller.all.sample.person)
 
 callers = Caller.all
+callees = Callee.all
+pods = Pod.all
 (0..150).to_a.each do |_i|
-  # callees should only have one active match
+  pod = pods.sample
   FactoryBot.create(:match,
-                    caller: callers.sample,
-                    callee: Callee.with_matches.all.filter { |c| c.active_matches.size == 0 }.sample,
+                    caller: callers.filter { |c| c.pod == pod }.sample,
+                    callee: callees.filter { |c| c.pod == pod }.sample,
+                    pod: pod,
                     pending: rand(10) == 1)
 end
 

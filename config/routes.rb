@@ -85,7 +85,7 @@ Rails.application.routes.draw do
       resources :reports, only: %i[index show]
       resources :callers, only: %i[index show]
       resources :callees, only: %i[index show]
-      resources :matches, only: %i[index show]
+      resources :matches
     end
   end
 

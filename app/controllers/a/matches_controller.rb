@@ -1,9 +1,8 @@
 class A::MatchesController < A::AController
-  before_action :set_match, only: %i[show edit update move_pods]
+  before_action :set_match, only: %i[show edit update]
 
   def show; end
 
-  # matches/new
   def new
     pod_id = params[:pod_id]
     @match = Match.new(start_date: Date.today, pod_id: pod_id)
@@ -33,8 +32,6 @@ class A::MatchesController < A::AController
       render :edit
     end
   end
-
-  def move_pods; end
 
   private
 
