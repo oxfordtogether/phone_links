@@ -11,8 +11,6 @@ SET row_security = off;
 
 SET default_tablespace = '';
 
-SET default_table_access_method = heap;
-
 --
 -- Name: admins; Type: TABLE; Schema: public; Owner: -
 --
@@ -637,5 +635,3 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210216113251'),
 ('20210217150541'),
 ('20210217150818');
-
-

@@ -4,5 +4,9 @@ class LoginController < ApplicationController
 
   def show; end
 
-  def invalid_permissions; end
+  def invalid_permissions_for_app; end
+
+  def invalid_permissions_for_page; end
+
+  def page_does_not_exist; end
 end

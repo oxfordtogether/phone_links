@@ -1,10 +1,13 @@
 Rails.application.routes.draw do
   root to: "home#home"
+
   get "login", to: "login#show"
-  get "invalid_permissions", to: "login#invalid_permissions"
   get "logout", to: "logout#logout"
   get "auth/auth0/callback" => "auth0#callback"
   get "auth/failure" => "auth0#failure"
+  get "invalid_permissions_for_app", to: "login#invalid_permissions_for_app"
+  get "invalid_permissions_for_page", to: "login#invalid_permissions_for_page"
+  get "page_does_not_exist", to: "login#page_does_not_exist"
 
   namespace :a do
     get "/", to: "pages#home"
@@ -58,11 +61,15 @@ Rails.application.routes.draw do
   end
 
   namespace :pl do
-    get "/", to: "pages#home"
+    scope "/:pod_leader_id" do
+      get "/", to: "pages#home"
+    end
   end
 
   namespace :c do
-    get "/", to: "pages#home"
-    resources :reports
+    scope "/:caller_id" do
+      get "/", to: "pages#home"
+      resources :reports
+    end
   end
 end
