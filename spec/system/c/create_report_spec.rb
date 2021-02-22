@@ -1,16 +1,20 @@
 require "rails_helper"
 
 RSpec.describe "create report", type: :system do
+  # create a list of callees, otherwise the created matches will always be the same one
   let!(:callees) { create_list(:callee, 150) }
+  # create a caller to be able to create a match
   let!(:caller) { create(:caller) }
+  # create a match using the created caller as argument
   let!(:match_1) { create(:match, caller: caller) }
-  # can create more than one matches
+  # create more than one matches because one caller typically has 1 to 3 callees
   let!(:match_2) { create(:match, caller: caller) }
   let!(:match_3) { create(:match, caller: caller) }
 
   it "works" do
+    # set to pas the homepage
     login_as nil
-
+    # will visit the homepage of the caller created in the test
     visit "/c/#{caller.id}"
     click_on "Reports"
     click_on "New"
@@ -27,7 +31,8 @@ RSpec.describe "create report", type: :system do
     end.to change { Report.count }.by(1)
 
     report = Report.last
-
+    # page is the destination page once clicked on Submit
+    # report is the last entry in the Report database.
     expect(page).to have_current_path("/c/#{caller.id}/reports")
     expect(report.match.id).to eq(match_2.id)
     expect(report.callee_state).to eq("Great!")
