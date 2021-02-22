@@ -12,8 +12,8 @@ DURATION_EXAMPLE ||= [
   "less than 15 minutes",
   "15 to 30 minutes",
   "30 minutes to 1 hour",
-  "Over one hour",
-  "Did not answer",
+  "over one hour",
+  "did not answer",
 ].freeze
 
 SUMMARY_EXAMPLE ||= [

@@ -2,6 +2,6 @@
   My Reports
 </h1>
 <%= nav_tabs do |nav| %>
-  <% nav.link "Reports", c_reports_path %>
+  <% nav.link "Reports (#{ @reports.count })", c_reports_path %>
   <% nav.link "New", new_c_report_path %>
 <% end %>

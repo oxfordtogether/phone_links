@@ -3,7 +3,8 @@ class C::ReportsController < C::CController
 
   # GET /reports
   def index
-    @reports = Report.all
+    matches = current_caller.match_ids
+    @reports = Report.where(match_id: matches)
   end
 
   # GET /reports/1
@@ -13,6 +14,10 @@ class C::ReportsController < C::CController
   def new
     @report = Report.new
     @redirect_on_cancel = params[:redirect_on_cancel] || c_path
+    matches = current_caller.match_ids
+    @reports = Report.where(match_id: matches)
+    @matches = current_caller.matches
+
     # @redirect_on_submit = params[:redirect_on_submit] || c_report_path
   end
 
@@ -24,7 +29,7 @@ class C::ReportsController < C::CController
     @report = Report.new(report_params)
 
     if @report.save
-      redirect_to c_reports_path(@report), notice: "Report was successfully created."
+      redirect_to c_reports_path, notice: "Report was successfully created."
     else
       render :new
     end

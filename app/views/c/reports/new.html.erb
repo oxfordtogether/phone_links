@@ -4,6 +4,6 @@
   <% end %>
 <% end %>
 <% content_for :page_head do %>
-  <%= render ReportsHeadComponent.new %>
+  <%= render ReportsHeadComponent.new(@reports) %>
 <% end %>
 <%= render 'form', report: @report, action: :new %>
