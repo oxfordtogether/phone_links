@@ -56,4 +56,16 @@ module ApplicationHelper
 
     datetime.strftime("#{datetime.day.ordinalize} %b %Y at %I:%M%p")
   end
+
+  def caller_duration(datetime)
+    return unless datetime
+
+    date_today = Date.today
+    date_start = Date.parse(datetime)
+    number_days = (date_today - date_start).to_i
+    number_years = number_days / 365
+    number_days_left = number_days % 365
+    # number_days_left = number_days - number_years * 365
+    "#{number_years} year #{number_days_left} days"
+  end
 end

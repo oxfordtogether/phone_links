@@ -21,7 +21,7 @@
   </div>
 
   <div class="mt-8">
-  <!-- Quick links - TO DO: improve responsive behavior -->
+    <!-- Quick links - TO DO: improve responsive behavior -->
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2 class="text-gray-800 text-xs font-medium uppercase tracking-wide">Quick links</h2>
       <ul class="flex flex-wrap mt-3">
@@ -30,5 +30,49 @@
         </li>
       </ul>
     </div>
+
+    <!-- Overview  -->
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 ">
+    <div class="inline text-lg font-medium text-gray-900">Active caller since <%= format_date(@current_caller.created_at) %> (<%= caller_duration(format_datetime(@current_caller.created_at)) || "?" %>). Thank you!</div>
+      <h2 class="text-gray-800 text-xs font-medium uppercase tracking-wide">Overview</h2>
+      <ul class="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 xl:grid-cols-4 mt-3">
+        <!-- start -->
+        <li class="relative col-span-1 flex shadow-sm rounded-md">
+          <div class="flex-shrink-0 flex items-center justify-center w-12 bg-pink-600 text-white text-sm font-medium rounded-l-md"></div>
+          <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
+            <div class="flex-1 px-4 py-2 text-sm truncate">
+              <a href="#" class="text-gray-500 font-medium hover:text-gray-600">
+                Number of reports:
+                <div class="inline text-lg font-medium text-gray-900"><%= @reports.count || "no callee"  %></div>
+              </a>
+            </div>
+          </div>
+        </li>
+        <li class="relative col-span-1 flex shadow-sm rounded-md">
+          <div class="flex-shrink-0 flex items-center justify-center w-12 bg-green-600 text-white text-sm font-medium rounded-l-md"></div>
+          <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
+            <div class="flex-1 px-4 py-2 text-sm truncate">
+              <a href="#" class="text-gray-500 font-medium hover:text-gray-600">
+                Number of callees:
+                <div class="inline text-lg font-medium text-gray-900"><%= @matches.count %></div>
+              </a>
+            </div>
+          </div>
+        </li>
+        <li class="relative col-span-1 flex shadow-sm rounded-md">
+          <div class="flex-shrink-0 flex items-center justify-center w-12 bg-blue-600 text-white text-sm font-medium rounded-l-md"></div>
+          <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md ">
+            <div class="flex-1 px-4 py-2 text-sm truncate">
+              <a href="#" class="text-gray-500 font-medium hover:text-gray-600">
+                Active caller for:
+                <div class="inline text-lg font-medium text-gray-900"><%= caller_duration("01/01/2020") || "?" %></div>
+              </a>
+            </div>
+          </div>
+        </li>
+        <!-- end -->
+      </ul>
+    </div>
   </div>
+  
 <% end %>
