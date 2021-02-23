@@ -1,0 +1,9 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Reports", c_reports_path %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <%= render ReportsHeadComponent.new(@reports) %>
+<% end %>
+<%= render 'form', report: @report, action: :new %>

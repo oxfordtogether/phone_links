@@ -69,6 +69,7 @@ Rails.application.routes.draw do
   namespace :c do
     scope "/:caller_id" do
       get "/", to: "pages#home"
+      resources :reports
     end
   end
 end

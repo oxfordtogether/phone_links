@@ -36,4 +36,10 @@ module ApplicationHelper
       date.strftime("#{date.day.ordinalize} %b %Y")
     end
   end
+
+  def format_datetime(datetime)
+    return unless datetime
+
+    datetime.strftime("#{datetime.day.ordinalize} %b %Y at %I:%M%p")
+  end
 end

@@ -276,12 +276,12 @@ ALTER SEQUENCE public.pods_id_seq OWNED BY public.pods.id;
 CREATE TABLE public.reports (
     id bigint NOT NULL,
     duration character varying,
-    summary_ciphertext text,
-    datetime timestamp without time zone,
     callee_state character varying,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    match_id bigint
+    summary_ciphertext text,
+    match_id bigint NOT NULL,
+    datetime timestamp without time zone
 );
 
 
@@ -629,6 +629,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210208194108'),
 ('20210209092549'),
 ('20210209171012'),
-('20210216093905');
-
-
+('20210216093905'),
+('20210216095558'),
+('20210216112002'),
+('20210216113251'),
+('20210217150541'),
+('20210217150818');
