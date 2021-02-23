@@ -65,7 +65,6 @@ module ApplicationHelper
     number_days = (date_today - date_start).to_i
     number_years = number_days / 365
     number_days_left = number_days % 365
-    # number_days_left = number_days - number_years * 365
     "#{number_years} year #{number_days_left} days"
   end
 end
