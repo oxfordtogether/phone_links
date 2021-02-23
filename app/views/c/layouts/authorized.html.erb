@@ -1,17 +1,15 @@
-<% content_for :navbar_content do %>
-  <% if @is_admin  %>
-    <div class="px-2 pb-4 space-y-1">
-      <%= render(SidebarLinkComponent.new(name: "Back to Admin", url: a_path, icon: "login")) %>
-    </div>
-  <% end %>
-  <% if @is_pod_leader %>
-    <div class="px-2 pb-4 space-y-1">
-      <%= render(SidebarLinkComponent.new(name: "Switch to pod leader's area", url: pl_path(@current_user.pod_leader), icon: "login")) %>
-    </div>
-  <% end %>
-  <div class="px-2 space-y-1">
-    <%= render(SidebarLinkComponent.new(name: "Home", url: c_path(@current_caller.id), icon: "heroicon-home-unfilled")) %>
-    <%= render(SidebarLinkComponent.new(name: "Reports", url: c_reports_path, icon: "heroicon-document-text-small")) %>
-  </div>
-<% end %>
-<%= render template: "layouts/application" %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Phone Links</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= action_cable_meta_tag %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body class="h-screen">
+  <h1>Hello</h1>
+  </body>
+</html>
