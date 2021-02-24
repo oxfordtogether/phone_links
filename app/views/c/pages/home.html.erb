@@ -19,9 +19,13 @@
       TO DO
     </div>
   </div>
-<div>
-  <img class="hidden md:inline" src="https://cdn-images-1.medium.com/max/2400/1*OqEGLMIIj1UC4bTTaz6bJw.png" alt="OxHub nicebackground">
-</div>
+    <!-- Nice banner for medium size screen -->
+  <div>
+    <img class="hidden md:inline" src="https://cdn-images-1.medium.com/max/2400/1*OqEGLMIIj1UC4bTTaz6bJw.png" alt="OxHub nicebackground">
+  </div>
+    <!-- Nice banner for mobile / small screen (cropped) -->
+  <div>  <img class="md:hidden" src="/banner_cut.png" alt="OxHub nicebackground cut"> </div>
+
 <div class="flex justify-center items-baseline">
   <h1 class="text-center mt-4 text-2xl font-extrabold tracking-tight text-green-500">
           Welcome to Oxford Hub Phone Links
@@ -30,36 +34,39 @@
     <%= icon("chat-alt-2", class: "h-8 w-8 rounded-full sm:block text-green-500") %>
   </span>
 </div>
-<div>  <img class="md:hidden" src="/banner_cut.png" alt="OxHub nicebackground cut"> </div>
   <!-- Stats section -->
-      <div class="bg-fixed bg-right-bottom mt-6 px-4" style="background-image: url(https://i1.wp.com/oxfordshire.org/wp-content/uploads/2020/05/Oxford-hub-logo.png?ssl=1)">
+      <div class="mt-6 px-4">
      <!--  <div class="relative bg-fixed bg-center bg-cover bg-no-repeat"
   style="background-image:linear-gradient(rgba(135, 80, 156, 0.9), rgba(135, 80, 156, 0.9)), url(img/hero-bg.jpg)"> -->
       <!-- <div class="bg-fixed ..." style="background-image: url(...)"></div> -->
-        <dl class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-4 ">
-          <div class="text-center border-t-2 border-gray-100 pt-2">
-            <dd class="text-lg font-semibold md:text-3xl md:font-semibold tracking-tight text-gray-900">X year Y days</dd>
-            <dt class="text-base font-medium text-gray-500">in the program</dt>
+        <div class= "flex justify-center">
+        <div>
+        <dl class="px-4 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-4 ">
+          <div class="text-center">
+            <dd class="text-base font-semibold md:text-3xl md:font-semibold tracking-tight text-gray-900">X year Y days</dd>
+            <dt class="text-sm text-gray-500 md:text-base md:font-medium">in the program</dt>
           </div>
 
-          <div class="text-center border-t-2 border-gray-100 pt-2">
-            <dd class="text-lg font-semibold md:text-3xl md:font-semibold tracking-tight text-gray-900">5</dd>
-            <dt class="text-base font-medium text-gray-500">Callees</dt>
+          <div class="text-center">
+            <dd class="text-base font-semibold md:text-3xl md:font-semibold tracking-tight text-gray-900">5</dd>
+            <dt class="text-sm text-gray-500 md:text-base md:font-medium">Callees</dt>
           </div>
 
-          <div class="text-center border-t-2 border-gray-100 pt-2">
-            <dd class="text-lg font-semibold md:text-3xl md:font-semibold tracking-tight text-gray-900">X</dd>
-            <dt class="text-base font-medium text-gray-500">Reports written</dt>
+          <div class="text-center">
+            <dd class="text-base font-semibold md:text-3xl md:font-semibold tracking-tight text-gray-900">X</dd>
+            <dt class="text-sm text-gray-500 md:text-base md:font-medium">Reports written</dt>
           </div>
 
-          <div class="text-center border-t-2 border-gray-100 pt-2">
-            <dd class="text-lg font-semibold md:text-3xl md:font-semibold tracking-tight text-gray-900">+100</dd>
-            <dt class="text-base font-medium text-gray-500">Hours on the phone </dt>
+          <div class="text-center">
+            <dd class="text-base font-semibold md:text-3xl md:font-semibold tracking-tight text-gray-900">+100</dd>
+            <dt class="text-sm text-gray-500 md:text-base md:font-medium">Hours on the phone </dt>
           </div>
         </dl>
-        <img class="h-20" src="https://i1.wp.com/oxfordshire.org/wp-content/uploads/2020/05/Oxford-hub-logo.png?ssl=1
-" alt="OxHub logo">
         <div class="text-center mt-4 text-2xl font-extrabold tracking-tight text-gray-900">Thank you !</div>
+        </div>
+        <img class="h-20 md:h-32 rounded-r-lg" src="https://i1.wp.com/oxfordshire.org/wp-content/uploads/2020/05/Oxford-hub-logo.png?ssl=1
+" alt="OxHub logo">
+        </div>
       </div>
 
   <div class="mt-8 ">
