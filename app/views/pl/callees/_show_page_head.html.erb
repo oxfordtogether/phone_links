@@ -1,3 +1,9 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Callees", pl_callees_path(@current_pod_leader) %>
+    <% list.link @callee.name, pl_callee_path(@current_pod_leader, @callee) %>
+  <% end %>
+<% end %>
 <div class="sm:flex sm:justify-between">
   <div>
     <h1 class="text-2xl font-semibold text-gray-900">
@@ -31,3 +37,11 @@
     </div>
   </div>
 </div>
+<%= nav_tabs do |nav| %>
+  <% nav.link "Events", pl_callee_path(@current_pod_leader, @callee) %>
+  <% if @note.present? && !@note.new_record? %>
+    <% nav.link "Edit note", edit_pl_note_path(@current_pod_leader, @note) %>
+  <% else %>
+    <% nav.link "New note", notes_new_pl_callee_path(@current_pod_leader, @callee, {role: "callee"}) %>
+  <% end %>
+<% end %>

@@ -9,6 +9,11 @@ class Pl::CalleesController < Pl::PlController
 
   def show
     @person = @callee.person
+
+    @events = Event.most_recent_first
+                   .where(person_id: @person.id)
+                   .all
+                   .filter(&:active?)
   end
 
   private

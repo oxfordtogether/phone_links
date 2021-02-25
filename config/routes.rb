@@ -84,9 +84,25 @@ Rails.application.routes.draw do
 
       resources :reports, only: %i[index show]
       post "/reports/:id", to: "reports#update"
-      resources :callers, only: %i[index show]
-      resources :callees, only: %i[index show]
+
+      resources :callers, only: %i[index show] do
+        member do
+          get :events
+        end
+      end
+
+      resources :callees, only: %i[index show] do
+        member do
+          get :events
+        end
+      end
+
+      get "people/:id/notes/new", to: "notes#new"
+      post "people/:id/notes", to: "notes#create"
+
       resources :matches
+
+      resources :notes, only: %i[edit update destroy]
     end
   end
 

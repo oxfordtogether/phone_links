@@ -1,0 +1,18 @@
+<%= tailwind_form_with(model: @note,
+                      url: action == :edit ? pl_note_path(@current_pod_leader, @note) : "/pl/#{@current_pod_leader.id}/people/#{@person.id}/notes",
+                      local: true) do |form| %>
+  <%= form.section do %>
+    <%= form.hidden_field :person_id, value: @person.id %>
+    <%= form.hidden_field :created_by_id, value: @note&.created_by&.id %>
+    <%= form.text_area :content, required_asterix: true, info_message: "Notes are visible to you and all admins" %>
+  <% end %>
+  <%= form.button_section do %>
+    <% if action == :edit %>
+      <div class="flex-1">
+        <%= form.delete pl_note_path %>
+      </div>
+    <% end %>
+    <%= form.cancel @cancel %>
+    <%= form.submit %>
+  <% end %>
+<% end %>

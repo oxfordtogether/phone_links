@@ -9,7 +9,11 @@ class Pl::CallersController < Pl::PlController
 
   def show
     @person = @caller.person
-    @events = @caller.person.events
+
+    @events = Event.most_recent_first
+                   .where(person_id: @person.id)
+                   .all
+                   .filter(&:active?)
   end
 
   private
