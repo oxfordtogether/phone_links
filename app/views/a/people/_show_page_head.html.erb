@@ -5,9 +5,11 @@
       <% @person.roles.each do |role| %>
         <%= role_badge(role) %>
       <% end %>
-      <% if @person.flag_in_progress %>
-        <%= link_to flag_a_edit_person_path do %>
-          <%= icon('bell-fill', class: "inline w-5 h-5 text-red-500") %>
+      <% if false %>
+        <% if @person.flag_in_progress %>
+          <%= link_to flag_a_edit_person_path do %>
+            <%= icon('bell-fill', class: "inline w-5 h-5 text-red-500") %>
+          <% end %>
         <% end %>
       <% end %>
     </h1>
