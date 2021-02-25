@@ -83,6 +83,7 @@ Rails.application.routes.draw do
       get "support", to: "pages#support"
 
       resources :reports, only: %i[index show]
+      post "/reports/:id", to: "reports#update"
       resources :callers, only: %i[index show]
       resources :callees, only: %i[index show]
       resources :matches

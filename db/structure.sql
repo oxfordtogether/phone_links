@@ -360,7 +360,18 @@ CREATE TABLE public.reports (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     match_id bigint,
-    datetime timestamp without time zone
+    datetime timestamp without time zone,
+    legacy_caller_email_ciphertext text,
+    legacy_caller_name_ciphertext text,
+    legacy_callee_name_ciphertext text,
+    legacy_time_and_date text,
+    legacy_time character varying,
+    legacy_date character varying,
+    legacy_duration character varying,
+    concerns boolean,
+    concerns_notes_ciphertext text,
+    legacy_outcome_ciphertext text,
+    archived_at timestamp without time zone
 );
 
 
@@ -868,4 +879,5 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210217150818'),
 ('20210218162712'),
 ('20210218162712'),
-('20210219100515');
+('20210219100515'),
+('20210225165903');

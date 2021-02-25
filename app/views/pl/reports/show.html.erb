@@ -12,7 +12,27 @@
       <%= icon("arrow-left", class: "w-6 h-6") %>
     <% end %>
     <div class="mr-5">
-      <%= icon("bookmark-check", class: "w-5 h-5") %>
+      <% if @report.archived_at %>
+        <%= tailwind_form_with(model: @report,
+                              url: pl_report_path(@current_pod_leader, @report),
+                              method: :post,
+                              local: true) do |form| %>
+          <%= form.hidden_field :archive, value: false %>
+          <%= button_tag type: "submit" do %>
+            <%= icon('bookmark-check-fill', class: "w-5 h-5 text-green-500") %>
+          <% end %>
+        <% end %>
+      <% else %>
+        <%= tailwind_form_with(model: @report,
+                              url: pl_report_path(@current_pod_leader, @report),
+                              method: :post,
+                              local: true) do |form| %>
+          <%= form.hidden_field :archive, value: true %>
+          <%= button_tag type: "submit" do %>
+            <%= icon('bookmark-check', class: "w-5 h-5 text-gray-500") %>
+          <% end %>
+        <% end %>
+      <% end %>
     </div>
     <div class="text-sm text-medium mr-1 text-gray-700">
       <%= @current_report_number %> of <%= @total_reports %>

@@ -12,10 +12,10 @@
   <%= link_to "All", { params: { view: "all" } }, class: "#{current_page?(pl_reports_path(view: 'all')) ? 'bg-yellow-200' : 'bg-white border-gray-300' } px-3 py-1.5 border rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-300" %>
 </div>
 <% if @reports.length > 0 %>
-  <%= table @reports.sort_by(&:created_at), row_url: ->(r) { pl_report_path(@current_pod_leader, r) }, small: true do |tbl| %>
+  <%= table @reports, row_url: ->(r) { pl_report_path(@current_pod_leader, r) }, small: true do |tbl| %>
     <% tbl.col "Match", classes: "py-0" do |report| %>
-      <div class="text-gray-800 font-bold"><%= report.match.caller.name %> & <%= report.match.callee.name %></div>
-      <div class="max-w-xs sm:max-w-md lg:max-w-3xl truncate"><%= report.summary %></div>
+      <div class="text-gray-800 <%= !report.archived_at.present? && params[:view] == 'all' && 'font-bold' %>"><%= report.match.caller.name %> & <%= report.match.callee.name %></div>
+      <div class="<%= !report.archived_at.present? && params[:view] == 'all' && 'font-medium text-gray-800' %> max-w-xs sm:max-w-md lg:max-w-3xl truncate"><%= report.summary %></div>
     <% end %>
     <% tbl.col "Submitted", classes: "text-right py-0" do |report| %>
       <%= format_date_as_relative(report.created_at) %>

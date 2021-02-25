@@ -1,17 +1,16 @@
 class Pl::ReportsController < Pl::PlController
-  before_action :set_report, only: %i[show]
+  before_action :set_report, only: %i[show update]
 
   def index
     @pod = current_pod_leader.pod
 
-    # TO DO
     case params[:view]
     when "archived"
-      @pagy, @reports = pagy(Report.where(match_id: @pod.matches.map(&:id)), items: 20)
+      @pagy, @reports = pagy(Report.where(match_id: @pod.matches.map(&:id)).where.not(archived_at: nil).order(created_at: :desc), items: 20)
     when "all"
-      @pagy, @reports = pagy(Report.where(match_id: @pod.matches.map(&:id)), items: 20)
-    else
-      @pagy, @reports = pagy(Report.where(match_id: @pod.matches.map(&:id)), items: 20)
+      @pagy, @reports = pagy(Report.where(match_id: @pod.matches.map(&:id)).order(created_at: :desc), items: 20)
+    else # inbox
+      @pagy, @reports = pagy(Report.where(match_id: @pod.matches.map(&:id)).where(archived_at: nil).order(created_at: :desc), items: 20)
     end
   end
 
@@ -34,6 +33,19 @@ class Pl::ReportsController < Pl::PlController
                 end
 
     @total_reports = @report_ids.size
+
+    @current_pod_leader = current_pod_leader
+  end
+
+  def update
+    @current_pod_leader = current_pod_leader
+    archive = report_params[:archive] == "true"
+
+    if @report.update({ archived_at: archive ? DateTime.now : nil })
+      redirect_to pl_report_path(current_pod_leader, @report), notice: "Report was successfully #{archive ? 'archived' : 'unarchived'}."
+    else
+      render :show
+    end
   end
 
   private
@@ -45,6 +57,6 @@ class Pl::ReportsController < Pl::PlController
   end
 
   def report_params
-    params.require(:report).permit
+    params.require(:report).permit(:archive)
   end
 end
