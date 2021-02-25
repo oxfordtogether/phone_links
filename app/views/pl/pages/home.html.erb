@@ -12,13 +12,36 @@
                   Hi <%= @current_pod_leader&.name || "Unknown User" %>
                 </h1>
               </div>
-              <h2 class="mt-4 text-xl font-bold text-gray-500 sm:mr-1 sm:mt-0">
-                Pod <%= @current_pod_leader&.pod&.name || "?" %>
-              </h2>
+              <% if @has_pod %>
+                <h2 class="mt-4 text-xl font-bold text-gray-500 sm:mr-1 sm:mt-0">
+                  Pod <%= @current_pod_leader&.pod&.name || "?" %>
+                </h2>
+              <% end %>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <% if !@has_pod %>
+    <div class="mt-8">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-center">
+          <div class="p-4 rounded shadow-md bg-white text-center">
+            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+              You aren't an active pod leader.
+            </h3>
+            <div class="mt-3">
+              <p class="text-sm text-gray-500">
+                This is the pod leader's area but you aren't currently leading a pod.
+              </p>
+              <p class="mt-1 text-sm text-gray-500">
+                Contact <%= mail_to "support@oxfordcodelab.com" %> for help.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
 <% end %>
