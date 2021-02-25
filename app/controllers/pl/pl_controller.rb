@@ -1,7 +1,7 @@
 class Pl::PlController < ApplicationController
   layout "pl/layouts/authorized"
 
-  before_action :access_allowed?, :current_pod_leader, :is_admin, :has_pod
+  before_action :access_allowed?, :current_pod_leader, :is_admin, :has_pod, :access_only_with_pod?
 
   def access_allowed?
     return if bypass_auth?
@@ -23,5 +23,12 @@ class Pl::PlController < ApplicationController
 
   def has_pod
     @has_pod ||= current_pod_leader.pod.present?
+  end
+
+  def access_only_with_pod?
+    return if has_pod
+
+    # a pod leader without a pod can not access pages (this is skipped in pages controller so homepage/support is visible)
+    redirect_to "/invalid_permissions_for_page"
   end
 end

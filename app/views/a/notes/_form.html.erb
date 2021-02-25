@@ -2,7 +2,7 @@
   <%= form.section do %>
     <%= form.hidden_field :person_id, value: @person.id %>
     <%= form.hidden_field :created_by_id, value: @note&.created_by&.id %>
-    <%= form.text_area :content, required_asterix: true %>
+    <%= form.text_area :content, required_asterix: true, info_message: "Notes are visible by the pod leader and all admins" %>
   <% end %>
   <%= form.button_section do %>
     <% if action == :edit %>
