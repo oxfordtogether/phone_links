@@ -2,20 +2,20 @@
 <% when Events::NoteChanged %>
 <%= render TimelineItemComponent.new(icon: "heroicon-document-text-small", icon_colour: 'bg-blue-300', time: @event.occurred_at, is_last: @last_event) do |c| %>
   <% c.with(:title) do %>
-    <% if @event.status == 'DELETED' %>
+    <% if @event.status == 'deleted' %>
       <span class="text-gray-500 italic">Note deleted</span>
     <% else %>
       <%= link_to edit_a_note_path(@event.note) do %>
         <span class="my-1">
           <% time = @event.occurred_at%>
           <span><%= @event.created_by&.name || "?" %></span> <span class="text-xs text-gray-500 italic"><%= "at #{time.strftime("%l.%M%P")}" if time.hour != 0 %> on <%= time.strftime("%a #{time.day.ordinalize} %b") %></span>
-          <% if @event.status == "EDITED" %><span class="text-gray-500 italic">(edited)</span><% end %>
+          <% if @event.status == "edited" %><span class="text-gray-500 italic">(edited)</span><% end %>
         </span>
       <% end %>
     <% end %>
   <% end %>
   <% c.with(:body) do %>
-    <% if @event.status != 'DELETED' %>
+    <% if @event.status != 'deleted' %>
       <%= @event.content %>
     <% end %>
   <% end %>

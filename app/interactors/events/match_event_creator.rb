@@ -32,6 +32,7 @@ module Events
       if !existing_created_event
         MatchCreated.create_from_match!(match)
       elsif !existing_created_event.matches_match?(match)
+
         ActiveRecord::Base.transaction do
           new_event = MatchCreated.create_from_match!(match)
           existing_created_event&.update(replacement_event_id: new_event.id)

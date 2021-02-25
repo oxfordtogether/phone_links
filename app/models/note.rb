@@ -14,11 +14,11 @@ class Note < ApplicationRecord
 
   def status
     if deleted_at
-      "DELETED"
+      "deleted"
     elsif created_at == updated_at
-      "CREATED"
+      "created"
     else
-      "EDITED"
+      "edited"
     end
   end
 end
