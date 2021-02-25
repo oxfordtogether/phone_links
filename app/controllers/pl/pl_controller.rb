@@ -1,7 +1,7 @@
 class Pl::PlController < ApplicationController
   layout "pl/layouts/authorized"
 
-  before_action :access_allowed?, :current_pod_leader
+  before_action :access_allowed?, :current_pod_leader, :is_admin
 
   def access_allowed?
     return if bypass_auth?
@@ -15,5 +15,9 @@ class Pl::PlController < ApplicationController
     @current_pod_leader ||= PodLeader.find(params[:pod_leader_id])
   rescue StandardError
     redirect_to "/page_does_not_exist"
+  end
+
+  def is_admin
+    @is_admin ||= current_user.admin.present?
   end
 end
