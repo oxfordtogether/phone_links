@@ -32,29 +32,45 @@ class Pl::ReportsController < Pl::PlController
 
     @total_reports = @report_ids.size
 
+    @proposed_matches = current_pod_leader.pod.matches
     @current_pod_leader = current_pod_leader
   end
 
   def update
-    if params[:view] != "all"
-      @report_ids = inbox_reports.map(&:id)
-      current_report_index = @report_ids.index(params[:id].to_i)
-      next_url = if current_report_index != @report_ids.size - 1
-                   pl_report_path(current_pod_leader, @report_ids[current_report_index + 1], { view: params[:view] })
-                 else
-                   pl_reports_path(current_pod_leader, { view: params[:view] })
-                 end
-    else
-      next_url = pl_report_path(current_pod_leader, @report, { view: params[:view] })
-    end
+    if report_params[:match_id]
 
-    @current_pod_leader = current_pod_leader
-    archive = report_params[:archive] == "true"
+      # TO DO: handle setting to null
+      if @report.update(report_params)
+        redirect_to pl_report_path(current_pod_leader, @report, { view: params[:view] }), notice: "Report was successfully updated."
+      else
+        @proposed_matches = current_pod_leader.pod.matches
+        render :show
+      end
 
-    if @report.update({ archived_at: archive ? DateTime.now : nil })
-      redirect_to next_url, notice: "Report was successfully #{archive ? 'archived' : 'unarchived'}."
     else
-      render :show
+
+      if params[:view] != "all"
+        @report_ids = inbox_reports.map(&:id)
+        current_report_index = @report_ids.index(params[:id].to_i)
+        next_url = if current_report_index != @report_ids.size - 1
+                     pl_report_path(current_pod_leader, @report_ids[current_report_index + 1], { view: params[:view] })
+                   else
+                     pl_reports_path(current_pod_leader, { view: params[:view] })
+                   end
+      else
+        next_url = pl_report_path(current_pod_leader, @report, { view: params[:view] })
+      end
+
+      @current_pod_leader = current_pod_leader
+      archive = report_params[:archive] == "true"
+
+      if @report.update({ archived_at: archive ? DateTime.now : nil })
+        redirect_to next_url, notice: "Report was successfully #{archive ? 'archived' : 'unarchived'}."
+      else
+        @proposed_matches = current_pod_leader.pod.matches
+        render :show
+      end
+
     end
   end
 
@@ -67,7 +83,7 @@ class Pl::ReportsController < Pl::PlController
   end
 
   def report_params
-    params.require(:report).permit(:archive)
+    params.require(:report).permit(:archive, :match_id)
   end
 
   def all_reports

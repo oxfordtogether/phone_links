@@ -15,8 +15,13 @@ class Match < ApplicationRecord
 
   encrypts :end_reason_notes, type: :string, key: :kms_key
 
+  # TO DO: combine following methods
   def names
     "#{caller.person.first_name} - #{callee.person.first_name}"
+  end
+
+  def match_names
+    "#{caller.name} - #{callee.name}"
   end
 
   def pod_mismatch

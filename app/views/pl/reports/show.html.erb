@@ -14,22 +14,26 @@
     <div class="mr-5">
       <% if @report.archived_at %>
         <%= tailwind_form_with(model: @report,
-                              url: pl_report_path(@current_pod_leader, @report),
+                              url: pl_report_path(@current_pod_leader, @report, { view: params[:view] }),
                               method: :post,
                               local: true) do |form| %>
           <%= form.hidden_field :archive, value: false %>
           <%= button_tag type: "submit" do %>
-            <%= icon('bookmark-check-fill', class: "w-5 h-5 text-green-500") %>
+            <div class="flex items-center justify-center w-9 h-9 rounded-full hover:bg-green-100">
+              <%= icon('bookmark-check-fill', class: "w-5 h-5 text-green-500") %>
+            </div>
           <% end %>
         <% end %>
       <% else %>
         <%= tailwind_form_with(model: @report,
-                              url: pl_report_path(@current_pod_leader, @report),
+                              url: pl_report_path(@current_pod_leader, @report, { view: params[:view] }),
                               method: :post,
                               local: true) do |form| %>
           <%= form.hidden_field :archive, value: true %>
-          <%= button_tag type: "submit" do %>
-            <%= icon('bookmark-check', class: "w-5 h-5 text-gray-500") %>
+          <%= button_to type: "submit" do %>
+            <div class="flex items-center justify-center w-9 h-9 rounded-full hover:bg-gray-200">
+              <%= icon('bookmark-check', class: "w-5 h-5 text-gray-500") %>
+            </div>
           <% end %>
         <% end %>
       <% end %>
@@ -45,6 +49,26 @@
     <% end %>
   </div>
   <hr class="border-t border-gray-200 my-4" aria-hidden="true">
+  <% if @report.legacy_caller_email.present? %>
+    <div class="mb-5 bg-yellow-50 rounded-md p-3 text-sm">
+      <div class="flex mb-4 text-yellow-800">
+        <div class="flex-1"><%= icon('exclamation', class: "w-5 h-5 text-yellow-400 mr-2") %></div>
+        <div><span class="font-medium">This report came the old system using google forms.</span>
+          In this case we don't always know which match the report is linked to. Use the form below to fill in this information.</div>
+      </div>
+      <div class="px-8">
+        <%= tailwind_form_with(model: @report,
+                              url: pl_report_path(@current_pod_leader, @report, { view: params[:view] }),
+                              method: :post,
+                              local: true) do |form| %>
+          <%= form.collection_select :match_id, @proposed_matches, :id, :match_names, label: "Assign report to a match.", width: :half %>
+          <%= form.button_section do %>
+            <%= form.submit "Save", secondary: true %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
   <div class="flex justify-between py-2">
     <div class="text-md leading-2 tracking-wide	font-bold">
       <%= @report.match.caller.name %> & <%= @report.match.callee.name %>

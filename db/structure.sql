@@ -364,7 +364,7 @@ CREATE TABLE public.reports (
     legacy_caller_email_ciphertext text,
     legacy_caller_name_ciphertext text,
     legacy_callee_name_ciphertext text,
-    legacy_time_and_date text,
+    legacy_time_and_date_ciphertext text,
     legacy_time character varying,
     legacy_date character varying,
     legacy_duration character varying,

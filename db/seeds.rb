@@ -25,7 +25,8 @@ pods = Pod.all
 end
 
 # create some reports & notes
-FactoryBot.create_list(:report, 500)
+FactoryBot.create_list(:report, 100)
+FactoryBot.create_list(:report, 400, :legacy)
 FactoryBot.create_list(:note, 500)
 
 SearchCache.refresh
