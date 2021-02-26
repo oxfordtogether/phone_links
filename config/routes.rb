@@ -85,31 +85,40 @@ Rails.application.routes.draw do
       resources :reports, only: %i[index show]
       post "/reports/:id", to: "reports#update"
 
-      resources :callers, only: %i[index show] do
-        collection do
-          resources :notes, only: %i[edit update destroy], controller: "caller_notes"
-        end
-
+      resources :people, only: %i[show] do
         member do
-          get "/notes/new", to: "caller_notes#new"
-          post "/notes", to: "caller_notes#create"
-          get :events
+          get "/notes/new", to: "notes#new"
+          post "/notes", to: "notes#create"
         end
       end
 
-      resources :callees, only: %i[index show] do
-        collection do
-          resources :notes, only: %i[edit update destroy], controller: "callee_notes"
-        end
+      resources :callers, only: %i[index] do
+        #   # collection do
+        #   #   resources :notes, only: %i[edit update destroy], controller: "caller_notes"
+        #   # end
 
-        member do
-          get "/notes/new", to: "callee_notes#new"
-          post "/notes", to: "callee_notes#create"
-          get :events
-        end
+        #   member do
+        #     # get "/notes/new", to: "caller_notes#new"
+        #     # post "/notes", to: "caller_notes#create"
+        #     get :events
+        #   end
+      end
+
+      resources :callees, only: %i[index] do
+        #   collection do
+        #     resources :notes, only: %i[edit update destroy], controller: "callee_notes"
+        #   end
+
+        #   member do
+        #     get "/notes/new", to: "callee_notes#new"
+        #     post "/notes", to: "callee_notes#create"
+        #     get :events
+        #   end
       end
 
       resources :matches
+
+      resources :notes, only: %i[edit update destroy]
     end
   end
 

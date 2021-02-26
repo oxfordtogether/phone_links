@@ -1,5 +1,5 @@
 <%= tailwind_form_with(model: @note,
-                      url: action == :edit ? pl_note_path(@current_pod_leader, @note) : @new_url,
+                      url: action == :edit ? pl_note_path(@current_pod_leader, @note) : notes_pl_person_path(@current_pod_leader),
                       local: true) do |form| %>
   <%= form.section do %>
     <%= form.hidden_field :person_id, value: @person.id %>
@@ -12,7 +12,7 @@
         <%= form.delete pl_note_path %>
       </div>
     <% end %>
-    <%= form.cancel @cancel %>
+    <%= form.cancel pl_person_path(@current_pod_leader, @person) %>
     <%= form.submit %>
   <% end %>
 <% end %>

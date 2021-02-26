@@ -7,9 +7,9 @@
   <%= render partial: "index_page_head" %>
 <% end %>
 <% if @callees.length > 0 %>
-  <%= table @callees.sort_by(&:name), row_url: ->(c) { pl_callee_path(@current_pod_leader, c) } do |tbl| %>
+  <%= table @callees.sort_by(&:name), row_url: ->(c) { pl_person_path(@current_pod_leader, c.person) } do |tbl| %>
     <% tbl.col "Name" do |callee| %>
-      <%= link_to callee.name, a_person_path(callee.person) %>
+      <%= callee.name %>
     <% end %>
     <% tbl.col "Active match(es)", classes: "text-right" do |callee| %>
       <% if callee.active_matches.present? %>
