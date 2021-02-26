@@ -1,7 +1,12 @@
 <% content_for :navbar_content do %>
   <% if @is_admin  %>
     <div class="px-2 pb-4 space-y-1">
-      <%= render(SidebarLinkComponent.new(name: "Back to Admin", url: a_path, icon: "library")) %>
+      <%= render(SidebarLinkComponent.new(name: "Back to Admin", url: a_path, icon: "login")) %>
+    </div>
+  <% end %>
+  <% if @is_pod_leader %>
+    <div class="px-2 pb-4 space-y-1">
+      <%= render(SidebarLinkComponent.new(name: "Switch to pod leader's area", url: pl_path(@current_user.pod_leader), icon: "login")) %>
     </div>
   <% end %>
   <div class="px-2 space-y-1">

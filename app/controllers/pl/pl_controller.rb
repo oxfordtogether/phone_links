@@ -1,7 +1,7 @@
 class Pl::PlController < ApplicationController
   layout "pl/layouts/authorized"
 
-  before_action :access_allowed?, :current_pod_leader, :is_admin, :has_pod, :access_only_with_pod?
+  before_action :access_allowed?, :current_pod_leader, :is_admin, :is_caller, :has_pod, :access_only_with_pod?
 
   def access_allowed?
     return if bypass_auth?
@@ -19,6 +19,10 @@ class Pl::PlController < ApplicationController
 
   def is_admin
     @is_admin ||= current_user.admin.present?
+  end
+
+  def is_caller
+    @is_caller ||= current_user.caller.present?
   end
 
   def has_pod

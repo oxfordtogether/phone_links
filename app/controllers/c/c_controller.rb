@@ -1,7 +1,7 @@
 class C::CController < ApplicationController
   layout "c/layouts/authorized"
 
-  before_action :access_allowed?, :current_caller, :is_admin
+  before_action :access_allowed?, :current_caller, :is_admin, :is_pod_leader
 
   def access_allowed?
     return if bypass_auth?
@@ -19,5 +19,9 @@ class C::CController < ApplicationController
 
   def is_admin
     @is_admin ||= current_user.admin.present?
+  end
+
+  def is_pod_leader
+    @is_pod_leader ||= current_user.pod_leader.present?
   end
 end
