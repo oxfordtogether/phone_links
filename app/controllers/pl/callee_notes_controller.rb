@@ -1,4 +1,4 @@
-class Pl::NotesController < Pl::PlController
+class Pl::CalleeNotesController < Pl::PlController
   before_action :set_note, only: %i[edit update destroy]
 
   def new
@@ -8,7 +8,7 @@ class Pl::NotesController < Pl::PlController
     @cancel = pl_callee_path(@current_pod_leader, @note.person.callee)
     @new_url = notes_pl_callee_path(@current_pod_leader, @callee)
 
-    render "pl/callee/new_note"
+    render "pl/callees/new_note"
   end
 
   def create
@@ -21,18 +21,18 @@ class Pl::NotesController < Pl::PlController
     else
       @person = @note.person
       @callee = @person.callee
-      @cancel = pl_callee_path(@current_pod_leader, @note.person.callee)
+      @cancel = pl_callee_path(@current_pod_leader, @callee)
       @new_url = notes_pl_callee_path(@current_pod_leader, @callee)
-      render "pl/callee/new_note"
+      render "pl/callees/new_note"
     end
   end
 
   def edit
     @person = @note.person
     @callee = @person.callee
-    @cancel = pl_callee_path(@current_pod_leader, @note.person.callee)
+    @cancel = pl_callee_path(@current_pod_leader, @callee)
 
-    render "pl/callee/new_note"
+    render "pl/callees/new_note"
   end
 
   def update
@@ -42,7 +42,7 @@ class Pl::NotesController < Pl::PlController
     else
       @person = @note.person
       @callee = @person.callee
-      @cancel = pl_callee_path(@current_pod_leader, @note.person.callee)
+      @cancel = pl_callee_path(@current_pod_leader, @callee)
       render :edit
     end
   end

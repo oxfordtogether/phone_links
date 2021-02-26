@@ -1,5 +1,5 @@
 <%= tailwind_form_with(model: @note,
-                      url: action == :edit ? pl_note_path(@current_pod_leader, @note) : "/pl/#{@current_pod_leader.id}/people/#{@person.id}/notes",
+                      url: action == :edit ? pl_note_path(@current_pod_leader, @note) : @new_url,
                       local: true) do |form| %>
   <%= form.section do %>
     <%= form.hidden_field :person_id, value: @person.id %>

@@ -42,6 +42,6 @@
   <% if @note.present? && !@note.new_record? %>
     <% nav.link "Edit note", edit_pl_note_path(@current_pod_leader, @note) %>
   <% else %>
-    <% nav.link "New note", notes_new_pl_callee_path(@current_pod_leader, @callee, {role: "callee"}) %>
+    <% nav.link "New note", notes_new_pl_callee_path(@current_pod_leader, @callee) %>
   <% end %>
 <% end %>
