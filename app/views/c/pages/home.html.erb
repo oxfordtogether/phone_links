@@ -27,11 +27,11 @@
   <div>  <img class="md:hidden" src="/banner_cut.png" alt="OxHub nicebackground cut"> </div>
 
 <div class="flex justify-center items-baseline">
-  <h1 class="text-center mt-4 mr-2 text-l md:text-2xl font-extrabold tracking-tight text-green-500">
+  <h1 class="text-center mt-4 mr-2 text-l md:text-2xl font-extrabold tracking-tight text-green-600">
           Welcome to Oxford Hub Phone Links
   </h1>
   <span>
-    <%= icon("chat-alt-2", class: "h-6 w-6 md:h-8 md:w-8 rounded-full text-green-500") %>
+    <%= icon("chat-alt-2", class: "h-6 w-6 md:h-8 md:w-8 rounded-full text-green-600") %>
   </span>
 </div>
   <!-- Stats section -->
@@ -43,17 +43,17 @@
         <div>
         <dl class="px-4 md:pt-4 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-4 ">
           <div class="text-center">
-            <dd class="text-base font-semibold md:text-3xl md:font-semibold tracking-tight text-gray-900">X year Y days</dd>
+            <dd class="text-base font-semibold md:text-3xl md:font-semibold tracking-tight text-gray-900"><%= caller_duration(format_datetime(@current_caller.created_at)) || "?" %></dd>
             <dt class="text-sm text-gray-500 md:text-base md:font-medium">in the program</dt>
           </div>
 
           <div class="text-center">
-            <dd class="text-base font-semibold md:text-3xl md:font-semibold tracking-tight text-gray-900">5</dd>
+            <dd class="text-base font-semibold md:text-3xl md:font-semibold tracking-tight text-gray-900"><%= @matches.count %></dd>
             <dt class="text-sm text-gray-500 md:text-base md:font-medium">callees</dt>
           </div>
 
           <div class="text-center">
-            <dd class="text-base font-semibold md:text-3xl md:font-semibold tracking-tight text-gray-900">X</dd>
+            <dd class="text-base font-semibold md:text-3xl md:font-semibold tracking-tight text-gray-900"><%= @reports.count || "no callee"  %></dd>
             <dt class="text-sm text-gray-500 md:text-base md:font-medium">reports written</dt>
           </div>
 
