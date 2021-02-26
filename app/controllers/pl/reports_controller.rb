@@ -79,7 +79,7 @@ class Pl::ReportsController < Pl::PlController
   def set_report
     @report = Report.find(params[:id])
 
-    redirect_to "/invalid_permissions_for_page" if @report.match.pod != current_pod_leader.pod
+    redirect_to "/invalid_permissions_for_page" if (@report.match.present? && @report.match.pod != current_pod_leader.pod) || (@report.legacy_pod_id == current_pod_leader.pod)
   end
 
   def report_params
@@ -87,10 +87,17 @@ class Pl::ReportsController < Pl::PlController
   end
 
   def all_reports
-    Report.where(match_id: current_pod_leader.pod.matches.map(&:id)).order(created_at: :desc)
+    Report
+      .where(match_id: current_pod_leader.pod.matches.map(&:id))
+      .or(Report.where(legacy_pod_id: current_pod_leader.pod))
+      .order(created_at: :desc)
   end
 
   def inbox_reports
-    Report.where(match_id: current_pod_leader.pod.matches.map(&:id)).where(archived_at: nil).order(created_at: :desc)
+    Report
+      .where(match_id: current_pod_leader.pod.matches.map(&:id))
+      .or(Report.where(legacy_pod_id: current_pod_leader.pod))
+      .where(archived_at: nil)
+      .order(created_at: :desc)
   end
 end

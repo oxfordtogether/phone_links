@@ -15,6 +15,8 @@ class MoreReportFields < ActiveRecord::Migration[6.0]
 
     add_column :reports, :legacy_outcome_ciphertext, :text
 
+    add_column :reports, :legacy_pod_id, :integer
+
     add_column :reports, :archived_at, :datetime
   end
 end

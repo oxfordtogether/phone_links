@@ -21,6 +21,7 @@ FactoryBot.define do
       legacy_date { datetime.strftime("%B %-d %Y") }
       legacy_duration { DURATION_EXAMPLE.sample }
       legacy_outcome { OUTCOME_EXAMPLE.sample }
+      legacy_pod_id { match.pod.id }
     end
   end
 end

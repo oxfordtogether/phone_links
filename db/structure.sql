@@ -371,6 +371,7 @@ CREATE TABLE public.reports (
     concerns boolean,
     concerns_notes_ciphertext text,
     legacy_outcome_ciphertext text,
+    legacy_pod_id integer,
     archived_at timestamp without time zone
 );
 

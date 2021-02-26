@@ -8,11 +8,12 @@
 <% end %>
 <div class="shadow border-b border-gray-200 bg-gray-50 sm:rounded-lg py-4 px-6">
   <div class="flex items-center text-gray-500">
-    <%= link_to pl_reports_path, class: "flex-1 " do %>
+    <%= link_to pl_reports_path(@current_pod_leader, { view: params[:view] }), class: "flex-1 " do %>
       <%= icon("arrow-left", class: "w-6 h-6") %>
     <% end %>
-    <div class="mr-5">
+    <div class="flex items-center mr-5">
       <% if @report.archived_at %>
+        <div class="text-sm">archived: <%= format_date_as_relative(@report.archived_at) %></div>
         <%= tailwind_form_with(model: @report,
                               url: pl_report_path(@current_pod_leader, @report, { view: params[:view] }),
                               method: :post,
@@ -49,11 +50,11 @@
     <% end %>
   </div>
   <hr class="border-t border-gray-200 my-4" aria-hidden="true">
-  <% if @report.legacy_caller_email.present? %>
-    <div class="mb-5 bg-yellow-50 rounded-md p-3 text-sm">
-      <div class="flex mb-4 text-yellow-800">
-        <div class="flex-1"><%= icon('exclamation', class: "w-5 h-5 text-yellow-400 mr-2") %></div>
-        <div><span class="font-medium">This report came the old system using google forms.</span>
+  <% if @report.legacy? %>
+    <div class="mb-5 bg-blue-50 rounded-md p-3 text-sm">
+      <div class="flex mb-4 text-blue-800">
+        <div class="flex-1"><%= icon('exclamation', class: "w-5 h-5 text-blue-400 mr-2") %></div>
+        <div><span class="font-medium">This report came to the old system using google forms.</span>
           In this case we don't always know which match the report is linked to. Use the form below to fill in this information.</div>
       </div>
       <div class="px-8">
@@ -71,19 +72,47 @@
   <% end %>
   <div class="flex justify-between py-2">
     <div class="text-md leading-2 tracking-wide	font-bold">
-      <%= @report.match.caller.name %> & <%= @report.match.callee.name %>
+      <% if @report.match.present? %>
+        <%= @report.match.caller.name %> & <%= @report.match.callee.name %>
+      <% else %>
+        <%= @report.legacy_caller_name %> & <%= @report.legacy_callee_name %>
+      <% end %>
     </div>
     <div class="text-sm text-gray-500">
       submitted: <%= format_date_as_relative(@report.created_at) %>
     </div>
   </div>
   <div class="text-sm text-gray-700">
-    Report submitted by <%= @report.match.caller.person.first_name %> on <%= format_date(@report.created_at) %>
+    Report submitted by <%= @report.match.present? ? @report.match.caller.person.first_name : @report.legacy_caller_name %> on <%= format_date(@report.created_at) %>
   </div>
-  <div class="mt-6">
-    <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call date: </span><%= format_date(@report.datetime) %></div>
-    <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call length: </span><%= @report.duration %></div>
-    <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Callee mood: </span>...</div>
-    <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Summary: </span><%= @report.summary %></div>
+  <div class="mt-3">
+    <% if @report.concerns || @report.concerns_notes.present? %>
+      <div class="mb-4"><%= alert(title: 'Caller has concerns and would like to be contacted', info: @report.concerns_notes) %></div>
+    <% end %>
+    <% if @report.legacy? %>
+      <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Caller email: </span><%= @report.legacy_caller_email %></div>
+      <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Caller: </span><%= @report.legacy_caller_name %>, <%= @report.legacy_callee_name %></div>
+      <% if @report.legacy_time_and_date %>
+        <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call date: </span><%= @report.legacy_time_and_date %></div>
+      <% end %>
+      <% if @report.legacy_date %>
+        <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call date: </span><%= @report.legacy_date %></div>
+      <% end %>
+      <% if @report.legacy_time %>
+        <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call time: </span><%= @report.legacy_time %></div>
+      <% end %>
+      <% if @report.legacy_duration %>
+        <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call length: </span><%= @report.legacy_duration %></div>
+      <% end %>
+      <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Summary: </span><%= @report.summary %></div>
+      <% if @report.legacy_outcome %>
+        <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">How do you feel the call went: </span><%= @report.legacy_outcome %></div>
+      <% end %>
+    <% else %>
+      <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call date: </span><%= format_date(@report.datetime) %></div>
+      <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call length: </span><%= @report.duration %></div>
+      <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Callee mood: </span>...</div>
+      <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Summary: </span><%= @report.summary %></div>
+    <% end %>
   </div>
 </div>
