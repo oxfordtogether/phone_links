@@ -61,6 +61,7 @@ gem "stimulus_reflex"
 group :development, :test do
   gem "factory_bot_rails"
   gem "ffaker"
+  gem "rspec_junit_formatter"
   gem "rspec-rails"
 end
 
