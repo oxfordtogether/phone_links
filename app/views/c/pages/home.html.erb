@@ -88,8 +88,12 @@
           </div> 
             <h3 class="mt-6 text-gray-900 text-sm font-medium"><%= match.callee.name %></h3>
             <dl class="mt-1 flex-grow flex flex-col justify-between">
-              <dt class="sr-only hidden md:inline">Title</dt>
-              <dd class="hidden md:inline text-gray-500 text-sm">Callee since <%= match.callee.created_at %> Date</dd>
+              <dt class="sr-only hidden md:inline">callee duration</dt>
+              <dd class="hidden md:inline text-gray-500 text-sm">Callee since <%= format_date(match.callee.created_at) %></dd>
+              <dt class="sr-only hidden md:inline">match duration</dt>
+              <dd class="hidden md:inline text-gray-500 text-sm">Your match since <%= format_date(match.created_at) %> (<%= caller_duration(format_date(match.created_at)) %>) </dd>
+              <dt class="sr-only hidden md:inline">Last report</dt>
+              <dd class="hidden md:inline text-gray-500 text-sm">Last report <%= last_report_days(format_datetime(match.reports.last.created_at)) %> ago</dd>
               <dt class="sr-only hidden md:inline">Age</dt>
               <dd class="mt-3 hidden md:inline">
                 <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">Age: 14</span>
@@ -118,7 +122,11 @@
 
         <div class="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
           <div class="flex-shrink-0">
-            <img class="h-10 w-10 rounded-full" src="/iconfinder_girl_avatar_child_kid_4043250.svg" alt="">
+            <% if rand(2) == 1 %>
+              <img class="h-10 w-10 rounded-full" src="/iconfinder_girl_avatar_child_kid_4043250.svg" alt="">
+            <% else %>
+              <img class="w-10 h-10 rounded-full" src="/iconfinder_boy_male_avatar_portrait_4043236.svg" alt="">
+            <% end %>
           </div>
           <div class="pl-2 flex-1 min-w-0">
             <a href="#" class="focus:outline-none">
@@ -134,7 +142,9 @@
               <span class="ml-2 text-sm text-gray-900">0 123 456 78 90</span>
               </div>
               <p class=" text-xs text-gray-500 truncate">
-                Last called x days ago
+                Last report
+                <%= last_report_days(format_datetime(match.reports.last.created_at)) %>
+                ago
               </p>
             </a>
           </div>
