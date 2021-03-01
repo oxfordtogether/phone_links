@@ -9,15 +9,5 @@ class C::PagesController < C::CController
     @matches = current_caller.matches
   end
 
-  def callee
-    @current_user = current_user
-    @current_caller = current_caller
-
-    matches = current_caller.match_ids
-    @reports = Report.where(match_id: matches)
-    @callees = Callee.where(match_id: matches)
-    @matches = current_caller.matches
-  end
-
   def support; end
 end
