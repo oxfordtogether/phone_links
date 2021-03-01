@@ -56,6 +56,6 @@ class Person < ApplicationRecord
 
     es += Event.where(type: "Events::ReportSubmitted").filter { |e| e.non_sensitive_data["caller_id"] == caller.id }.filter(&:active?) if caller.present?
 
-    es.sort_by(&:occurred_at)
+    es.sort_by(&:occurred_at).reverse
   end
 end

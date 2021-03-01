@@ -16,10 +16,10 @@ class Pl::MatchesController < Pl::PlController
   end
 
   def create
-    unless current_pod_leader.pod.id == new_match_params[:pod_id] &&
-           current_pod_leader.pod.callers.include?(new_match_params[:caller_id]) &&
-           current_pod_leader.pod.callees.include?(new_match_params[:callee_id])
-      redirect_to "/invalid_permissions_for_page"
+    unless current_pod_leader.pod.id == new_match_params[:pod_id].to_i &&
+           current_pod_leader.pod.callers.map(&:id).include?(new_match_params[:caller_id].to_i) &&
+           current_pod_leader.pod.callees.map(&:id).include?(new_match_params[:callee_id].to_i)
+      return redirect_to "/invalid_permissions_for_page"
     end
 
     @match = Match.new(new_match_params)
@@ -39,7 +39,7 @@ class Pl::MatchesController < Pl::PlController
     unless current_pod_leader.pod.id == @match.pod.id &&
            current_pod_leader.pod.callers.include?(@match.caller.id) &&
            current_pod_leader.pod.callees.include?(@match.callee.id)
-      redirect_to "/invalid_permissions_for_page"
+      return redirect_to "/invalid_permissions_for_page"
     end
 
     if @match.update(edit_match_params)

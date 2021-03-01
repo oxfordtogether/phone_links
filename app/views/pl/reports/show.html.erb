@@ -13,7 +13,7 @@
     <% end %>
     <div class="flex items-center mr-5">
       <% if @report.archived_at %>
-        <div class="text-sm">archived: <%= format_date_as_relative(@report.archived_at) %></div>
+        <div class="text-sm">archived: <%= format_date(@report.archived_at) %></div>
         <%= tailwind_form_with(model: @report,
                               url: pl_report_path(@current_pod_leader, @report, { view: params[:view] }),
                               method: :post,
@@ -86,7 +86,7 @@
       <% end %>
     </div>
     <div class="text-sm text-gray-500">
-      submitted: <%= format_date_as_relative(@report.created_at) %>
+      submitted: <%= format_date(@report.created_at) %>
     </div>
   </div>
   <div class="text-sm text-gray-700">

@@ -68,7 +68,7 @@
                     <div class="flex-1 px-4 py-2 text-sm truncate">
                       <a href="#" class="text-gray-500 font-medium hover:text-gray-600">
                         Set up:
-                        <div class="inline text-lg font-medium text-gray-900"><%= format_date_as_relative(@pod.created_at) || "?"  %></div>
+                        <div class="inline text-lg font-medium text-gray-900"><%= format_date_as_days_since(@pod.created_at) || "?"  %></div>
                       </a>
                     </div>
                   </div>

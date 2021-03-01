@@ -10,10 +10,14 @@ class Pl::PeopleController < Pl::PlController
   def set_person
     @person = Person.find(params[:id])
 
-    redirect_to "/invalid_permissions_for_page" unless current_pod_leader.pod.callers.include?(@person.caller)
+    redirect_to "/invalid_permissions_for_page" unless people_in_pod.include?(@person)
   end
 
   def person_params
     params.require(:person).permit
+  end
+
+  def people_in_pod
+    current_pod_leader.pod.callers.map(&:person) + current_pod_leader.pod.callees.map(&:person)
   end
 end

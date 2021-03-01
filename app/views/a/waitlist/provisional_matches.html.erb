@@ -36,7 +36,7 @@
       <% end %>
     <% end %>
     <% tbl.col "Last updated", classes: "text-right" do |match| %>
-      <%= format_date_as_relative(match.updated_at) == "today" ? format_date_as_relative(match.updated_at) : format_date_as_relative(match.updated_at) + " ago" %>
+      <%= format_date_as_days_since(match.updated_at) %>
     <% end %>
     <% tbl.col "", classes: "flex justify-end" do |match| %>
       <% if match.pod_mismatch.present? %>

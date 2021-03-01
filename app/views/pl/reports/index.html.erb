@@ -28,7 +28,7 @@
       </div>
     <% end %>
     <% tbl.col "Submitted", classes: "text-right py-0" do |report| %>
-      <%= format_date_as_relative(report.created_at) %>
+      <%= format_date(report.created_at) %>
     <% end %>
   <% end %>
   <div class="">
