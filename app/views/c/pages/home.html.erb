@@ -78,14 +78,17 @@
     <ul class="hidden md:grid md:gap-6 md:grid-cols-2 lg:grid-cols-2 md:px-10">
       <% @matches.each do |match| %>
         <li class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200">
+          <%= match.callee.id %>
+          <%= link_to "/c/#{match.caller.id}/callees/#{match.callee.id}", class: "text-gray-400 hover:text-gray-500 focus:outline-none" do %>
+            <span class="" aria-hidden="true"></span>
           <div class="flex-1 flex flex-col p-8">
-          <div class="hidden md:inline">
-            <% if rand(2) == 1 %>
-              <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="/iconfinder_boy_male_avatar_portrait_4043236.svg" alt="">
-            <% else %>  
-              <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="/iconfinder_girl_avatar_child_kid_4043250.svg" alt="">
-            <% end %>
-          </div> 
+            <div class="hidden md:inline">
+              <% if rand(2) == 1 %>
+                <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="/iconfinder_boy_male_avatar_portrait_4043236.svg" alt="">
+              <% else %>  
+                <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="/iconfinder_girl_avatar_child_kid_4043250.svg" alt="">
+              <% end %>
+            </div> 
             <h3 class="mt-6 text-gray-900 text-sm font-medium"><%= match.callee.name %></h3>
             <dl class="mt-1 flex-grow flex flex-col justify-between">
               <dt class="sr-only hidden md:inline">callee duration</dt>
@@ -94,12 +97,15 @@
               <dd class="hidden md:inline text-gray-500 text-sm">Your match since <%= format_date(match.created_at) %> (<%= caller_duration(format_date(match.created_at)) %>) </dd>
               <dt class="sr-only hidden md:inline">Last report</dt>
               <dd class="hidden md:inline text-gray-500 text-sm">Last report <%= last_report_days(format_datetime(match.reports.last.created_at)) %> ago</dd>
+              <!-- age not needed but keeping the tailwind code in case I want to use it later
               <dt class="sr-only hidden md:inline">Age</dt>
               <dd class="mt-3 hidden md:inline">
                 <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">Age: 14</span>
               </dd>
+              -->
             </dl>
           </div>
+          <% end %>
           <div>
             <div class="-mt-px flex divide-x divide-gray-200">
               <div class="-ml-px w-0 flex-1 flex">
@@ -117,7 +123,7 @@
       <% end %>
     </ul>
         <!-- callee grid for mobiles - -->
-    <div class="md:hidden grid grid-cols-1 gap-4 sm:grid-cols-2 px-2">
+    <div class="md:hidden grid grid-cols-1 gap-4 sm:grid-cols-2 px-2 ">
       <% @matches.each do |match| %>
 
         <div class="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
@@ -128,27 +134,32 @@
               <img class="w-10 h-10 rounded-full" src="/iconfinder_boy_male_avatar_portrait_4043236.svg" alt="">
             <% end %>
           </div>
-          <div class="pl-2 flex-1 min-w-0">
-            <a href="#" class="focus:outline-none">
+          <div class="pl-2 flex-1 min-w-0 divide-y divide-gray-200">
+            <%= link_to "/c/#{match.caller.id}/callees/#{match.callee.id}", class: "focus:outline-none" do %>
               <span class="" aria-hidden="true"></span>
               <p class="text-sm font-medium text-gray-900">
                 <%= match.callee.name %>
-              </p>
-            </a>
-              <!-- Heroicon name: solid/phone -->
-              <div class = "inline-flex items-center">
-              <svg class="w-3 h-3 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-              </svg>
-              <a href= "tel:#{match.callee.person.phone}">
-              <span class="ml-2 text-sm text-gray-900"><%= match.callee.person.phone %></span>
-              </a>
-              </div>
+              </p>            
               <p class=" text-xs text-gray-500 truncate">
                 Last report
                 <%= last_report_days(format_datetime(match.reports.last.created_at)) %>
                 ago
               </p>
+            <% end %>
+              <!-- Heroicon name: solid/phone -->
+            <div>
+              <div class="-mt-px flex divide-x divide-gray-200">
+                <div class = "inline-flex items-center">
+                  <svg class="w-3 h-3 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                  </svg>
+                  <a href= "tel:#{match.callee.person.phone}">
+                  <span class="ml-2 text-sm text-gray-900"><%= match.callee.person.phone %></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       <% end %>
