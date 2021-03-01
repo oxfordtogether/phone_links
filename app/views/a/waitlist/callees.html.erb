@@ -34,7 +34,7 @@
       <% end %>
     <% end %>
     <% tbl.col "Added", classes: "text-right" do |person| %>
-      <%= format_date_as_relative(person.waiting_since) == "today" ? format_date_as_relative(person.waiting_since) : format_date_as_relative(person.waiting_since) + " ago" %>
+      <%= format_date_as_days_since(person.waiting_since) %>
     <% end %>
   <% end %>
 <% else %>

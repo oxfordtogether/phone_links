@@ -5,7 +5,7 @@
   <% end %>
 <% end %>
 <% content_for :page_head do %>
-  <%= render(PersonHeadComponent.new(person: @person)) %>
+  <%= render partial: "show_page_head" %>
 <% end %>
 <%= tailwind_form_with(model: [:a, @person], local: true) do |form| %>
   <%= form.section "Name and Contact Information" do %>

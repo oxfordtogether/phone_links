@@ -2,18 +2,18 @@ class A::PagesController < A::AController
   def home
     @current_user = current_user
 
-    @inbox_items = [
-      { summary: "Referral for Jane Johns", date: "10:45" },
-      { summary: "Caller application from Mark Matthews", date: "yesterday" },
-      { summary: "Safeguarding flag raised by Poppy Patal", date: "5 days ago" },
-      { summary: "Referral for Alisha Anderson", date: "8th Jan" },
-    ]
+    @inbox_items = Event
+                   .where(type: "Events::FlagChanged")
+                   .where(replacement_event_id: nil)
+                   .filter { |e| e["non_sensitive_data"]["flag_in_progress"] }
 
     @waiting_list_count = Callee.with_matches.all.filter(&:waiting?).count
     @pending_matches_count = Match.where(pending: true).count
   end
 
-  def support; end
+  def support
+    render "pages/support"
+  end
 
   def search
     @status ||= :start

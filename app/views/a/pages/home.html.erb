@@ -25,16 +25,16 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2 class="text-gray-800 text-xs font-medium uppercase tracking-wide">Quick links</h2>
       <ul class="flex flex-wrap mt-3">
-        <li class="relative col-span-1 flex shadow-sm rounded-md mr-3 py-2">
+        <li class="relative col-span-1 flex rounded-md mr-3 py-2">
           <%= button_link_to "New Caller", "#{new_a_person_path}?role=caller&redirect_on_cancel=#{a_path}" %>
         </li>
-        <li class="relative col-span-1 flex shadow-sm rounded-md mr-3 py-2">
+        <li class="relative col-span-1 flex rounded-md mr-3 py-2">
           <%= button_link_to "New Callee", "#{new_a_person_path}?role=callee&redirect_on_cancel=#{a_path}" %>
         </li>
-        <li class="relative col-span-1 flex shadow-sm rounded-md mr-3 py-2">
+        <li class="relative col-span-1 flex rounded-md mr-3 py-2">
           <%= button_link_to "New Pod Leader", "#{new_a_person_path}?role=pod_leader&redirect_on_cancel=#{a_path}" %>
         </li>
-        <li class="relative col-span-1 flex shadow-sm rounded-md mr-3 py-2">
+        <li class="relative col-span-1 flex rounded-md mr-3 py-2">
           <%= button_link_to "New Admin", "#{new_a_person_path}?role=admin&redirect_on_cancel=#{a_path}" %>
         </li>
       </ul>
@@ -86,15 +86,15 @@
         Inbox
       </h2>
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <%= alert(title: 'Work in progress', info: 'This section is mocked up with fake data') %>
         <div class="flex flex-col mt-2">
           <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
-            <%= table @inbox_items do |tbl| %>
+            <%= table @inbox_items, row_url: ->(e) { a_person_path(e.person) } do |tbl| %>
               <% tbl.col "Task" do |item| %>
-                <%= item[:summary] %>
+                <span class="text-gray-900 font-medium"><%= item.person.name %>: </span>
+                <%= item.notes %>
               <% end %>
               <% tbl.col "Date" do |item| %>
-                <%= item[:date] %>
+                <%= format_date_as_relative(item.occurred_at) %>
               <% end %>
             <% end %>
           </div>

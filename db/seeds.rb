@@ -4,24 +4,30 @@ FactoryBot.create_list(:pod, 10)
 FactoryBot.create(:pod, pod_leader: nil)
 
 # create people/roles
+FactoryBot.create_list(:admin, 1)
 FactoryBot.create_list(:caller, 75)
 FactoryBot.create_list(:callee, 150)
-FactoryBot.create_list(:admin, 1)
 
 # create some people with multiple roles
 FactoryBot.create(:admin, person: PodLeader.all.sample.person)
 FactoryBot.create(:pod_leader, person: Caller.all.sample.person)
 
 callers = Caller.all
+callees = Callee.all
+pods = Pod.all
 (0..150).to_a.each do |_i|
-  # callees should only have one active match
+  pod = pods.sample
   FactoryBot.create(:match,
-                    caller: callers.sample,
-                    callee: Callee.with_matches.all.filter { |c| c.active_matches.size == 0 }.sample,
+                    caller: callers.filter { |c| c.pod == pod }.sample,
+                    callee: callees.filter { |c| c.pod == pod }.sample,
+                    pod: pod,
                     pending: rand(10) == 1)
 end
 
-#Create some reports
-FactoryBot.create_list(:report, 500)
+# create some reports & notes
+FactoryBot.create_list(:report, 100)
+FactoryBot.create_list(:report, 200, :legacy)
+FactoryBot.create_list(:report, 200, :legacy, match: nil)
+FactoryBot.create_list(:note, 500)
 
 SearchCache.refresh

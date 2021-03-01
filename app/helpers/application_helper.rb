@@ -25,6 +25,18 @@ module ApplicationHelper
     end
   end
 
+  def format_date_as_days_since(date)
+    return unless date
+
+    if date.today?
+      "today"
+    elsif (Date.today.to_date - date.to_date).to_i == 1
+      "1 day ago"
+    else
+      "#{(Date.today.to_date - date.to_date).to_i} days ago"
+    end
+  end
+
   def format_date(date)
     return unless date
 

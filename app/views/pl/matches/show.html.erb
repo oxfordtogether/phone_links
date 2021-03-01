@@ -1,0 +1,16 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Matches", pl_matches_path(@current_pod_leader) %>
+    <% list.link "#{@match.caller.name} & #{@match.callee.name}", pl_match_path(@current_pod_leader, @match) %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <%= render partial: "show_page_head" %>
+<% end %>
+<div class="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl ">
+  <section aria-labelledby="timeline-title">
+    <div class="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
+      <% if false %><%= events_timeline(@events) %><% end %>
+    </div>
+  </section>
+</div>

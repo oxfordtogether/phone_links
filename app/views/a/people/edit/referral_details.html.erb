@@ -1,0 +1,34 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "People", a_search_path %>
+    <% list.link @person.name, a_person_path(@person) %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <%= render partial: "show_page_head" %>
+<% end %>
+<div class="grid grid-cols-4">
+  <div>
+    <%= render partial: "a/people/edit/menu" %>
+  </div>
+  <div class="col-span-3 col-start-2">
+    <%= tailwind_form_with(
+        model: [:a, @person],
+        url: save_referral_details_a_edit_person_path(@person),
+        method: :post,
+        local: true) do |form| %>
+      <%= form.section do %>
+        <%= form.fields_for :callee do |callee_fields| %>
+          <%= callee_fields.text_area :reason_for_referral, width: :full %>
+          <%= callee_fields.text_area :living_arrangements, width: :full %>
+          <%= callee_fields.text_area :other_information, width: :full %>
+          <%= callee_fields.text_area :additional_needs, width: :full %>
+        <% end %>
+      <% end %>
+      <%= form.button_section do %>
+        <%= form.cancel a_person_path(@person) %>
+        <%= form.submit %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

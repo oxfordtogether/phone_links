@@ -1,24 +1,241 @@
 <% content_for :full_page do %>
-  <div class="bg-white shadow">
-    <div class="px-4 sm:px-6 lg:max-w-6xl lg:mx-auto lg:px-8">
-      <div class="py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-gray-200">
-        <div class="flex-1 min-w-0">
-          <!-- Profile -->
-          <div class="flex items-center">
-            <div>
-              <div class="flex items-center">
-                <%= icon("person-circle", class: "h-8 w-8 rounded-full sm:block text-gray-600") %>
-                <h1 class="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
-                  Hi <%= @current_user&.name || "Unknown User" %>
-                </h1>
-                <div>
-                  Pod leaders homepage
+  <div class="min-h-full flex flex-col items-stretch">
+    <div class="bg-white shadow">
+      <div class="px-4 sm:px-6 lg:max-w-6xl lg:mx-auto lg:px-8">
+        <div class="py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-gray-200">
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center">
+              <div class="sm:flex flex-1 sm:justify-between sm:items-center">
+                <div class="flex items-center">
+                  <%= icon("person-circle", class: "h-8 w-8 rounded-full sm:block text-gray-600") %>
+                  <h1 class="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
+                    Hi <%= @current_pod_leader&.name || "Unknown User" %>
+                  </h1>
                 </div>
+                <% if @has_pod %>
+                  <h2 class="mt-4 text-xl font-bold text-gray-500 sm:mr-1 sm:mt-0">
+                    Pod <%= @current_pod_leader&.pod&.name || "?" %>
+                  </h2>
+                <% end %>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+    <% if !@has_pod %>
+      <div class="mt-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-center">
+            <div class="p-4 rounded shadow-md bg-white text-center">
+              <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+                You aren't an active pod leader.
+              </h3>
+              <div class="mt-3">
+                <p class="text-sm text-gray-500">
+                  This is the pod leader's area but you aren't currently leading a pod.
+                </p>
+                <p class="mt-1 text-sm text-gray-500">
+                  Contact <%= mail_to "support@oxfordcodelab.com" %> for help.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <div class="flex flex-col flex-1">
+        <div>
+          <!-- TO DO: make this responsive -->
+          <img class="" src="https://cdn-images-1.medium.com/max/2400/1*OqEGLMIIj1UC4bTTaz6bJw.png" alt="OxHub nicebackground">
+        </div>
+        <div class="flex-1 h-full mt-8">
+          <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-center items-center">
+              <h1 class="text-center mr-2 text-l md:text-2xl font-extrabold tracking-tight text-green-600">
+                Welcome to Oxford Hub Phone Links
+              </h1>
+              <span>
+                <%= icon("chat-alt-2", class: "h-6 w-6 md:h-8 md:w-8 rounded-full text-green-600") %>
+              </span>
+            </div>
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+              <h2 class="text-gray-800 text-xs font-medium uppercase tracking-wide">Pod <%= @current_pod_leader&.pod&.name || "?" %> summary</h2>
+              <ul class="grid grid-cols-1 gap-3 sm:gap-6 sm:grid-cols-2 xl:grid-cols-3 mt-3">
+                <li class="relative col-span-1 flex shadow-sm rounded-md">
+                  <div class="flex-shrink-0 flex items-center justify-center w-12 bg-pink-600 text-white text-sm font-medium rounded-l-md"></div>
+                  <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
+                    <div class="flex-1 px-4 py-2 text-sm truncate">
+                      <a href="#" class="text-gray-500 font-medium hover:text-gray-600">
+                        Set up:
+                        <div class="inline text-lg font-medium text-gray-900"><%= format_date_as_days_since(@pod.created_at) || "?"  %></div>
+                      </a>
+                    </div>
+                  </div>
+                </li>
+                <li class="relative col-span-1 flex shadow-sm rounded-md">
+                  <div class="flex-shrink-0 flex items-center justify-center w-12 bg-green-600 text-white text-sm font-medium rounded-l-md"></div>
+                  <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
+                    <div class="flex-1 px-4 py-2 text-sm truncate">
+                      <a href="#" class="text-gray-500 font-medium hover:text-gray-600">
+                        Active matches:
+                        <div class="inline text-lg font-medium text-gray-900"><%= @pod.active_matches.count || "?" %></div>
+                      </a>
+                    </div>
+                  </div>
+                </li>
+                <li class="relative col-span-1 flex shadow-sm rounded-md">
+                  <div class="flex-shrink-0 flex items-center justify-center w-12 bg-blue-600 text-white text-sm font-medium rounded-l-md"></div>
+                  <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
+                    <div class="flex-1 px-4 py-2 text-sm truncate">
+                      <a href="#" class="text-gray-500 font-medium hover:text-gray-600">
+                        Reports:
+                        <div class="inline text-lg font-medium text-gray-900"><%= @pod.matches.map { |m| m.reports.count }.sum || "?" %></div>
+                      </a>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <h2 class="text-center mt-8 mr-2 text-l md:text-2xl font-extrabold tracking-tight text-gray-700">
+                Thank you!
+              </h2>
+            </div>
+            <!-- to do: check responsive-ness -->
+            <div class="mt-8">
+              <h2 class="max-w-6xl mx-auto px-4 text-xs leading-6 font-medium uppercase tracking-wide text-gray-800 sm:px-6 lg:px-8">
+                Action items
+              </h2>
+              <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col mt-2">
+                  <% if @inbox_items.present? %>
+                    <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
+                      <%= table @inbox_items, row_url: ->(e) { a_person_path(e.person) } do |tbl| %>
+                        <% tbl.col "Task" do |item| %>
+                          <span class="text-gray-900 font-medium"><%= item.person.name %>: </span>
+                          <%= item.notes %>
+                        <% end %>
+                        <% tbl.col "Date" do |item| %>
+                          <%= format_date_as_relative(item.occurred_at) %>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  <% else %>
+                    <div class="flex justify-center rounded-lg shadow p-4 bg-white">
+                      <div class="text-sm text-gray-500">You have no action items</div>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+            <div class="mt-8">
+              <h2 class="max-w-6xl mx-auto px-4 text-xs leading-6 font-medium uppercase tracking-wide text-gray-800 sm:px-6 lg:px-8">
+                Useful links
+              </h2>
+              <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="mb-6 mt-2 rounded-lg bg-gray-200 overflow-hidden shadow divide-y divide-gray-200 lg:divide-y-0 lg:grid lg:grid-cols-2 lg:gap-px">
+                  <div class="rounded-tl-lg rounded-tr-lg sm:rounded-tr-none relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
+                    <a href="#" class="focus:outline-none">
+                      <h3 class="text-sm md:text-lg font-medium">
+                        <span class="absolute inset-0" aria-hidden="true"></span>
+                        Report a concern
+                      </h3>
+                      <div class="inline-flex items-center mt-1">
+                        <span class="rounded-lg inline-flex p-1 bg-red-50 ring-4 ring-white mr-3">
+                          <%= icon "exclamation", class: "h-4 w-4 text-red-700" %>
+                        </span>
+                        <span class="text-sm text-gray-500">
+                          link to page
+                        </span>
+                      </div>
+                    </a>
+                    <span class="pointer-events-none absolute top-6 right-6 text-gray-400 group-hover:text-gray-500" aria-hidden="true">
+                      <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
+                      </svg>
+                    </span>
+                  </div>
+                  <div class="sm:rounded-tr-lg relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
+                    <a href="https://trello.com/b/cgIsgGWg/phone-links-volunteers" target="_blank" class="focus:outline-none">
+                      <h3 class="text-sm md:text-lg font-medium">
+                        <span class="absolute inset-0" aria-hidden="true"></span>
+                        Trello board
+                      </h3>
+                      <div class="inline-flex items-center mt-1">
+                        <span class="rounded-lg inline-flex p-1 bg-green-50 ring-4 ring-white mr-3">
+                          <svg class="h-4 w-4 text-green-700" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="CurrentColor" class="bi bi-card-checklist" viewBox="0 0 16 16">
+                            <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                            <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
+                          </svg>
+                        </span>
+                        <span class="text-sm text-gray-500">
+                          All useful resources for phone links
+                        </span>
+                      </div>
+                    </a>
+                    <span class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400" aria-hidden="true">
+                      <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
+                      </svg>
+                    </span>
+                  </div>
+                  <div class="sm:rounded-bl-lg relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
+                    <a href="https://www.oxfordhub.org/" class="focus:outline-none">
+                      <h3 class="text-sm md:text-lg font-medium">
+                        <span class="absolute inset-0" aria-hidden="true"></span>
+                        Go to Oxford Hub
+                      </h3>
+                      <div class="inline-flex items-center mt-1">
+                        <!-- Heroicon name: email-fill -->
+                        <span class="rounded-lg inline-flex p-1 bg-purple-50 text-purple-700 ring-4 ring-white mr-3">
+                          <svg class="h-4 w-4 text-purple-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                          </svg>
+                        </span>
+                        <span class="text-sm text-gray-500">
+                          https://www.oxfordhub.org/
+                        </span>
+                      </div>
+                    </a>
+                    <span class="pointer-events-none absolute top-6 right-6 text-gray-400 group-hover:text-gray-500" aria-hidden="true">
+                      <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
+                      </svg>
+                    </span>
+                  </div>
+                  <div class="rounded-bl-lg rounded-br-lg sm:rounded-bl-none relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
+                    <a href="https://www.oxfordhub.org/" class="focus:outline-none">
+                      <h3 class="text-sm md:text-lg font-medium">
+                        <span class="absolute inset-0" aria-hidden="true"></span>
+                        Go to Oxford Hub
+                      </h3>
+                      <div class="inline-flex items-center mt-1">
+                        <!-- Heroicon name: email-fill -->
+                        <span class="rounded-lg inline-flex p-1 bg-purple-50 text-purple-700 ring-4 ring-white mr-3">
+                          <svg class="h-4 w-4 text-purple-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                          </svg>
+                        </span>
+                        <span class="text-sm text-gray-500">
+                          https://www.oxfordhub.org/
+                        </span>
+                      </div>
+                    </a>
+                    <span class="pointer-events-none absolute top-6 right-6 text-gray-400 group-hover:text-gray-500" aria-hidden="true">
+                      <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="">
+          <!-- TO DO: less height -->
+          <img class="" src="https://images.squarespace-cdn.com/content/v1/5c6d346765019f1270152c0b/1551963753234-7BS7ZPY9FSY5ZIJM6373/ke17ZwdGBToddI8pDm48kEzQ5yNadm4yuYuXG0oW_nQUqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8N_N4V1vUb5AoIIIbLZhVYy7Mythp_T-mtop-vrsUOmeInPi9iDjx9w8K4ZfjXt2dmH9rRNv0R5j-91Pu_RsggLt9zL-TOzMHD-TUzZjWFnrH3bqxw7fF48mhrq5Ulr0Hg/Volunteer+profile+template+%282%29.png?format=2500w" alt="OxHub footer">
+        </div>
+      </div>
+    </div>
+  <% end %>
 <% end %>

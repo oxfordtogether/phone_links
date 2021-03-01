@@ -1,0 +1,127 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Reports", pl_reports_path %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <% render partial: "page_head" %>
+<% end %>
+<div class="shadow border-b border-gray-200 bg-gray-50 sm:rounded-lg py-4 px-6">
+  <div class="flex items-center text-gray-500">
+    <%= link_to pl_reports_path(@current_pod_leader, { view: params[:view] }), class: "back flex-1" do %>
+      <%= icon("arrow-left", class: "w-6 h-6") %>
+    <% end %>
+    <div class="flex items-center mr-5">
+      <% if @report.archived_at %>
+        <div class="text-sm">archived: <%= format_date(@report.archived_at) %></div>
+        <%= tailwind_form_with(model: @report,
+                              url: pl_report_path(@current_pod_leader, @report, { view: params[:view] }),
+                              method: :post,
+                              local: true,
+                              class: "unarchive") do |form| %>
+          <%= form.hidden_field :archive, value: false %>
+          <%= button_tag type: "submit" do %>
+            <div class="flex items-center justify-center w-9 h-9 rounded-full hover:bg-green-100">
+              <%= icon('bookmark-check-fill', class: "w-5 h-5 text-green-500") %>
+            </div>
+          <% end %>
+        <% end %>
+      <% else %>
+        <%= tailwind_form_with(model: @report,
+                              url: pl_report_path(@current_pod_leader, @report, { view: params[:view] }),
+                              method: :post,
+                              local: true,
+                              class: "archive") do |form| %>
+          <%= form.hidden_field :archive, value: true %>
+          <%= button_to type: "submit" do %>
+            <div class="flex items-center justify-center w-9 h-9 rounded-full hover:bg-gray-200">
+              <%= icon('bookmark-check', class: "w-5 h-5 text-gray-500") %>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="text-sm text-medium mr-1 text-gray-700">
+      <%= @current_report_number %> of <%= @total_reports %>
+    </div>
+    <%= link_to @prev_url, class: "previous mr-3 flex items-center justify-center w-8 h-8 rounded-full #{@current_report_number == 1 ? 'text-gray-300 cursor-default' : 'hover:bg-gray-200'}" do %>
+      <%= icon("chevron-left", class: "w-5 h-5") %>
+    <% end %>
+    <%= link_to @next_url, class: "next flex items-center justify-center w-8 h-8 rounded-full #{@current_report_number == @total_reports ? 'text-gray-300 cursor-default' : 'hover:bg-gray-200'}" do %>
+      <%= icon("chevron-right", class: "w-5 h-5") %>
+    <% end %>
+  </div>
+  <hr class="border-t border-gray-200 my-4" aria-hidden="true">
+  <% if @report.legacy? %>
+    <div class="mb-5 bg-blue-50 rounded-md p-3 text-sm">
+      <div class="flex mb-4 text-blue-800">
+        <div class="flex-1"><%= icon('exclamation', class: "w-5 h-5 text-blue-400 mr-2") %></div>
+        <div><span class="font-medium">This report came to the old system using google forms.</span>
+          In this case we don't always know which match the report is linked to. Use the form below to fill in this information.</div>
+      </div>
+      <div class="px-8">
+        <%= tailwind_form_with(model: @report,
+                              url: pl_report_path(@current_pod_leader, @report, { view: params[:view] }),
+                              method: :post,
+                              local: true) do |form| %>
+          <%= form.collection_select :match_id, @proposed_matches, :id, :match_names, label: "Assign report to a match", width: :half %>
+          <%= form.button_section do %>
+            <%= form.submit "Save", secondary: true %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <div class="flex justify-between py-2">
+    <div class="text-md leading-2 tracking-wide	font-bold">
+      <% if @report.match.present? %>
+        <div class="flex items-center">
+          <%= @report.match.match_names %>
+          <%= link_to pl_match_path(@current_pod_leader, @report.match) do %>
+            <%= icon('link-45deg', class: "ml-2 w-5 h-5 text-gray-600") %>
+          <% end %>
+        </div>
+      <% else %>
+        <%= @report.legacy_caller_name %> & <%= @report.legacy_callee_name %>
+      <% end %>
+    </div>
+    <div class="text-sm text-gray-500">
+      submitted: <%= format_date(@report.created_at) %>
+    </div>
+  </div>
+  <div class="text-sm text-gray-700">
+    Report submitted by <%= @report.match.present? ? @report.match.caller.person.first_name : @report.legacy_caller_name %> on <%= format_date(@report.created_at) %>
+  </div>
+  <div class="mt-3">
+    <% if @report.concerns || @report.concerns_notes.present? %>
+      <% if false %>
+        <div class="mb-4"><%= alert(title: 'Caller has concerns and would like to be contacted', info: @report.concerns_notes) %></div>
+      <% end %>
+    <% end %>
+    <% if @report.legacy? %>
+      <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Caller email: </span><%= @report.legacy_caller_email %></div>
+      <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Caller: </span><%= @report.legacy_caller_name %>, <%= @report.legacy_callee_name %></div>
+      <% if @report.legacy_time_and_date %>
+        <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call date: </span><%= @report.legacy_time_and_date %></div>
+      <% end %>
+      <% if @report.legacy_date %>
+        <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call date: </span><%= @report.legacy_date %></div>
+      <% end %>
+      <% if @report.legacy_time %>
+        <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call time: </span><%= @report.legacy_time %></div>
+      <% end %>
+      <% if @report.legacy_duration %>
+        <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call length: </span><%= @report.legacy_duration %></div>
+      <% end %>
+      <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Summary: </span><%= @report.summary %></div>
+      <% if @report.legacy_outcome %>
+        <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">How do you feel the call went: </span><%= @report.legacy_outcome %></div>
+      <% end %>
+    <% else %>
+      <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call date: </span><%= format_date(@report.datetime) %></div>
+      <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call length: </span><%= @report.duration %></div>
+      <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Callee mood: </span>...</div>
+      <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Summary: </span><%= @report.summary %></div>
+    <% end %>
+  </div>
+</div>

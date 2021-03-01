@@ -1,0 +1,28 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Callees", pl_callees_path %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <%= render partial: "index_page_head" %>
+<% end %>
+<% if @callees.length > 0 %>
+  <%= table @callees.sort_by(&:name), row_url: ->(c) { pl_person_path(@current_pod_leader, c.person) } do |tbl| %>
+    <% tbl.col "Name" do |callee| %>
+      <%= callee.name %>
+    <% end %>
+    <% tbl.col "Active match(es)", classes: "text-right" do |callee| %>
+      <% if callee.active_matches.present? %>
+        <% callee.active_matches.each_with_index do |match, index| %>
+          <%= match.caller.name %><% if callee.active_matches.count - 1 != index %>, <% end %>
+        <% end %>
+      <% else %>
+        <div class="italic">No active matches</div>
+      <% end %>
+    <% end %>
+  <% end %>
+<% else %>
+  <div class="flex justify-center text-gray-600">
+    No Callees have been added yet :(
+  </div>
+<% end %>

@@ -1,0 +1,11 @@
+<%= tailwind_form_with(model: [:a, @callee], local: true) do |form| %>
+  <%= form.section do %>
+    <%= form.hidden_field :flag_updated_by_id, value: @current_user %>
+    <%= form.check_box :flag_in_progress, true, label: "Raise flag", width: :full %>
+    <%= form.text_area :flag_note %>
+  <% end %>
+  <%= form.button_section do %>
+    <%= form.cancel a_person_path(@callee.person) %>
+    <%= form.submit %>
+  <% end %>
+<% end %>

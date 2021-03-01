@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/oxfordtogether/ocl_tools.git
-  revision: 1e55a9caefd92f1ad32a414cc495e8170037df6f
+  revision: 60ee86867b441c704a43c9cb4e80a7c1f63a6185
   specs:
     ocl_tools (0.1.0)
       pagy
@@ -369,6 +369,7 @@ DEPENDENCIES
   ocl_tools!
   omniauth-auth0 (~> 2.2)
   omniauth-rails_csrf_protection (~> 0.1)
+  pagy
   pg (>= 0.18, < 2.0)
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.4)

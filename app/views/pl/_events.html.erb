@@ -1,0 +1,63 @@
+<% case @event %>
+<% when Events::NoteChanged %>
+<%= render TimelineItemComponent.new(icon: "heroicon-document-text-small", icon_colour: 'bg-blue-300', time: @event.occurred_at, is_last: @last_event) do |c| %>
+  <% c.with(:title) do %>
+    <% if @event.status == 'deleted' %>
+      <span class="text-gray-500 italic">Note deleted</span>
+    <% else %>
+      <%= link_to edit_pl_note_path(@current_pod_leader, @event.note) do %>
+        <span class="my-1">
+          <% time = @event.occurred_at%>
+          <span><%= @event.created_by&.name || "?" %></span> <span class="text-xs text-gray-500 italic"><%= "at #{time.strftime("%l.%M%P")}" if time.hour != 0 %> on <%= time.strftime("%a #{time.day.ordinalize} %b") %></span>
+          <% if @event.status == "edited" %><span class="text-gray-500 italic">(edited)</span><% end %>
+        </span>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% c.with(:body) do %>
+    <% if @event.status != 'deleted' %>
+      <%= @event.content %>
+    <% end %>
+  <% end %>
+<% end %>
+<% when Events::MatchCreated %>
+<%= render TimelineItemComponent.new(icon: "link-45deg", icon_colour: 'bg-gray-400', time: @event.occurred_at, is_last: @last_event) do |c| %>
+  <% c.with(:title) do %>
+    <%= link_to pl_match_path(@current_pod_leader, @event.match) do %>
+      <span class="my-1">
+        <% time = @event.occurred_at %>
+        <span class="text-sm">Match created between <%= @event.person&.name %> and <%= @event.caller_name %></span>
+      </span>
+    <% end %>
+  <% end %>
+  <% c.with(:body) do %>
+  <% end %>
+<% end %>
+<% when Events::MatchEnded %>
+<%= render TimelineItemComponent.new(icon: "link-45deg", icon_colour: 'bg-gray-400', time: @event.occurred_at, is_last: @last_event) do |c| %>
+  <% c.with(:title) do %>
+    <%= link_to pl_match_path(@current_pod_leader, @event.match) do %>
+      <span class="my-1">
+        <% time = @event.occurred_at %>
+        <span class="text-sm">Match ended between <%= @event.person&.name %> and <%= @event.caller_name %></span>
+      </span>
+    <% end %>
+  <% end %>
+  <% c.with(:body) do %>
+  <% end %>
+<% end %>
+<% when Events::ReportSubmitted %>
+<%= render TimelineItemComponent.new(icon: "document-report", icon_colour: 'bg-gray-400', time: @event.occurred_at, is_last: @last_event) do |c| %>
+  <% c.with(:title) do %>
+    <%= link_to pl_report_path(@current_pod_leader, @event.report) do %>
+      <span class="my-1">
+        <% time = @event.occurred_at %>
+        <span class="text-sm">Report submitted for <%= @event.report.match.match_names %></span>
+      </span>
+    <% end %>
+  <% end %>
+  <% c.with(:body) do %>
+    <%= @event.report.summary %>
+  <% end %>
+<% end %>
+<% end %>

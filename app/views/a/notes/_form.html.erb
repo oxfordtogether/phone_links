@@ -1,0 +1,16 @@
+<%= tailwind_form_with(model: [:a, @note], local: true) do |form| %>
+  <%= form.section do %>
+    <%= form.hidden_field :person_id, value: @person.id %>
+    <%= form.hidden_field :created_by_id, value: @note&.created_by&.id %>
+    <%= form.text_area :content, required_asterix: true, info_message: "Notes are visible by the pod leader and all admins" %>
+  <% end %>
+  <%= form.button_section do %>
+    <% if action == :edit %>
+      <div class="flex-1">
+        <%= form.delete a_note_path %>
+      </div>
+    <% end %>
+    <%= form.cancel a_person_path(@note.person) %>
+    <%= form.submit %>
+  <% end %>
+<% end %>

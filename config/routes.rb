@@ -29,6 +29,21 @@ Rails.application.routes.draw do
         get :details
         get :actions
 
+        scope path: :edit, as: :edit do
+          get :personal_details
+          post :personal_details, action: :save_personal_details, as: :save_personal_details
+          get :contact_details
+          post :contact_details, action: :save_contact_details, as: :save_contact_details
+          get :flag
+          post :flag, action: :save_flag, as: :save_flag
+          get :referral_details
+          post :referral_details, action: :save_referral_details, as: :save_referral_details
+          get :experience
+          post :experience, action: :save_experience, as: :save_experience
+        end
+
+        resources :notes, only: %i[new create]
+
         get "callee/new", to: "callees#new"
         get "caller/new", to: "callers#new"
         get "admin/new", to: "admins#new"
@@ -36,6 +51,7 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :notes, only: %i[edit update destroy]
     resources :callees, only: %i[new create edit update]
     resources :callers, only: %i[new create edit update]
     resources :admins, only: %i[create]
@@ -63,6 +79,24 @@ Rails.application.routes.draw do
   namespace :pl do
     scope "/:pod_leader_id" do
       get "/", to: "pages#home"
+
+      get "support", to: "pages#support"
+
+      resources :reports, only: %i[index show]
+      post "/reports/:id", to: "reports#update"
+
+      resources :people, only: %i[show] do
+        member do
+          get "/notes/new", to: "notes#new"
+          post "/notes", to: "notes#create"
+        end
+      end
+
+      resources :callers, only: %i[index]
+      resources :callees, only: %i[index]
+      resources :matches
+
+      resources :notes, only: %i[edit update destroy]
     end
   end
 

@@ -17,7 +17,7 @@ RSpec.describe "add roles to caller", type: :system do
       click_on "Save"
     end.to change { Admin.count }.by(1)
 
-    expect(page).to have_current_path("/a/people/#{caller.person.id}/details")
+    expect(page).to have_current_path("/a/people/#{caller.person.id}/events")
 
     caller.reload
     expect(caller.person.admin).to eq(Admin.last)
@@ -47,7 +47,7 @@ RSpec.describe "add roles to caller", type: :system do
 
     click_on "Cancel"
 
-    expect(page).to have_current_path("/a/people/#{caller.person.id}/details")
+    expect(page).to have_current_path("/a/people/#{caller.person.id}/events")
     caller.reload
     expect(caller.person.admin).to eq(nil)
   end
@@ -61,7 +61,7 @@ RSpec.describe "add roles to caller", type: :system do
 
     click_on "Cancel"
 
-    expect(page).to have_current_path("/a/people/#{caller.person.id}/details")
+    expect(page).to have_current_path("/a/people/#{caller.person.id}/events")
     caller.reload
     expect(caller.person.pod_leader).to eq(nil)
   end

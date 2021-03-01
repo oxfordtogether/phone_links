@@ -1,0 +1,4 @@
+<% content_for :page_head do %>
+  <%= render partial: "pl/people/show_page_head" %>
+<% end %>
+<%= render "form", note: @note, action: :edit %>

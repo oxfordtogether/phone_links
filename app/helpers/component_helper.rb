@@ -7,7 +7,7 @@ module ComponentHelper
     render LinkToComponent.new(*args)
   end
 
-  def alert(*args)
-    render AlertComponent.new(*args)
+  def events_timeline(*args)
+    render EventsTimelineComponent.new(*args)
   end
 end
