@@ -13,15 +13,15 @@ FactoryBot.define do
     archived_at { rand(5) == 1 ? nil : FFaker::Time.between(datetime, datetime + 1.week) }
 
     trait :legacy do
-      legacy_caller_email { match.caller.person.email }
-      legacy_caller_name { match.caller.name }
-      legacy_callee_name { match.callee.name }
+      legacy_caller_name { match.present? ? match.caller.name : "#{FFaker::Name.first_name} #{FFaker::Name.last_name}" }
+      legacy_caller_email { match.present? ? match.caller.person.email : "#{legacy_caller_name}@example.com" }
+      legacy_callee_name { match ? match.callee.name : "#{FFaker::Name.first_name} #{FFaker::Name.last_name}" }
       legacy_time_and_date { datetime.strftime("%B %-d %Y %H:%M") }
       legacy_time { datetime.strftime("%H:%M") }
       legacy_date { datetime.strftime("%B %-d %Y") }
       legacy_duration { DURATION_EXAMPLE.sample }
       legacy_outcome { OUTCOME_EXAMPLE.sample }
-      legacy_pod_id { match.pod.id }
+      legacy_pod_id { match.present? ? match.pod.id : (Pod.order("RANDOM()").first.id || create(:pod).id) }
     end
   end
 end

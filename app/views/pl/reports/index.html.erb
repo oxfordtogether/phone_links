@@ -15,7 +15,7 @@
     <% tbl.col "Match", classes: "py-0" do |report| %>
       <div class="text-gray-800 <%= !report.archived_at.present? && params[:view] == 'all' && 'font-bold' %>">
         <% if report.match.present? %>
-          <%= report.match.caller.name %> & <%= report.match.callee.name %>
+          <%= report.match.match_names %>
         <% else %>
           <%= report.legacy_caller_name %> & <%= report.legacy_callee_name %>
           <span class="inline-flex items-center px-1 py-0.5 rounded-md text-xs font-medium text-gray-700 bg-gray-200">
@@ -36,6 +36,6 @@
   </div>
 <% else %>
   <div class="flex justify-center text-gray-600">
-    No Reports to display :(
+    No reports to display :(
   </div>
 <% end %>

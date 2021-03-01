@@ -8,6 +8,8 @@ class PodLeader < ApplicationRecord
 
   default_scope { includes(:person) }
 
+  scope :with_pod, -> { includes(pod: %i[callers callees]) }
+
   def name
     person.name
   end

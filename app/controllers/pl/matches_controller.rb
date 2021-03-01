@@ -16,11 +16,11 @@ class Pl::MatchesController < Pl::PlController
   end
 
   def create
-    # TO DO
-    # pod = Pod.find(new_match_params[:pod_id])
-    # caller = Caller.find(new_match_params[:caller_id])
-    # callee = Callee.find(new_match_params[:callee_id])
-    # redirect_to if pod != current_pod_leader.pod || caller.pod != current_pod_leader.pod || callee.pod != current_pod_leader.pod
+    unless current_pod_leader.pod.id == new_match_params[:pod_id] &&
+           current_pod_leader.pod.callers.include?(new_match_params[:caller_id]) &&
+           current_pod_leader.pod.callees.include?(new_match_params[:callee_id])
+      redirect_to "/invalid_permissions_for_page"
+    end
 
     @match = Match.new(new_match_params)
     if @match.save
@@ -36,6 +36,12 @@ class Pl::MatchesController < Pl::PlController
   def edit; end
 
   def update
+    unless current_pod_leader.pod.id == @match.pod.id &&
+           current_pod_leader.pod.callers.include?(@match.caller.id) &&
+           current_pod_leader.pod.callees.include?(@match.callee.id)
+      redirect_to "/invalid_permissions_for_page"
+    end
+
     if @match.update(edit_match_params)
       @match.create_events!
       redirect_to pl_match_path(current_pod_leader, @match), notice: "Match was successfully updated."

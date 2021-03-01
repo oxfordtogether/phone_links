@@ -39,8 +39,8 @@ class Pl::ReportsController < Pl::PlController
   def update
     if report_params[:match_id]
 
-      # TO DO: handle setting to null
       if @report.update(report_params)
+        @report.create_events!
         redirect_to pl_report_path(current_pod_leader, @report, { view: params[:view] }), notice: "Report was successfully updated."
       else
         @proposed_matches = current_pod_leader.pod.matches

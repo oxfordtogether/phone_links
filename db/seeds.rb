@@ -26,7 +26,8 @@ end
 
 # create some reports & notes
 FactoryBot.create_list(:report, 100)
-FactoryBot.create_list(:report, 400, :legacy)
+FactoryBot.create_list(:report, 200, :legacy)
+FactoryBot.create_list(:report, 200, :legacy, match: nil)
 FactoryBot.create_list(:note, 500)
 
 SearchCache.refresh

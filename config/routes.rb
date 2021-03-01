@@ -92,30 +92,8 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :callers, only: %i[index] do
-        #   # collection do
-        #   #   resources :notes, only: %i[edit update destroy], controller: "caller_notes"
-        #   # end
-
-        #   member do
-        #     # get "/notes/new", to: "caller_notes#new"
-        #     # post "/notes", to: "caller_notes#create"
-        #     get :events
-        #   end
-      end
-
-      resources :callees, only: %i[index] do
-        #   collection do
-        #     resources :notes, only: %i[edit update destroy], controller: "callee_notes"
-        #   end
-
-        #   member do
-        #     get "/notes/new", to: "callee_notes#new"
-        #     post "/notes", to: "callee_notes#create"
-        #     get :events
-        #   end
-      end
-
+      resources :callers, only: %i[index]
+      resources :callees, only: %i[index]
       resources :matches
 
       resources :notes, only: %i[edit update destroy]

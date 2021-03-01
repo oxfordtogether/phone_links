@@ -72,7 +72,7 @@
         <% @person&.callee&.matches.each do |match| %>
           <dd class="mt-1 text-sm text-gray-900">
             <% if match.pending %>
-              <%= link_to match.caller.name, pl_match_path(@current_pod_leader, match) %>, <span class="italic">pending</span> (<%= format_date_range(match) %>)
+              <%= link_to match.caller.name, pl__path(@current_pod_leader, match) %>, <span class="italic">pending</span> (<%= format_date_range(match) %>)
             <% elsif match.active? %>
               <%= link_to match.caller.name, pl_match_path(@current_pod_leader, match) %> (<%= format_date_range(match) %>)
             <% else %>

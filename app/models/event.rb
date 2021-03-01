@@ -38,6 +38,10 @@ class Event < ApplicationRecord
     false
   end
 
+  def report_submitted?
+    false
+  end
+
   def active?
     !replacement_event_id
   end

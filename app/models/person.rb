@@ -48,4 +48,14 @@ class Person < ApplicationRecord
   def create_events!
     Events::PersonEventCreator.new(self).create_events!
   end
+
+  def events_to_display
+    es = Event.where(person_id: id)
+              .all
+              .filter(&:active?)
+
+    es += Event.where(type: "Events::ReportSubmitted").filter { |e| e.non_sensitive_data["caller_id"] == caller.id }.filter(&:active?) if caller.present?
+
+    es.sort_by(&:occurred_at)
+  end
 end

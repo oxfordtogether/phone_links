@@ -1,5 +1,6 @@
 class Report < ApplicationRecord
   belongs_to :match, optional: true
+  has_many :events
 
   encrypts :summary, type: :string, key: :kms_key
 
@@ -12,5 +13,9 @@ class Report < ApplicationRecord
 
   def legacy?
     legacy_caller_email.present?
+  end
+
+  def create_events!
+    Events::ReportEventCreator.new(self).create_events!
   end
 end

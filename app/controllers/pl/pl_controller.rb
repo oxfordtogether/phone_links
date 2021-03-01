@@ -12,7 +12,7 @@ class Pl::PlController < ApplicationController
   end
 
   def current_pod_leader
-    @current_pod_leader ||= PodLeader.find(params[:pod_leader_id])
+    @current_pod_leader ||= PodLeader.with_pod.find(params[:pod_leader_id])
   rescue StandardError
     redirect_to "/page_does_not_exist"
   end

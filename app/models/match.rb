@@ -21,7 +21,7 @@ class Match < ApplicationRecord
   end
 
   def match_names
-    "#{caller.name} - #{callee.name}"
+    "#{caller.name} & #{callee.name}"
   end
 
   def pod_mismatch
