@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include Pagy::Frontend
+
   def format_date_range(thing)
     if thing.active?
       if thing.end_date
