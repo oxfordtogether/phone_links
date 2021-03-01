@@ -105,7 +105,7 @@ Rails.application.routes.draw do
       get "/", to: "pages#home"
       get "support", to: "pages#support"
       resources :reports
+      resources :callees
     end
-    resources :callees
   end
 end
