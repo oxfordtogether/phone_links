@@ -104,7 +104,7 @@ Rails.application.routes.draw do
     scope "/:caller_id" do
       get "/", to: "pages#home"
       get "support", to: "pages#support"
-      get "callee", to: "pages#callee"
+      resources :reports
     end
     resources :callees
   end
