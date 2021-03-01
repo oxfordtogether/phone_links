@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/oxfordtogether/ocl_tools.git
-  revision: 60ee86867b441c704a43c9cb4e80a7c1f63a6185
+  revision: 84822b095ec69f466c284e6516ca102799ee8e9a
   specs:
     ocl_tools (0.1.0)
       pagy
@@ -158,7 +158,7 @@ GEM
     mimemagic (0.3.5)
     mini_mime (1.0.2)
     mini_portile2 (2.5.0)
-    minitest (5.14.3)
+    minitest (5.14.4)
     msgpack (1.4.2)
     multi_json (1.15.0)
     multi_xml (0.6.0)
@@ -325,7 +325,7 @@ GEM
       unf_ext
     unf_ext (0.0.7.7)
     unicode-display_width (2.0.0)
-    view_component (2.25.1)
+    view_component (2.26.1)
       activesupport (>= 5.0.0, < 7.0)
     web-console (4.1.0)
       actionview (>= 6.0.0)
