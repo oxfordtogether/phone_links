@@ -20,7 +20,7 @@ RSpec.describe "login", type: :system do
     visit "/"
     expect(current_path).to eq("/pl/#{pod_leader.id}")
     expect(page.has_text?("Hi #{pod_leader.person.name}")).to eq(true)
-    expect(page.has_text?("TO DO")).to eq(true)
+    expect(page.has_text?("Welcome to Oxford Hub Phone Links")).to eq(true)
 
     visit "/pl/#{pod_leader.id}/support"
     expect(page.has_text?("Support")).to eq(true)

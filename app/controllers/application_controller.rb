@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 
   def current_user
     if bypass_auth?
-      Admin.first.person
+      Admin.first.person if Admin.count >= 1
     elsif session[:person_id]
       Person.find(session[:person_id])
     end

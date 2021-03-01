@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body class="h-screen">
-    <div data-controller="sidebar" class="h-screen flex overflow-hidden bg-gray-100">
+    <div data-controller="sidebar" class="sidebar h-screen flex overflow-hidden bg-gray-100">
       <%= render SidebarComponent.new() do |component| %>
         <% component.with(:navbar_content) do %>
           <%= yield(:navbar_content) %>
