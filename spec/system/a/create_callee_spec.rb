@@ -23,6 +23,11 @@ RSpec.describe "create callee", type: :system do
     fill_in "Last name", with: "Jones"
     fill_in "Email", with: "bob.jones@gmail.com"
     fill_in "Phone", with: "12345"
+    fill_in "Address line 1", with: "1 RR"
+    fill_in "Address line 2", with: "XX"
+    fill_in "Town", with: "Town"
+    fill_in "Postcode", with: "XXX"
+    select "18-35", from: "Age bracket"
 
     expect { click_on "Next" }.to change { Person.count }.by(1)
     person = Person.last
@@ -43,11 +48,17 @@ RSpec.describe "create callee", type: :system do
     expect(page).to have_current_path("/a/people/#{person.id}/events")
 
     person.reload
+
     expect(person.title).to eq("MX")
     expect(person.first_name).to eq("Bob")
     expect(person.last_name).to eq("Jones")
     expect(person.email).to eq("bob.jones@gmail.com")
     expect(person.phone).to eq("12345")
+    expect(person.address_line_1).to eq("1 RR")
+    expect(person.address_line_2).to eq("XX")
+    expect(person.address_town).to eq("Town")
+    expect(person.address_postcode).to eq("XXX")
+    expect(person.age_bracket).to eq(:age_18_35)
     expect(person.callee).to eq(callee)
 
     expect(callee.pod).to eq(pods[1])

@@ -29,10 +29,12 @@ RSpec.describe "edit callee", type: :system do
     expect(find_field("Title").value).to eq person.title
     expect(find_field("First name").value).to eq person.first_name
     expect(find_field("Last name").value).to eq person.last_name
+    expect(find_field("Age bracket").value).to eq person.age_bracket.to_s
 
     select "Mx", from: "Title"
     fill_in "First name", with: "Bob"
     fill_in "Last name", with: "Jones"
+    select "18-35", from: "Age bracket"
 
     expect { click_on "Save" }.to change { Person.count }.by(0)
 
@@ -42,6 +44,7 @@ RSpec.describe "edit callee", type: :system do
     expect(person.title).to eq("MX")
     expect(person.first_name).to eq("Bob")
     expect(person.last_name).to eq("Jones")
+    expect(person.age_bracket).to eq(:age_18_35)
   end
 
   it "edits contact info" do

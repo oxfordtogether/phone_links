@@ -26,6 +26,13 @@ class Person < ApplicationRecord
     )
   }
 
+  options_field :age_bracket, {
+    "age_18_35": "18-35",
+    "age_36_59": "36-59",
+    "age_60_75": "60-74",
+    "age_75_plus": "75+",
+  }
+
   encrypts :title, type: :string, key: :kms_key
   encrypts :first_name, type: :string, key: :kms_key
   encrypts :last_name, type: :string, key: :kms_key

@@ -78,6 +78,11 @@
         <%= form.text_field :last_name, width: :full, required_asterix: true %>
         <%= form.text_field :phone, width: :full %>
         <%= form.text_field :email, width: :full, required_asterix: true, info_message: "Required for callers, pod leaders and admin, specify 'unknown' if not known for callees." %>
+        <%= form.text_field :address_line_1, width: :full %>
+        <%= form.text_field :address_line_2, width: :full %>
+        <%= form.text_field :address_town, label: "Town", width: :full %>
+        <%= form.text_field :address_postcode, label: "Postcode", width: :full %>
+        <%= form.select :age_bracket, Person.age_bracket_options_for_select, width: :full %>
       <% end %>
     </div>
   </div>

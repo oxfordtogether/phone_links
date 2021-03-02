@@ -16,5 +16,7 @@ FactoryBot.define do
     flag_updated_at { FFaker::Time.between(Date.today - 2.months, Date.today) }
     flag_updated_by_id { flag_in_progress ? (Admin.order("RANDOM()").first&.person&.id || create(:admin).person.id) : nil }
     flag_note { flag_in_progress ? FFaker::Lorem.phrase : nil }
+
+    age_bracket { Person.age_brackets.keys.sample }
   end
 end

@@ -263,7 +263,8 @@ CREATE TABLE public.people (
     flag_in_progress boolean,
     flag_updated_at timestamp without time zone,
     flag_updated_by_id integer,
-    flag_note_ciphertext text
+    flag_note_ciphertext text,
+    age_bracket character varying
 );
 
 

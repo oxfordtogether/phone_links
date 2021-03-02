@@ -22,6 +22,7 @@
         <div class="col-span-3"></div>
         <%= form.text_field :first_name, width: :half, required_asterix: true %>
         <%= form.text_field :last_name, width: :half, required_asterix: true %>
+        <%= form.select :age_bracket, Person.age_bracket_options_for_select, width: :full %>
       <% end %>
       <%= form.button_section do %>
         <%= form.cancel a_person_path(@person) %>

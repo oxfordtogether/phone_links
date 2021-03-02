@@ -178,7 +178,7 @@ class A::PeopleController < A::AController
 
   def person_params
     params.require(:person).permit(
-      :role, :title, :first_name, :last_name, :email, :phone,
+      :role, :title, :first_name, :last_name, :email, :phone, :address_line_1, :address_line_2, :address_postcode, :address_town, :age_bracket,
       callee_attributes: %i[id pod_id active reason_for_referral living_arrangements other_information call_frequency additional_needs],
       caller_attributes: %i[id pod_id active experience],
       admin_attributes: %i[id active],
@@ -187,7 +187,7 @@ class A::PeopleController < A::AController
   end
 
   def personal_details_params
-    params.require(:person).permit(:id, :title, :first_name, :last_name)
+    params.require(:person).permit(:id, :title, :first_name, :last_name, :age_bracket)
   end
 
   def contact_details_params
