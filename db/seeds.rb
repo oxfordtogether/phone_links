@@ -24,6 +24,8 @@ pods = Pod.all
                     pending: rand(10) == 1)
 end
 
+FactoryBot.create_list(:emergency_contact, 150)
+
 # create some reports & notes
 FactoryBot.create_list(:report, 100)
 FactoryBot.create_list(:report, 200, :legacy)

@@ -43,6 +43,8 @@ Rails.application.routes.draw do
           post :pod_membership, action: :save_pod_membership, as: :save_pod_membership
           get :active
           post :active, action: :save_active, as: :save_active
+          get :emergency_contacts
+          post :emergency_contacts, action: :save_emergency_contacts, as: :save_emergency_contacts
         end
 
         resources :notes, only: %i[new create]
@@ -53,6 +55,9 @@ Rails.application.routes.draw do
         get "pod_leader/new", to: "pod_leaders#new"
       end
     end
+
+    post "emergency_contacts/:id", to: "emergency_contacts#update"
+    delete "emergency_contacts/:id", to: "emergency_contacts#destroy"
 
     resources :notes, only: %i[edit update destroy]
     resources :callees, only: %i[new create edit update]

@@ -6,7 +6,8 @@ class A::PeopleController < A::AController
                                       referral_details save_referral_details
                                       experience save_experience
                                       active save_active
-                                      pod_membership save_pod_membership]
+                                      pod_membership save_pod_membership
+                                      emergency_contacts save_emergency_contacts]
 
   def show
     redirect_to events_a_person_path(@person)
@@ -58,7 +59,7 @@ class A::PeopleController < A::AController
     if @person.save
       @person.create_events!
       SearchCacheRefresh.perform_async
-      redirect_to a_person_path(@person), notice: "Profile was successfully updated."
+      redirect_to personal_details_a_edit_person_path(@person), notice: "Profile was successfully updated."
     else
       render "edit/personal_details"
     end
@@ -74,7 +75,7 @@ class A::PeopleController < A::AController
     if @person.save
       @person.create_events!
       SearchCacheRefresh.perform_async
-      redirect_to a_person_path(@person), notice: "Profile was successfully updated."
+      redirect_to contact_details_a_edit_person_path(@person), notice: "Profile was successfully updated."
     else
       render "edit/contact_details"
     end
@@ -116,7 +117,7 @@ class A::PeopleController < A::AController
     if @person.save
       @person.create_events!
       SearchCacheRefresh.perform_async
-      redirect_to a_person_path(@person), notice: "Profile was successfully updated."
+      redirect_to referral_details_a_edit_person_path(@person), notice: "Profile was successfully updated."
     else
       render "edit/referral_details"
     end
@@ -132,7 +133,7 @@ class A::PeopleController < A::AController
     if @person.save
       @person.create_events!
       SearchCacheRefresh.perform_async
-      redirect_to a_person_path(@person), notice: "Profile was successfully updated."
+      redirect_to experience_a_edit_person_path(@person), notice: "Profile was successfully updated."
     else
       render "edit/experience"
     end
@@ -148,7 +149,7 @@ class A::PeopleController < A::AController
     if @person.save
       @person.create_events!
       SearchCacheRefresh.perform_async
-      redirect_to a_person_path(@person), notice: "Profile was successfully updated."
+      redirect_to active_a_edit_person_path(@person), notice: "Profile was successfully updated."
     else
       render "edit/active"
     end
@@ -164,9 +165,25 @@ class A::PeopleController < A::AController
     if @person.save
       @person.create_events!
       SearchCacheRefresh.perform_async
-      redirect_to a_person_path(@person), notice: "Profile was successfully updated."
+      redirect_to pod_membership_a_edit_person_path(@person), notice: "Profile was successfully updated."
     else
       render "edit/pod_membership"
+    end
+  end
+
+  def emergency_contacts
+    render "a/people/edit/emergency_contacts"
+  end
+
+  def save_emergency_contacts
+    @person.assign_attributes(emergency_contacts_params)
+
+    if @person.save
+      @person.create_events!
+      SearchCacheRefresh.perform_async
+      redirect_to emergency_contacts_a_edit_person_path(@person), notice: "Profile was successfully updated."
+    else
+      render "edit/emergency_contacts"
     end
   end
 
@@ -212,5 +229,9 @@ class A::PeopleController < A::AController
 
   def pod_membership_params
     params.require(:person).permit(:id, callee_attributes: %w[id pod_id], caller_attributes: %w[id pod_id])
+  end
+
+  def emergency_contacts_params
+    params.require(:person).permit(:id, callee_attributes: [:id, { emergency_contacts_attributes: %w[name contact_details relationship] }])
   end
 end

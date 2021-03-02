@@ -4,8 +4,10 @@ class Callee < ApplicationRecord
   belongs_to :person
   belongs_to :pod, optional: true
   has_many :matches
+  has_many :emergency_contacts
 
   accepts_nested_attributes_for :person
+  accepts_nested_attributes_for :emergency_contacts
 
   default_scope { includes(:person) }
   scope :with_matches, -> { includes(:matches) }

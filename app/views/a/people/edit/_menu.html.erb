@@ -5,13 +5,14 @@
     <% if false %> <% nav.link "Actions", flag_a_edit_person_path(@person), "bell-fill" %><% end %>
     <% if @person.callee.present? %>
       <% nav.link "Referral details", referral_details_a_edit_person_path(@person), "heroicon-document-text-small" %>
+      <% nav.link "Emergency contacts", emergency_contacts_a_edit_person_path(@person), "people-fill" %>
     <% end %>
     <% if @person.caller.present? %>
       <% nav.link "Experience", experience_a_edit_person_path(@person), "heroicon-document-text-small" %>
     <% end %>
     <% if @person.caller.present? || @person.callee.present? %>
-      <% nav.link "Pod membership", pod_membership_a_edit_person_path(@person), "heroicon-document-text-small" %>
+      <% nav.link "Pod membership", pod_membership_a_edit_person_path(@person), "phone" %>
     <% end %>
-    <% nav.link "Active", active_a_edit_person_path(@person), "heroicon-document-text-small" %>
+    <% nav.link "Active", active_a_edit_person_path(@person), "check-circle" %>
   <% end %>
 </div>
