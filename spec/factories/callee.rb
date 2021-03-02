@@ -9,5 +9,6 @@ FactoryBot.define do
     living_arrangements { FFaker::Lorem.phrase }
     additional_needs { FFaker::Lorem.phrase }
     other_information { FFaker::Lorem.phrase }
+    call_frequency { FFaker::Lorem.phase }
   end
 end

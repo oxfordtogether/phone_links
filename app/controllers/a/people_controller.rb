@@ -153,7 +153,7 @@ class A::PeopleController < A::AController
   def person_params
     params.require(:person).permit(
       :role, :title, :first_name, :last_name, :email, :phone,
-      callee_attributes: %i[id pod_id active reason_for_referral living_arrangements other_information additional_needs],
+      callee_attributes: %i[id pod_id active reason_for_referral living_arrangements other_information call_frequency additional_needs],
       caller_attributes: %i[id pod_id active experience],
       admin_attributes: %i[id active],
       pod_leader_attributes: %i[id active]
@@ -173,7 +173,7 @@ class A::PeopleController < A::AController
   end
 
   def referral_details_params
-    params.require(:person).permit(:id, callee_attributes: %(id reason_for_referral living_arrangements other_information additional_needs))
+    params.require(:person).permit(:id, callee_attributes: %(id reason_for_referral living_arrangements other_information call_frequency additional_needs))
   end
 
   def experience_params

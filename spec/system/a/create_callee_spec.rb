@@ -34,6 +34,7 @@ RSpec.describe "create callee", type: :system do
     fill_in "Living arrangements", with: "living"
     fill_in "Other information", with: "other"
     fill_in "Additional needs", with: "needs"
+    fill_in "Call frequency", with: "calls"
     check "Active"
 
     expect { click_on "Save" }.to change { Callee.count }.by(1)
@@ -54,6 +55,7 @@ RSpec.describe "create callee", type: :system do
     expect(callee.living_arrangements).to eq("living")
     expect(callee.other_information).to eq("other")
     expect(callee.additional_needs).to eq("needs")
+    expect(callee.additional_needs).to eq("calls")
     expect(callee.active).to eq(true)
   end
 

@@ -27,6 +27,6 @@ class A::CalleesController < A::AController
   end
 
   def callee_params
-    params.require(:callee).permit(:redirect_on_cancel, :person_id, :pod_id, :active, :reason_for_referral, :living_arrangements, :other_information, :additional_needs)
+    params.require(:callee).permit(:redirect_on_cancel, :person_id, :pod_id, :active, :reason_for_referral, :living_arrangements, :other_information, :call_frequency, :additional_needs)
   end
 end

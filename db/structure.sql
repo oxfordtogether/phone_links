@@ -71,7 +71,8 @@ CREATE TABLE public.callees (
     living_arrangements_ciphertext text,
     other_information_ciphertext text,
     additional_needs_ciphertext text,
-    pod_id bigint
+    pod_id bigint,
+    call_frequency_ciphertext text
 );
 
 
@@ -881,6 +882,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210218162712'),
 ('20210219100515'),
 ('20210225165903'),
-('20210301204932');
+('20210301204932'),
+('20210302084427');
 
 

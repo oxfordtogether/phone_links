@@ -74,6 +74,12 @@
           <p><%= @person.callee.additional_needs %></p>
         </dd>
       </dl>
+      <dl class="my-4 mx-3">
+        <dt class="text-sm font-medium text-gray-500">Call frequency</dt>
+        <dd class="mt-1 max-w-prose text-sm text-gray-900">
+          <p><%= @person.callee.call_frequency %></p>
+        </dd>
+      </dl>
     <% end %>
     <% if @person&.caller %>
       <div class="my-4 text-gray-600">
