@@ -24,13 +24,13 @@
         <% end %>
       </div>
       <div class="mt-2 sm:mt-2 mr-6 flex items-center text-sm text-gray-900">
-        <%= icon("heroicon-home-unfilled", class: "flex-shrink-0 mr-2 h-5 w-5 text-gray-400") %>
+        <svg class="flex-shrink-0 mr-2f h-6 w-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+        </svg>
         <% if @callee.person.address_line_1.present? %>
-          <div> "#{@callee.person.address_line_1}, #{@callee.person.address_line_2}, #{@callee.person.address_town}, #{@callee.person.address_postcode}" </div>
+          <div> <%= "#{@callee.person.address_line_1} #{@callee.person.address_line_2}, #{@callee.person.address_town}, #{@callee.person.address_postcode}" %> </div>
         <% else %>
-          <div> "#{@callee.person.address_line_1}, #{@callee.person.address_line_2}, #{@callee.person.address_town}, #{@callee.person.address_postcode}" </div>
-
-          <span class="italic">unknown</span>
+          <span class="italic">not given</span>
         <% end %>
       </div>
     </div>
