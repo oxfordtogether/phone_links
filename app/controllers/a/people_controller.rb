@@ -39,17 +39,6 @@ class A::PeopleController < A::AController
     end
   end
 
-  def edit; end
-
-  def update
-    if @person.update(person_params)
-      SearchCacheRefresh.perform_async
-      redirect_to a_person_path(@person), notice: "Profile was successfully updated."
-    else
-      render :edit
-    end
-  end
-
   def actions; end
 
   def personal_details
@@ -171,10 +160,10 @@ class A::PeopleController < A::AController
   end
 
   def referral_details_params
-    params.require(:person).permit(:id, callee_attributes: %(id reason_for_referral living_arrangements other_information call_frequency additional_needs))
+    params.require(:person).permit(:id, callee_attributes: %w[id reason_for_referral living_arrangements other_information call_frequency additional_needs])
   end
 
   def experience_params
-    params.require(:person).permit(:id, caller_attributes: %(id experience))
+    params.require(:person).permit(:id, caller_attributes: %w[id experience])
   end
 end
