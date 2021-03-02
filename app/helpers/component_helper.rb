@@ -10,4 +10,8 @@ module ComponentHelper
   def events_timeline(*args)
     render EventsTimelineComponent.new(*args)
   end
+
+  def reports_list(*args)
+    render ReportsListComponent.new(*args)
+  end
 end
