@@ -55,7 +55,7 @@ RSpec.describe "create callee", type: :system do
     expect(callee.living_arrangements).to eq("living")
     expect(callee.other_information).to eq("other")
     expect(callee.additional_needs).to eq("needs")
-    expect(callee.additional_needs).to eq("calls")
+    expect(callee.call_frequency).to eq("calls")
     expect(callee.active).to eq(true)
   end
 

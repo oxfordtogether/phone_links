@@ -33,7 +33,7 @@ RSpec.describe "create caller", type: :system do
     expect { click_on "Save" }.to change { Caller.count }.by(1)
     caller = Caller.last
 
-    expect(page).to have_current_path("/a/people/#{person.id}/details")
+    expect(page).to have_current_path("/a/people/#{person.id}/events")
 
     person.reload
     expect(person.title).to eq("MX")
@@ -58,7 +58,7 @@ RSpec.describe "create caller", type: :system do
 
     expect { click_on "Save" }.to change { Caller.count }.by(1)
 
-    expect(page).to have_current_path("/a/people/#{person.id}/details")
+    expect(page).to have_current_path("/a/people/#{person.id}/events")
   end
 
   it "links to person profile" do

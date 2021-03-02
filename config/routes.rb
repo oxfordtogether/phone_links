@@ -26,7 +26,6 @@ Rails.application.routes.draw do
     resources :people, only: %i[show new create edit update] do
       member do
         get :events
-        get :details
         get :actions
 
         scope path: :edit, as: :edit do

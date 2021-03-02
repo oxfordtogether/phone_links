@@ -12,8 +12,6 @@ class A::PeopleController < A::AController
                    .filter(&:active?)
   end
 
-  def details; end
-
   def new
     @person = Person.new
     @role = params[:role]
