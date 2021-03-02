@@ -9,5 +9,9 @@
     <% if @person.caller.present? %>
       <% nav.link "Experience", experience_a_edit_person_path(@person), "heroicon-document-text-small" %>
     <% end %>
+    <% if @person.caller.present? || @person.callee.present? %>
+      <% nav.link "Pod membership", pod_membership_a_edit_person_path(@person), "heroicon-document-text-small" %>
+    <% end %>
+    <% nav.link "Active", active_a_edit_person_path(@person), "heroicon-document-text-small" %>
   <% end %>
 </div>

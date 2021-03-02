@@ -39,6 +39,10 @@ Rails.application.routes.draw do
           post :referral_details, action: :save_referral_details, as: :save_referral_details
           get :experience
           post :experience, action: :save_experience, as: :save_experience
+          get :pod_membership
+          post :pod_membership, action: :save_pod_membership, as: :save_pod_membership
+          get :active
+          post :active, action: :save_active, as: :save_active
         end
 
         resources :notes, only: %i[new create]

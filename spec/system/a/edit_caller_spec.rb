@@ -15,6 +15,8 @@ RSpec.describe "edit caller", type: :system do
     expect(page).to have_content("Personal")
     expect(page).to have_content("Contact")
     expect(page).to have_content("Experience")
+    expect(page).to have_content("Pod")
+    expect(page).to have_content("Active")
   end
 
   it "edits experience" do
@@ -33,5 +35,46 @@ RSpec.describe "edit caller", type: :system do
 
     caller.reload
     expect(caller.experience).to eq("experience")
+  end
+
+  it "edits active status" do
+    login_as nil
+
+    visit "/a/people/#{person.id}"
+    click_on "Edit"
+    click_on "Active"
+    expect(page).to have_current_path("/a/people/#{person.id}/edit/active")
+
+    active_status = caller.active
+
+    expect(find_field("person_caller_attributes_active").checked?).to eq active_status
+    if active_status
+      uncheck "person_caller_attributes_active"
+    else
+      check "person_caller_attributes_active"
+    end
+
+    click_on "Save"
+
+    caller.reload
+    expect(caller.active).to eq(!active_status ? true : nil)
+  end
+
+  it "edits pod membership" do
+    login_as nil
+
+    visit "/a/people/#{person.id}"
+    click_on "Edit"
+    click_on "Pod membership"
+    expect(page).to have_current_path("/a/people/#{person.id}/edit/pod_membership")
+
+    expect(find_field("person_caller_attributes_pod_id").value).to eq caller.pod.id.to_s
+
+    select pods[1].name, from: "Pod"
+
+    click_on "Save"
+
+    caller.reload
+    expect(caller.pod).to eq(pods[1])
   end
 end

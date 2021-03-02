@@ -15,6 +15,8 @@ RSpec.describe "edit callee", type: :system do
     expect(page).to have_content("Personal")
     expect(page).to have_content("Contact")
     expect(page).to have_content("Referral details")
+    expect(page).to have_content("Pod")
+    expect(page).to have_content("Active")
   end
 
   it "edits personal info" do
@@ -104,12 +106,45 @@ RSpec.describe "edit callee", type: :system do
     expect(callee.additional_needs).to eq("needs")
     expect(callee.call_frequency).to eq("call_frequency")
   end
-end
 
-# TO DO
-# expect(find_field("person_callee_attributes_active").checked?).to eq callee.active
-# expect(find_field("person_callee_attributes_pod_id").value).to eq callee.pod.id.to_s
-# uncheck "person_callee_attributes_active"
-# select pods[1].name, from: "Pod"
-# expect(callee.pod).to eq(pods[1])
-# expect(callee.active).to eq(nil)
+  it "edits active status" do
+    login_as nil
+
+    visit "/a/people/#{person.id}"
+    click_on "Edit"
+    click_on "Active"
+    expect(page).to have_current_path("/a/people/#{person.id}/edit/active")
+
+    active_status = callee.active
+
+    expect(find_field("person_callee_attributes_active").checked?).to eq active_status
+    if active_status
+      uncheck "person_callee_attributes_active"
+    else
+      check "person_callee_attributes_active"
+    end
+
+    click_on "Save"
+
+    callee.reload
+    expect(callee.active).to eq(!active_status ? true : nil)
+  end
+
+  it "edits pod membership" do
+    login_as nil
+
+    visit "/a/people/#{person.id}"
+    click_on "Edit"
+    click_on "Pod membership"
+    expect(page).to have_current_path("/a/people/#{person.id}/edit/pod_membership")
+
+    expect(find_field("person_callee_attributes_pod_id").value).to eq callee.pod.id.to_s
+
+    select pods[1].name, from: "Pod"
+
+    click_on "Save"
+
+    callee.reload
+    expect(callee.pod).to eq(pods[1])
+  end
+end

@@ -1,5 +1,12 @@
 class A::PeopleController < A::AController
-  before_action :set_person, only: %i[show events details actions edit update personal_details save_personal_details contact_details save_contact_details flag save_flag referral_details save_referral_details experience save_experience]
+  before_action :set_person, only: %i[show events details actions
+                                      personal_details save_personal_details
+                                      contact_details save_contact_details
+                                      flag save_flag
+                                      referral_details save_referral_details
+                                      experience save_experience
+                                      active save_active
+                                      pod_membership save_pod_membership]
 
   def show
     redirect_to events_a_person_path(@person)
@@ -131,6 +138,38 @@ class A::PeopleController < A::AController
     end
   end
 
+  def active
+    render "a/people/edit/active"
+  end
+
+  def save_active
+    @person.assign_attributes(active_params)
+
+    if @person.save
+      @person.create_events!
+      SearchCacheRefresh.perform_async
+      redirect_to a_person_path(@person), notice: "Profile was successfully updated."
+    else
+      render "edit/active"
+    end
+  end
+
+  def pod_membership
+    render "a/people/edit/pod_membership"
+  end
+
+  def save_pod_membership
+    @person.assign_attributes(pod_membership_params)
+
+    if @person.save
+      @person.create_events!
+      SearchCacheRefresh.perform_async
+      redirect_to a_person_path(@person), notice: "Profile was successfully updated."
+    else
+      render "edit/pod_membership"
+    end
+  end
+
   private
 
   def set_person
@@ -165,5 +204,13 @@ class A::PeopleController < A::AController
 
   def experience_params
     params.require(:person).permit(:id, caller_attributes: %w[id experience])
+  end
+
+  def active_params
+    params.require(:person).permit(:id, callee_attributes: %w[id active], caller_attributes: %w[id active], admin_attributes: %w[id active], pod_leader_attributes: %w[id active])
+  end
+
+  def pod_membership_params
+    params.require(:person).permit(:id, callee_attributes: %w[id pod_id], caller_attributes: %w[id pod_id])
   end
 end

@@ -1,0 +1,48 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "People", a_search_path %>
+    <% list.link @person.name, a_person_path(@person) %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <%= render partial: "show_page_head" %>
+<% end %>
+<div class="grid grid-cols-4">
+  <div>
+    <%= render partial: "a/people/edit/menu" %>
+  </div>
+  <div class="col-span-3 col-start-2">
+    <%= tailwind_form_with(
+        model: [:a, @person],
+        url: save_active_a_edit_person_path(@person),
+        method: :post,
+        local: true) do |form| %>
+      <%= form.section do %>
+        <% if @person.callee.present? %>
+          <%= form.fields_for :callee do |callee_fields| %>
+            <%= callee_fields.check_box :active, true, label: "Active" %>
+          <% end %>
+        <% end %>
+        <% if @person.caller.present? %>
+          <%= form.fields_for :caller do |caller_fields| %>
+            <%= caller_fields.check_box :active, true, label: "Active" %>
+          <% end %>
+        <% end %>
+        <% if @person.pod_leader.present? %>
+          <%= form.fields_for :pod_leader do |pod_leader_fields| %>
+            <%= pod_leader_fields.check_box :active, true, label: "Active" %>
+          <% end %>
+        <% end %>
+        <% if @person.admin.present? %>
+          <%= form.fields_for :admin do |admin_fields| %>
+            <%= admin_fields.check_box :active, true, label: "Active" %>
+          <% end %>
+        <% end %>
+      <% end %>
+      <%= form.button_section do %>
+        <%= form.cancel a_person_path(@person) %>
+        <%= form.submit %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

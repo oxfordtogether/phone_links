@@ -14,5 +14,29 @@ RSpec.describe "edit admin", type: :system do
 
     expect(page).to have_content("Personal")
     expect(page).to have_content("Contact")
+    expect(page).to have_content("Active")
+  end
+
+  it "edits active status" do
+    login_as nil
+
+    visit "/a/people/#{person.id}"
+    click_on "Edit"
+    click_on "Active"
+    expect(page).to have_current_path("/a/people/#{person.id}/edit/active")
+
+    active_status = admin.active
+
+    expect(find_field("person_admin_attributes_active").checked?).to eq active_status
+    if active_status
+      uncheck "person_admin_attributes_active"
+    else
+      check "person_admin_attributes_active"
+    end
+
+    click_on "Save"
+
+    admin.reload
+    expect(admin.active).to eq(!active_status ? true : nil)
   end
 end
