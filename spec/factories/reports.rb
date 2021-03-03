@@ -2,10 +2,11 @@ FactoryBot.define do
   factory :report do
     created_at { FFaker::Time.between("2019-01-01", Date.today) }
     match { Match.order("RANDOM()").first || create(:match) }
-    duration { DURATION_EXAMPLE.sample }
+    duration { Report.durations.keys.sample }
     summary { SUMMARY_EXAMPLE.sample }
     datetime { FFaker::Time.between(created_at - 1.week, created_at) }
     callee_state { CALLEE_STATE_EXAMPLE.sample }
+    caller_confidence { Report.caller_confidences.keys.sample }
 
     concerns { rand(3) == 1 }
     concerns_notes { concerns ? CONCERNS_NOTES_EXAMPLE.sample : nil }
