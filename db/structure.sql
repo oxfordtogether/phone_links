@@ -72,7 +72,8 @@ CREATE TABLE public.callees (
     other_information_ciphertext text,
     additional_needs_ciphertext text,
     pod_id bigint,
-    call_frequency_ciphertext text
+    call_frequency_ciphertext text,
+    added_to_waiting_list date
 );
 
 
@@ -106,7 +107,8 @@ CREATE TABLE public.callers (
     person_id bigint NOT NULL,
     active boolean,
     experience_ciphertext text,
-    pod_id bigint
+    pod_id bigint,
+    added_to_waiting_list date
 );
 
 

@@ -10,5 +10,7 @@ FactoryBot.define do
     additional_needs { FFaker::Lorem.phrase }
     other_information { FFaker::Lorem.phrase }
     call_frequency { FFaker::Lorem.phrase }
+
+    added_to_waiting_list { rand(10) == 1 ? FFaker::Time.between(Date.today - 6.months, Date.today) : nil }
   end
 end

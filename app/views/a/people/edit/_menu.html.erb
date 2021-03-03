@@ -13,6 +13,6 @@
     <% if @person.caller.present? || @person.callee.present? %>
       <% nav.link "Pod membership", pod_membership_a_edit_person_path(@person), "phone" %>
     <% end %>
-    <% nav.link "Active", active_a_edit_person_path(@person), "check-circle" %>
+    <% nav.link "Status", active_a_edit_person_path(@person), "check-circle" %>
   <% end %>
 </div>

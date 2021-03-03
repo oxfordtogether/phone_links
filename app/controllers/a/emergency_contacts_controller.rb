@@ -7,7 +7,8 @@ class A::EmergencyContactsController < A::AController
     if @emergency_contact.save
       redirect_to emergency_contacts_a_edit_person_path(@emergency_contact.callee.person), notice: "Emergency contact was successfully updated."
     else
-      render "a/people/edit/emergency_contact"
+      @person = @emergency_contact.callee.person
+      render "a/people/edit/emergency_contacts"
     end
   end
 

@@ -13,5 +13,8 @@ class EmergencyContactTable < ActiveRecord::Migration[6.0]
       t.text :contact_details_ciphertext, null: false
       t.text :relationship_ciphertext, null: false
     end
+
+    add_column :callees, :added_to_waiting_list, :date
+    add_column :callers, :added_to_waiting_list, :date
   end
 end

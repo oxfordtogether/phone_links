@@ -144,7 +144,36 @@ class A::PeopleController < A::AController
   end
 
   def save_active
-    @person.assign_attributes(active_params)
+    active_params_hash = active_params.to_h
+
+    # set added_to_waiting_list date based on on_waiting_list bool from form
+    if active_params_hash.key?("caller_attributes")
+      caller_attributes = active_params_hash["caller_attributes"]
+
+      on_waiting_list = caller_attributes.delete("on_waiting_list")
+
+      caller_attributes = if on_waiting_list == "true"
+                            caller_attributes.merge({ added_to_waiting_list: Date.today })
+                          else
+                            caller_attributes.merge({ added_to_waiting_list: nil })
+                          end
+
+      active_params_hash["caller_attributes"] = caller_attributes
+    elsif active_params_hash.key?("callee_attributes")
+      callee_attributes = active_params_hash["callee_attributes"]
+
+      on_waiting_list = callee_attributes.delete("on_waiting_list")
+
+      callee_attributes = if on_waiting_list == "true"
+                            callee_attributes.merge({ added_to_waiting_list: Date.today })
+                          else
+                            callee_attributes.merge({ added_to_waiting_list: nil })
+                          end
+
+      active_params_hash["callee_attributes"] = callee_attributes
+    end
+
+    @person.assign_attributes(active_params_hash)
 
     if @person.save
       @person.create_events!
@@ -224,7 +253,7 @@ class A::PeopleController < A::AController
   end
 
   def active_params
-    params.require(:person).permit(:id, callee_attributes: %w[id active], caller_attributes: %w[id active], admin_attributes: %w[id active], pod_leader_attributes: %w[id active])
+    params.require(:person).permit(:id, callee_attributes: %w[id active on_waiting_list], caller_attributes: %w[id active on_waiting_list], admin_attributes: %w[id active], pod_leader_attributes: %w[id active])
   end
 
   def pod_membership_params

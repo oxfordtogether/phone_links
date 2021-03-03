@@ -21,11 +21,13 @@
         <% if @person.callee.present? %>
           <%= form.fields_for :callee do |callee_fields| %>
             <%= callee_fields.check_box :active, true, label: "Active" %>
+            <%= callee_fields.check_box :on_waiting_list, true, label: "Waiting list" %>
           <% end %>
         <% end %>
         <% if @person.caller.present? %>
           <%= form.fields_for :caller do |caller_fields| %>
             <%= caller_fields.check_box :active, true, label: "Active" %>
+            <%= caller_fields.check_box :on_waiting_list, true, label: "Waiting list" %>
           <% end %>
         <% end %>
         <% if @person.pod_leader.present? %>

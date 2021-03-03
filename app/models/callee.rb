@@ -38,6 +38,10 @@ class Callee < ApplicationRecord
     matches.filter { |m| m.active? }
   end
 
+  def on_waiting_list
+    !added_to_waiting_list.nil?
+  end
+
   def waiting?
     active && !active_matches.present?
   end
