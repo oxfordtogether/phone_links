@@ -26,18 +26,18 @@
         <% end %>
         <% if @person.caller.present? %>
           <%= form.fields_for :caller do |caller_fields| %>
-            <%= caller_fields.check_box :active, true, label: "Active" %>
-            <%= caller_fields.check_box :on_waiting_list, true, label: "Waiting list" %>
+            <%= caller_fields.check_box :active, true, "Caller role active" %>
+            <%= caller_fields.check_box :on_waiting_list, true, "Caller on waiting list" %>
           <% end %>
         <% end %>
         <% if @person.pod_leader.present? %>
           <%= form.fields_for :pod_leader do |pod_leader_fields| %>
-            <%= pod_leader_fields.check_box :active, true, label: "Active" %>
+            <%= pod_leader_fields.check_box :active, true, "Pod leader role active" %>
           <% end %>
         <% end %>
         <% if @person.admin.present? %>
           <%= form.fields_for :admin do |admin_fields| %>
-            <%= admin_fields.check_box :active, true, label: "Active" %>
+            <%= admin_fields.check_box :active, true, "Admin role active" %>
           <% end %>
         <% end %>
       <% end %>

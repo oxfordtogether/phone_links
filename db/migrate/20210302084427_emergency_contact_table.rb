@@ -16,5 +16,7 @@ class EmergencyContactTable < ActiveRecord::Migration[6.0]
 
     add_column :callees, :added_to_waiting_list, :date
     add_column :callers, :added_to_waiting_list, :date
+
+    change_column :matches, :start_date, :date, null: true
   end
 end

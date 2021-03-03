@@ -212,7 +212,7 @@ ALTER SEQUENCE public.events_id_seq OWNED BY public.events.id;
 
 CREATE TABLE public.matches (
     id bigint NOT NULL,
-    start_date date NOT NULL,
+    start_date date,
     end_date date,
     pending boolean,
     caller_id bigint NOT NULL,

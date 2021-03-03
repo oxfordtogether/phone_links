@@ -5,6 +5,11 @@
       <% @person.roles.each do |role| %>
         <%= role_badge(role) %>
       <% end %>
+      <% if @person&.callee&.on_waiting_list || @person&.caller&.on_waiting_list %>
+        <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium text-gray-800 border border-gray-400">
+          On waiting list
+        </span>
+      <% end %>
       <% if false %>
         <% if @person.flag_in_progress %>
           <%= link_to flag_a_edit_person_path do %>

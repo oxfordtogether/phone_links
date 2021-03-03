@@ -5,19 +5,19 @@ class A::MatchesController < A::AController
 
   def new
     pod_id = params[:pod_id]
-    @match = Match.new(start_date: Date.today, pod_id: pod_id)
+    @match = Match.new(start_date: Date.today, pod_id: pod_id, pending: true)
     @redirect_on_cancel = params["redirect_on_cancel"] || a_waitlist_provisional_matches_path
   end
 
   def edit; end
 
   def create
-    @redirect_on_cancel = match_params[:redirect_on_cancel]
-    @match = Match.new(match_params.except(:redirect_on_cancel))
+    @redirect_on_cancel = new_provisional_match_params[:redirect_on_cancel]
+    @match = Match.new(new_provisional_match_params.except(:redirect_on_cancel))
 
     if @match.save
       @match.create_events!
-      redirect_to a_match_path(@match), notice: "Match was successfully created."
+      redirect_to a_match_path(@match), notice: "Provisional match was successfully created."
     else
       @redirect_on_cancel ||= a_waitlist_provisional_matches_path
       render :new
@@ -37,6 +37,10 @@ class A::MatchesController < A::AController
 
   def set_match
     @match = Match.find(params[:id])
+  end
+
+  def new_provisional_match_params
+    params.require(:match).permit(:pod_id, :pending, :caller_id, :callee_id, :redirect_on_cancel)
   end
 
   def match_params
