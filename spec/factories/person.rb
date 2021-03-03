@@ -5,6 +5,10 @@ FactoryBot.define do
     last_name { FFaker::Name.last_name }
     phone { FFaker::PhoneNumberDE.home_work_phone_number }
     email { "#{first_name.split.join('.')}_#{last_name.split.join('.')}@example.com".downcase }
+    address_line_1 { FFaker::AddressUK.building_number }
+    address_line_2 { FFaker::AddressUK.street_name }
+    address_town { FFaker::AddressUK.city }
+    address_postcode { FFaker::AddressUK.postcode }
 
     auth0_id { "auth0|#{(0...18).map { rand(10) }.join}" }
 

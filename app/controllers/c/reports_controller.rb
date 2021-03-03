@@ -17,8 +17,6 @@ class C::ReportsController < C::CController
     matches = current_caller.match_ids
     @reports = Report.where(match_id: matches)
     @matches = current_caller.matches
-
-    # @redirect_on_submit = params[:redirect_on_submit] || c_report_path
   end
 
   # GET /reports/1/edit

@@ -56,4 +56,35 @@ module ApplicationHelper
 
     datetime.strftime("#{datetime.day.ordinalize} %b %Y at %I:%M%p")
   end
+
+  def caller_duration(datetime)
+    return unless datetime
+
+    date_today = DateTime.now
+    date_start = datetime.to_datetime
+    number_days = (date_today - date_start).to_i
+    number_years = number_days / 365
+    number_days_left = number_days % 365
+
+    if number_years == 0 && number_days <= 1
+      "#{number_days_left} day"
+    elsif number_years == 0
+      "#{number_days_left} days"
+    else
+      "#{number_years} year #{number_days_left} days"
+    end
+  end
+
+  def last_report_days(datetime)
+    return unless datetime
+
+    date_today = DateTime.now
+    date_start = datetime.to_datetime
+    number_days = (date_today - date_start).to_i
+    if number_days <= 1
+      "#{number_days} day"
+    else
+      "#{number_days} days"
+    end
+  end
 end
