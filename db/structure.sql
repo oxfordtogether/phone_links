@@ -71,7 +71,9 @@ CREATE TABLE public.callees (
     living_arrangements_ciphertext text,
     other_information_ciphertext text,
     additional_needs_ciphertext text,
-    pod_id bigint
+    pod_id bigint,
+    call_frequency_ciphertext text,
+    added_to_waiting_list date
 );
 
 
@@ -105,7 +107,8 @@ CREATE TABLE public.callers (
     person_id bigint NOT NULL,
     active boolean,
     experience_ciphertext text,
-    pod_id bigint
+    pod_id bigint,
+    added_to_waiting_list date
 );
 
 
@@ -126,6 +129,40 @@ CREATE SEQUENCE public.callers_id_seq
 --
 
 ALTER SEQUENCE public.callers_id_seq OWNED BY public.callers.id;
+
+
+--
+-- Name: emergency_contacts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.emergency_contacts (
+    id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    callee_id bigint NOT NULL,
+    name_ciphertext text NOT NULL,
+    contact_details_ciphertext text NOT NULL,
+    relationship_ciphertext text NOT NULL
+);
+
+
+--
+-- Name: emergency_contacts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.emergency_contacts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: emergency_contacts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.emergency_contacts_id_seq OWNED BY public.emergency_contacts.id;
 
 
 --
@@ -175,16 +212,16 @@ ALTER SEQUENCE public.events_id_seq OWNED BY public.events.id;
 
 CREATE TABLE public.matches (
     id bigint NOT NULL,
-    start_date date NOT NULL,
+    start_date date,
     end_date date,
-    pending boolean,
     caller_id bigint NOT NULL,
     callee_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     pod_id bigint NOT NULL,
     end_reason character varying,
-    end_reason_notes_ciphertext text
+    end_reason_notes_ciphertext text,
+    deleted_at timestamp without time zone
 );
 
 
@@ -262,7 +299,8 @@ CREATE TABLE public.people (
     flag_in_progress boolean,
     flag_updated_at timestamp without time zone,
     flag_updated_by_id integer,
-    flag_note_ciphertext text
+    flag_note_ciphertext text,
+    age_bracket character varying
 );
 
 
@@ -428,6 +466,13 @@ ALTER TABLE ONLY public.callers ALTER COLUMN id SET DEFAULT nextval('public.call
 
 
 --
+-- Name: emergency_contacts id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.emergency_contacts ALTER COLUMN id SET DEFAULT nextval('public.emergency_contacts_id_seq'::regclass);
+
+
+--
 -- Name: events id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -506,6 +551,14 @@ ALTER TABLE ONLY public.callees
 
 ALTER TABLE ONLY public.callers
     ADD CONSTRAINT callers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: emergency_contacts emergency_contacts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.emergency_contacts
+    ADD CONSTRAINT emergency_contacts_pkey PRIMARY KEY (id);
 
 
 --
@@ -605,6 +658,13 @@ CREATE INDEX index_callers_on_person_id ON public.callers USING btree (person_id
 --
 
 CREATE INDEX index_callers_on_pod_id ON public.callers USING btree (pod_id);
+
+
+--
+-- Name: index_emergency_contacts_on_callee_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_emergency_contacts_on_callee_id ON public.emergency_contacts USING btree (callee_id);
 
 
 --
@@ -727,6 +787,14 @@ ALTER TABLE ONLY public.events
 
 ALTER TABLE ONLY public.notes
     ADD CONSTRAINT fk_rails_27aea6a7e9 FOREIGN KEY (person_id) REFERENCES public.people(id);
+
+
+--
+-- Name: emergency_contacts fk_rails_27ba376a32; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.emergency_contacts
+    ADD CONSTRAINT fk_rails_27ba376a32 FOREIGN KEY (callee_id) REFERENCES public.callees(id);
 
 
 --
@@ -881,6 +949,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210218162712'),
 ('20210219100515'),
 ('20210225165903'),
-('20210301204932');
+('20210301204932'),
+('20210302084427'),
+('20210303105023');
 
 

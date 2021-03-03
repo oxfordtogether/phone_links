@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/oxfordtogether/ocl_tools.git
-  revision: 17d14ef63b0262815bc9d38e2f9643b7aef7bab2
+  revision: 282f6102823250f49958a2117b0ea892545dc431
   specs:
     ocl_tools (0.1.0)
       pagy

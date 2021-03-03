@@ -4,8 +4,10 @@ class Callee < ApplicationRecord
   belongs_to :person
   belongs_to :pod, optional: true
   has_many :matches
+  has_many :emergency_contacts
 
   accepts_nested_attributes_for :person
+  accepts_nested_attributes_for :emergency_contacts
 
   default_scope { includes(:person) }
   scope :with_matches, -> { includes(:matches) }
@@ -14,6 +16,7 @@ class Callee < ApplicationRecord
   encrypts :living_arrangements, type: :string, key: :kms_key
   encrypts :other_information, type: :string, key: :kms_key
   encrypts :additional_needs, type: :string, key: :kms_key
+  encrypts :call_frequency, type: :string, key: :kms_key
 
   def name
     person.name
@@ -31,22 +34,19 @@ class Callee < ApplicationRecord
     :callee
   end
 
+  def ended_matches
+    matches.filter { |m| m.no_longer_active? }
+  end
+
   def active_matches
     matches.filter { |m| m.active? }
   end
 
-  def waiting?
-    active && !active_matches.present?
+  def provisional_matches
+    matches.filter { |m| m.provisional }
   end
 
-  def waiting_since
-    if waiting?
-      if matches.present?
-        matches.max_by(&:end_date).end_date
-      else
-        # not quite the right defn
-        created_at
-      end
-    end
+  def on_waiting_list
+    !added_to_waiting_list.nil?
   end
 end

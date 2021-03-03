@@ -6,22 +6,22 @@ class A::WaitlistController < A::AController
   end
 
   def callers
-    @waiting_callers = Caller.all.filter(&:waiting?)
+    @waiting_callers = Caller.all.filter(&:on_waiting_list)
   end
 
   def callees
-    @waiting_callees = Callee.all.filter(&:waiting?)
+    @waiting_callees = Callee.all.filter(&:on_waiting_list)
   end
 
   def provisional_matches
-    @pending_matches = Match.where(pending: true)
+    @provisional_matches = Match.all.filter(&:provisional)
   end
 
   private
 
   def set_counts
-    @waiting_callees_count = Callee.with_matches.all.filter(&:waiting?).count
-    @waiting_callers_count = Caller.with_matches.all.filter(&:waiting?).count
-    @pending_matches_count = Match.where(pending: true).count
+    @waiting_callees_count = Callee.with_matches.all.filter(&:on_waiting_list).count
+    @waiting_callers_count = Caller.with_matches.all.filter(&:on_waiting_list).count
+    @provisional_matches_count = Match.all.filter(&:provisional).count
   end
 end

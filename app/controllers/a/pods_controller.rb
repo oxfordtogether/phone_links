@@ -11,6 +11,7 @@ class A::PodsController < A::AController
 
   def matches
     @pod = Pod.with_matches.find(params[:id])
+    @matches = @pod.matches.filter { |m| !m.deleted_at }
   end
 
   def callers

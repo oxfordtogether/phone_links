@@ -29,22 +29,19 @@ class Caller < ApplicationRecord
     :caller
   end
 
+  def ended_matches
+    matches.filter { |m| m.no_longer_active? }
+  end
+
   def active_matches
     matches.filter { |m| m.active? }
   end
 
-  def waiting?
-    active && !active_matches.present?
+  def provisional_matches
+    matches.filter { |m| m.provisional }
   end
 
-  def waiting_since
-    if waiting?
-      if matches.present?
-        matches.max_by(&:end_date).end_date
-      else
-        # not quite the right defn
-        created_at
-      end
-    end
+  def on_waiting_list
+    !added_to_waiting_list.nil?
   end
 end

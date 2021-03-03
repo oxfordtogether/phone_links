@@ -2,6 +2,8 @@ module HasActiveDates
   extend ActiveSupport::Concern
 
   def active_on?(date)
+    return false unless start_date
+
     start_date <= date && (end_date.nil? || end_date >= date)
   end
 

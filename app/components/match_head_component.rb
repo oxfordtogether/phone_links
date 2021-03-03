@@ -1,9 +1,5 @@
 class MatchHeadComponent < ViewComponent::Base
-  delegate :nav_tabs, to: :helpers
-  delegate :role_badge, to: :helpers
-  delegate :format_date, to: :helpers
-  delegate :format_date_range, to: :helpers
-  delegate :alert, to: :helpers
+  delegate :tailwind_form_with, :nav_tabs, :role_badge, :format_date, :format_date_range, :alert, :info, :button_link_to, to: :helpers
 
   def initialize(match:)
     @match = match

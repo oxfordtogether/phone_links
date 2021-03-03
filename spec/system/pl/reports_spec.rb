@@ -126,7 +126,14 @@ RSpec.describe "reports", type: :system do
       sorted_reports = reports.sort_by(&:created_at).reverse
 
       visit "/pl/#{pod_leader.id}/reports?view=all"
-      all("td", text: sorted_reports[sorted_reports.count - 1].match.match_names).last.click
+
+      last_report = sorted_reports[sorted_reports.count - 1]
+
+      if last_report.match.present?
+        all("td", text: "#{last_report.legacy_caller_name} & #{last_report.legacy_callee_name}").last.click
+      else
+        all("td", text: last_report.match.match_names).last.click
+      end
 
       expect(page).to have_current_path("/pl/#{pod_leader.id}/reports/#{sorted_reports[sorted_reports.count - 1].id}?view=all")
       expect(page).to have_content("#{sorted_reports.count} of #{sorted_reports.count}")

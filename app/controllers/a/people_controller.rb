@@ -1,5 +1,13 @@
 class A::PeopleController < A::AController
-  before_action :set_person, only: %i[show events details actions edit update personal_details save_personal_details contact_details save_contact_details flag save_flag referral_details save_referral_details experience save_experience]
+  before_action :set_person, only: %i[show events details actions create_role
+                                      personal_details save_personal_details
+                                      contact_details save_contact_details
+                                      flag save_flag
+                                      referral_details save_referral_details
+                                      experience save_experience
+                                      active save_active
+                                      pod_membership save_pod_membership
+                                      emergency_contacts save_emergency_contacts]
 
   def show
     redirect_to events_a_person_path(@person)
@@ -11,8 +19,6 @@ class A::PeopleController < A::AController
                    .all
                    .filter(&:active?)
   end
-
-  def details; end
 
   def new
     @person = Person.new
@@ -28,9 +34,11 @@ class A::PeopleController < A::AController
     @role = person_params[:role]
     @person = Person.new(person_params.except(:role, :redirect_on_cancel))
 
+    @person.send("build_#{@role}")
+
     if @person.save
       SearchCacheRefresh.perform_async
-      redirect_to "/a/people/#{@person.id}/#{@role}/new", notice: "Profile was successfully created."
+      redirect_to personal_details_a_edit_person_path(@person), notice: "Profile was successfully created."
     else
       @redirect_on_cancel || a_path
 
@@ -41,18 +49,19 @@ class A::PeopleController < A::AController
     end
   end
 
-  def edit; end
+  def actions; end
 
-  def update
-    if @person.update(person_params)
+  def create_role
+    role = create_role_params[:role]
+    @person.send("build_#{role}")
+
+    if @person.save
       SearchCacheRefresh.perform_async
-      redirect_to a_person_path(@person), notice: "Profile was successfully updated."
+      redirect_to events_a_person_path(@person), notice: "Role was successfully added."
     else
-      render :edit
+      render :actions
     end
   end
-
-  def actions; end
 
   def personal_details
     render "a/people/edit/personal_details"
@@ -64,7 +73,7 @@ class A::PeopleController < A::AController
     if @person.save
       @person.create_events!
       SearchCacheRefresh.perform_async
-      redirect_to a_person_path(@person), notice: "Profile was successfully updated."
+      redirect_to personal_details_a_edit_person_path(@person), notice: "Profile was successfully updated."
     else
       render "edit/personal_details"
     end
@@ -80,7 +89,7 @@ class A::PeopleController < A::AController
     if @person.save
       @person.create_events!
       SearchCacheRefresh.perform_async
-      redirect_to a_person_path(@person), notice: "Profile was successfully updated."
+      redirect_to contact_details_a_edit_person_path(@person), notice: "Profile was successfully updated."
     else
       render "edit/contact_details"
     end
@@ -122,7 +131,7 @@ class A::PeopleController < A::AController
     if @person.save
       @person.create_events!
       SearchCacheRefresh.perform_async
-      redirect_to a_person_path(@person), notice: "Profile was successfully updated."
+      redirect_to referral_details_a_edit_person_path(@person), notice: "Profile was successfully updated."
     else
       render "edit/referral_details"
     end
@@ -138,9 +147,86 @@ class A::PeopleController < A::AController
     if @person.save
       @person.create_events!
       SearchCacheRefresh.perform_async
-      redirect_to a_person_path(@person), notice: "Profile was successfully updated."
+      redirect_to experience_a_edit_person_path(@person), notice: "Profile was successfully updated."
     else
       render "edit/experience"
+    end
+  end
+
+  def active
+    render "a/people/edit/active"
+  end
+
+  def save_active
+    active_params_hash = active_params.to_h
+
+    # set added_to_waiting_list date based on on_waiting_list bool from form
+    if active_params_hash.key?("caller_attributes")
+      caller_attributes = active_params_hash["caller_attributes"]
+
+      on_waiting_list = caller_attributes.delete("on_waiting_list")
+
+      caller_attributes = if on_waiting_list == "true"
+                            caller_attributes.merge({ added_to_waiting_list: Date.today })
+                          else
+                            caller_attributes.merge({ added_to_waiting_list: nil })
+                          end
+
+      active_params_hash["caller_attributes"] = caller_attributes
+    elsif active_params_hash.key?("callee_attributes")
+      callee_attributes = active_params_hash["callee_attributes"]
+
+      on_waiting_list = callee_attributes.delete("on_waiting_list")
+
+      callee_attributes = if on_waiting_list == "true"
+                            callee_attributes.merge({ added_to_waiting_list: Date.today })
+                          else
+                            callee_attributes.merge({ added_to_waiting_list: nil })
+                          end
+
+      active_params_hash["callee_attributes"] = callee_attributes
+    end
+
+    @person.assign_attributes(active_params_hash)
+
+    if @person.save
+      @person.create_events!
+      SearchCacheRefresh.perform_async
+      redirect_to active_a_edit_person_path(@person), notice: "Profile was successfully updated."
+    else
+      render "edit/active"
+    end
+  end
+
+  def pod_membership
+    render "a/people/edit/pod_membership"
+  end
+
+  def save_pod_membership
+    @person.assign_attributes(pod_membership_params)
+
+    if @person.save
+      @person.create_events!
+      SearchCacheRefresh.perform_async
+      redirect_to pod_membership_a_edit_person_path(@person), notice: "Profile was successfully updated."
+    else
+      render "edit/pod_membership"
+    end
+  end
+
+  def emergency_contacts
+    render "a/people/edit/emergency_contacts"
+  end
+
+  def save_emergency_contacts
+    @person.assign_attributes(emergency_contacts_params)
+
+    if @person.save
+      @person.create_events!
+      SearchCacheRefresh.perform_async
+      redirect_to emergency_contacts_a_edit_person_path(@person), notice: "Profile was successfully updated."
+    else
+      render "edit/emergency_contacts"
     end
   end
 
@@ -152,16 +238,18 @@ class A::PeopleController < A::AController
 
   def person_params
     params.require(:person).permit(
-      :role, :title, :first_name, :last_name, :email, :phone,
-      callee_attributes: %i[id pod_id active reason_for_referral living_arrangements other_information additional_needs],
-      caller_attributes: %i[id pod_id active experience],
-      admin_attributes: %i[id active],
-      pod_leader_attributes: %i[id active]
+      :role, :first_name, :last_name, :phone
+    )
+  end
+
+  def create_role_params
+    params.require(:person).permit(
+      :id, :role
     )
   end
 
   def personal_details_params
-    params.require(:person).permit(:id, :title, :first_name, :last_name)
+    params.require(:person).permit(:id, :title, :first_name, :last_name, :age_bracket)
   end
 
   def contact_details_params
@@ -173,10 +261,22 @@ class A::PeopleController < A::AController
   end
 
   def referral_details_params
-    params.require(:person).permit(:id, callee_attributes: %(id reason_for_referral living_arrangements other_information additional_needs))
+    params.require(:person).permit(:id, callee_attributes: %w[id reason_for_referral living_arrangements other_information call_frequency additional_needs])
   end
 
   def experience_params
-    params.require(:person).permit(:id, caller_attributes: %(id experience))
+    params.require(:person).permit(:id, caller_attributes: %w[id experience])
+  end
+
+  def active_params
+    params.require(:person).permit(:id, callee_attributes: %w[id active on_waiting_list], caller_attributes: %w[id active on_waiting_list], admin_attributes: %w[id active], pod_leader_attributes: %w[id active])
+  end
+
+  def pod_membership_params
+    params.require(:person).permit(:id, callee_attributes: %w[id pod_id], caller_attributes: %w[id pod_id])
+  end
+
+  def emergency_contacts_params
+    params.require(:person).permit(:id, callee_attributes: [:id, { emergency_contacts_attributes: %w[name contact_details relationship] }])
   end
 end

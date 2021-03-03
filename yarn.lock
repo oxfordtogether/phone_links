@@ -2488,9 +2488,9 @@ dashdash@^1.12.0:
     assert-plus "^1.0.0"
 
 date-fns@^2.16.1:
-  version "2.17.0"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.17.0.tgz#afa55daea539239db0a64e236ce716ef3d681ba1"
-  integrity sha512-ZEhqxUtEZeGgg9eHNSOAJ8O9xqSgiJdrL0lzSSfMF54x6KXWJiOH/xntSJ9YomJPrYH/p08t6gWjGWq1SDJlSA==
+  version "2.18.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.18.0.tgz#08e50aee300ad0d2c5e054e3f0d10d8f9cdfe09e"
+  integrity sha512-NYyAg4wRmGVU4miKq5ivRACOODdZRY3q5WLmOJSq8djyzftYphU7dTHLcEtLqEvfqMKQ0jVv91P4BAwIjsXIcw==
 
 debounced@^0.0.5:
   version "0.0.5"
@@ -2737,10 +2737,9 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-el-transition@^0.0.7:
+"el-transition@https://github.com/tomclose/el-transition.git#d9ddd55":
   version "0.0.7"
-  resolved "https://registry.yarnpkg.com/el-transition/-/el-transition-0.0.7.tgz#714fd47aa46fc2ff3df7d59e789271aa09f247d0"
-  integrity sha512-a23pEa7ahqLmBIEqtxi8CdL6CRLF52ZoAwawDFTD1IDkegrL4iValQAj6IMEgIEXPSrXZtx/Nr/ej6ebov4uoA==
+  resolved "https://github.com/tomclose/el-transition.git#d9ddd55eff15305b132949e295fc3fd122b55922"
 
 electron-to-chromium@^1.3.649:
   version "1.3.649"
@@ -5041,12 +5040,11 @@ obuf@^1.0.0, obuf@^1.1.2:
 
 ocl_tools@oxfordtogether/ocl_tools.git:
   version "0.1.0"
-  resolved "https://codeload.github.com/oxfordtogether/ocl_tools/tar.gz/ba631dee70ac60fc9abd73dfb18e333373ba9c64"
+  resolved "https://codeload.github.com/oxfordtogether/ocl_tools/tar.gz/282f6102823250f49958a2117b0ea892545dc431"
   dependencies:
     "@rails/ujs" "^6.0.0"
-    "@rails/webpacker" "5.2.1"
     date-fns "^2.16.1"
-    el-transition "^0.0.7"
+    el-transition "https://github.com/tomclose/el-transition.git#d9ddd55"
     stimulus "^2.0.0"
     stimulus-use "^0.23.0"
     stimulus_reflex "^3.4.1"

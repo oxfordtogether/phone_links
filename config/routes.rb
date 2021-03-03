@@ -26,8 +26,8 @@ Rails.application.routes.draw do
     resources :people, only: %i[show new create edit update] do
       member do
         get :events
-        get :details
         get :actions
+        post "create_role", to: "people#create_role"
 
         scope path: :edit, as: :edit do
           get :personal_details
@@ -40,25 +40,28 @@ Rails.application.routes.draw do
           post :referral_details, action: :save_referral_details, as: :save_referral_details
           get :experience
           post :experience, action: :save_experience, as: :save_experience
+          get :pod_membership
+          post :pod_membership, action: :save_pod_membership, as: :save_pod_membership
+          get :active
+          post :active, action: :save_active, as: :save_active
+          get :emergency_contacts
+          post :emergency_contacts, action: :save_emergency_contacts, as: :save_emergency_contacts
         end
 
         resources :notes, only: %i[new create]
-
-        get "callee/new", to: "callees#new"
-        get "caller/new", to: "callers#new"
-        get "admin/new", to: "admins#new"
-        get "pod_leader/new", to: "pod_leaders#new"
       end
     end
 
-    resources :notes, only: %i[edit update destroy]
-    resources :callees, only: %i[new create edit update]
-    resources :callers, only: %i[new create edit update]
-    resources :admins, only: %i[create]
-    resources :pod_leaders, only: %i[create]
+    post "emergency_contacts/:id", to: "emergency_contacts#update"
+    delete "emergency_contacts/:id", to: "emergency_contacts#destroy"
 
-    resources :callees, only: %i[new create edit update]
-    resources :matches, only: %i[show new create edit update]
+    resources :notes, only: %i[edit update destroy]
+
+    resources :matches, only: %i[show new create edit update destroy] do
+      member do
+        post "activate", to: "matches#activate"
+      end
+    end
 
     resources :pods, only: %i[show index new create edit update] do
       member do

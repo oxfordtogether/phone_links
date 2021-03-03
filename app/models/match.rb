@@ -1,7 +1,7 @@
 class Match < ApplicationRecord
   include HasActiveDates
 
-  validates :caller_id, :callee_id, :pod_id, :start_date, presence: { message: "This field is required" }
+  validates :caller_id, :callee_id, :pod_id, presence: { message: "This field is required" }
 
   def self.end_reasons
     %w[NOT_A_FIT CALLEE_DECEASED CALLEE_LEFT_PROGRAM CALLER_LEFT_PROGRAM CREATED_BY_MISTAKE OTHER]
@@ -22,6 +22,10 @@ class Match < ApplicationRecord
 
   def match_names
     "#{caller.name} & #{callee.name}"
+  end
+
+  def provisional
+    !start_date
   end
 
   def pod_mismatch

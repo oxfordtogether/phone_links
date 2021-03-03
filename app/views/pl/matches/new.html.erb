@@ -1,6 +1,6 @@
 <% content_for :page_head do %>
   <h1 class="text-2xl font-semibold text-gray-900">
-    New Match
+    New provisional match
   </h1>
 <% end %>
 <%= tailwind_form_with(model: [:pl, @match], local: true) do |form| %>
@@ -9,7 +9,6 @@
     <%= form.collection_select :callee_id, @callees, :id, :name, label: "Callee", width: :half, required_asterix: true %>
     <%= form.collection_select :caller_id, @callers, :id, :name, label: "Caller", width: :half, required_asterix: true %>
     <%= form.date_picker :start_date, width: :half, required_asterix: true %>
-    <%= form.check_box :pending, true, "Provisional" %>
   <% end %>
   <%= form.button_section do %>
     <%= form.cancel pl_matches_path(@current_pod_leader) %>

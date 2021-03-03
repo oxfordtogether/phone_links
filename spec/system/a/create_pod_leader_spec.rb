@@ -15,32 +15,20 @@ RSpec.describe "create pod leader", type: :system do
     click_on "New Pod Leader"
     expect(page).to have_current_path("/a/people/new?role=pod_leader&redirect_on_cancel=/a/admin/pod_leaders")
 
-    select "Mx", from: "Title"
     fill_in "First name", with: "Bob"
     fill_in "Last name", with: "Jones"
-    fill_in "Email", with: "bob.jones@gmail.com"
     fill_in "Phone", with: "12345"
 
-    expect { click_on "Next" }.to change { Person.count }.by(1)
+    expect { click_on "Save" }.to change { Person.count }.by(1).and change { PodLeader.count }.by(1)
     person = Person.last
-
-    expect(page).to have_current_path("/a/people/#{person.id}/pod_leader/new")
-
-    check "Active"
-
-    expect { click_on "Save" }.to change { PodLeader.count }.by(1)
     pod_leader = PodLeader.last
 
-    expect(page).to have_current_path("/a/people/#{person.id}/events")
+    expect(page).to have_current_path("/a/people/#{person.id}/edit/personal_details")
 
-    person.reload
-    expect(person.title).to eq("MX")
     expect(person.first_name).to eq("Bob")
     expect(person.last_name).to eq("Jones")
-    expect(person.email).to eq("bob.jones@gmail.com")
     expect(person.phone).to eq("12345")
     expect(person.pod_leader).to eq(pod_leader)
-    expect(pod_leader.active).to eq(true)
   end
 
   it "creates new pod_leader for existing person" do
@@ -49,10 +37,10 @@ RSpec.describe "create pod leader", type: :system do
     visit "/a/people/new?role=pod_leader"
 
     fill_in "Search", with: "Tim"
-    find("a", text: "add pod_leader role").click
-    expect(page).to have_current_path("/a/people/#{person.id}/pod_leader/new")
+    find("a", text: "add pod leader role").click
+    expect(page).to have_current_path("/a/people/#{person.id}/actions")
 
-    expect { click_on "Save" }.to change { PodLeader.count }.by(1)
+    expect { click_on "Add pod leader role" }.to change { PodLeader.count }.by(1)
 
     expect(page).to have_current_path("/a/people/#{person.id}/events")
   end
@@ -74,14 +62,5 @@ RSpec.describe "create pod leader", type: :system do
     click_on "New Pod Leader"
     click_on "Cancel"
     expect(page).to have_current_path("/a/admin/pod_leaders")
-
-    visit "/a/admin/pod_leaders"
-    click_on "New Pod Leader"
-    fill_in "Search", with: "Tim"
-    find("a", text: "add pod_leader role").click
-    expect(page).to have_current_path("/a/people/#{person.id}/pod_leader/new")
-    find("h1", text: "New Pod Leader") # make sure page actually loaded
-    click_on "Cancel"
-    expect(page).to have_current_path("/a/people/#{person.id}/events")
   end
 end

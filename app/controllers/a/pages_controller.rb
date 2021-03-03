@@ -7,8 +7,8 @@ class A::PagesController < A::AController
                    .where(replacement_event_id: nil)
                    .filter { |e| e["non_sensitive_data"]["flag_in_progress"] }
 
-    @waiting_list_count = Callee.with_matches.all.filter(&:waiting?).count
-    @pending_matches_count = Match.where(pending: true).count
+    @waiting_list_count = Callee.with_matches.all.filter(&:on_waiting_list).count
+    @provisional_matches_count = Match.all.filter(&:provisional).count
   end
 
   def support

@@ -1,5 +1,5 @@
 class Person < ApplicationRecord
-  validates :first_name, :last_name, :email, presence: { message: "This field is required" }
+  validates :first_name, :last_name, presence: { message: "This field is required" }
 
   def self.titles
     %w[MR MRS MISS MS MX DR PROFESSOR]
@@ -24,6 +24,13 @@ class Person < ApplicationRecord
       :pod_leader,
       :admin,
     )
+  }
+
+  options_field :age_bracket, {
+    age_18_35: "18-35",
+    age_36_59: "36-59",
+    age_60_75: "60-74",
+    age_75_plus: "75+",
   }
 
   encrypts :title, type: :string, key: :kms_key
