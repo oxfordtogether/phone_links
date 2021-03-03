@@ -14,24 +14,24 @@
   <%= table @waiting_callers.sort_by(&:name), row_url: ->(c) { a_person_path(c.person) } do |tbl| %>
     <% tbl.col "Name" do |caller| %>
       <div class="flex">
-        <div class="mr-2"><%= caller.name %></div>
+        <div><%= caller.name %></div>
         <% if caller.active_matches.present? %>
-          <div class="text-blue-600">
+          <div class="ml-2 text-green-500">
             <%= caller.active_matches.count %> active match<%= caller.active_matches.count > 1 ? "es" : ''%>
           </div>
         <% end %>
         <% if caller.ended_matches.present? %>
-          <div class="text-blue-600">
+          <div class="ml-2 text-gray-400">
             <%= caller.ended_matches.count %> previous match<%= caller.ended_matches.count > 1 ? "es" : ''%>
           </div>
         <% end %>
         <% if caller.provisional_matches.present? %>
-          <div class="text-blue-600">
+          <div class="ml-2 text-blue-600">
             <%= caller.provisional_matches.count %> provisional match<%= caller.provisional_matches.count > 1 ? "es" : ''%>
           </div>
         <% end %>
         <% if !caller.matches.present? %>
-          <div class="text-red-500 font-medium uppercase tracking-wide">New</div>
+          <div class="ml-2 text-red-500 font-medium uppercase tracking-wide">New</div>
         <% end %>
       </div>
     <% end %>
