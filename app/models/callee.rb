@@ -41,19 +41,4 @@ class Callee < ApplicationRecord
   def on_waiting_list
     !added_to_waiting_list.nil?
   end
-
-  def waiting?
-    active && !active_matches.present?
-  end
-
-  def waiting_since
-    if waiting?
-      if matches.present?
-        matches.max_by(&:end_date).end_date
-      else
-        # not quite the right defn
-        created_at
-      end
-    end
-  end
 end

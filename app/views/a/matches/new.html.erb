@@ -9,7 +9,7 @@
     <%= form.hidden_field :redirect_on_cancel, value: @redirect_on_cancel %>
     <%= form.collection_select :pod_id, Pod.all, :id, :name, label: "Pod", width: :third, required_asterix: true %>
     <div class="col-span-4"></div>
-    <%= form.collection_select :callee_id, Callee.all.filter(&:waiting?).sort_by { |c| [c&.pod&.name || "zzz", c.person.name] }, :id, :name_and_pod, label: "Callee", width: :half, required_asterix: true, info_message: "Only callees on the waiting list are shown in dropdown." %>
+    <%= form.collection_select :callee_id, Callee.all.filter(&:on_waiting_list).sort_by { |c| [c&.pod&.name || "zzz", c.person.name] }, :id, :name_and_pod, label: "Callee", width: :half, required_asterix: true, info_message: "Only callees on the waiting list are shown in dropdown." %>
     <%= form.collection_select :caller_id, Caller.all.sort_by { |c| [c&.pod&.name || "zzz", c.person.name] }, :id, :name_pod_capacity, label: "Caller", width: :half, required_asterix: true %>
     <%= form.date_picker :start_date, width: :half, required_asterix: true %>
     <%= form.check_box :pending, true, "Provisional" %>
