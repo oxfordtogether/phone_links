@@ -27,7 +27,6 @@ RSpec.describe "create match", type: :system do
     expect(match.caller).to eq(callers[5])
     expect(match.callee).to eq(callees[5])
     expect(match.start_date.strftime("%Y-%m-%d")).to eq("2020-01-01")
-    expect(match.pending).to eq(nil)
   end
 
   it "works from pod page" do
@@ -52,7 +51,6 @@ RSpec.describe "create match", type: :system do
     expect(match.caller).to eq(callers[5])
     expect(match.callee).to eq(callees[5])
     expect(match.start_date.strftime("%Y-%m-%d")).to eq("2020-01-01")
-    expect(match.pending).to eq(nil)
   end
 
   it "redirect back to correct page on cancel" do

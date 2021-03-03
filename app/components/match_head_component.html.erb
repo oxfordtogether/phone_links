@@ -12,7 +12,7 @@
 </div>
 <div class="flex flex-wrap">
   <div class="mt-2 sm:mt-2 mr-6 flex items-center text-sm text-gray-900">
-    <% if @match.pending %>
+    <% if @match.provisional %>
       <div class="text-gray-900 mr-2">
         <span class="text-gray-500">Provisional match created:</span>
         <%= format_date(@match.created_at) %>
@@ -47,7 +47,7 @@
     <% end %>
   </div>
 </div>
-<% if @match.pending %>
+<% if @match.provisional %>
   <div class="mt-5">
     <%= info(title: 'Provisional', info: "This match is provisional.") %>
   </div>

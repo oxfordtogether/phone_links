@@ -9,7 +9,6 @@ module Events
     non_sensitive_data_attr :caller_id
     non_sensitive_data_attr :start_date
     non_sensitive_data_attr :end_date
-    non_sensitive_data_attr :pending
     non_sensitive_data_attr :pod_id
     non_sensitive_data_attr :pod_name
     non_sensitive_data_attr :end_reason
@@ -25,7 +24,6 @@ module Events
         caller_name: match.caller.name,
         start_date: match.start_date,
         end_date: match.end_date,
-        pending: match.pending,
         pod_id: match.pod.id,
         pod_name: match.pod.name,
         end_reason: match.end_reason,
@@ -39,7 +37,6 @@ module Events
         caller_name == match.caller.name &&
         start_date == match.start_date.strftime("%Y-%m-%d") &&
         end_date == match.end_date.strftime("%Y-%m-%d") &&
-        pending == match.pending &&
         pod_id == match.pod.id &&
         pod_name == match.pod.name &&
         end_reason == match.end_reason &&

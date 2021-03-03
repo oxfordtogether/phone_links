@@ -8,20 +8,30 @@
 <% content_for :page_head do %>
   <%= render(MatchHeadComponent.new(match: @match)) %>
 <% end %>
-<% if @match.pending %>
-  <%= tailwind_form_with(model: [:a, @match], local: true) do |form| %>
-    <%= form.hidden_field :pending, value: false %>
-    <%= form.submit "Activate match" %>
+<% if @match.provisional %>
+  <%= tailwind_form_with(model: [:a, @match],
+                        url: "/a/matches/#{@match.id}/activate",
+                        method: :post,
+                        local: true) do |form| %>
+    <%= form.hidden_field :provisional, value: false %>
+    <%= form.button_section do %>
+      <div class="flex-1">
+        <%= form.submit "Activate match" %>
+        <div class="text-sm text-gray-500 mt-2">
+          Activating the match will make the callee's name and phone number visible to the caller.
+        </div>
+      </div>
+      <%= form.delete a_match_path %>
+    <% end %>
   <% end %>
 <% else %>
   <%= tailwind_form_with(model: [:a, @match], local: true) do |form| %>
     <%= form.section "" do %>
       <%= form.collection_select :pod_id, Pod.all, :id, :name, label: "Pod", width: :full %>
-      <%= form.date_picker :start_date, width: :half %>
+      <%= form.date_picker :start_date, width: :half, disabled: true, info_message: "Start date can not be edited" %>
       <%= form.date_picker :end_date, width: :half %>
       <%= form.select :end_reason, Match.end_reasons.map {|t| [t.humanize, t]}, width: :half %>
       <%= form.text_area :end_reason_notes, width: :half %>
-      <%= form.check_box :pending, true, "Provisional" %>
     <% end %>
     <%= form.button_section do %>
       <%= form.cancel a_match_path(@match) %>

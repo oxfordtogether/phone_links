@@ -9,7 +9,6 @@
     <%= form.collection_select :callee_id, @callees, :id, :name, label: "Callee", width: :half, required_asterix: true %>
     <%= form.collection_select :caller_id, @callers, :id, :name, label: "Caller", width: :half, required_asterix: true %>
     <%= form.date_picker :start_date, width: :half, required_asterix: true %>
-    <%= form.check_box :pending, true, "Provisional" %>
   <% end %>
   <%= form.button_section do %>
     <%= form.cancel pl_matches_path(@current_pod_leader) %>

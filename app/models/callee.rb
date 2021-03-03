@@ -34,8 +34,16 @@ class Callee < ApplicationRecord
     :callee
   end
 
+  def ended_matches
+    matches.filter { |m| m.no_longer_active? }
+  end
+
   def active_matches
     matches.filter { |m| m.active? }
+  end
+
+  def provisional_matches
+    matches.filter { |m| m.provisional }
   end
 
   def on_waiting_list

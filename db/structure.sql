@@ -214,14 +214,14 @@ CREATE TABLE public.matches (
     id bigint NOT NULL,
     start_date date,
     end_date date,
-    pending boolean,
     caller_id bigint NOT NULL,
     callee_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     pod_id bigint NOT NULL,
     end_reason character varying,
-    end_reason_notes_ciphertext text
+    end_reason_notes_ciphertext text,
+    deleted_at timestamp without time zone
 );
 
 
@@ -950,6 +950,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210219100515'),
 ('20210225165903'),
 ('20210301204932'),
-('20210302084427');
+('20210302084427'),
+('20210303105023');
 
 

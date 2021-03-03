@@ -8,7 +8,7 @@ class A::PagesController < A::AController
                    .filter { |e| e["non_sensitive_data"]["flag_in_progress"] }
 
     @waiting_list_count = Callee.with_matches.all.filter(&:on_waiting_list).count
-    @pending_matches_count = Match.where(pending: true).count
+    @provisional_matches_count = Match.all.filter(&:provisional).count
   end
 
   def support

@@ -10,7 +10,7 @@
   <%= table @matches.sort_by { |m| m.caller.name }, row_url: ->(m) { pl_match_path(@current_pod_leader, m) } do |tbl| %>
     <% tbl.col "Caller - Callee" do |match| %>
       <%= match.caller.name %> - <%= match.callee.name %>
-      <% if match.pending %>
+      <% if match.provisional %>
         <span class="italic text-blue-500">(provisional)</div>
       <% elsif match.active? %>
         <span class="italic text-green-500">(active)</div>

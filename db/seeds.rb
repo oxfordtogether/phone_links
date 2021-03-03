@@ -20,8 +20,7 @@ pods = Pod.all
   FactoryBot.create(:match,
                     caller: callers.filter { |c| c.pod == pod }.sample,
                     callee: callees.filter { |c| c.pod == pod }.sample,
-                    pod: pod,
-                    pending: rand(10) == 1)
+                    pod: pod)
 end
 
 FactoryBot.create_list(:emergency_contact, 150)
