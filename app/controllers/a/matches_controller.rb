@@ -4,8 +4,28 @@ class A::MatchesController < A::AController
   def show; end
 
   def new
-    pod_id = params[:pod_id]
-    @match = Match.new(pod_id: pod_id)
+    @pod_id ||= nil
+
+    if @pod_id.present?
+      @pod = Pod.find(@pod_id)
+    elsif @pod_id == ""
+      @pod = nil
+    elsif params[:pod_id]
+      @pod = Pod.find(params[:pod_id])
+    end
+
+    if @pod.present?
+      @match = Match.new(pod_id: @pod.id)
+
+      @callers = Caller.where(pod_id: @pod.id)
+      @callees = Callee.where(pod_id: @pod.id)
+    else
+      @match = Match.new
+
+      @callers = Caller.all
+      @callees = Callee.all
+    end
+
     @redirect_on_cancel = params["redirect_on_cancel"] || a_waitlist_provisional_matches_path
   end
 

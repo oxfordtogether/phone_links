@@ -23,7 +23,9 @@
       <% end %>
     <% end %>
     <% tbl.col "Dates", classes: "text-right" do |match| %>
-      <% if !match.provisional %>
+      <% if match.provisional %>
+        Created <%= format_date(match.created_at) %>
+      <% else %>
         <%= format_date_range(match) %>
       <% end %>
     <% end %>

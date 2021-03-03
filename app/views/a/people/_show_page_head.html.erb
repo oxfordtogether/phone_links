@@ -51,7 +51,7 @@
         <% @person&.callee&.matches.each do |match| %>
           <dd class="mt-1 text-sm text-gray-900">
             <% if match.provisional %>
-              <%= link_to match.caller.name, a_match_path(match) %>, <span class="italic">provisional</span> (<%= format_date_range(match) %>)
+              <%= link_to match.caller.name, a_match_path(match) %>, <span class="italic">provisional</span> (created <%= format_date(match.created_at) %>)
             <% elsif match.active? %>
               <%= link_to match.caller.name, a_match_path(match) %> (<%= format_date_range(match) %>)
             <% else %>
@@ -92,7 +92,7 @@
         <% @person&.caller&.matches.each do |match| %>
           <dd class="mt-1 text-sm text-gray-900">
             <% if match.provisional %>
-              <%= link_to match.callee.name, a_match_path(match) %>, <span class="italic">provisional</span> (<%= format_date_range(match) %>)
+              <%= link_to match.callee.name, a_match_path(match) %>, <span class="italic">provisional</span> (created <%= format_date(match.created_at) %>)
             <% elsif match.active? %>
               <%= link_to match.callee.name, a_match_path(match) %> (<%= format_date_range(match) %>)
             <% else %>
