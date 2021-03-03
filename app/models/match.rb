@@ -1,6 +1,6 @@
 class Match < ApplicationRecord
   validates :caller_id, :callee_id, :pod_id, :status, presence: { message: "This field is required" }
-  validates :caller_id, uniqueness: { scope: :callee_id }, presence: { message: "A match for this caller and callee already exists" }
+  validates :caller_id, uniqueness: { scope: :callee_id, message: "A match for this caller and callee already exists" }
 
   def self.end_reasons
     %w[NOT_A_FIT CALLEE_DECEASED CALLEE_LEFT_PROGRAM CALLER_LEFT_PROGRAM CREATED_BY_MISTAKE OTHER]

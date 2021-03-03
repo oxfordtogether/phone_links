@@ -39,6 +39,9 @@ class A::MatchesController < A::AController
       MatchStatusChange.create(match: @match, created_by: current_user, status: @match.status)
       redirect_to a_match_path(@match), notice: "Provisional match was successfully created."
     else
+      @callers = Caller.all
+      @callees = Callee.all
+
       @redirect_on_cancel ||= a_waitlist_provisional_matches_path
       render :new
     end
