@@ -19,7 +19,7 @@
   <div class="my-9">
     <h1 class="my-3">Manage matches</h1>
     <% if @person.callee.present? || @person.caller.present? %>
-      <%= button_link_to "New Match", new_a_match_path %>
+      <%= button_link_to "New provisional match", new_a_match_path %>
     <% end %>
   </div>
   <% if !@person.callee.present? %>

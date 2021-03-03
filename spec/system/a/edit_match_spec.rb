@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "edit match", type: :system do
   let!(:caller) { create(:caller) }
-  let!(:match) { create(:match, end_date: "2020-01-01", end_reason: "CREATED_BY_MISTAKE", end_reason_notes: "Whoops!", caller: caller) }
+  let!(:match) { create(:match, start_date: "2019-01-01", end_date: "2020-01-01", end_reason: "CREATED_BY_MISTAKE", end_reason_notes: "Whoops!", caller: caller) }
   let!(:pods) { create_list(:pod, 10) }
 
   it "works" do
@@ -18,11 +18,9 @@ RSpec.describe "edit match", type: :system do
     expect(find_field("match_end_reason_notes").value).to eq match.end_reason_notes
 
     select pods[1].name, from: "Pod"
-    date_picker_fill_in "match_start_date", date: Date.parse("2020-01-01")
     date_picker_fill_in "match_end_date", date: Date.parse("2021-02-22")
     select "Not a fit", from: "End reason"
     fill_in "End reason notes", with: "didn't work"
-    uncheck "Provisional"
 
     click_on "Save"
 
@@ -33,7 +31,7 @@ RSpec.describe "edit match", type: :system do
     expect(match.pod.id).to eq(pods[1].id)
     expect(match.end_reason).to eq("NOT_A_FIT")
     expect(match.end_reason_notes).to eq("didn't work")
-    expect(match.start_date.strftime("%Y-%m-%d")).to eq("2020-01-01")
+    expect(match.start_date.strftime("%Y-%m-%d")).to eq("2019-01-01")
     expect(match.end_date.strftime("%Y-%m-%d")).to eq("2021-02-22")
   end
 

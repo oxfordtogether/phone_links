@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "create match", type: :system do
-  let!(:callers) { create_list(:caller, 10) }
+  let!(:callers) { create_list(:caller, 10, active: true) }
   let!(:callees) { create_list(:callee, 10, active: true) }
   let!(:pods) { create_list(:pod, 10) }
 
@@ -9,14 +9,12 @@ RSpec.describe "create match", type: :system do
     login_as nil
 
     visit "/a/waitlist/provisional_matches"
-    click_on "New Match"
+    click_on "New provisional match"
 
     select pods[1].name, from: "Pod"
     select callees[5].name_and_pod, from: "Callee"
 
     select callers[5].name_pod_capacity, from: "Caller"
-    date_picker_fill_in "match_start_date", date: Date.parse("2020-01-01")
-    uncheck "Provisional"
 
     expect do
       click_on "Save"
@@ -26,21 +24,19 @@ RSpec.describe "create match", type: :system do
     expect(match.pod.id).to eq(pods[1].id)
     expect(match.caller).to eq(callers[5])
     expect(match.callee).to eq(callees[5])
-    expect(match.start_date.strftime("%Y-%m-%d")).to eq("2020-01-01")
+    expect(match.provisional).to eq(true)
   end
 
   it "works from pod page" do
     login_as nil
 
     visit "/a/pods/#{pods[1].id}/matches"
-    click_on "New Match"
+    click_on "New provisional match"
 
     expect(find_field("match_pod_id").value).to eq pods[1].id.to_s
 
     select callees[5].name_and_pod, from: "Callee"
     select callers[5].name_pod_capacity, from: "Caller"
-    date_picker_fill_in "match_start_date", date: Date.parse("2020-01-01")
-    uncheck "Provisional"
 
     expect do
       click_on "Save"
@@ -50,19 +46,19 @@ RSpec.describe "create match", type: :system do
     expect(match.pod.id).to eq(pods[1].id)
     expect(match.caller).to eq(callers[5])
     expect(match.callee).to eq(callees[5])
-    expect(match.start_date.strftime("%Y-%m-%d")).to eq("2020-01-01")
+    expect(match.provisional).to eq(true)
   end
 
   it "redirect back to correct page on cancel" do
     login_as nil
 
     visit "/a/pods/#{pods[1].id}/matches"
-    click_on "New Match"
+    click_on "New provisional match"
     click_on "Cancel"
     expect(page).to have_current_path("/a/pods/#{pods[1].id}/matches")
 
     visit "/a/waitlist/provisional_matches"
-    click_on "New Match"
+    click_on "New provisional match"
     click_on "Cancel"
     expect(page).to have_current_path("/a/waitlist/provisional_matches")
   end
