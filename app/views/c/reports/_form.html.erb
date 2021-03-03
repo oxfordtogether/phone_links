@@ -2,11 +2,10 @@
 
   <%= form.section do %>
     
-    <%= form.collection_select :match_id, @matches, :id, :names, include_blank: false, width: :half, required_asterix: true, info_message: "Please select your callee for this report" %>
-    <%= form.select :callee_state, ["Great!","Ok","Not great"], label: "How was the call?", width: :half, required_asterix: true %>
-    <%= form.date_picker :datetime, label: "Call date", width: :third %>
-    <%= form.time_select :datetime, label: "& time", width: :half, required_asterix: true, info_message: "" %>
-    <%= form.select :duration, ["less than 15 minutes","15 to 30 minutes","30 minutes to 1 hour","Over one hour","Did not answer"], label: "Call duration", width: :third, required_asterix: true %>
+    <%= form.collection_select "Who did you call?", @matches, :id, :callee_name, include_blank: false, width: :half, required_asterix: true, info_message: "Please select your callee for this report" %>
+    <%= form.date_picker :date_of_call, label: "Date of the call", width: :third, required_asterix: true %>
+    <%= form.select :duration, ["less than 15 minutes","15 - 30 minutes","30 minutes - 1 hour","Over 1 hour","I did not get through"], label: "Length of the call", width: :third, required_asterix: true %>
+    <%= form.select :callee_state, ["Great!","Ok","Not great"], label: "How was the call?", width: :half, required_asterix: true %>    
     <%= form.text_area :summary, width: :full, required_asterix: true, info_message: "Give as many details as you wish, there is no word limit." %>
   <% end %>
   <%= form.button_section do %>

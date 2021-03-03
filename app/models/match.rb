@@ -47,6 +47,8 @@ class Match < ApplicationRecord
 
   def ended
     status == :ended
+  def callee_name
+    callee.name
   end
 
   def pod_mismatch

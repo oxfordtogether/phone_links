@@ -12,11 +12,9 @@ class C::ReportsController < C::CController
 
   # GET /reports/new
   def new
-    @report = Report.new
-    @redirect_on_cancel = params[:redirect_on_cancel] || c_path
-    matches = current_caller.match_ids
-    @reports = Report.where(match_id: matches)
-    @matches = current_caller.matches
+    match_id = params[:match_id]
+    @report = Report.new(match_id: match_id, date_of_call: Date.today)
+    @matches = current_caller.matches.where(id: match_id)
   end
 
   # GET /reports/1/edit
