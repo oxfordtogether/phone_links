@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "MatchEventCreator", type: :model do
   let!(:caller) { create(:caller) }
   let!(:callee) { create(:callee) }
-  let!(:match) { create(:match, caller: caller, callee: callee, end_date: nil) }
+  let!(:match) { create(:match, start_date: "2019-01-01", caller: caller, callee: callee, end_date: nil) }
 
   it "works" do
     Events::MatchEventCreator.new(match).create_events!
