@@ -19,11 +19,11 @@ class Report < ApplicationRecord
     no_answer: "I did not get through",
   }
   options_field :caller_confidence, {
-    one: "one",
-    two: "two",
-    three: "three",
-    four: "four",
-    five: "five",
+    very_confident: "Very confident",
+    confident: "Confident",
+    neutral: "Neutral",
+    out_of_comfort: "Out of my comfort zone",
+    very_difficult: "I found this call really difficult",
   }
 
   def legacy?
