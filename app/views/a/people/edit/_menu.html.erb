@@ -8,7 +8,7 @@
       <% nav.link "Emergency contacts", emergency_contacts_a_edit_person_path(@person), "people-fill" %>
     <% end %>
     <% if @person.caller.present? %>
-      <% nav.link "Experience", experience_a_edit_person_path(@person), "heroicon-document-text-small" %>
+      <% nav.link "Caller experience", experience_a_edit_person_path(@person), "heroicon-document-text-small" %>
     <% end %>
     <% if @person.caller.present? || @person.callee.present? %>
       <% nav.link "Pod membership", pod_membership_a_edit_person_path(@person), "phone" %>

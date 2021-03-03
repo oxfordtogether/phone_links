@@ -14,7 +14,7 @@ RSpec.describe "edit admin", type: :system do
 
     expect(page).to have_content("Personal")
     expect(page).to have_content("Contact")
-    expect(page).to have_content("Active")
+    expect(page).to have_content("Status")
   end
 
   it "edits active status" do
@@ -22,7 +22,7 @@ RSpec.describe "edit admin", type: :system do
 
     visit "/a/people/#{person.id}"
     click_on "Edit"
-    click_on "Active"
+    click_on "Status"
     expect(page).to have_current_path("/a/people/#{person.id}/edit/active")
 
     active_status = admin.active

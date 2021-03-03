@@ -18,7 +18,7 @@
         method: :post,
         local: true) do |form| %>
       <%= form.section do %>
-        <%= form.email_field :email, width: :half %>
+        <%= form.email_field :email, width: :half, info_message: "Email is required for callers, pod leaders and admins" %>
         <%= form.text_field :phone, width: :half %>
         <%= form.text_field :address_line_1, width: :half %>
         <%= form.text_field :address_line_2, width: :half %>

@@ -14,9 +14,9 @@ RSpec.describe "edit caller", type: :system do
 
     expect(page).to have_content("Personal")
     expect(page).to have_content("Contact")
-    expect(page).to have_content("Experience")
+    expect(page).to have_content("Caller experience")
     expect(page).to have_content("Pod")
-    expect(page).to have_content("Active")
+    expect(page).to have_content("Status")
   end
 
   it "edits experience" do
@@ -24,7 +24,7 @@ RSpec.describe "edit caller", type: :system do
 
     visit "/a/people/#{person.id}"
     click_on "Edit"
-    click_on "Experience"
+    click_on "Caller experience"
     expect(page).to have_current_path("/a/people/#{person.id}/edit/experience")
 
     expect(find_field("Experience").value).to eq caller.experience
@@ -42,7 +42,7 @@ RSpec.describe "edit caller", type: :system do
 
     visit "/a/people/#{person.id}"
     click_on "Edit"
-    click_on "Active"
+    click_on "Status"
     expect(page).to have_current_path("/a/people/#{person.id}/edit/active")
 
     active_status = caller.active

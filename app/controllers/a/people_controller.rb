@@ -1,5 +1,5 @@
 class A::PeopleController < A::AController
-  before_action :set_person, only: %i[show events details actions
+  before_action :set_person, only: %i[show events details actions create_role
                                       personal_details save_personal_details
                                       contact_details save_contact_details
                                       flag save_flag
@@ -34,9 +34,11 @@ class A::PeopleController < A::AController
     @role = person_params[:role]
     @person = Person.new(person_params.except(:role, :redirect_on_cancel))
 
+    @person.send("build_#{@role}")
+
     if @person.save
       SearchCacheRefresh.perform_async
-      redirect_to "/a/people/#{@person.id}/#{@role}/new", notice: "Profile was successfully created."
+      redirect_to personal_details_a_edit_person_path(@person), notice: "Profile was successfully created."
     else
       @redirect_on_cancel || a_path
 
@@ -48,6 +50,18 @@ class A::PeopleController < A::AController
   end
 
   def actions; end
+
+  def create_role
+    role = create_role_params[:role]
+    @person.send("build_#{role}")
+
+    if @person.save
+      SearchCacheRefresh.perform_async
+      redirect_to events_a_person_path(@person), notice: "Role was successfully added."
+    else
+      render :actions
+    end
+  end
 
   def personal_details
     render "a/people/edit/personal_details"
@@ -224,11 +238,13 @@ class A::PeopleController < A::AController
 
   def person_params
     params.require(:person).permit(
-      :role, :title, :first_name, :last_name, :email, :phone, :address_line_1, :address_line_2, :address_postcode, :address_town, :age_bracket,
-      callee_attributes: %i[id pod_id active reason_for_referral living_arrangements other_information call_frequency additional_needs],
-      caller_attributes: %i[id pod_id active experience],
-      admin_attributes: %i[id active],
-      pod_leader_attributes: %i[id active]
+      :role, :first_name, :last_name, :phone
+    )
+  end
+
+  def create_role_params
+    params.require(:person).permit(
+      :id, :role
     )
   end
 

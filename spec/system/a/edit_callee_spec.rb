@@ -16,7 +16,7 @@ RSpec.describe "edit callee", type: :system do
     expect(page).to have_content("Contact")
     expect(page).to have_content("Referral details")
     expect(page).to have_content("Pod")
-    expect(page).to have_content("Active")
+    expect(page).to have_content("Status")
   end
 
   it "edits personal info" do
@@ -38,7 +38,7 @@ RSpec.describe "edit callee", type: :system do
 
     expect { click_on "Save" }.to change { Person.count }.by(0)
 
-    expect(page).to have_current_path("/a/people/#{person.id}/events")
+    expect(page).to have_current_path("/a/people/#{person.id}/edit/personal_details")
 
     person.reload
     expect(person.title).to eq("MX")
@@ -115,7 +115,7 @@ RSpec.describe "edit callee", type: :system do
 
     visit "/a/people/#{person.id}"
     click_on "Edit"
-    click_on "Active"
+    click_on "Status"
     expect(page).to have_current_path("/a/people/#{person.id}/edit/active")
 
     active_status = callee.active

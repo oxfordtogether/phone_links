@@ -48,11 +48,11 @@
                         <div>
                           <% if role == "callee" %>
                             <% if result.roles == [] %>
-                              <%= link_to "add #{role} role", "/a/people/#{result.id.to_s}/#{role}/new", class: "text-sm text-blue-600 text-semibold hover:underline hover:text-blue-700" %>
+                              <%= link_to "add #{role.sub('_', ' ')} role", "/a/people/#{result.id.to_s}/actions", class: "text-sm text-blue-600 text-semibold hover:underline hover:text-blue-700" %>
                             <% end %>
                           <% else %>
                             <% if !result.send(role).present? %>
-                              <%= link_to "add #{role} role", "/a/people/#{result.id.to_s}/#{role}/new", class: "text-sm text-blue-600 text-semibold hover:underline hover:text-blue-700" %>
+                              <%= link_to "add #{role.sub('_', ' ')} role", "/a/people/#{result.id.to_s}/actions", class: "text-sm text-blue-600 text-semibold hover:underline hover:text-blue-700" %>
                             <% end %>
                           <% end %>
                           <%= link_to "go to profile", "/a/people/#{result.id.to_s}", class: "ml-2 text-sm text-gray-400 italic hover:underline hover:text-gray-500" %>
@@ -73,21 +73,14 @@
         <div class="text-gray-500 -mt-5 text-sm sm:col-span-6">Is the person new to the program? Create a profile for them.</div>
         <%= form.hidden_field :redirect_on_cancel, value: @redirect_on_cancel %>
         <%= form.hidden_field :role, value: @role %>
-        <%= form.select :title, Person.titles.map {|t| [t.humanize, t]}, width: :full %>
         <%= form.text_field :first_name, width: :full, required_asterix: true %>
         <%= form.text_field :last_name, width: :full, required_asterix: true %>
         <%= form.text_field :phone, width: :full %>
-        <%= form.text_field :email, width: :full, required_asterix: true, info_message: "Required for callers, pod leaders and admin, specify 'unknown' if not known for callees." %>
-        <%= form.text_field :address_line_1, width: :full %>
-        <%= form.text_field :address_line_2, width: :full %>
-        <%= form.text_field :address_town, label: "Town", width: :full %>
-        <%= form.text_field :address_postcode, label: "Postcode", width: :full %>
-        <%= form.select :age_bracket, Person.age_bracket_options_for_select, width: :full %>
       <% end %>
     </div>
   </div>
   <%= form.button_section do %>
     <%= form.cancel @redirect_on_cancel %>
-    <%= form.submit "Next" %>
+    <%= form.submit "Save" %>
   <% end %>
 <% end %>

@@ -18,81 +18,22 @@ RSpec.describe "create callee", type: :system do
     click_on "New Callee"
     expect(page).to have_current_path("/a/people/new?role=callee&redirect_on_cancel=/a/waitlist/callees")
 
-    select "Mx", from: "Title"
     fill_in "First name", with: "Bob"
     fill_in "Last name", with: "Jones"
-    fill_in "Email", with: "bob.jones@gmail.com"
     fill_in "Phone", with: "12345"
-    fill_in "Address line 1", with: "1 RR"
-    fill_in "Address line 2", with: "XX"
-    fill_in "Town", with: "Town"
-    fill_in "Postcode", with: "XXX"
-    select "18-35", from: "Age bracket"
 
-    expect { click_on "Next" }.to change { Person.count }.by(1)
+    expect { click_on "Save" }.to change { Person.count }.by(1).and change { Callee.count }.by(1)
+
     person = Person.last
-
-    expect(page).to have_current_path("/a/people/#{person.id}/callee/new")
-
-    select pods[1].name, from: "Pod"
-    fill_in "Reason for referral", with: "referral"
-    fill_in "Living arrangements", with: "living"
-    fill_in "Other information", with: "other"
-    fill_in "Additional needs", with: "needs"
-    fill_in "Call frequency", with: "calls"
-    check "Active"
-
-    expect { click_on "Save" }.to change { Callee.count }.by(1)
     callee = Callee.last
 
-    expect(page).to have_current_path("/a/people/#{person.id}/events")
+    expect(page).to have_current_path("/a/people/#{person.id}/edit/personal_details")
 
-    person.reload
-
-    expect(person.title).to eq("MX")
     expect(person.first_name).to eq("Bob")
     expect(person.last_name).to eq("Jones")
-    expect(person.email).to eq("bob.jones@gmail.com")
     expect(person.phone).to eq("12345")
-    expect(person.address_line_1).to eq("1 RR")
-    expect(person.address_line_2).to eq("XX")
-    expect(person.address_town).to eq("Town")
-    expect(person.address_postcode).to eq("XXX")
-    expect(person.age_bracket).to eq(:age_18_35)
-    expect(person.callee).to eq(callee)
 
-    expect(callee.pod).to eq(pods[1])
-    expect(callee.reason_for_referral).to eq("referral")
-    expect(callee.living_arrangements).to eq("living")
-    expect(callee.other_information).to eq("other")
-    expect(callee.additional_needs).to eq("needs")
-    expect(callee.call_frequency).to eq("calls")
-    expect(callee.active).to eq(true)
-  end
-
-  it "creates new callee for existing person" do
-    login_as nil
-
-    visit "/a/waitlist/callees"
-    click_on "New Callee"
-    expect(page).to have_current_path("/a/people/new?role=callee&redirect_on_cancel=/a/waitlist/callees")
-
-    visit "/a/people/new?role=callee"
-
-    fill_in "Search", with: "Tim"
-
-    admin_result = find_by_id("result_person_#{admin.person.id}")
-    expect(admin_result).to have_no_link("add callee role")
-
-    person_result = find_by_id("result_person_#{person.id}")
-    expect(person_result).to have_link("add callee role")
-
-    find("a", text: "add callee role").click
-    expect(page).to have_current_path("/a/people/#{person.id}/callee/new")
-
-    expect { click_on "Save" }.to change { Callee.count }.by(1)
-
-    expect(page).to have_current_path("/a/people/#{person.id}/events")
+    expect(person.callee.id).to eq(callee.id)
   end
 
   it "links to person profile" do
@@ -112,14 +53,5 @@ RSpec.describe "create callee", type: :system do
     click_on "New Callee"
     click_on "Cancel"
     expect(page).to have_current_path("/a/waitlist/callees")
-
-    visit "/a/waitlist/callees"
-    click_on "New Callee"
-    fill_in "Search", with: "Tim"
-    find("a", text: "add callee role").click
-    expect(page).to have_current_path("/a/people/#{person.id}/callee/new")
-    find("h1", text: "New Callee") # make sure page actually loaded
-    click_on "Cancel"
-    expect(page).to have_current_path("/a/people/#{person.id}/events")
   end
 end

@@ -10,9 +10,39 @@
 <% if !@person.callee.present? %>
   <div class="">
     <h1 class="my-3">Manage roles</h1>
-    <% if !@person.pod_leader.present? %><%= button_link_to "Add Pod Leader role", "#{a_person_path(@person.id)}/pod_leader/new" %><% end %>
-    <% if !@person.caller.present? %><%= button_link_to "Add Caller role", "#{a_person_path(@person.id)}/caller/new" %><% end %>
-    <% if !@person.admin.present? %><%= button_link_to "Add Admin role", "#{a_person_path(@person.id)}/admin/new" %><% end %>
+    <% if !@person.pod_leader.present? %>
+      <div class="new-pod-leader-role my-4">
+        <%= tailwind_form_with(model: [:a, @person],
+                        url: "/a/people/#{@person.id}/create_role",
+                        method: :post,
+                        local: true) do |form| %>
+          <%= form.hidden_field :role, value: "pod_leader" %>
+          <%= form.submit "Add pod leader role" %>
+        <% end %>
+      </div>
+    <% end %>
+    <% if !@person.caller.present? %>
+      <div class="new-caller-role my-4">
+        <%= tailwind_form_with(model: [:a, @person],
+                        url: "/a/people/#{@person.id}/create_role",
+                        method: :post,
+                        local: true) do |form| %>
+          <%= form.hidden_field :role, value: "caller" %>
+          <%= form.submit "Add caller role" %>
+        <% end %>
+      </div>
+    <% end %>
+    <% if !@person.admin.present? %>
+      <div class="new-admin-role my-4">
+        <%= tailwind_form_with(model: [:a, @person],
+                        url: "/a/people/#{@person.id}/create_role",
+                        method: :post,
+                        local: true) do |form| %>
+          <%= form.hidden_field :role, value: "admin" %>
+          <%= form.submit "Add admin role" %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 <% end %>
 <% if false %>
