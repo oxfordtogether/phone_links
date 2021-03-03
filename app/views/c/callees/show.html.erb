@@ -15,7 +15,7 @@
   <% end %>
 <% end %>
 <% content_for :page_head do %>
-  <%= render CalleeHeadComponent.new(callee: @callee) %>
+  <%= render CalleeHeadComponent.new(callee: @callee, reports: @reports) %>
 <% end %>
 
 <div class="flow-root">
