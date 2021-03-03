@@ -51,8 +51,11 @@
                               <%= link_to "add #{role.sub('_', ' ')} role", "/a/people/#{result.id.to_s}/actions", class: "text-sm text-blue-600 text-semibold hover:underline hover:text-blue-700" %>
                             <% end %>
                           <% else %>
-                            <% if !result.send(role).present? %>
-                              <%= link_to "add #{role.sub('_', ' ')} role", "/a/people/#{result.id.to_s}/actions", class: "text-sm text-blue-600 text-semibold hover:underline hover:text-blue-700" %>
+                            <!-- can't add another role to callee -->
+                            <% if !result.callee.present? %>
+                              <% if !result.send(role).present? %>
+                                <%= link_to "add #{role.sub('_', ' ')} role", "/a/people/#{result.id.to_s}/actions", class: "text-sm text-blue-600 text-semibold hover:underline hover:text-blue-700" %>
+                              <% end %>
                             <% end %>
                           <% end %>
                           <%= link_to "go to profile", "/a/people/#{result.id.to_s}", class: "ml-2 text-sm text-gray-400 italic hover:underline hover:text-gray-500" %>

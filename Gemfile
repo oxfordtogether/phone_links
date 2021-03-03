@@ -73,8 +73,9 @@ gem "aws-sdk-kms"
 
 gem "dotenv-rails"
 
-gem "ocl_tools", git: "https://github.com/oxfordtogether/ocl_tools.git"
 gem "view_component", require: "view_component/engine"
+
+gem "ocl_tools", git: "https://github.com/oxfordtogether/ocl_tools.git"
 
 gem "auth0"
 gem "omniauth-auth0", "~> 2.2"
