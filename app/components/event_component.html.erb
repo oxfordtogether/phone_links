@@ -49,4 +49,18 @@
   <% c.with(:body) do %>
   <% end %>
 <% end %>
+<% when Report %>
+<%= render TimelineItemComponent.new(icon: "phone-outgoing", icon_colour: 'bg-indigo-400', time: @event.created_at, is_last: @last_event) do |c| %>
+  <% c.with(:title) do %>
+    <%= @event.match.caller.name %> called <%= @event.match.callee.name %> on <%= format_date(@event.datetime) %>
+    <% if @event.duration == "did not answer" %>
+      <div class="text-sm text-red-400 italic">No answer</div>
+    <% else %>
+      <div class="text-sm text-gray-400 italic">Call length: <%= @event.duration %></div>
+    <% end %>
+  <% end %>
+  <% c.with(:body) do %>
+    <%= @event.summary %>
+  <% end %>
+<% end %>
 <% end %>

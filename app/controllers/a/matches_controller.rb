@@ -2,7 +2,7 @@ class A::MatchesController < A::AController
   before_action :set_match, only: %i[show edit update destroy activate]
 
   def show
-    @events = @match.match_status_changes
+    @events = (@match.match_status_changes + @match.reports).sort_by(&:created_at).reverse
   end
 
   def new
