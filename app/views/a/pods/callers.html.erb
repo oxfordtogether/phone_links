@@ -15,13 +15,14 @@
         <span class="italic text-red-500">(not active)</div>
       <% end %>
     <% end %>
-    <% tbl.col "Active match(es)" do |caller| %>
-      <% if caller.active_matches.present? %>
-        <% caller.active_matches.each_with_index do |match, index| %>
-          <%= match.callee.name %><% if caller.active_matches.count - 1 != index %>, <% end %>
+    <% tbl.col "Match(es)" do |caller| %>
+      <% @matches = caller.matches.filter { |m| !m.deleted } %>
+      <% if @matches.present? %>
+        <% @matches.each_with_index do |match, index| %>
+          <%= match.callee.name %> (<%= match.humanized_status %>)<% if caller.active_matches.count - 1 != index %>, <% end %>
         <% end %>
       <% else %>
-        <div class="italic">No active matches</div>
+        <div class="italic">No matches</div>
       <% end %>
     <% end %>
   <% end %>

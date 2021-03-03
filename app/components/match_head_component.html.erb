@@ -1,32 +1,20 @@
 <div class="sm:flex sm:justify-between">
   <h1 class="flex justify-start flex-wrap text-2xl font-semibold text-gray-900">
     <div><%= link_to @match.caller.name, a_person_path(@match.caller.person) %></div>
-    <div class="mx-2"><%= role_badge(@match.caller) %></div>
+    <div class="mx-2">
+      <%= role_badge(@match.caller) %>
+    </div>
     <div class="ml-1 mr-3"> - </div>
     <div><%= link_to @match.callee.name, a_person_path(@match.callee.person) %></div>
     <div class="mx-2"><%= role_badge(@match.callee) %></div>
+    <div class="mx-2">
+      <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium text-gray-800 border border-gray-400">
+        Match status: <%= @match.humanized_status %>
+      </span>
+    </div>
   </h1>
   <div class="mt-4 sm:mt-0">
     <%= button_link_to "Edit", edit_a_match_path(@match), icon: 'heroicon-edit' %>
-  </div>
-</div>
-<div class="flex flex-wrap">
-  <div class="mt-2 sm:mt-2 mr-6 flex items-center text-sm text-gray-900">
-    <% if @match.provisional %>
-      <div class="text-gray-900 mr-2">
-        <span class="text-gray-500">Provisional match created:</span>
-        <%= format_date(@match.created_at) %>
-      </div>
-    <% elsif @match.active? %>
-      <div class="text-gray-900 mr-2">
-        <span class="text-gray-500">Matched:</span>
-        <%= format_date_range(@match) %>
-      </div>
-    <% else %>
-      <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium text-gray-800 bg-gray-300">
-        Ended: <%= format_date_range(@match) %>
-      </span>
-    <% end %>
   </div>
 </div>
 <div class="flex flex-wrap">
@@ -49,7 +37,7 @@
 </div>
 <% if @match.provisional %>
   <div class="mt-5">
-    <%= info(title: 'Provisional', info: "This match is provisional.") %>
+    <%= info(title: 'Provisional', info: "This match is provisional. Click on the details tab to change to active.") %>
   </div>
 <% end %>
 <% if @match.pod_mismatch.present? %>
@@ -58,6 +46,6 @@
   </div>
 <% end %>
 <%= nav_tabs do |nav| %>
-  <% nav.link "Reports (#{ @match.reports.count })", a_match_path(@match) %>
-  <% nav.link @match.provisional ? "Activate match" : "Details", edit_a_match_path(@match) %>
+  <% nav.link "Events", a_match_path(@match) %>
+  <% nav.link "Details", edit_a_match_path(@match) %>
 <% end %>

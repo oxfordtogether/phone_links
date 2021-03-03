@@ -1,7 +1,9 @@
 class A::MatchesController < A::AController
   before_action :set_match, only: %i[show edit update destroy activate]
 
-  def show; end
+  def show
+    @events = @match.match_status_changes
+  end
 
   def new
     @pod_id ||= nil
@@ -34,9 +36,12 @@ class A::MatchesController < A::AController
     @match = Match.new(new_provisional_match_params.except(:redirect_on_cancel))
 
     if @match.save
-      @match.create_events!
+      MatchStatusChange.create(match: @match, created_by: current_user, status: @match.status)
       redirect_to a_match_path(@match), notice: "Provisional match was successfully created."
     else
+      @callers = Caller.all
+      @callees = Callee.all
+
       @redirect_on_cancel ||= a_waitlist_provisional_matches_path
       render :new
     end
@@ -44,31 +49,13 @@ class A::MatchesController < A::AController
 
   def edit; end
 
-  def activate
-    activate_match_params_hash = activate_match_params
-    activate_match_params_hash["start_date"] = Date.today
-
-    if @match.update(activate_match_params_hash)
-      @match.create_events!
-      redirect_to a_match_path(@match), notice: "Match was successfully activated."
-    else
-      render :edit
-    end
-  end
-
   def update
     if @match.update(match_params)
-      @match.create_events!
+      MatchStatusChange.create(match: @match, created_by: current_user, status: @match.status)
       redirect_to a_match_path(@match), notice: "Match was successfully updated."
     else
       render :edit
     end
-  end
-
-  def destroy
-    @match.update(deleted_at: Time.now)
-
-    redirect_to a_pod_path(@match.pod), notice: "Match was successfully deleted."
   end
 
   private
@@ -78,18 +65,10 @@ class A::MatchesController < A::AController
   end
 
   def new_provisional_match_params
-    params.require(:match).permit(:pod_id, :caller_id, :callee_id, :redirect_on_cancel)
-  end
-
-  def delete_provisional_match_params
-    params.require(:match).permit(:id)
-  end
-
-  def activate_match_params
-    params.require(:match).permit(:id)
+    params.require(:match).permit(:pod_id, :caller_id, :callee_id, :status, :redirect_on_cancel)
   end
 
   def match_params
-    params.require(:match).permit(:pod_id, :end_reason, :end_reason_notes, :end_date)
+    params.require(:match).permit(:pod_id, :status, :end_reason, :end_reason_notes)
   end
 end

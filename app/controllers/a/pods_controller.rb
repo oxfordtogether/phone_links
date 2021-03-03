@@ -11,17 +11,12 @@ class A::PodsController < A::AController
 
   def matches
     @pod = Pod.with_matches.find(params[:id])
-    @matches = @pod.matches.filter { |m| !m.deleted_at }
+    @matches = @pod.matches.filter { |m| !m.deleted }
   end
 
   def callers
     @pod = Pod.with_matches.find(params[:id])
     @callers = @pod.callers
-  end
-
-  def callees
-    @pod = Pod.with_matches.find(params[:id])
-    @callees = @pod.active_matches.map { |m| m.caller }
   end
 
   def new

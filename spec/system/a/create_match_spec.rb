@@ -14,12 +14,11 @@ RSpec.describe "create match", type: :system do
 
     select pods[0].name, from: "Pod"
     select callees[5].name_and_pod, from: "Callee"
-
     select callers[5].name_pod_capacity, from: "Caller"
 
     expect do
       click_on "Save"
-    end.to change { Match.count }.by(1)
+    end.to change { Match.count }.by(1).and change { MatchStatusChange.count }.by(1)
 
     match = Match.last
     expect(match.pod.id).to eq(pods[0].id)
@@ -41,7 +40,7 @@ RSpec.describe "create match", type: :system do
 
     expect do
       click_on "Save"
-    end.to change { Match.count }.by(1)
+    end.to change { Match.count }.by(1).and change { MatchStatusChange.count }.by(1)
 
     match = Match.last
     expect(match.pod.id).to eq(pods[0].id)

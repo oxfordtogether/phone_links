@@ -15,6 +15,6 @@ class Pod < ApplicationRecord
   }
 
   def active_matches
-    matches.map { |m| m.active? }
+    matches.map { |m| m.active }
   end
 end

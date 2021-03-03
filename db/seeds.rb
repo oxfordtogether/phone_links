@@ -15,12 +15,18 @@ FactoryBot.create(:pod_leader, person: Caller.all.sample.person)
 callers = Caller.all
 callees = Callee.all
 pods = Pod.all
-(0..150).to_a.each do |_i|
-  pod = pods.sample
+callees.each do |callee|
   FactoryBot.create(:match,
-                    caller: callers.filter { |c| c.pod == pod }.sample,
-                    callee: callees.filter { |c| c.pod == pod }.sample,
-                    pod: pod)
+                    caller: callers.filter { |c| c.pod == callee.pod }.sample,
+                    callee: callee,
+                    pod: callee.pod)
+end
+# add a couple of callees with multiple matches
+callees[0..25].each do |callee|
+  FactoryBot.create(:match,
+                    caller: callers.filter { |c| c.pod == callee.pod && callee.matches[0].caller != c }.sample,
+                    callee: callee,
+                    pod: callee.pod)
 end
 
 FactoryBot.create_list(:emergency_contact, 150)

@@ -18,6 +18,16 @@ class A::PeopleController < A::AController
                    .where(person_id: @person.id)
                    .all
                    .filter(&:active?)
+
+    @match_events = if @person.callee.present?
+                      MatchStatusChange.where(match_id: @person.callee.match_ids)
+                    elsif @person.caller.present?
+                      MatchStatusChange.where(match_id: @person.caller.match_ids)
+                    else
+                      []
+                    end
+
+    @events += @match_events
   end
 
   def new

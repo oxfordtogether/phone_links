@@ -11,8 +11,6 @@ SET row_security = off;
 
 SET default_tablespace = '';
 
-SET default_table_access_method = heap;
-
 --
 -- Name: admins; Type: TABLE; Schema: public; Owner: -
 --
@@ -207,6 +205,39 @@ ALTER SEQUENCE public.events_id_seq OWNED BY public.events.id;
 
 
 --
+-- Name: match_status_changes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.match_status_changes (
+    id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    match_id bigint,
+    status character varying,
+    created_by_id bigint
+);
+
+
+--
+-- Name: match_status_changes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.match_status_changes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: match_status_changes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.match_status_changes_id_seq OWNED BY public.match_status_changes.id;
+
+
+--
 -- Name: matches; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -221,7 +252,8 @@ CREATE TABLE public.matches (
     pod_id bigint NOT NULL,
     end_reason character varying,
     end_reason_notes_ciphertext text,
-    deleted_at timestamp without time zone
+    deleted_at timestamp without time zone,
+    status character varying
 );
 
 
@@ -480,6 +512,13 @@ ALTER TABLE ONLY public.events ALTER COLUMN id SET DEFAULT nextval('public.event
 
 
 --
+-- Name: match_status_changes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.match_status_changes ALTER COLUMN id SET DEFAULT nextval('public.match_status_changes_id_seq'::regclass);
+
+
+--
 -- Name: matches id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -567,6 +606,14 @@ ALTER TABLE ONLY public.emergency_contacts
 
 ALTER TABLE ONLY public.events
     ADD CONSTRAINT events_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: match_status_changes match_status_changes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.match_status_changes
+    ADD CONSTRAINT match_status_changes_pkey PRIMARY KEY (id);
 
 
 --
@@ -710,10 +757,31 @@ CREATE INDEX index_events_on_report_id ON public.events USING btree (report_id);
 
 
 --
+-- Name: index_match_status_changes_on_created_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_match_status_changes_on_created_by_id ON public.match_status_changes USING btree (created_by_id);
+
+
+--
+-- Name: index_match_status_changes_on_match_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_match_status_changes_on_match_id ON public.match_status_changes USING btree (match_id);
+
+
+--
 -- Name: index_matches_on_callee_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_matches_on_callee_id ON public.matches USING btree (callee_id);
+
+
+--
+-- Name: index_matches_on_callee_id_and_caller_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_matches_on_callee_id_and_caller_id ON public.matches USING btree (callee_id, caller_id);
 
 
 --
@@ -806,6 +874,14 @@ ALTER TABLE ONLY public.callers
 
 
 --
+-- Name: match_status_changes fk_rails_3e27337676; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.match_status_changes
+    ADD CONSTRAINT fk_rails_3e27337676 FOREIGN KEY (created_by_id) REFERENCES public.people(id);
+
+
+--
 -- Name: pod_leaders fk_rails_46322976c4; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -859,6 +935,14 @@ ALTER TABLE ONLY public.admins
 
 ALTER TABLE ONLY public.events
     ADD CONSTRAINT fk_rails_5718cd1e6b FOREIGN KEY (match_id) REFERENCES public.matches(id);
+
+
+--
+-- Name: match_status_changes fk_rails_5c47c12d87; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.match_status_changes
+    ADD CONSTRAINT fk_rails_5c47c12d87 FOREIGN KEY (match_id) REFERENCES public.matches(id);
 
 
 --
@@ -951,6 +1035,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210225165903'),
 ('20210301204932'),
 ('20210302084427'),
-('20210303105023');
+('20210303105023'),
+('20210303201322');
 
 
