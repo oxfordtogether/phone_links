@@ -2,7 +2,7 @@
 
   <%= form.section do %>
     
-    <%= form.collection_select :match_id, @matches, :id, :names, width: :half, required_asterix: true, info_message: "Please select your callee for this report" %>
+    <%= form.collection_select :match_id, @matches, :id, :names, include_blank: false, width: :half, required_asterix: true, info_message: "Please select your callee for this report" %>
     <%= form.select :callee_state, ["Great!","Ok","Not great"], label: "How was the call?", width: :half, required_asterix: true %>
     <%= form.date_picker :datetime, label: "Call date", width: :third %>
     <%= form.time_select :datetime, label: "& time", width: :half, required_asterix: true, info_message: "" %>

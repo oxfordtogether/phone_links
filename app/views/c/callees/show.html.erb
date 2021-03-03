@@ -18,9 +18,14 @@
   <%= render CalleeHeadComponent.new(callee: @callee) %>
 <% end %>
 <div class="mt-2">
-    <h2 class="max-w-6xl mx-auto px-4 text-xs leading-6 font-medium uppercase tracking-wide text-gray-800">
-      With <%= @callee.person.first_name%>
-    </h2>
+
+  <div class = "flex justify-start gap-6">
+    <%= button_link_to "New Report", new_c_report_path(@current_caller, @match) %>
+    <%= button_link_to "Flag Concern", 'link' %>
+  </div>
+  <h2 class="mt-8 max-w-6xl mx-auto px-4 text-xs leading-6 font-medium uppercase tracking-wide text-gray-800">
+    With <%= @callee.person.first_name%>
+  </h2>
     <!-- This example requires Tailwind CSS v2.0+ -->
   <div>
     <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -124,7 +129,7 @@
 </div>
 <% if @reports.count != 0 %>
   <div class="flow-root">
-    <ul class="-mb-8">
+    <ul class="mt-8 -mb-8">
       <% @reports.sort_by(&:datetime).reverse.each_with_index do |report, index| %>
         <li>
           <div class="relative pb-8">
