@@ -17,7 +17,7 @@
 <% content_for :page_head do %>
   <%= render CalleeHeadComponent.new(callee: @callee, reports: @reports) %>
 <% end %>
-<% if @reports != 0 %>
+<% if @reports.count != 0 %>
   <div class="flow-root">
     <ul class="-mb-8">
       <% @reports.sort_by(&:datetime).reverse.each_with_index do |report, index| %>
