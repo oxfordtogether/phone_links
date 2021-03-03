@@ -6,6 +6,7 @@ class C::CalleesController < C::CController
     @current_caller = current_caller
     match = Match.where(caller_id: current_caller, callee_id: @callee.id).first
     @reports = Report.where(match_id: match.id)
+    @match = match.id
   end
 
   private
