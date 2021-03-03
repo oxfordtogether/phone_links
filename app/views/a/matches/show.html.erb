@@ -9,5 +9,9 @@
   <%= render(MatchHeadComponent.new(match: @match)) %>
 <% end %>
 <div class="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl ">
-  <%= reports_list(reports: @match.reports) %>
+  <section aria-labelledby="timeline-title">
+    <div class="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
+      <%= events_timeline(@events) %>
+    </div>
+  </section>
 </div>

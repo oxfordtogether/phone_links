@@ -11,11 +11,11 @@
     <% tbl.col "Caller - Callee" do |match| %>
       <%= match.caller.name %> - <%= match.callee.name %>
       <% if match.provisional %>
-        <span class="italic text-blue-500">(provisional)</div>
-      <% elsif match.active? %>
-        <span class="italic text-green-500">(active)</div>
+        <span class="italic text-blue-500">(<%= match.humanized_status %>)</div>
+      <% elsif match.active || match.winding_down %>
+        <span class="italic text-green-500">(<%= match.humanized_status %>)</div>
       <% else %>
-        <span class="italic">(ended)</div>
+        <span class="italic">(<%= match.humanized_status %>)</div>
       <% end %>
     <% end %>
     <% tbl.col "Dates", classes: "text-right" do |match| %>

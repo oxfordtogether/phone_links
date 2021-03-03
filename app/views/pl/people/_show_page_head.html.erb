@@ -52,13 +52,7 @@
       <% if @person&.caller&.matches.present? %>
         <% @person&.caller&.matches.each do |match| %>
           <dd class="mt-1 text-sm text-gray-900">
-            <% if match.provisional %>
-              <%= link_to match.callee.name, pl_match_path(@current_pod_leader, match) %>, <span class="italic">provisional</span> (<%= format_date_range(match) %>)
-            <% elsif match.active? %>
-              <%= link_to match.callee.name, pl_match_path(@current_pod_leader, match) %> (<%= format_date_range(match) %>)
-            <% else %>
-              <%= link_to match.callee.name, pl_match_path(@current_pod_leader, match) %>, <span class="italic">ended</span> (<%= format_date_range(match) %>)
-            <% end %>
+            <%= link_to match.callee.name, pl_match_path(@current_pod_leader, match) %>, <span class="italic"><%= match.humanized_status %></span>
           </dd>
         <% end %>
       <% else %>
@@ -71,13 +65,7 @@
       <% if @person&.callee&.matches.present? %>
         <% @person&.callee&.matches.each do |match| %>
           <dd class="mt-1 text-sm text-gray-900">
-            <% if match.provisional %>
-              <%= link_to match.caller.name, pl__path(@current_pod_leader, match) %>, <span class="italic">provisional</span> (<%= format_date_range(match) %>)
-            <% elsif match.active? %>
-              <%= link_to match.caller.name, pl_match_path(@current_pod_leader, match) %> (<%= format_date_range(match) %>)
-            <% else %>
-              <%= link_to match.caller.name, pl_match_path(@current_pod_leader, match) %>, <span class="italic">ended</span> (<%= format_date_range(match) %>)
-            <% end %>
+            <%= link_to match.caller.name, pl_match_path(@current_pod_leader, match) %>, <span class="italic"><%= match.humanized_status %></span>
           </dd>
         <% end %>
       <% else %>

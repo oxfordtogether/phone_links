@@ -34,27 +34,16 @@
     <%= @event.notes %>
   <% end %>
 <% end %>
-<% when Events::MatchCreated %>
-<%= render TimelineItemComponent.new(icon: "link-45deg", icon_colour: 'bg-gray-400', time: @event.occurred_at, is_last: @last_event) do |c| %>
+<% when MatchStatusChange %>
+<%= render TimelineItemComponent.new(icon: "link-45deg", icon_colour: 'bg-blue-400', time: @event.created_at, is_last: @last_event) do |c| %>
   <% c.with(:title) do %>
-    <%= link_to a_match_path(@event.match) do %>
-      <span class="my-1">
-        <% time = @event.occurred_at %>
-        <span class="text-sm">Match created between <%= @event.person&.name %> and <%= @event.caller_name %></span>
-      </span>
-    <% end %>
-  <% end %>
-  <% c.with(:body) do %>
-  <% end %>
-<% end %>
-<% when Events::MatchEnded %>
-<%= render TimelineItemComponent.new(icon: "link-45deg", icon_colour: 'bg-gray-400', time: @event.occurred_at, is_last: @last_event) do |c| %>
-  <% c.with(:title) do %>
-    <%= link_to a_match_path(@event.match) do %>
-      <span class="my-1">
-        <% time = @event.occurred_at %>
-        <span class="text-sm">Match ended between <%= @event.person&.name %> and <%= @event.caller_name %></span>
-      </span>
+    <% if @event.status == :provisional %>
+      <span class="font-semibold">Provisional</span> match created for <span class="font-semibold"><%= @event.match.caller.name %> and <%= @event.match.callee.name %></span>
+      <div class="text-sm text-gray-400 italic">Created by <%= @event.created_by.name %></div>
+    <% else %>
+      Match between <span class="font-semibold"><%= @event.match.caller.name %> and <%= @event.match.callee.name %></span>
+      changed; status updated to <span class="font-semibold"><%= @event.humanized_status %></span>
+      <div class="text-sm text-gray-400 italic">Change made by <%= @event.created_by.name %></div>
     <% end %>
   <% end %>
   <% c.with(:body) do %>
