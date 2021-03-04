@@ -15,6 +15,7 @@ RSpec.describe "create match", type: :system do
     select pods[0].name, from: "Pod"
     select callees[5].name_and_pod, from: "Callee"
     select callers[5].name_pod_capacity, from: "Caller"
+    fill_in "Notes", with: "some note"
 
     expect do
       click_on "Save"
@@ -24,6 +25,7 @@ RSpec.describe "create match", type: :system do
     expect(match.pod.id).to eq(pods[0].id)
     expect(match.caller).to eq(callers[5])
     expect(match.callee).to eq(callees[5])
+    expect(match.status_change_notes).to eq("some note")
     expect(match.provisional).to eq(true)
   end
 
@@ -37,6 +39,7 @@ RSpec.describe "create match", type: :system do
 
     select callees[5].name_and_pod, from: "Callee"
     select callers[5].name_pod_capacity, from: "Caller"
+    fill_in "Notes", with: "some note"
 
     expect do
       click_on "Save"
@@ -46,6 +49,7 @@ RSpec.describe "create match", type: :system do
     expect(match.pod.id).to eq(pods[0].id)
     expect(match.caller).to eq(callers[5])
     expect(match.callee).to eq(callees[5])
+    expect(match.status_change_notes).to eq("some note")
     expect(match.provisional).to eq(true)
   end
 

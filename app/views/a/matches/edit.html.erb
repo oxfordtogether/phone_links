@@ -12,8 +12,7 @@
   <%= form.section "" do %>
     <%= form.select :status, Match.status_options_for_select, width: :half %>
     <%= form.collection_select :pod_id, Pod.all, :id, :name, label: "Pod", width: :half %>
-    <%= form.select :end_reason, Match.end_reasons.map {|t| [t.humanize, t]}, width: :half %>
-    <%= form.text_area :end_reason_notes, width: :half %>
+    <%= form.text_area :status_change_notes %>
   <% end %>
   <%= form.button_section do %>
     <%= form.cancel a_match_path(@match) %>

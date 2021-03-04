@@ -2,16 +2,12 @@ class Match < ApplicationRecord
   validates :caller_id, :callee_id, :pod_id, :status, presence: { message: "This field is required" }
   validates :caller_id, uniqueness: { scope: :callee_id, message: "A match for this caller and callee already exists" }
 
-  def self.end_reasons
-    %w[NOT_A_FIT CALLEE_DECEASED CALLEE_LEFT_PROGRAM CALLER_LEFT_PROGRAM CREATED_BY_MISTAKE OTHER]
-  end
-
   options_field :status, {
     provisional: "Provisional",
+    provisional_cancelled: "Provisional match cancelled",
     active: "Active",
     winding_down: "Winding down",
     ended: "Ended",
-    deleted: "Deleted",
   }
 
   belongs_to :caller
@@ -22,6 +18,7 @@ class Match < ApplicationRecord
   has_many :match_status_changes
 
   encrypts :end_reason_notes, type: :string, key: :kms_key
+  encrypts :status_change_notes, type: :string, key: :kms_key
 
   # TO DO: combine following methods
   def names
@@ -36,6 +33,10 @@ class Match < ApplicationRecord
     status == :provisional
   end
 
+  def provisional_cancelled
+    status == :provisional_cancelled
+  end
+
   def active
     status == :active
   end
@@ -46,10 +47,6 @@ class Match < ApplicationRecord
 
   def ended
     status == :ended
-  end
-
-  def deleted
-    status == :deleted
   end
 
   def pod_mismatch

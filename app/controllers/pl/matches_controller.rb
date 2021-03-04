@@ -63,10 +63,10 @@ class Pl::MatchesController < Pl::PlController
   end
 
   def new_match_params
-    params.require(:match).permit(:pod_id, :start_date, :caller_id, :callee_id)
+    params.require(:match).permit(:pod_id, :caller_id, :callee_id, :status, :status_change_notes)
   end
 
   def edit_match_params
-    params.require(:match).permit(:end_reason, :end_reason_notes, :start_date, :end_date)
+    params.require(:match).permit(:status, :status_change_notes)
   end
 end

@@ -16,7 +16,7 @@
       <% end %>
     <% end %>
     <% tbl.col "Match(es)" do |caller| %>
-      <% @matches = caller.matches.filter { |m| !m.deleted } %>
+      <% @matches = caller.matches.filter { |m| !m.provisional_cancelled } %>
       <% if @matches.present? %>
         <% @matches.each_with_index do |match, index| %>
           <%= match.callee.name %> (<%= match.humanized_status %>)<% if caller.active_matches.count - 1 != index %>, <% end %>

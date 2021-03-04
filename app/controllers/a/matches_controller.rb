@@ -36,7 +36,7 @@ class A::MatchesController < A::AController
     @match = Match.new(new_provisional_match_params.except(:redirect_on_cancel))
 
     if @match.save
-      MatchStatusChange.create(match: @match, created_by: current_user, status: @match.status)
+      MatchStatusChange.create(match: @match, created_by: current_user, status: @match.status, notes: @match.status_change_notes)
       redirect_to a_match_path(@match), notice: "Provisional match was successfully created."
     else
       @callers = Caller.all
@@ -47,11 +47,13 @@ class A::MatchesController < A::AController
     end
   end
 
-  def edit; end
+  def edit
+    @match.status_change_notes = nil
+  end
 
   def update
     if @match.update(match_params)
-      MatchStatusChange.create(match: @match, created_by: current_user, status: @match.status)
+      MatchStatusChange.create(match: @match, created_by: current_user, status: @match.status, notes: @match.status_change_notes)
       redirect_to a_match_path(@match), notice: "Match was successfully updated."
     else
       render :edit
@@ -65,10 +67,10 @@ class A::MatchesController < A::AController
   end
 
   def new_provisional_match_params
-    params.require(:match).permit(:pod_id, :caller_id, :callee_id, :status, :redirect_on_cancel)
+    params.require(:match).permit(:pod_id, :caller_id, :callee_id, :status, :status_change_notes, :redirect_on_cancel)
   end
 
   def match_params
-    params.require(:match).permit(:pod_id, :status, :end_reason, :end_reason_notes)
+    params.require(:match).permit(:pod_id, :status, :status_change_notes)
   end
 end
