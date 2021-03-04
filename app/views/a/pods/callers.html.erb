@@ -10,10 +10,7 @@
 <% if @callers.length > 0 %>
   <%= table @callers.sort_by { |c| c.name }, row_url: ->(c) { a_person_path(c.person) } do |tbl| %>
     <% tbl.col "Caller" do |caller| %>
-      <%= caller.name %>
-      <% if !caller.active %>
-        <span class="italic text-red-500">(not active)</div>
-      <% end %>
+      <%= caller.name %><span class="ml-1"><%= role_status(caller) %></span>
     <% end %>
     <% tbl.col "Match(es)" do |caller| %>
       <% @matches = caller.matches.filter { |m| !m.provisional_cancelled } %>

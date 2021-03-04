@@ -185,12 +185,11 @@ RSpec.describe "reports", type: :system do
       report.reload
       expect(report.match).to eq(match)
 
-      # to do
-      # select "Select...", from: "Assign report to a match"
-      # click_on "Save"
+      select "Select...", from: "Assign report to a match"
+      click_on "Save"
 
-      # report.reload
-      # expect(report.match).to eq(nil)
+      report.reload
+      expect(report.match).to eq(nil)
     end
   end
 end

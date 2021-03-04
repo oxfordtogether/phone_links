@@ -9,7 +9,7 @@
 <% if @callees.length > 0 %>
   <%= table @callees.sort_by(&:name), row_url: ->(c) { pl_person_path(@current_pod_leader, c.person) } do |tbl| %>
     <% tbl.col "Name" do |callee| %>
-      <%= callee.name %>
+      <%= callee.name %><span class="ml-1"><%= role_status(callee) %></span>
     <% end %>
     <% tbl.col "Active match(es)", classes: "text-right" do |callee| %>
       <% if callee.active_matches.present? %>

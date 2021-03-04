@@ -7,7 +7,9 @@ class Pl::MatchesController < Pl::PlController
     @matches = Match.where(pod_id: @pod.id)
   end
 
-  def show; end
+  def show
+    @events = (@match.match_status_changes + @match.reports).sort_by(&:created_at).reverse
+  end
 
   def new
     @match = Match.new(start_date: Date.today, pod_id: @current_pod_leader.pod.id)
@@ -39,8 +41,8 @@ class Pl::MatchesController < Pl::PlController
 
   def update
     unless current_pod_leader.pod.id == @match.pod.id &&
-           current_pod_leader.pod.callers.include?(@match.caller.id) &&
-           current_pod_leader.pod.callees.include?(@match.callee.id)
+           current_pod_leader.pod.callers.map(&:id).include?(@match.caller.id) &&
+           current_pod_leader.pod.callees.map(&:id).include?(@match.callee.id)
       return redirect_to "/invalid_permissions_for_page"
     end
 

@@ -14,26 +14,12 @@
     <%= button_link_to "Edit", edit_pl_match_path(@current_pod_leader, @match), icon: 'heroicon-edit' %>
   </div>
 </div>
-<div class="flex flex-wrap">
-  <div class="mt-2 sm:mt-2 mr-6 flex items-center text-sm text-gray-900">
-    <% if @match.active %>
-      <div class="text-gray-900 mr-2">
-        <span class="text-gray-500">Matched:</span>
-        <%= format_date_range(@match) %>
-      </div>
-    <% else %>
-      <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium text-gray-800 bg-gray-300">
-        Ended: <%= format_date_range(@match) %>
-      </span>
-    <% end %>
-  </div>
-</div>
 <% if @match.pod_mismatch.present? %>
   <div class="mt-5">
     <%= alert(title: 'Pod mismatch', info: @match.pod_mismatch) %>
   </div>
 <% end %>
 <%= nav_tabs do |nav| %>
-  <% nav.link "Reports", pl_match_path(@current_pod_leader, @match) %>
+  <% nav.link "Events", pl_match_path(@current_pod_leader, @match) %>
   <% nav.link "Details", edit_pl_match_path(@current_pod_leader, @match) %>
 <% end %>

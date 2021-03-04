@@ -12,7 +12,7 @@
   </div>
   <%= table @callers.sort_by(&:name), row_url: ->(c) { pl_person_path(@current_pod_leader, c.person) } do |tbl| %>
     <% tbl.col "Name" do |caller| %>
-      <%= caller.name %>
+      <%= caller.name %><span class="ml-1"><%= role_status(caller) %></span>
     <% end %>
     <% tbl.col "Active match(es)", classes: "text-right" do |caller| %>
       <% if caller.active_matches.present? %>
