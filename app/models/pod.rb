@@ -13,8 +13,4 @@ class Pod < ApplicationRecord
                { matches: { callee: :person } },
              ])
   }
-
-  def active_matches
-    matches.map { |m| m.active }
-  end
 end

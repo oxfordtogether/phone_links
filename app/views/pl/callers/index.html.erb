@@ -15,9 +15,10 @@
       <%= caller.name %><span class="ml-1"><%= role_status(caller) %></span>
     <% end %>
     <% tbl.col "Active match(es)", classes: "text-right" do |caller| %>
-      <% if caller.active_matches.present? %>
-        <% caller.active_matches.each_with_index do |match, index| %>
-          <%= match.callee.name %><% if caller.active_matches.count - 1 != index %>, <% end %>
+      <% @matches = caller.matches %>
+      <% if @matches.present? %>
+        <% @matches.each_with_index do |match, index| %>
+          <%= match.callee.name %> (<%= match.humanized_status.downcase %>)<% if @matches.count - 1 != index %>, <% end %>
         <% end %>
       <% else %>
         <div class="italic">No active matches</div>

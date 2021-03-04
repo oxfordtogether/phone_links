@@ -46,7 +46,7 @@
       <% end %>
     <% end %>
     <% tbl.col "Added", classes: "text-right" do |callee| %>
-      <%= format_date_as_days_since(callee.added_to_waiting_list) %>
+      <%= format_date_as_days_since(callee.status_change_datetime) %>
     <% end %>
   <% end %>
 <% else %>

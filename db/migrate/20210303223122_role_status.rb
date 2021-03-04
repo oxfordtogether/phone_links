@@ -11,6 +11,10 @@ class RoleStatus < ActiveRecord::Migration[6.0]
     add_column :callees, :status, :string
     add_column :admins, :status, :string
     add_column :pod_leaders, :status, :string
+    add_column :callers, :status_change_datetime, :datetime
+    add_column :callees, :status_change_datetime, :datetime
+    add_column :admins, :status_change_datetime, :datetime
+    add_column :pod_leaders, :status_change_datetime, :datetime
 
     create_table :role_status_changes do |t|
       t.timestamps

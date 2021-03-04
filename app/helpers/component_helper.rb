@@ -7,6 +7,10 @@ module ComponentHelper
     render RoleStatusBadgeComponent.new(*args)
   end
 
+  def match_status(*args)
+    render MatchStatusBadgeComponent.new(*args)
+  end
+
   def blue_link(*args)
     render LinkToComponent.new(*args)
   end

@@ -181,13 +181,19 @@ class A::PeopleController < A::AController
   end
 
   def save_active
-    @person.assign_attributes(active_params)
+    active_params_hash = active_params.to_h
+    active_params_hash["callee_attributes"]["status_change_datetime"] = DateTime.now if active_params_hash.key?("callee_attributes")
+    active_params_hash["caller_attributes"]["status_change_datetime"] = DateTime.now if active_params_hash.key?("caller_attributes")
+    active_params_hash["pod_leader_attributes"]["status_change_datetime"] = DateTime.now if active_params_hash.key?("pod_leader_attributes")
+    active_params_hash["admin_attributes"]["status_change_datetime"] = DateTime.now if active_params_hash.key?("admin_attributes")
+
+    @person.assign_attributes(active_params_hash)
 
     if @person.save
-      RoleStatusChange.create(callee: @person.callee, status: @person.callee.status, notes: @person.callee.status_change_notes, created_by: current_user) if active_params.key?("callee_attributes")
-      RoleStatusChange.create(caller: @person.caller, status: @person.caller.status, notes: @person.caller.status_change_notes, created_by: current_user) if active_params.key?("caller_attributes")
-      RoleStatusChange.create(pod_leader: @person.pod_leader, status: @person.pod_leader.status, notes: @person.pod_leader.status_change_notes, created_by: current_user) if active_params.key?("pod_leader_attributes")
-      RoleStatusChange.create(admin: @person.admin, status: @person.admin.status, notes: @person.admin.status_change_notes, created_by: current_user) if active_params.key?("admin_attributes")
+      RoleStatusChange.create(callee: @person.callee, status: @person.callee.status, notes: @person.callee.status_change_notes, created_by: current_user) if active_params_hash.key?("callee_attributes")
+      RoleStatusChange.create(caller: @person.caller, status: @person.caller.status, notes: @person.caller.status_change_notes, created_by: current_user) if active_params_hash.key?("caller_attributes")
+      RoleStatusChange.create(pod_leader: @person.pod_leader, status: @person.pod_leader.status, notes: @person.pod_leader.status_change_notes, created_by: current_user) if active_params_hash.key?("pod_leader_attributes")
+      RoleStatusChange.create(admin: @person.admin, status: @person.admin.status, notes: @person.admin.status_change_notes, created_by: current_user) if active_params_hash.key?("admin_attributes")
 
       SearchCacheRefresh.perform_async
       redirect_to active_a_edit_person_path(@person), notice: "Profile was successfully updated."

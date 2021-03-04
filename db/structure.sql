@@ -22,7 +22,8 @@ CREATE TABLE public.admins (
     person_id bigint NOT NULL,
     active boolean,
     status_change_notes_ciphertext text,
-    status character varying
+    status character varying,
+    status_change_datetime timestamp without time zone
 );
 
 
@@ -75,7 +76,8 @@ CREATE TABLE public.callees (
     call_frequency_ciphertext text,
     added_to_waiting_list date,
     status_change_notes_ciphertext text,
-    status character varying
+    status character varying,
+    status_change_datetime timestamp without time zone
 );
 
 
@@ -112,7 +114,8 @@ CREATE TABLE public.callers (
     pod_id bigint,
     added_to_waiting_list date,
     status_change_notes_ciphertext text,
-    status character varying
+    status character varying,
+    status_change_datetime timestamp without time zone
 );
 
 
@@ -374,7 +377,8 @@ CREATE TABLE public.pod_leaders (
     person_id bigint NOT NULL,
     active boolean,
     status_change_notes_ciphertext text,
-    status character varying
+    status character varying,
+    status_change_datetime timestamp without time zone
 );
 
 

@@ -1,0 +1,26 @@
+<% case match.status %>
+<% when :provisional %>
+<span class="text-blue-400 italic">
+  (<%= match.humanized_status.downcase %>)
+</span>
+<% when :provisional_cancelled %>
+<span class="text-gray-400 italic">
+  (<%= match.humanized_status.downcase %>)
+</span>
+<% when :active %>
+<span class="text-green-400 italic">
+  (<%= match.humanized_status.downcase %>)
+</span>
+<% when :winding_down %>
+<span class="text-green-400 italic">
+  (<%= match.humanized_status.downcase %>)
+</span>
+<% when :ended %>
+<span class="text-gray-400 italic">
+  (<%= match.humanized_status.downcase %>)
+</span>
+<% else %>
+  <span class="text-gray-400 italic">
+    (<%= match.humanized_status.downcase %>)
+  </span>
+<% end %>

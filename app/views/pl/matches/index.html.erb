@@ -8,19 +8,12 @@
 <% end %>
 <% if @matches.length > 0 %>
   <%= table @matches.sort_by { |m| m.caller.name }, row_url: ->(m) { pl_match_path(@current_pod_leader, m) } do |tbl| %>
-    <% tbl.col "Caller - Callee" do |match| %>
-      <%= match.caller.name %> - <%= match.callee.name %>
-      <% if match.provisional %>
-        <span class="italic text-blue-500">(<%= match.humanized_status %>)</div>
-      <% elsif match.active || match.winding_down %>
-        <span class="italic text-green-500">(<%= match.humanized_status %>)</div>
-      <% else %>
-        <span class="italic">(<%= match.humanized_status %>)</div>
-      <% end %>
+    <% tbl.col "Caller & Callee" do |match| %>
+      <%= match.match_names %><span class="ml-1"><%= match_status(match) %></span>
     <% end %>
   <% end %>
 <% else %>
   <div class="flex justify-center text-gray-600">
-    No Callees have been added yet :(
+    No Matches have been added yet :(
   </div>
 <% end %>
