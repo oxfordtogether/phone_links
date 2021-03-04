@@ -6,6 +6,7 @@
 <%= tailwind_form_with(model: [:pl, @match], local: true) do |form| %>
   <%= form.section do %>
     <%= form.hidden_field :pod_id, value: @match.pod.id %>
+    <%= form.hidden_field :status, value: "provisional" %>
     <%= form.collection_select :callee_id, @callees, :id, :name, label: "Callee", width: :half, required_asterix: true %>
     <%= form.collection_select :caller_id, @callers, :id, :name, label: "Caller", width: :half, required_asterix: true %>
     <%= form.text_area :status_change_notes, label: "Notes" %>

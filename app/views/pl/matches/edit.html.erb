@@ -9,8 +9,7 @@
 <% end %>
 <%= tailwind_form_with(model: @match, url: pl_match_path(@current_pod_leader, @match), local: true) do |form| %>
   <%= form.section "" do %>
-    <%= form.date_picker :start_date, width: :half %>
-    <%= form.date_picker :end_date, width: :half %>
+    <%= form.select :status, Match.status_options_for_select, include_blank: false, width: :half %>
     <%= form.text_area :status_change_notes %>
   <% end %>
   <%= form.button_section do %>

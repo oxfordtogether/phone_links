@@ -1,6 +1,6 @@
 class Match < ApplicationRecord
   validates :caller_id, :callee_id, :pod_id, :status, presence: { message: "This field is required" }
-  validates :caller_id, uniqueness: { scope: :callee_id, message: "A match for this caller and callee already exists" }
+  validates :caller_id, uniqueness: { scope: :callee_id, message: "A match for this caller and callee pair already exists" }
 
   options_field :status, {
     provisional: "Provisional",
