@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "login", type: :system do
+RSpec.describe "access", type: :system do
   let!(:pod_leader) { create(:pod_leader, active: true) }
   let!(:pod_leader_no_pod) { create(:pod_leader, active: true) }
 

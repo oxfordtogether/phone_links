@@ -66,4 +66,21 @@ RSpec.describe "create match", type: :system do
     click_on "Cancel"
     expect(page).to have_current_path("/a/waitlist/provisional_matches")
   end
+
+  it "prevents a duplicate match being created" do
+    pod = create(:pod)
+
+    caller = create(:caller, pod: pod)
+    callee = create(:callee, pod: pod)
+    match = create(:match, caller: caller, callee: callee, pod: pod)
+
+    visit "/a/matches/new"
+    select pod.name, from: "Pod"
+    select callee.name_and_pod, from: "Callee"
+    select caller.name_pod_capacity, from: "Caller"
+
+    click_on "Save"
+
+    expect(page).to have_content("A match for this caller and callee pair already exists")
+  end
 end
