@@ -1,18 +1,18 @@
 <% case role.role_description %>
 <% when :caller %>
-<span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium text-gray-800 <%= role.active ? 'bg-green-100' : 'bg-gray-300' %>">
-  <%= role.active ? "Caller" : "Caller (not active)" %>
+<span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium text-gray-800 <%= !role.inactive ? 'bg-green-100' : 'bg-gray-200' %>">
+  <%= role.role_description.to_s.humanize %> (<%= role.humanized_status.downcase %>)
 </span>
 <% when :callee %>
-<span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium text-gray-800 <%= role.active ? 'bg-blue-100' : 'bg-gray-300' %>">
-  <%= role.active ? "Callee" : "Callee (not active)" %>
+<span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium text-gray-800 <%= !role.inactive ? 'bg-blue-100' : 'bg-gray-200' %>">
+  <%= role.role_description.to_s.humanize %> (<%= role.humanized_status.downcase %>)
 </span>
 <% when :pod_leader %>
-<span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium text-gray-800 <%= role.active ? 'bg-yellow-100' : 'bg-gray-300' %>">
-  <%= role.active ? "Pod Leader" : "Pod Leader (not active)" %>
+<span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium text-gray-800 <%= !role.inactive ? 'bg-yellow-100' : 'bg-gray-200' %>">
+  <%= role.role_description.to_s.humanize %> (<%= role.humanized_status.downcase %>)
 </span>
 <% when :admin %>
-<span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium text-gray-800 <%= role.active ? 'bg-purple-100' : 'bg-gray-300' %>">
-  <%= role.active ? "Admin" : "Admin (not active)" %>
+<span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium text-gray-800 <%= !role.inactive ? 'bg-purple-100' : 'bg-gray-200' %>">
+  <%= role.role_description.to_s.humanize %> (<%= role.humanized_status.downcase %>)
 </span>
 <% end%>

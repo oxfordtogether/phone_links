@@ -2,6 +2,7 @@ FactoryBot.define do
   factory :admin, class: Admin do
     person factory: :person
 
-    active { !(rand(10) == 1) }
+    status { Admin.statuses.keys.sample }
+    status_change_notes { FFaker::Lorem.phrase }
   end
 end

@@ -52,10 +52,6 @@ class Person < ApplicationRecord
     [callee, caller, admin, pod_leader].filter { |p| !p.nil? }
   end
 
-  def create_events!
-    Events::PersonEventCreator.new(self).create_events!
-  end
-
   def events_to_display
     es = Event.where(person_id: id)
               .all

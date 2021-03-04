@@ -1,13 +1,21 @@
 class PodLeader < ApplicationRecord
   validates_associated :person
 
+  options_field :status, {
+    left_programme: "Left programme",
+    active: "Active",
+    pod_leader_role_inactive: "No longer a pod leader",
+  }
+
   belongs_to :person
   has_one :pod
+  has_many :role_status_changes
 
   accepts_nested_attributes_for :person
 
-  default_scope { includes(:person) }
+  encrypts :status_change_notes, type: :string, key: :kms_key
 
+  default_scope { includes(:person) }
   scope :with_pod, -> { includes(pod: %i[callers callees]) }
 
   def name
@@ -24,5 +32,9 @@ class PodLeader < ApplicationRecord
 
   def role_description
     :pod_leader
+  end
+
+  def inactive
+    status == :left_programme || status == :pod_leader_role_inactive
   end
 end

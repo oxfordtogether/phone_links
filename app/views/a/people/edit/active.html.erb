@@ -12,38 +12,76 @@
     <%= render partial: "a/people/edit/menu" %>
   </div>
   <div class="col-span-3 col-start-2">
-    <%= tailwind_form_with(
+    <% if @person.callee.present? %>
+      <%= tailwind_form_with(
         model: [:a, @person],
         url: save_active_a_edit_person_path(@person),
         method: :post,
         local: true) do |form| %>
-      <%= form.section do %>
-        <% if @person.callee.present? %>
+        <%= form.section do %>
           <%= form.fields_for :callee do |callee_fields| %>
-            <%= callee_fields.check_box :active, true, label: "Active" %>
-            <%= callee_fields.check_box :on_waiting_list, true, label: "Waiting list" %>
+            <%= callee_fields.select :status, Callee.status_options_for_select, include_blank: false, width: :half %>
+            <%= callee_fields.text_area :status_change_notes %>
           <% end %>
         <% end %>
-        <% if @person.caller.present? %>
-          <%= form.fields_for :caller do |caller_fields| %>
-            <%= caller_fields.check_box :active, true, "Caller role active" %>
-            <%= caller_fields.check_box :on_waiting_list, true, "Caller on waiting list" %>
-          <% end %>
-        <% end %>
-        <% if @person.pod_leader.present? %>
-          <%= form.fields_for :pod_leader do |pod_leader_fields| %>
-            <%= pod_leader_fields.check_box :active, true, "Pod leader role active" %>
-          <% end %>
-        <% end %>
-        <% if @person.admin.present? %>
-          <%= form.fields_for :admin do |admin_fields| %>
-            <%= admin_fields.check_box :active, true, "Admin role active" %>
-          <% end %>
+        <%= form.button_section do %>
+          <%= form.cancel a_person_path(@person) %>
+          <%= form.submit %>
         <% end %>
       <% end %>
-      <%= form.button_section do %>
-        <%= form.cancel a_person_path(@person) %>
-        <%= form.submit %>
+    <% end %>
+    <% if @person.caller.present? %>
+      <%= tailwind_form_with(
+        model: [:a, @person],
+        url: save_active_a_edit_person_path(@person),
+        method: :post,
+        local: true) do |form| %>
+        <%= form.section "Caller role status" do %>
+          <%= form.fields_for :caller do |caller_fields| %>
+            <%= caller_fields.select :status, Caller.status_options_for_select, include_blank: false, width: :half %>
+            <%= caller_fields.text_area :status_change_notes %>
+          <% end %>
+        <% end %>
+        <%= form.button_section do %>
+          <%= form.cancel a_person_path(@person) %>
+          <%= form.submit %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <% if @person.pod_leader.present? %>
+      <%= tailwind_form_with(
+        model: [:a, @person],
+        url: save_active_a_edit_person_path(@person),
+        method: :post,
+        local: true) do |form| %>
+        <%= form.section "Pod leader role status" do %>
+          <%= form.fields_for :pod_leader do |pod_leader_fields| %>
+            <%= pod_leader_fields.select :status, PodLeader.status_options_for_select, include_blank: false, width: :half %>
+            <%= pod_leader_fields.text_area :status_change_notes %>
+          <% end %>
+        <% end %>
+        <%= form.button_section do %>
+          <%= form.cancel a_person_path(@person) %>
+          <%= form.submit %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <% if @person.admin.present? %>
+      <%= tailwind_form_with(
+        model: [:a, @person],
+        url: save_active_a_edit_person_path(@person),
+        method: :post,
+        local: true) do |form| %>
+        <%= form.section "Admin role status" do %>
+          <%= form.fields_for :admin do |admin_fields| %>
+            <%= admin_fields.select :status, Admin.status_options_for_select, include_blank: false, width: :half %>
+            <%= admin_fields.text_area :status_change_notes %>
+          <% end %>
+        <% end %>
+        <%= form.button_section do %>
+          <%= form.cancel a_person_path(@person) %>
+          <%= form.submit %>
+        <% end %>
       <% end %>
     <% end %>
   </div>

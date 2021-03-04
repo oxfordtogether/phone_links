@@ -64,4 +64,14 @@
     <%= @event.summary %>
   <% end %>
 <% end %>
+<% when RoleStatusChange %>
+<%= render TimelineItemComponent.new(icon: "check-circle", icon_colour: 'bg-gray-400', time: @event.created_at, is_last: @last_event) do |c| %>
+  <% c.with(:title) do %>
+    <%= @event.role_description.to_s.humanize %> status updated to <span class="font-semibold"><%= @event.humanized_status %></span>
+    <div class="text-sm text-gray-400 italic">Change made by <%= @event.created_by.name %></div>
+  <% end %>
+  <% c.with(:body) do %>
+    <%= @event.notes %>
+  <% end %>
+<% end %>
 <% end %>

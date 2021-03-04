@@ -1,9 +1,17 @@
 class Caller < ApplicationRecord
   validates_associated :person
 
+  options_field :status, {
+    waiting_list: "On waiting list",
+    caller_role_inactive: "No longer a caller",
+    left_programme: "Left programme",
+    active: "Active",
+  }
+
   belongs_to :person
   belongs_to :pod, optional: true
   has_many :matches
+  has_many :role_status_changes
 
   accepts_nested_attributes_for :person
 
@@ -11,6 +19,7 @@ class Caller < ApplicationRecord
   scope :with_matches, -> { includes(:matches) }
 
   encrypts :experience, type: :string, key: :kms_key
+  encrypts :status_change_notes, type: :string, key: :kms_key
 
   def name
     person.name
@@ -45,7 +54,11 @@ class Caller < ApplicationRecord
     matches.filter { |m| m.ended }
   end
 
-  def on_waiting_list
-    !added_to_waiting_list.nil?
+  def waiting_list
+    status == :waiting_list
+  end
+
+  def inactive
+    status == :left_programme || status == :caller_role_inactive
   end
 end
