@@ -83,14 +83,14 @@
         </div>
       <% else %>
         <%= @report.legacy_caller_name %> & <%= @report.legacy_callee_name %>
+        <span class="inline-flex items-center px-1 py-0.5 rounded-md text-xs font-medium text-gray-700 bg-gray-200">
+          unknown match
+        </span>
       <% end %>
     </div>
     <div class="text-sm text-gray-500">
       submitted: <%= format_date(@report.created_at) %>
     </div>
-  </div>
-  <div class="text-sm text-gray-700">
-    Report submitted by <%= @report.match.present? ? @report.match.caller.person.first_name : @report.legacy_caller_name %> on <%= format_date(@report.created_at) %>
   </div>
   <div class="mt-3">
     <% if @report.concerns || @report.concerns_notes.present? %>
@@ -99,8 +99,7 @@
       <% end %>
     <% end %>
     <% if @report.legacy? %>
-      <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Caller email: </span><%= @report.legacy_caller_email %></div>
-      <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Caller: </span><%= @report.legacy_caller_name %>, <%= @report.legacy_callee_name %></div>
+      <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Caller email: </span><%= @report.legacy_caller_email %>, <span class="text-sm font-medium text-gray-500">caller name: </span><%= @report.legacy_caller_name %>, <span class="text-sm font-medium text-gray-500">callee name: </span> <%= @report.legacy_callee_name %></div>
       <% if @report.legacy_time_and_date %>
         <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call date: </span><%= @report.legacy_time_and_date %></div>
       <% end %>
