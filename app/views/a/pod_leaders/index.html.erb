@@ -12,19 +12,14 @@
 <% if @pod_leaders.length > 0 %>
   <%= table @pod_leaders.sort_by(&:name), row_url: nil do |tbl| %>
     <% tbl.col "Name" do |pod_leader| %>
-      <%= link_to pod_leader.name, a_person_path(pod_leader.person) %>
+      <%= link_to pod_leader.name, a_person_path(pod_leader.person) %> <span><%= role_status(pod_leader) %></span>
     <% end %>
-    <% tbl.col "Active" do |pod_leader| %>
-      <% if pod_leader.active %>
-        <%= icon("check-circle", class: "h-5 w-5 text-green-500") %>
-      <% else %>
-        <%= icon("cross", class: "h-5 w-5 text-red-500") %>
-      <% end %>
-    <% end %>
-    <% tbl.col "Login as" do |pod_leader| %>
-      <%= link_to pl_path(pod_leader.id) do %>
-        <%= icon("login", class: "w-5 h-5") %>
-      <% end %>
+    <% tbl.col "Login as", classes: "text-right " do |pod_leader| %>
+      <div class="flex justify-end">
+        <%= link_to pl_path(pod_leader.id) do %>
+          <%= icon("login", class: "w-5 h-5") %>
+        <% end %>
+      </div>
     <% end %>
   <% end %>
 <% else %>

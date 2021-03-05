@@ -27,7 +27,7 @@
         <% end %>
         <% if callee.winding_down_matches.present? %>
           <div class="ml-2 text-green-500">
-            <%= callee.winding_down_matches.count %> winding down match<%= callee.winding_down_matches.count > 1 ? "es" : ''%>
+            <%= callee.winding_down_matches.count %> match<%= callee.winding_down_matches.count > 1 ? "es" : ''%> winding down
           </div>
         <% end %>
         <% if callee.ended_matches.present? %>
@@ -35,8 +35,10 @@
             <%= callee.ended_matches.count %> previous match<%= callee.ended_matches.count > 1 ? "es" : ''%>
           </div>
         <% end %>
-        <% if !callee.matches.present? %>
-          <div class="ml-2 text-red-500 font-medium uppercase tracking-wide">New</div>
+        <% if callee.provisional_cancelled_matches.present? %>
+          <div class="ml-2 text-gray-400">
+            <%= callee.provisional_cancelled_matches.count %> cancelled match<%= callee.provisional_cancelled_matches.count > 1 ? "es" : ''%>
+          </div>
         <% end %>
       </div>
     <% end %>

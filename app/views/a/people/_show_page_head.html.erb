@@ -30,6 +30,14 @@
           <span class="italic">unknown</span>
         <% end %>
       </div>
+      <div class="mt-2 sm:mt-2 mr-6 flex items-center text-sm text-gray-900">
+        <%= icon("house-fill", class: "flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400") %>
+        <% if address_to_string(@person).present? %>
+          <%= address_to_string(@person) %>
+        <% else %>
+          <span class="italic">unknown</span>
+        <% end %>
+      </div>
     </div>
   </div>
   <div class="mt-4 sm:my-0">

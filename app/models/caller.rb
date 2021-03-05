@@ -41,6 +41,10 @@ class Caller < ApplicationRecord
     matches.filter { |m| m.provisional }
   end
 
+  def provisional_cancelled_matches
+    matches.filter { |m| m.provisional_cancelled }
+  end
+
   def active_matches
     matches.filter { |m| m.active }
   end
