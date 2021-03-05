@@ -95,36 +95,6 @@
                   </div>
                 </li>
               </ul>
-              <h2 class="text-center mt-8 mr-2 text-l md:text-2xl font-extrabold tracking-tight text-gray-700">
-                Thank you!
-              </h2>
-            </div>
-            <!-- to do: check responsive-ness -->
-            <div class="mt-8">
-              <h2 class="max-w-6xl mx-auto px-4 text-xs leading-6 font-medium uppercase tracking-wide text-gray-800 sm:px-6 lg:px-8">
-                Action items
-              </h2>
-              <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex flex-col mt-2">
-                  <% if @inbox_items.present? %>
-                    <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
-                      <%= table @inbox_items, row_url: ->(e) { a_person_path(e.person) } do |tbl| %>
-                        <% tbl.col "Task" do |item| %>
-                          <span class="text-gray-900 font-medium"><%= item.person.name %>: </span>
-                          <%= item.notes %>
-                        <% end %>
-                        <% tbl.col "Date" do |item| %>
-                          <%= format_date_as_relative(item.occurred_at) %>
-                        <% end %>
-                      <% end %>
-                    </div>
-                  <% else %>
-                    <div class="flex justify-center rounded-lg shadow p-4 bg-white">
-                      <div class="text-sm text-gray-500">You have no action items</div>
-                    </div>
-                  <% end %>
-                </div>
-              </div>
             </div>
             <div class="mt-8">
               <h2 class="max-w-6xl mx-auto px-4 text-xs leading-6 font-medium uppercase tracking-wide text-gray-800 sm:px-6 lg:px-8">
@@ -133,7 +103,7 @@
               <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="mb-6 mt-2 rounded-lg bg-gray-200 overflow-hidden shadow divide-y divide-gray-200 lg:divide-y-0 lg:grid lg:grid-cols-2 lg:gap-px">
                   <div class="rounded-tl-lg rounded-tr-lg sm:rounded-tr-none relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
-                    <a href="#" class="focus:outline-none">
+                    <a href="https://www.oxfordhub.org/safeguarding" class="focus:outline-none" target="_blank">
                       <h3 class="text-sm md:text-lg font-medium">
                         <span class="absolute inset-0" aria-hidden="true"></span>
                         Report a concern
@@ -142,9 +112,7 @@
                         <span class="rounded-lg inline-flex p-1 bg-red-50 ring-4 ring-white mr-3">
                           <%= icon "exclamation", class: "h-4 w-4 text-red-700" %>
                         </span>
-                        <span class="text-sm text-gray-500">
-                          link to page
-                        </span>
+                        <%= link_to "Oxford Hub Safeguarding form", "", target: "_blank", class: "text-sm text-gray-500" %>
                       </div>
                     </a>
                     <span class="pointer-events-none absolute top-6 right-6 text-gray-400 group-hover:text-gray-500" aria-hidden="true">
@@ -172,54 +140,6 @@
                       </div>
                     </a>
                     <span class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400" aria-hidden="true">
-                      <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
-                      </svg>
-                    </span>
-                  </div>
-                  <div class="sm:rounded-bl-lg relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
-                    <a href="https://www.oxfordhub.org/" class="focus:outline-none">
-                      <h3 class="text-sm md:text-lg font-medium">
-                        <span class="absolute inset-0" aria-hidden="true"></span>
-                        Go to Oxford Hub
-                      </h3>
-                      <div class="inline-flex items-center mt-1">
-                        <!-- Heroicon name: email-fill -->
-                        <span class="rounded-lg inline-flex p-1 bg-purple-50 text-purple-700 ring-4 ring-white mr-3">
-                          <svg class="h-4 w-4 text-purple-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                          </svg>
-                        </span>
-                        <span class="text-sm text-gray-500">
-                          https://www.oxfordhub.org/
-                        </span>
-                      </div>
-                    </a>
-                    <span class="pointer-events-none absolute top-6 right-6 text-gray-400 group-hover:text-gray-500" aria-hidden="true">
-                      <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
-                      </svg>
-                    </span>
-                  </div>
-                  <div class="rounded-bl-lg rounded-br-lg sm:rounded-bl-none relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
-                    <a href="https://www.oxfordhub.org/" class="focus:outline-none">
-                      <h3 class="text-sm md:text-lg font-medium">
-                        <span class="absolute inset-0" aria-hidden="true"></span>
-                        Go to Oxford Hub
-                      </h3>
-                      <div class="inline-flex items-center mt-1">
-                        <!-- Heroicon name: email-fill -->
-                        <span class="rounded-lg inline-flex p-1 bg-purple-50 text-purple-700 ring-4 ring-white mr-3">
-                          <svg class="h-4 w-4 text-purple-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                          </svg>
-                        </span>
-                        <span class="text-sm text-gray-500">
-                          https://www.oxfordhub.org/
-                        </span>
-                      </div>
-                    </a>
-                    <span class="pointer-events-none absolute top-6 right-6 text-gray-400 group-hover:text-gray-500" aria-hidden="true">
                       <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
                       </svg>
