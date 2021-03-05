@@ -30,6 +30,8 @@ RSpec.describe "create caller", type: :system do
     expect(person.last_name).to eq("Jones")
     expect(person.phone).to eq("12345")
     expect(person.caller).to eq(caller)
+    expect(person.caller.status).to eq(:active)
+    expect(person.caller.status_change_datetime.strftime("%Y-%m-%d")).to eq(Date.today.strftime("%Y-%m-%d"))
   end
 
   it "creates new caller for existing person" do
@@ -44,6 +46,10 @@ RSpec.describe "create caller", type: :system do
     expect { click_on "Add caller role" }.to change { Caller.count }.by(1)
 
     expect(page).to have_current_path("/a/people/#{person.id}/events")
+
+    person.reload
+    expect(person.caller.status).to eq(:active)
+    expect(person.caller.status_change_datetime.strftime("%Y-%m-%d")).to eq(Date.today.strftime("%Y-%m-%d"))
   end
 
   it "links to person profile" do

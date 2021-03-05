@@ -29,6 +29,8 @@ RSpec.describe "create pod leader", type: :system do
     expect(person.last_name).to eq("Jones")
     expect(person.phone).to eq("12345")
     expect(person.pod_leader).to eq(pod_leader)
+    expect(person.pod_leader.status).to eq(:active)
+    expect(person.pod_leader.status_change_datetime.strftime("%Y-%m-%d")).to eq(Date.today.strftime("%Y-%m-%d"))
   end
 
   it "creates new pod_leader for existing person" do
@@ -43,6 +45,10 @@ RSpec.describe "create pod leader", type: :system do
     expect { click_on "Add pod leader role" }.to change { PodLeader.count }.by(1)
 
     expect(page).to have_current_path("/a/people/#{person.id}/events")
+
+    person.reload
+    expect(person.pod_leader.status).to eq(:active)
+    expect(person.pod_leader.status_change_datetime.strftime("%Y-%m-%d")).to eq(Date.today.strftime("%Y-%m-%d"))
   end
 
   it "links to person profile" do

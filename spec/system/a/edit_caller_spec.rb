@@ -16,7 +16,7 @@ RSpec.describe "edit caller", type: :system do
     expect(page).to have_content("Contact")
     expect(page).to have_content("Caller experience")
     expect(page).to have_content("Pod")
-    expect(page).to have_content("Status")
+    expect(page).to have_content("Caller status")
   end
 
   it "edits experience" do
@@ -37,27 +37,32 @@ RSpec.describe "edit caller", type: :system do
     expect(caller.experience).to eq("experience")
   end
 
-  it "edits active status" do
+  it "edits status" do
     login_as nil
 
     visit "/a/people/#{person.id}"
     click_on "Edit"
-    click_on "Status"
-    expect(page).to have_current_path("/a/people/#{person.id}/edit/active")
+    click_on "Caller status"
+    expect(page).to have_current_path("/a/callers/#{person.caller.id}/edit/status")
 
-    active_status = caller.active
+    expect(find_field("caller_status").value).to eq caller.status.to_s
+    expect(find_field("caller_status_change_notes").value).to eq ""
 
-    expect(find_field("person_caller_attributes_active").checked?).to eq active_status
-    if active_status
-      uncheck "person_caller_attributes_active"
-    else
-      check "person_caller_attributes_active"
-    end
+    select "Left programme", from: "Status"
+    fill_in "Status change notes", with: "boo"
 
     click_on "Save"
 
     caller.reload
-    expect(caller.active).to eq(!active_status ? true : nil)
+    status_change = RoleStatusChange.last
+
+    expect(caller.status).to eq(:left_programme)
+    expect(caller.status_change_notes).to eq("boo")
+    expect(caller.status_change_datetime.strftime("%Y-%m-%d")).to eq(Date.today.strftime("%Y-%m-%d"))
+
+    expect(status_change.caller).to eq(caller)
+    expect(status_change.status).to eq(:left_programme)
+    expect(status_change.notes).to eq("boo")
   end
 
   it "edits pod membership" do

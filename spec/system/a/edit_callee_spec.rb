@@ -110,27 +110,32 @@ RSpec.describe "edit callee", type: :system do
     expect(callee.call_frequency).to eq("call_frequency")
   end
 
-  it "edits active status" do
+  it "edits status" do
     login_as nil
 
     visit "/a/people/#{person.id}"
     click_on "Edit"
     click_on "Status"
-    expect(page).to have_current_path("/a/people/#{person.id}/edit/active")
+    expect(page).to have_current_path("/a/callees/#{person.callee.id}/edit/status")
 
-    active_status = callee.active
+    expect(find_field("callee_status").value).to eq callee.status.to_s
+    expect(find_field("callee_status_change_notes").value).to eq ""
 
-    expect(find_field("person_callee_attributes_active").checked?).to eq active_status
-    if active_status
-      uncheck "person_callee_attributes_active"
-    else
-      check "person_callee_attributes_active"
-    end
+    select "Left programme", from: "Status"
+    fill_in "Status change notes", with: "boo"
 
     click_on "Save"
 
     callee.reload
-    expect(callee.active).to eq(!active_status ? true : nil)
+    status_change = RoleStatusChange.last
+
+    expect(callee.status).to eq(:left_programme)
+    expect(callee.status_change_notes).to eq("boo")
+    expect(callee.status_change_datetime.strftime("%Y-%m-%d")).to eq(Date.today.strftime("%Y-%m-%d"))
+
+    expect(status_change.callee).to eq(callee)
+    expect(status_change.status).to eq(:left_programme)
+    expect(status_change.notes).to eq("boo")
   end
 
   it "edits pod membership" do
