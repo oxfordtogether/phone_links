@@ -1,4 +1,6 @@
 class MatchStatusChange < ApplicationRecord
+  validates :status, presence: { message: "This field is required" }
+
   options_field :status, {
     provisional: "Provisional",
     provisional_cancelled: "Provisional match cancelled",

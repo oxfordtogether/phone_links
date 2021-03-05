@@ -3,7 +3,6 @@ class Caller < ApplicationRecord
 
   options_field :status, {
     waiting_list: "On waiting list",
-    caller_role_inactive: "No longer a caller",
     left_programme: "Left programme",
     active: "Active",
   }

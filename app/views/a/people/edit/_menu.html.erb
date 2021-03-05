@@ -3,16 +3,27 @@
     <% nav.link "Personal", personal_details_a_edit_person_path(@person), "user" %>
     <% nav.link "Contact", contact_details_a_edit_person_path(@person), "book-open" %>
     <% if false %> <% nav.link "Actions", flag_a_edit_person_path(@person), "bell-fill" %><% end %>
-    <% if @person.callee.present? %>
+    <% if @person.callee %>
       <% nav.link "Referral details", referral_details_a_edit_person_path(@person), "heroicon-document-text-small" %>
       <% nav.link "Emergency contacts", emergency_contacts_a_edit_person_path(@person), "people-fill" %>
     <% end %>
-    <% if @person.caller.present? %>
+    <% if @person.caller %>
       <% nav.link "Caller experience", experience_a_edit_person_path(@person), "heroicon-document-text-small" %>
     <% end %>
-    <% if @person.caller.present? || @person.callee.present? %>
+    <% if @person.caller || @person.callee %>
       <% nav.link "Pod membership", pod_membership_a_edit_person_path(@person), "phone" %>
     <% end %>
-    <% nav.link "Status", active_a_edit_person_path(@person), "check-circle" %>
+    <% if @person.callee %>
+      <% nav.link "Status", status_a_edit_callee_path(@person.callee), "check-circle" %>
+    <% end %>
+    <% if @person.caller %>
+      <% nav.link "Caller status", status_a_edit_caller_path(@person.caller), "check-circle" %>
+    <% end %>
+    <% if @person.admin %>
+      <% nav.link "Admin status", status_a_edit_admin_path(@person.admin), "check-circle" %>
+    <% end %>
+    <% if @person.pod_leader %>
+      <% nav.link "Pod leader status", status_a_edit_pod_leader_path(@person.pod_leader), "check-circle" %>
+    <% end %>
   <% end %>
 </div>

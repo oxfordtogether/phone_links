@@ -1,30 +1,30 @@
 <% case role.status %>
 <% when :waiting_list %>
 <span class="text-blue-400 italic">
-  (<%= role.humanized_status.downcase %>)
+  (<%= role&.humanized_status.downcase %>)
 </span>
 <% when :active %>
 <span class="text-green-400 italic">
-  (<%= role.humanized_status.downcase %>)
+  (<%= role&.humanized_status.downcase %>)
 </span>
 <% when :left_programme %>
 <span class="text-gray-400 italic">
-  (<%= role.humanized_status.downcase %>)
+  (<%= role&.humanized_status.downcase %>)
 </span>
 <% when :caller_role_inactive %>
 <span class="text-gray-400 italic">
-  (<%= role.humanized_status.downcase %>)
+  (<%= role&.humanized_status.downcase %>)
 </span>
 <% when :pod_leader_role_inactive %>
 <span class="text-gray-400 italic">
-  (<%= role.humanized_status.downcase %>)
+  (<%= role&.humanized_status.downcase %>)
 </span>
 <% when :admin_role_inactive %>
 <span class="text-gray-400 italic">
-  (<%= role.humanized_status.downcase %>)
+  (<%= role&.humanized_status.downcase %>)
 </span>
 <% else %>
   <span class="text-gray-400 italic">
-    (<%= role.humanized_status.downcase %>)
+    (<%= role&.humanized_status.downcase %>)
   </span>
 <% end %>

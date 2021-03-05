@@ -42,13 +42,47 @@ Rails.application.routes.draw do
           post :experience, action: :save_experience, as: :save_experience
           get :pod_membership
           post :pod_membership, action: :save_pod_membership, as: :save_pod_membership
-          get :active
-          post :active, action: :save_active, as: :save_active
           get :emergency_contacts
           post :emergency_contacts, action: :save_emergency_contacts, as: :save_emergency_contacts
         end
 
         resources :notes, only: %i[new create]
+      end
+    end
+
+    resources :callees, only: %i[] do
+      member do
+        scope path: :edit, as: :edit do
+          get :status
+          post :status, action: :save_status, as: :save_status
+        end
+      end
+    end
+
+    resources :callers, only: %i[] do
+      member do
+        scope path: :edit, as: :edit do
+          get :status
+          post :status, action: :save_status, as: :save_status
+        end
+      end
+    end
+
+    resources :pod_leaders, only: %i[] do
+      member do
+        scope path: :edit, as: :edit do
+          get :status
+          post :status, action: :save_status, as: :save_status
+        end
+      end
+    end
+
+    resources :admins, only: %i[] do
+      member do
+        scope path: :edit, as: :edit do
+          get :status
+          post :status, action: :save_status, as: :save_status
+        end
       end
     end
 

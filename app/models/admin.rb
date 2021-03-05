@@ -4,7 +4,6 @@ class Admin < ApplicationRecord
   options_field :status, {
     left_programme: "Left programme",
     active: "Active",
-    admin_role_inactive: "No longer an admin",
   }
 
   belongs_to :person

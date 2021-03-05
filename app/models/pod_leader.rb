@@ -4,7 +4,6 @@ class PodLeader < ApplicationRecord
   options_field :status, {
     left_programme: "Left programme",
     active: "Active",
-    pod_leader_role_inactive: "No longer a pod leader",
   }
 
   belongs_to :person

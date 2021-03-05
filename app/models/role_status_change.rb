@@ -1,11 +1,10 @@
 class RoleStatusChange < ApplicationRecord
+  validates :status, presence: { message: "This field is required" }
+
   options_field :status, {
     waiting_list: "On waiting list",
     left_programme: "Left programme",
     active: "Active",
-    caller_role_inactive: "No longer a caller",
-    pod_leader_role_inactive: "No longer a pod leader",
-    admin_role_inactive: "No longer a admin",
   }
 
   belongs_to :created_by, class_name: "Person"
