@@ -81,4 +81,10 @@
   <% else %>
     <% nav.link "New note", notes_new_pl_person_path(@current_pod_leader, @person) %>
   <% end %>
+  <% if @person.callee %>
+    <% nav.link "Status", status_pl_edit_callee_path(@current_pod_leader, @person.callee) %>
+  <% end %>
+  <% if @person.caller %>
+    <% nav.link "Status", status_pl_edit_caller_path(@current_pod_leader, @person.caller) %>
+  <% end %>
 <% end %>

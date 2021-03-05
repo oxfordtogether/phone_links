@@ -129,8 +129,24 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :callers, only: %i[index]
-      resources :callees, only: %i[index]
+      resources :callers, only: %i[index] do
+        member do
+          scope path: :edit, as: :edit do
+            get :status
+            post :status, action: :save_status, as: :save_status
+          end
+        end
+      end
+
+      resources :callees, only: %i[index] do
+        member do
+          scope path: :edit, as: :edit do
+            get :status
+            post :status, action: :save_status, as: :save_status
+          end
+        end
+      end
+
       resources :matches
 
       resources :notes, only: %i[edit update destroy]

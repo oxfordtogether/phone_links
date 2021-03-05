@@ -1,0 +1,19 @@
+<% content_for :page_head do %>
+  <%= render partial: "pl/people/show_page_head" %>
+<% end %>
+<div class="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl ">
+  <%= tailwind_form_with(
+        model: [:a, @caller],
+        url: save_status_pl_edit_caller_path(@current_pod_leader, @caller),
+        method: :post,
+        local: true) do |form| %>
+    <%= form.section do %>
+      <%= form.select :status, Caller.status_options_for_select, include_blank: false, width: :half %>
+      <%= form.text_area :status_change_notes %>
+    <% end %>
+    <%= form.button_section do %>
+      <%= form.cancel pl_person_path(@current_pod_leader, @person) %>
+      <%= form.submit %>
+    <% end %>
+  <% end %>
+</div>
