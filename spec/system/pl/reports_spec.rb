@@ -8,8 +8,8 @@ RSpec.describe "reports", type: :system do
   let!(:callees) { create_list(:callee, 10, pod: pod) }
   let!(:matches) do
     matches = []
-    (1..10).each do |_i|
-      matches << create(:match, pod: pod, caller: callers.sample, callee: callees.sample)
+    callees.each_with_index do |callee, index|
+      matches << create(:match, pod: pod, caller: callers[index / 2], callee: callee)
     end
 
     matches
@@ -185,12 +185,11 @@ RSpec.describe "reports", type: :system do
       report.reload
       expect(report.match).to eq(match)
 
-      # to do
-      # select "Select...", from: "Assign report to a match"
-      # click_on "Save"
+      select "Select...", from: "Assign report to a match"
+      click_on "Save"
 
-      # report.reload
-      # expect(report.match).to eq(nil)
+      report.reload
+      expect(report.match).to eq(nil)
     end
   end
 end

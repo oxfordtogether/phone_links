@@ -1,5 +1,5 @@
 <% content_for :page_head do %>
-  <h1 class="text-2xl font-semibold text-gray-900">
+  <h1 class="pb-8 text-2xl font-semibold text-gray-900">
     New provisional match
   </h1>
 <% end %>
@@ -12,6 +12,7 @@
       <div class="col-span-4"></div>
       <%= form.collection_select :caller_id, @callers.sort_by { |c| [c&.pod&.name || "zzz", c.person.name] }, :id, :name_pod_capacity, label: "Caller", width: :half, required_asterix: true %>
       <%= form.collection_select :callee_id, @callees.sort_by { |c| [c&.pod&.name || "zzz", c.person.name] }, :id, :name_and_pod, label: "Callee", width: :half, required_asterix: true %>
+      <%= form.text_area :status_change_notes, label: "Notes" %>
     <% end %>
     <%= form.button_section do %>
       <%= form.cancel @redirect_on_cancel %>

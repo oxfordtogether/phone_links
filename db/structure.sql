@@ -20,7 +20,10 @@ CREATE TABLE public.admins (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     person_id bigint NOT NULL,
-    active boolean
+    active boolean,
+    status_change_notes_ciphertext text,
+    status character varying,
+    status_change_datetime timestamp without time zone
 );
 
 
@@ -71,7 +74,10 @@ CREATE TABLE public.callees (
     additional_needs_ciphertext text,
     pod_id bigint,
     call_frequency_ciphertext text,
-    added_to_waiting_list date
+    added_to_waiting_list date,
+    status_change_notes_ciphertext text,
+    status character varying,
+    status_change_datetime timestamp without time zone
 );
 
 
@@ -106,7 +112,10 @@ CREATE TABLE public.callers (
     active boolean,
     experience_ciphertext text,
     pod_id bigint,
-    added_to_waiting_list date
+    added_to_waiting_list date,
+    status_change_notes_ciphertext text,
+    status character varying,
+    status_change_datetime timestamp without time zone
 );
 
 
@@ -210,11 +219,13 @@ ALTER SEQUENCE public.events_id_seq OWNED BY public.events.id;
 
 CREATE TABLE public.match_status_changes (
     id bigint NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp(6) without time zone,
     updated_at timestamp(6) without time zone NOT NULL,
     match_id bigint,
     status character varying,
-    created_by_id bigint
+    created_by_id bigint,
+    notes_ciphertext text,
+    datetime timestamp without time zone
 );
 
 
@@ -253,7 +264,9 @@ CREATE TABLE public.matches (
     end_reason character varying,
     end_reason_notes_ciphertext text,
     deleted_at timestamp without time zone,
-    status character varying
+    status character varying,
+    status_change_notes_ciphertext text,
+    status_change_datetime timestamp without time zone
 );
 
 
@@ -329,10 +342,9 @@ CREATE TABLE public.people (
     address_postcode_ciphertext text,
     auth0_id character varying,
     flag_in_progress boolean,
-    flag_updated_at timestamp without time zone,
-    flag_updated_by_id integer,
-    flag_note_ciphertext text,
-    age_bracket character varying
+    age_bracket character varying,
+    flag_change_notes_ciphertext text,
+    flag_change_datetime timestamp without time zone
 );
 
 
@@ -356,6 +368,41 @@ ALTER SEQUENCE public.people_id_seq OWNED BY public.people.id;
 
 
 --
+-- Name: person_flag_changes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.person_flag_changes (
+    id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    person_id bigint,
+    flag_in_progress boolean,
+    notes_ciphertext text,
+    datetime timestamp without time zone,
+    created_by_id bigint
+);
+
+
+--
+-- Name: person_flag_changes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.person_flag_changes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: person_flag_changes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.person_flag_changes_id_seq OWNED BY public.person_flag_changes.id;
+
+
+--
 -- Name: pod_leaders; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -364,7 +411,10 @@ CREATE TABLE public.pod_leaders (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     person_id bigint NOT NULL,
-    active boolean
+    active boolean,
+    status_change_notes_ciphertext text,
+    status character varying,
+    status_change_datetime timestamp without time zone
 );
 
 
@@ -468,6 +518,44 @@ ALTER SEQUENCE public.reports_id_seq OWNED BY public.reports.id;
 
 
 --
+-- Name: role_status_changes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.role_status_changes (
+    id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    caller_id bigint,
+    callee_id bigint,
+    admin_id bigint,
+    pod_leader_id bigint,
+    status character varying,
+    notes_ciphertext text,
+    datetime timestamp without time zone,
+    created_by_id bigint
+);
+
+
+--
+-- Name: role_status_changes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.role_status_changes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: role_status_changes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.role_status_changes_id_seq OWNED BY public.role_status_changes.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -540,6 +628,13 @@ ALTER TABLE ONLY public.people ALTER COLUMN id SET DEFAULT nextval('public.peopl
 
 
 --
+-- Name: person_flag_changes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.person_flag_changes ALTER COLUMN id SET DEFAULT nextval('public.person_flag_changes_id_seq'::regclass);
+
+
+--
 -- Name: pod_leaders id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -558,6 +653,13 @@ ALTER TABLE ONLY public.pods ALTER COLUMN id SET DEFAULT nextval('public.pods_id
 --
 
 ALTER TABLE ONLY public.reports ALTER COLUMN id SET DEFAULT nextval('public.reports_id_seq'::regclass);
+
+
+--
+-- Name: role_status_changes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.role_status_changes ALTER COLUMN id SET DEFAULT nextval('public.role_status_changes_id_seq'::regclass);
 
 
 --
@@ -641,6 +743,14 @@ ALTER TABLE ONLY public.people
 
 
 --
+-- Name: person_flag_changes person_flag_changes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.person_flag_changes
+    ADD CONSTRAINT person_flag_changes_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: pod_leaders pod_leaders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -662,6 +772,14 @@ ALTER TABLE ONLY public.pods
 
 ALTER TABLE ONLY public.reports
     ADD CONSTRAINT reports_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: role_status_changes role_status_changes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.role_status_changes
+    ADD CONSTRAINT role_status_changes_pkey PRIMARY KEY (id);
 
 
 --
@@ -813,6 +931,20 @@ CREATE INDEX index_notes_on_person_id ON public.notes USING btree (person_id);
 
 
 --
+-- Name: index_person_flag_changes_on_created_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_person_flag_changes_on_created_by_id ON public.person_flag_changes USING btree (created_by_id);
+
+
+--
+-- Name: index_person_flag_changes_on_person_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_person_flag_changes_on_person_id ON public.person_flag_changes USING btree (person_id);
+
+
+--
 -- Name: index_pod_leaders_on_person_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -831,6 +963,41 @@ CREATE UNIQUE INDEX index_pods_on_pod_leader_id ON public.pods USING btree (pod_
 --
 
 CREATE INDEX index_reports_on_match_id ON public.reports USING btree (match_id);
+
+
+--
+-- Name: index_role_status_changes_on_admin_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_role_status_changes_on_admin_id ON public.role_status_changes USING btree (admin_id);
+
+
+--
+-- Name: index_role_status_changes_on_callee_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_role_status_changes_on_callee_id ON public.role_status_changes USING btree (callee_id);
+
+
+--
+-- Name: index_role_status_changes_on_caller_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_role_status_changes_on_caller_id ON public.role_status_changes USING btree (caller_id);
+
+
+--
+-- Name: index_role_status_changes_on_created_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_role_status_changes_on_created_by_id ON public.role_status_changes USING btree (created_by_id);
+
+
+--
+-- Name: index_role_status_changes_on_pod_leader_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_role_status_changes_on_pod_leader_id ON public.role_status_changes USING btree (pod_leader_id);
 
 
 --
@@ -906,6 +1073,14 @@ ALTER TABLE ONLY public.notes
 
 
 --
+-- Name: role_status_changes fk_rails_4b94fae5f4; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.role_status_changes
+    ADD CONSTRAINT fk_rails_4b94fae5f4 FOREIGN KEY (pod_leader_id) REFERENCES public.pod_leaders(id);
+
+
+--
 -- Name: reports fk_rails_4d81dc2685; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -946,6 +1121,22 @@ ALTER TABLE ONLY public.match_status_changes
 
 
 --
+-- Name: role_status_changes fk_rails_5c95418a55; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.role_status_changes
+    ADD CONSTRAINT fk_rails_5c95418a55 FOREIGN KEY (admin_id) REFERENCES public.admins(id);
+
+
+--
+-- Name: role_status_changes fk_rails_66538fd5d7; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.role_status_changes
+    ADD CONSTRAINT fk_rails_66538fd5d7 FOREIGN KEY (created_by_id) REFERENCES public.people(id);
+
+
+--
 -- Name: matches fk_rails_69b1603b02; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -954,11 +1145,35 @@ ALTER TABLE ONLY public.matches
 
 
 --
+-- Name: person_flag_changes fk_rails_736966842e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.person_flag_changes
+    ADD CONSTRAINT fk_rails_736966842e FOREIGN KEY (person_id) REFERENCES public.people(id);
+
+
+--
 -- Name: callees fk_rails_78fe3fbded; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.callees
     ADD CONSTRAINT fk_rails_78fe3fbded FOREIGN KEY (person_id) REFERENCES public.people(id);
+
+
+--
+-- Name: role_status_changes fk_rails_85ebe94056; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.role_status_changes
+    ADD CONSTRAINT fk_rails_85ebe94056 FOREIGN KEY (caller_id) REFERENCES public.callers(id);
+
+
+--
+-- Name: role_status_changes fk_rails_8dc64b3f50; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.role_status_changes
+    ADD CONSTRAINT fk_rails_8dc64b3f50 FOREIGN KEY (callee_id) REFERENCES public.callees(id);
 
 
 --
@@ -1002,6 +1217,14 @@ ALTER TABLE ONLY public.events
 
 
 --
+-- Name: person_flag_changes fk_rails_b478c163a7; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.person_flag_changes
+    ADD CONSTRAINT fk_rails_b478c163a7 FOREIGN KEY (created_by_id) REFERENCES public.people(id);
+
+
+--
 -- Name: events fk_rails_df200f81d0; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1036,6 +1259,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210301204932'),
 ('20210302084427'),
 ('20210303105023'),
-('20210303201322');
+('20210303201322'),
+('20210303223122');
 
 

@@ -22,10 +22,10 @@
       <%= pod&.theme %>
     <% end %>
     <% tbl.col "Callers" do |pod| %>
-      <%= pod.callers.filter(&:active).count %>
+      <%= pod.callers.count %>
     <% end %>
     <% tbl.col "Callees" do |pod| %>
-      <%= pod.callees.filter(&:active).count %>
+      <%= pod.callees.count %>
     <% end %>
   <% end %>
 <% else %>

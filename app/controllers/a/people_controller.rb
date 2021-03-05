@@ -14,10 +14,10 @@ class A::PeopleController < A::AController
   end
 
   def events
-    @events = Event.most_recent_first
-                   .where(person_id: @person.id)
-                   .all
-                   .filter(&:active?)
+    @std_events = Event.most_recent_first
+                       .where(person_id: @person.id)
+                       .all
+                       .filter(&:active?)
 
     @match_events = if @person.callee.present?
                       MatchStatusChange.where(match_id: @person.callee.match_ids)
@@ -27,7 +27,22 @@ class A::PeopleController < A::AController
                       []
                     end
 
-    @events += @match_events
+    @role_events = @person.callee.present? ? RoleStatusChange.where(callee_id: @person.callee.id) : []
+    @role_events += @person.caller.present? ? RoleStatusChange.where(caller_id: @person.caller.id) : []
+    @role_events += @person.pod_leader.present? ? RoleStatusChange.where(pod_leader_id: @person.pod_leader.id) : []
+    @role_events += @person.admin.present? ? RoleStatusChange.where(admin_id: @person.admin.id) : []
+
+    @report_events = if @person.callee.present?
+                       Report.where(match_id: @person.callee.match_ids)
+                     elsif @person.caller.present?
+                       Report.where(match_id: @person.caller.match_ids)
+                     else
+                       []
+                     end
+
+    @flag_events = PersonFlagChange.where(person_id: @person.id)
+
+    @events = (@std_events + @match_events + @report_events + @role_events + @flag_events).sort_by(&:created_at).reverse
   end
 
   def new
@@ -44,7 +59,7 @@ class A::PeopleController < A::AController
     @role = person_params[:role]
     @person = Person.new(person_params.except(:role, :redirect_on_cancel))
 
-    @person.send("build_#{@role}")
+    @person.send("build_#{@role}", { status: "active", status_change_datetime: DateTime.now })
 
     if @person.save
       SearchCacheRefresh.perform_async
@@ -63,7 +78,7 @@ class A::PeopleController < A::AController
 
   def create_role
     role = create_role_params[:role]
-    @person.send("build_#{role}")
+    @person.send("build_#{role}", { status: "active", status_change_datetime: DateTime.now })
 
     if @person.save
       SearchCacheRefresh.perform_async
@@ -81,7 +96,6 @@ class A::PeopleController < A::AController
     @person.assign_attributes(personal_details_params)
 
     if @person.save
-      @person.create_events!
       SearchCacheRefresh.perform_async
       redirect_to personal_details_a_edit_person_path(@person), notice: "Profile was successfully updated."
     else
@@ -97,7 +111,6 @@ class A::PeopleController < A::AController
     @person.assign_attributes(contact_details_params)
 
     if @person.save
-      @person.create_events!
       SearchCacheRefresh.perform_async
       redirect_to contact_details_a_edit_person_path(@person), notice: "Profile was successfully updated."
     else
@@ -106,28 +119,22 @@ class A::PeopleController < A::AController
   end
 
   def flag
+    @person&.flag_change_notes = nil
+
     @current_user = current_user
     render "a/people/edit/flag"
   end
 
   def save_flag
-    old_flag = @person.flag_in_progress?
-    old_flag_note = @person.flag_note
-
-    @person.assign_attributes(flag_params)
-
-    if @person.flag_in_progress? != old_flag
-      @person.flag_updated_by_id = current_user.id
-      @person.flag_updated_at = Time.now
-    end
-    # TO DO what if note is updated by flag isn't??
+    @person.assign_attributes(flag_params.merge({ flag_change_datetime: DateTime.now }))
 
     if @person.save
-      @person.create_events!
+      PersonFlagChange.create(person: @person, flag_in_progress: @person.flag_in_progress, notes: @person.flag_change_notes, created_by: current_user, datetime: @person.flag_change_datetime)
       SearchCacheRefresh.perform_async
+
       redirect_to a_person_path(@person), notice: "Profile was successfully updated."
     else
-      render "edit/flag" # shouldn't ever happen???
+      render "a/people/edit/flag"
     end
   end
 
@@ -139,7 +146,6 @@ class A::PeopleController < A::AController
     @person.assign_attributes(referral_details_params)
 
     if @person.save
-      @person.create_events!
       SearchCacheRefresh.perform_async
       redirect_to referral_details_a_edit_person_path(@person), notice: "Profile was successfully updated."
     else
@@ -155,56 +161,10 @@ class A::PeopleController < A::AController
     @person.assign_attributes(experience_params)
 
     if @person.save
-      @person.create_events!
       SearchCacheRefresh.perform_async
       redirect_to experience_a_edit_person_path(@person), notice: "Profile was successfully updated."
     else
       render "edit/experience"
-    end
-  end
-
-  def active
-    render "a/people/edit/active"
-  end
-
-  def save_active
-    active_params_hash = active_params.to_h
-
-    # set added_to_waiting_list date based on on_waiting_list bool from form
-    if active_params_hash.key?("caller_attributes")
-      caller_attributes = active_params_hash["caller_attributes"]
-
-      on_waiting_list = caller_attributes.delete("on_waiting_list")
-
-      caller_attributes = if on_waiting_list == "true"
-                            caller_attributes.merge({ added_to_waiting_list: Date.today })
-                          else
-                            caller_attributes.merge({ added_to_waiting_list: nil })
-                          end
-
-      active_params_hash["caller_attributes"] = caller_attributes
-    elsif active_params_hash.key?("callee_attributes")
-      callee_attributes = active_params_hash["callee_attributes"]
-
-      on_waiting_list = callee_attributes.delete("on_waiting_list")
-
-      callee_attributes = if on_waiting_list == "true"
-                            callee_attributes.merge({ added_to_waiting_list: Date.today })
-                          else
-                            callee_attributes.merge({ added_to_waiting_list: nil })
-                          end
-
-      active_params_hash["callee_attributes"] = callee_attributes
-    end
-
-    @person.assign_attributes(active_params_hash)
-
-    if @person.save
-      @person.create_events!
-      SearchCacheRefresh.perform_async
-      redirect_to active_a_edit_person_path(@person), notice: "Profile was successfully updated."
-    else
-      render "edit/active"
     end
   end
 
@@ -216,7 +176,6 @@ class A::PeopleController < A::AController
     @person.assign_attributes(pod_membership_params)
 
     if @person.save
-      @person.create_events!
       SearchCacheRefresh.perform_async
       redirect_to pod_membership_a_edit_person_path(@person), notice: "Profile was successfully updated."
     else
@@ -232,7 +191,6 @@ class A::PeopleController < A::AController
     @person.assign_attributes(emergency_contacts_params)
 
     if @person.save
-      @person.create_events!
       SearchCacheRefresh.perform_async
       redirect_to emergency_contacts_a_edit_person_path(@person), notice: "Profile was successfully updated."
     else
@@ -267,7 +225,7 @@ class A::PeopleController < A::AController
   end
 
   def flag_params
-    params.require(:person).permit(:id, :flag_in_progress, :flag_updated_at, :flag_updated_by_id, :flag_note)
+    params.require(:person).permit(:id, :flag_in_progress, :flag_change_notes)
   end
 
   def referral_details_params
@@ -276,10 +234,6 @@ class A::PeopleController < A::AController
 
   def experience_params
     params.require(:person).permit(:id, caller_attributes: %w[id experience])
-  end
-
-  def active_params
-    params.require(:person).permit(:id, callee_attributes: %w[id active on_waiting_list], caller_attributes: %w[id active on_waiting_list], admin_attributes: %w[id active], pod_leader_attributes: %w[id active])
   end
 
   def pod_membership_params

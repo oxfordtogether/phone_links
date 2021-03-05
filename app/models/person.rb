@@ -11,6 +11,7 @@ class Person < ApplicationRecord
   has_one :admin
   has_many :notes
   has_many :events
+  has_many :person_flag_changes
 
   accepts_nested_attributes_for :admin
   accepts_nested_attributes_for :caller
@@ -42,7 +43,7 @@ class Person < ApplicationRecord
   encrypts :address_line_2, type: :string, key: :kms_key
   encrypts :address_town, type: :string, key: :kms_key
   encrypts :address_postcode, type: :string, key: :kms_key
-  encrypts :flag_note, type: :string, key: :kms_key
+  encrypts :flag_change_notes, type: :string, key: :kms_key
 
   def name
     "#{first_name} #{last_name}"
@@ -50,19 +51,5 @@ class Person < ApplicationRecord
 
   def roles
     [callee, caller, admin, pod_leader].filter { |p| !p.nil? }
-  end
-
-  def create_events!
-    Events::PersonEventCreator.new(self).create_events!
-  end
-
-  def events_to_display
-    es = Event.where(person_id: id)
-              .all
-              .filter(&:active?)
-
-    es += Event.where(type: "Events::ReportSubmitted").filter { |e| e.non_sensitive_data["caller_id"] == caller.id }.filter(&:active?) if caller.present?
-
-    es.sort_by(&:occurred_at).reverse
   end
 end

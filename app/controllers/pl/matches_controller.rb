@@ -7,7 +7,9 @@ class Pl::MatchesController < Pl::PlController
     @matches = Match.where(pod_id: @pod.id)
   end
 
-  def show; end
+  def show
+    @events = (@match.match_status_changes + @match.reports).sort_by(&:created_at).reverse
+  end
 
   def new
     @match = Match.new(start_date: Date.today, pod_id: @current_pod_leader.pod.id)
@@ -22,9 +24,9 @@ class Pl::MatchesController < Pl::PlController
       return redirect_to "/invalid_permissions_for_page"
     end
 
-    @match = Match.new(new_match_params)
+    @match = Match.new(new_match_params.merge({ status_change_datetime: DateTime.now }))
     if @match.save
-      @match.create_events!
+      MatchStatusChange.create(match: @match, created_by: current_user, status: @match.status, notes: @match.status_change_notes, datetime: @match.status_change_datetime)
       redirect_to pl_match_path(current_pod_leader, @match), notice: "Match was successfully created."
     else
       @callees = current_pod_leader.pod.callees
@@ -33,17 +35,19 @@ class Pl::MatchesController < Pl::PlController
     end
   end
 
-  def edit; end
+  def edit
+    @match.status_change_notes = nil
+  end
 
   def update
     unless current_pod_leader.pod.id == @match.pod.id &&
-           current_pod_leader.pod.callers.include?(@match.caller.id) &&
-           current_pod_leader.pod.callees.include?(@match.callee.id)
+           current_pod_leader.pod.callers.map(&:id).include?(@match.caller.id) &&
+           current_pod_leader.pod.callees.map(&:id).include?(@match.callee.id)
       return redirect_to "/invalid_permissions_for_page"
     end
 
-    if @match.update(edit_match_params)
-      @match.create_events!
+    if @match.update(edit_match_params.merge({ status_change_datetime: DateTime.now }))
+      MatchStatusChange.create(match: @match, created_by: current_user, status: @match.status, notes: @match.status_change_notes, datetime: @match.status_change_datetime)
       redirect_to pl_match_path(current_pod_leader, @match), notice: "Match was successfully updated."
     else
       render :edit
@@ -63,10 +67,10 @@ class Pl::MatchesController < Pl::PlController
   end
 
   def new_match_params
-    params.require(:match).permit(:pod_id, :start_date, :caller_id, :callee_id)
+    params.require(:match).permit(:pod_id, :caller_id, :callee_id, :status, :status_change_notes)
   end
 
   def edit_match_params
-    params.require(:match).permit(:end_reason, :end_reason_notes, :start_date, :end_date)
+    params.require(:match).permit(:status, :status_change_notes)
   end
 end

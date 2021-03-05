@@ -9,19 +9,14 @@
 <% if @callers.length > 0 %>
   <%= table @callers.sort_by(&:name), row_url: nil do |tbl| %>
     <% tbl.col "Name" do |caller| %>
-      <%= link_to caller.name, a_person_path(caller.person) %>
+      <%= link_to caller.name, a_person_path(caller.person) %> <span><%= role_status(caller) %></span>
     <% end %>
-    <% tbl.col "Active" do |caller| %>
-      <% if caller.active %>
-        <%= icon("check-circle", class: "h-5 w-5 text-green-500") %>
-      <% else %>
-        <%= icon("cross", class: "h-5 w-5 text-red-500") %>
-      <% end %>
-    <% end %>
-    <% tbl.col "Login as" do |caller| %>
-      <%= link_to c_path(caller.id) do %>
-        <%= icon("login", class: "w-5 h-5") %>
-      <% end %>
+    <% tbl.col "Login as", classes: "text-right " do |caller| %>
+      <div class="flex justify-end">
+        <%= link_to c_path(caller.id) do %>
+          <%= icon("login", class: "w-5 h-5") %>
+        <% end %>
+      </div>
     <% end %>
   <% end %>
 <% else %>

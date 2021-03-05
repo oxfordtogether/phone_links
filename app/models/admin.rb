@@ -1,8 +1,16 @@
 class Admin < ApplicationRecord
   validates_associated :person
 
+  options_field :status, {
+    left_programme: "Left programme",
+    active: "Active",
+  }
+
   belongs_to :person
   accepts_nested_attributes_for :person
+  has_many :role_status_changes
+
+  encrypts :status_change_notes, type: :string, key: :kms_key
 
   default_scope { includes(:person) }
 
@@ -12,5 +20,9 @@ class Admin < ApplicationRecord
 
   def role_description
     :admin
+  end
+
+  def inactive
+    status == :left_programme || status == :admin_role_inactive
   end
 end

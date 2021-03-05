@@ -12,10 +12,9 @@ FactoryBot.define do
 
     auth0_id { "auth0|#{(0...18).map { rand(10) }.join}" }
 
-    flag_in_progress { rand(4) == 1 }
-    flag_updated_at { FFaker::Time.between(Date.today - 2.months, Date.today) }
-    flag_updated_by_id { flag_in_progress ? (Admin.order("RANDOM()").first&.person&.id || create(:admin).person.id) : nil }
-    flag_note { flag_in_progress ? FFaker::Lorem.phrase : nil }
+    flag_in_progress { rand(10) == 1 }
+    flag_change_datetime { FFaker::Time.between(Date.today - 2.months, Date.today) }
+    flag_change_notes { flag_in_progress ? FFaker::Lorem.phrase : nil }
 
     age_bracket { Person.age_brackets.keys.sample }
   end

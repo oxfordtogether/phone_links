@@ -87,4 +87,14 @@ module ApplicationHelper
       "#{number_days} days"
     end
   end
+
+  def address_to_string(person)
+    address = ""
+    address += "#{person.address_line_1}, " if person.address_line_1
+    address += "#{person.address_line_2}, " if person.address_line_2
+    address += "#{person.address_town}, " if person.address_town
+    address += "#{person.address_postcode}, " if person.address_postcode
+
+    address.gsub(/, $/, "")
+  end
 end

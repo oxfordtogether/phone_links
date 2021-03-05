@@ -1,10 +1,17 @@
 class Callee < ApplicationRecord
   validates_associated :person
 
+  options_field :status, {
+    waiting_list: "On waiting list",
+    left_programme: "Left programme",
+    active: "Active",
+  }
+
   belongs_to :person
   belongs_to :pod, optional: true
   has_many :matches
   has_many :emergency_contacts
+  has_many :role_status_changes
 
   accepts_nested_attributes_for :person
   accepts_nested_attributes_for :emergency_contacts
@@ -17,6 +24,7 @@ class Callee < ApplicationRecord
   encrypts :other_information, type: :string, key: :kms_key
   encrypts :additional_needs, type: :string, key: :kms_key
   encrypts :call_frequency, type: :string, key: :kms_key
+  encrypts :status_change_notes, type: :string, key: :kms_key
 
   def name
     person.name
@@ -38,6 +46,10 @@ class Callee < ApplicationRecord
     matches.filter { |m| m.provisional }
   end
 
+  def provisional_cancelled_matches
+    matches.filter { |m| m.provisional_cancelled }
+  end
+
   def active_matches
     matches.filter { |m| m.active }
   end
@@ -50,7 +62,11 @@ class Callee < ApplicationRecord
     matches.filter { |m| m.ended }
   end
 
-  def on_waiting_list
-    !added_to_waiting_list.nil?
+  def waiting_list
+    status == :waiting_list
+  end
+
+  def inactive
+    status == :left_programme
   end
 end

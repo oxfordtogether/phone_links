@@ -28,8 +28,8 @@
           <% if content_for?(:full_page) %>
             <%= yield(:full_page) %>
           <% else %>
-            <div class="py-6">
-              <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+            <div class="bg-white">
+              <div class="pt-6 max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
                 <% if content_for?(:breadcrumbs)%>
                   <div class="pb-4">
                     <%= yield(:breadcrumbs) %>
@@ -39,10 +39,10 @@
                   <%= yield(:page_head) %>
                 <% end %>
               </div>
-              <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                <div class="py-6">
-                  <%= yield %>
-                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+              <div class="py-6">
+                <%= yield %>
               </div>
             </div>
           <% end %>

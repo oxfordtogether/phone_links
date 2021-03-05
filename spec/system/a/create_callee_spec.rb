@@ -34,6 +34,8 @@ RSpec.describe "create callee", type: :system do
     expect(person.phone).to eq("12345")
 
     expect(person.callee.id).to eq(callee.id)
+    expect(person.callee.status).to eq(:active)
+    expect(person.callee.status_change_datetime.strftime("%Y-%m-%d")).to eq(Date.today.strftime("%Y-%m-%d"))
   end
 
   it "links to person profile" do

@@ -9,12 +9,13 @@
 <% if @callees.length > 0 %>
   <%= table @callees.sort_by(&:name), row_url: ->(c) { pl_person_path(@current_pod_leader, c.person) } do |tbl| %>
     <% tbl.col "Name" do |callee| %>
-      <%= callee.name %>
+      <%= callee.name %><span class="ml-1"><%= role_status(callee) %></span>
     <% end %>
     <% tbl.col "Active match(es)", classes: "text-right" do |callee| %>
-      <% if callee.active_matches.present? %>
-        <% callee.active_matches.each_with_index do |match, index| %>
-          <%= match.caller.name %><% if callee.active_matches.count - 1 != index %>, <% end %>
+      <% @matches = callee.matches %>
+      <% if @matches.present? %>
+        <% @matches.each_with_index do |match, index| %>
+          <%= match.caller.name %> (<%= match.humanized_status.downcase %>)<% if @matches.size - 1 != index %>, <% end %>
         <% end %>
       <% else %>
         <div class="italic">No active matches</div>

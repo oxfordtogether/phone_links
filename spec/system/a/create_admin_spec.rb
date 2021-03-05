@@ -27,6 +27,8 @@ RSpec.describe "create admin", type: :system do
     expect(person.first_name).to eq("Bob")
     expect(person.last_name).to eq("Jones")
     expect(person.phone).to eq("12345")
+    expect(person.admin.status).to eq(:active)
+    expect(person.admin.status_change_datetime.strftime("%Y-%m-%d")).to eq(Date.today.strftime("%Y-%m-%d"))
   end
 
   it "creates new admin for existing person" do
@@ -41,6 +43,10 @@ RSpec.describe "create admin", type: :system do
     expect { click_on "Add admin role" }.to change { Admin.count }.by(1)
 
     expect(page).to have_current_path("/a/people/#{person.id}/events")
+
+    person.reload
+    expect(person.admin.status).to eq(:active)
+    expect(person.admin.status_change_datetime.strftime("%Y-%m-%d")).to eq(Date.today.strftime("%Y-%m-%d"))
   end
 
   it "links to person profile" do

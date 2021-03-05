@@ -14,29 +14,34 @@ RSpec.describe "edit pod leader", type: :system do
 
     expect(page).to have_content("Personal")
     expect(page).to have_content("Contact")
-    expect(page).to have_content("Status")
+    expect(page).to have_content("Pod leader status")
   end
 
-  it "edits active status" do
+  it "edits status" do
     login_as nil
 
     visit "/a/people/#{person.id}"
     click_on "Edit"
-    click_on "Status"
-    expect(page).to have_current_path("/a/people/#{person.id}/edit/active")
+    click_on "Pod leader status"
+    expect(page).to have_current_path("/a/pod_leaders/#{person.pod_leader.id}/edit/status")
 
-    active_status = pod_leader.active
+    expect(find_field("pod_leader_status").value).to eq pod_leader.status.to_s
+    expect(find_field("pod_leader_status_change_notes").value).to eq ""
 
-    expect(find_field("person_pod_leader_attributes_active").checked?).to eq active_status
-    if active_status
-      uncheck "person_pod_leader_attributes_active"
-    else
-      check "person_pod_leader_attributes_active"
-    end
+    select "Left programme", from: "Status"
+    fill_in "Status change notes", with: "boo"
 
     click_on "Save"
 
     pod_leader.reload
-    expect(pod_leader.active).to eq(!active_status ? true : nil)
+    status_change = RoleStatusChange.last
+
+    expect(pod_leader.status).to eq(:left_programme)
+    expect(pod_leader.status_change_notes).to eq("boo")
+    expect(pod_leader.status_change_datetime.strftime("%Y-%m-%d")).to eq(Date.today.strftime("%Y-%m-%d"))
+
+    expect(status_change.pod_leader).to eq(pod_leader)
+    expect(status_change.status).to eq(:left_programme)
+    expect(status_change.notes).to eq("boo")
   end
 end

@@ -20,44 +20,4 @@
     <% end %>
   <% end %>
 <% end %>
-<% when Events::MatchCreated %>
-<%= render TimelineItemComponent.new(icon: "link-45deg", icon_colour: 'bg-gray-400', time: @event.occurred_at, is_last: @last_event) do |c| %>
-  <% c.with(:title) do %>
-    <%= link_to pl_match_path(@current_pod_leader, @event.match) do %>
-      <span class="my-1">
-        <% time = @event.occurred_at %>
-        <span class="text-sm">Match created between <%= @event.person&.name %> and <%= @event.caller_name %></span>
-      </span>
-    <% end %>
-  <% end %>
-  <% c.with(:body) do %>
-  <% end %>
-<% end %>
-<% when Events::MatchEnded %>
-<%= render TimelineItemComponent.new(icon: "link-45deg", icon_colour: 'bg-gray-400', time: @event.occurred_at, is_last: @last_event) do |c| %>
-  <% c.with(:title) do %>
-    <%= link_to pl_match_path(@current_pod_leader, @event.match) do %>
-      <span class="my-1">
-        <% time = @event.occurred_at %>
-        <span class="text-sm">Match ended between <%= @event.person&.name %> and <%= @event.caller_name %></span>
-      </span>
-    <% end %>
-  <% end %>
-  <% c.with(:body) do %>
-  <% end %>
-<% end %>
-<% when Events::ReportSubmitted %>
-<%= render TimelineItemComponent.new(icon: "document-report", icon_colour: 'bg-gray-400', time: @event.occurred_at, is_last: @last_event) do |c| %>
-  <% c.with(:title) do %>
-    <%= link_to pl_report_path(@current_pod_leader, @event.report) do %>
-      <span class="my-1">
-        <% time = @event.occurred_at %>
-        <span class="text-sm">Report submitted for <%= @event.report.match.match_names %></span>
-      </span>
-    <% end %>
-  <% end %>
-  <% c.with(:body) do %>
-    <%= @event.report.summary %>
-  <% end %>
-<% end %>
 <% end %>

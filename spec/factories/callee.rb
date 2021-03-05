@@ -2,7 +2,6 @@ FactoryBot.define do
   factory :callee, class: Callee do
     person factory: :person
 
-    active { rand(10) != 1 }
     pod { Pod.order("RANDOM()").first || create(:pod) }
 
     reason_for_referral { FFaker::Lorem.phrase }
@@ -11,6 +10,8 @@ FactoryBot.define do
     other_information { FFaker::Lorem.phrase }
     call_frequency { FFaker::Lorem.phrase }
 
-    added_to_waiting_list { rand(10) == 1 ? FFaker::Time.between(Date.today - 6.months, Date.today) : nil }
+    status { Callee.statuses.keys.sample }
+    status_change_notes { FFaker::Lorem.phrase }
+    status_change_datetime { FFaker::Time.between(Date.today - 1.year, Date.today) }
   end
 end

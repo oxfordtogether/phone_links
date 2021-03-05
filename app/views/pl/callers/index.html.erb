@@ -7,17 +7,20 @@
   <%= render partial: "index_page_head" %>
 <% end %>
 <% if @callers.length > 0 %>
-  <div class="pb-3 flex justify-end">
-    <%= mail_to "", "Email all callers", bcc: @callers.map { |c| c.person.email }.join(','), class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
-  </div>
+  <% if false %>
+    <div class="pb-3 flex justify-end">
+      <%= mail_to "", "Email all callers", bcc: @callers.map { |c| c.person.email }.join(','), class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+    </div>
+  <% end %>
   <%= table @callers.sort_by(&:name), row_url: ->(c) { pl_person_path(@current_pod_leader, c.person) } do |tbl| %>
     <% tbl.col "Name" do |caller| %>
-      <%= caller.name %>
+      <%= caller.name %><span class="ml-1"><%= role_status(caller) %></span>
     <% end %>
     <% tbl.col "Active match(es)", classes: "text-right" do |caller| %>
-      <% if caller.active_matches.present? %>
-        <% caller.active_matches.each_with_index do |match, index| %>
-          <%= match.callee.name %><% if caller.active_matches.count - 1 != index %>, <% end %>
+      <% @matches = caller.matches %>
+      <% if @matches.present? %>
+        <% @matches.each_with_index do |match, index| %>
+          <%= match.callee.name %> (<%= match.humanized_status.downcase %>)<% if @matches.count - 1 != index %>, <% end %>
         <% end %>
       <% else %>
         <div class="italic">No active matches</div>

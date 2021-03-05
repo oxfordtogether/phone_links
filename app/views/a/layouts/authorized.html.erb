@@ -7,8 +7,10 @@
     <%= render(SidebarLinkComponent.new(name: "Home", url: a_path, icon: "heroicon-home-unfilled")) %>
     <%= render(SidebarLinkComponent.new(name: "Pods", url: a_pods_path, icon: 'phone')) %>
     <%= render(SidebarLinkComponent.new(name: "Waiting list", url: a_waitlist_path, icon: 'watch')) %>
-    <%= render(SidebarLinkComponent.new(name: "Referrals (TO DO)", url: "/", icon: 'heroicon-document-text-small')) %>
-    <%= render(SidebarLinkComponent.new(name: "Applicants (TO DO)", url: "/", icon: 'user-group')) %>
+    <% if false %>
+      <%= render(SidebarLinkComponent.new(name: "Referrals (TO DO)", url: "/", icon: 'heroicon-document-text-small')) %>
+      <%= render(SidebarLinkComponent.new(name: "Applicants (TO DO)", url: "/", icon: 'user-group')) %>
+    <% end %>
     <%= render(SidebarLinkComponent.new(name: "Admin", url: a_admin_path, icon: 'person-badge')) %>
   </div>
   <% if @current_user&.pod_leader&.pod %>

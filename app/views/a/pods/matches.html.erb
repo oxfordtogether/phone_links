@@ -12,15 +12,8 @@
 </div>
 <% if @matches.length > 0 %>
   <%= table @matches.sort_by { |m| m.caller.name }, row_url: ->(m) { a_match_path(m) } do |tbl| %>
-    <% tbl.col "Caller - Callee" do |match| %>
-      <%= match.caller.name %> - <%= match.callee.name %>
-      <% if match.provisional %>
-        <span class="italic text-blue-500">(<%= match.humanized_status %>)</div>
-      <% elsif match.active || match.winding_down %>
-        <span class="italic text-green-500">(<%= match.humanized_status %>)</div>
-      <% else %>
-        <span class="italic">(<%= match.humanized_status %>)</div>
-      <% end %>
+    <% tbl.col "Caller & Callee" do |match| %>
+      <%= match.match_names %><span class="ml-1"><%= match_status(match) %></span>
     <% end %>
     <% tbl.col "", classes: "flex justify-end" do |match| %>
       <% if match.pod_mismatch.present? %>

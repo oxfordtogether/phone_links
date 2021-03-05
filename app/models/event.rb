@@ -1,6 +1,4 @@
 class Event < ApplicationRecord
-  include OclTools::Concerns::ExclusiveArc
-
   belongs_to :person
   belongs_to :relacement_event, optional: true, class_name: "Event"
   belongs_to :created_by, optional: true, class_name: "Person"
