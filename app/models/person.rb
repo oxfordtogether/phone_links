@@ -11,6 +11,7 @@ class Person < ApplicationRecord
   has_one :admin
   has_many :notes
   has_many :events
+  has_many :person_flag_changes
 
   accepts_nested_attributes_for :admin
   accepts_nested_attributes_for :caller
@@ -42,7 +43,7 @@ class Person < ApplicationRecord
   encrypts :address_line_2, type: :string, key: :kms_key
   encrypts :address_town, type: :string, key: :kms_key
   encrypts :address_postcode, type: :string, key: :kms_key
-  encrypts :flag_note, type: :string, key: :kms_key
+  encrypts :flag_change_notes, type: :string, key: :kms_key
 
   def name
     "#{first_name} #{last_name}"

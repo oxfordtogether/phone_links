@@ -219,12 +219,13 @@ ALTER SEQUENCE public.events_id_seq OWNED BY public.events.id;
 
 CREATE TABLE public.match_status_changes (
     id bigint NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp(6) without time zone,
     updated_at timestamp(6) without time zone NOT NULL,
     match_id bigint,
     status character varying,
     created_by_id bigint,
-    notes_ciphertext text
+    notes_ciphertext text,
+    datetime timestamp without time zone
 );
 
 
@@ -264,7 +265,8 @@ CREATE TABLE public.matches (
     end_reason_notes_ciphertext text,
     deleted_at timestamp without time zone,
     status character varying,
-    status_change_notes_ciphertext text
+    status_change_notes_ciphertext text,
+    status_change_datetime timestamp without time zone
 );
 
 
@@ -340,10 +342,9 @@ CREATE TABLE public.people (
     address_postcode_ciphertext text,
     auth0_id character varying,
     flag_in_progress boolean,
-    flag_updated_at timestamp without time zone,
-    flag_updated_by_id integer,
-    flag_note_ciphertext text,
-    age_bracket character varying
+    age_bracket character varying,
+    flag_change_notes_ciphertext text,
+    flag_change_datetime timestamp without time zone
 );
 
 
@@ -364,6 +365,41 @@ CREATE SEQUENCE public.people_id_seq
 --
 
 ALTER SEQUENCE public.people_id_seq OWNED BY public.people.id;
+
+
+--
+-- Name: person_flag_changes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.person_flag_changes (
+    id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    person_id bigint,
+    flag_in_progress boolean,
+    notes_ciphertext text,
+    datetime timestamp without time zone,
+    created_by_id bigint
+);
+
+
+--
+-- Name: person_flag_changes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.person_flag_changes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: person_flag_changes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.person_flag_changes_id_seq OWNED BY public.person_flag_changes.id;
 
 
 --
@@ -495,6 +531,7 @@ CREATE TABLE public.role_status_changes (
     pod_leader_id bigint,
     status character varying,
     notes_ciphertext text,
+    datetime timestamp without time zone,
     created_by_id bigint
 );
 
@@ -588,6 +625,13 @@ ALTER TABLE ONLY public.notes ALTER COLUMN id SET DEFAULT nextval('public.notes_
 --
 
 ALTER TABLE ONLY public.people ALTER COLUMN id SET DEFAULT nextval('public.people_id_seq'::regclass);
+
+
+--
+-- Name: person_flag_changes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.person_flag_changes ALTER COLUMN id SET DEFAULT nextval('public.person_flag_changes_id_seq'::regclass);
 
 
 --
@@ -696,6 +740,14 @@ ALTER TABLE ONLY public.notes
 
 ALTER TABLE ONLY public.people
     ADD CONSTRAINT people_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: person_flag_changes person_flag_changes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.person_flag_changes
+    ADD CONSTRAINT person_flag_changes_pkey PRIMARY KEY (id);
 
 
 --
@@ -876,6 +928,20 @@ CREATE INDEX index_notes_on_created_by_id ON public.notes USING btree (created_b
 --
 
 CREATE INDEX index_notes_on_person_id ON public.notes USING btree (person_id);
+
+
+--
+-- Name: index_person_flag_changes_on_created_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_person_flag_changes_on_created_by_id ON public.person_flag_changes USING btree (created_by_id);
+
+
+--
+-- Name: index_person_flag_changes_on_person_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_person_flag_changes_on_person_id ON public.person_flag_changes USING btree (person_id);
 
 
 --
@@ -1079,6 +1145,14 @@ ALTER TABLE ONLY public.matches
 
 
 --
+-- Name: person_flag_changes fk_rails_736966842e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.person_flag_changes
+    ADD CONSTRAINT fk_rails_736966842e FOREIGN KEY (person_id) REFERENCES public.people(id);
+
+
+--
 -- Name: callees fk_rails_78fe3fbded; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1140,6 +1214,14 @@ ALTER TABLE ONLY public.matches
 
 ALTER TABLE ONLY public.events
     ADD CONSTRAINT fk_rails_b241ca1d8a FOREIGN KEY (note_id) REFERENCES public.notes(id);
+
+
+--
+-- Name: person_flag_changes fk_rails_b478c163a7; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.person_flag_changes
+    ADD CONSTRAINT fk_rails_b478c163a7 FOREIGN KEY (created_by_id) REFERENCES public.people(id);
 
 
 --

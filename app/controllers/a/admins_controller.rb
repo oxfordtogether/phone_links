@@ -15,7 +15,7 @@ class A::AdminsController < A::AController
     @admin.assign_attributes(status_params.merge({ "status_change_datetime": DateTime.now }))
 
     if @admin.save
-      RoleStatusChange.create(admin: @admin, status: @admin.status, notes: @admin.status_change_notes, created_by: current_user)
+      RoleStatusChange.create(admin: @admin, status: @admin.status, notes: @admin.status_change_notes, created_by: current_user, datetime: @admin.status_change_datetime)
 
       SearchCacheRefresh.perform_async
       redirect_to status_a_edit_admin_path(@admin), notice: "Admin status was successfully updated."

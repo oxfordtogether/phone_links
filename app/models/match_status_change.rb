@@ -1,5 +1,5 @@
 class MatchStatusChange < ApplicationRecord
-  validates :status, presence: { message: "This field is required" }
+  validates :status, :datetime, presence: { message: "This field is required" }
 
   options_field :status, {
     provisional: "Provisional",
@@ -10,7 +10,7 @@ class MatchStatusChange < ApplicationRecord
   }
 
   belongs_to :match
-  belongs_to :created_by, class_name: "Person"
+  belongs_to :created_by, class_name: "Person", optional: true
 
   encrypts :notes, type: :string, key: :kms_key
 end

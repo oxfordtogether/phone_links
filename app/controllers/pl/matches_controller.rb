@@ -24,9 +24,9 @@ class Pl::MatchesController < Pl::PlController
       return redirect_to "/invalid_permissions_for_page"
     end
 
-    @match = Match.new(new_match_params)
+    @match = Match.new(new_match_params.merge({ status_change_datetime: DateTime.now }))
     if @match.save
-      MatchStatusChange.create(match: @match, created_by: current_user, status: @match.status, notes: @match.status_change_notes)
+      MatchStatusChange.create(match: @match, created_by: current_user, status: @match.status, notes: @match.status_change_notes, datetime: @match.status_change_datetime)
       redirect_to pl_match_path(current_pod_leader, @match), notice: "Match was successfully created."
     else
       @callees = current_pod_leader.pod.callees
@@ -46,8 +46,8 @@ class Pl::MatchesController < Pl::PlController
       return redirect_to "/invalid_permissions_for_page"
     end
 
-    if @match.update(edit_match_params)
-      MatchStatusChange.create(match: @match, created_by: current_user, status: @match.status, notes: @match.status_change_notes)
+    if @match.update(edit_match_params.merge({ status_change_datetime: DateTime.now }))
+      MatchStatusChange.create(match: @match, created_by: current_user, status: @match.status, notes: @match.status_change_notes, datetime: @match.status_change_datetime)
       redirect_to pl_match_path(current_pod_leader, @match), notice: "Match was successfully updated."
     else
       render :edit

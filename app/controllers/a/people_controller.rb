@@ -40,7 +40,9 @@ class A::PeopleController < A::AController
                        []
                      end
 
-    @events = (@std_events + @match_events + @report_events + @role_events).sort_by(&:created_at).reverse
+    @flag_events = PersonFlagChange.where(person_id: @person.id)
+
+    @events = (@std_events + @match_events + @report_events + @role_events + @flag_events).sort_by(&:created_at).reverse
   end
 
   def new
@@ -117,27 +119,22 @@ class A::PeopleController < A::AController
   end
 
   def flag
+    @person&.flag_change_notes = nil
+
     @current_user = current_user
     render "a/people/edit/flag"
   end
 
   def save_flag
-    old_flag = @person.flag_in_progress?
-    old_flag_note = @person.flag_note
-
-    @person.assign_attributes(flag_params)
-
-    if @person.flag_in_progress? != old_flag
-      @person.flag_updated_by_id = current_user.id
-      @person.flag_updated_at = Time.now
-    end
-    # TO DO what if note is updated by flag isn't??
+    @person.assign_attributes(flag_params.merge({ flag_change_datetime: DateTime.now }))
 
     if @person.save
+      PersonFlagChange.create(person: @person, flag_in_progress: @person.flag_in_progress, notes: @person.flag_change_notes, created_by: current_user, datetime: @person.flag_change_datetime)
       SearchCacheRefresh.perform_async
+
       redirect_to a_person_path(@person), notice: "Profile was successfully updated."
     else
-      render "edit/flag" # shouldn't ever happen???
+      render "a/people/edit/flag"
     end
   end
 
@@ -228,7 +225,7 @@ class A::PeopleController < A::AController
   end
 
   def flag_params
-    params.require(:person).permit(:id, :flag_in_progress, :flag_updated_at, :flag_updated_by_id, :flag_note)
+    params.require(:person).permit(:id, :flag_in_progress, :flag_change_notes)
   end
 
   def referral_details_params

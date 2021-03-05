@@ -2,10 +2,7 @@ class A::PagesController < A::AController
   def home
     @current_user = current_user
 
-    @inbox_items = Event
-                   .where(type: "Events::FlagChanged")
-                   .where(replacement_event_id: nil)
-                   .filter { |e| e["non_sensitive_data"]["flag_in_progress"] }
+    @flagged_people = Person.where(flag_in_progress: true)
 
     @waiting_list_count = Callee.with_matches.all.filter(&:waiting_list).count
     @provisional_matches_count = Match.all.filter(&:provisional).count

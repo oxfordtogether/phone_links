@@ -20,30 +20,16 @@
     <% end %>
   <% end %>
 <% end %>
-<% when Events::FlagChanged %>
-<%= render TimelineItemComponent.new(icon: "flag-fill", icon_colour: 'bg-red-400', time: @event.occurred_at, is_last: @last_event) do |c| %>
-  <% c.with(:title) do %>
-    <%= link_to flag_a_edit_person_path(@event.person) do %>
-      <span class="my-1">
-        <% time = @event.occurred_at%>
-        <span><%= @event.flag_in_progress ? "Action item created by" : "Action item completed by" %> <%= @event.created_by&.name || "?" %></span> <span class="text-xs text-gray-500 italic"><%= "at #{time.strftime("%l.%M%P")}" if time.hour != 0 %> on <%= time.strftime("%a #{time.day.ordinalize} %b") %></span>
-      </span>
-    <% end %>
-  <% end %>
-  <% c.with(:body) do %>
-    <%= @event.notes %>
-  <% end %>
-<% end %>
 <% when MatchStatusChange %>
 <%= render TimelineItemComponent.new(icon: "link-45deg", icon_colour: 'bg-blue-400', time: @event.created_at, is_last: @last_event) do |c| %>
   <% c.with(:title) do %>
     <% if @event.status == :provisional %>
       <span class="font-semibold">Provisional</span> match created for <span class="font-semibold"><%= @event.match.caller.name %> and <%= @event.match.callee.name %></span>
-      <div class="text-sm text-gray-400 italic">Created by <%= @event.created_by.name %></div>
+      <% if @event.created_by %><div class="text-sm text-gray-400 italic">Created by <%= @event.created_by&.name %></div><% end %>
     <% else %>
       Match between <span class="font-semibold"><%= @event.match.caller.name %> and <%= @event.match.callee.name %></span>
       changed; status updated to <span class="font-semibold"><%= @event.humanized_status %></span>
-      <div class="text-sm text-gray-400 italic">Change made by <%= @event.created_by.name %></div>
+      <% if @event.created_by %><div class="text-sm text-gray-400 italic">Change made by <%= @event.created_by&.name %></div><% end %>
     <% end %>
   <% end %>
   <% c.with(:body) do %>
@@ -132,7 +118,21 @@
 <%= render TimelineItemComponent.new(icon: "check-circle", icon_colour: 'bg-gray-400', time: @event.created_at, is_last: @last_event) do |c| %>
   <% c.with(:title) do %>
     <%= @event.role_description.to_s.humanize %> status updated to <span class="font-semibold"><%= @event.humanized_status %></span>
-    <div class="text-sm text-gray-400 italic">Change made by <%= @event.created_by.name %></div>
+    <% if @event.created_by %><div class="text-sm text-gray-400 italic">Change made by <%= @event.created_by&.name %></div><% end %>
+  <% end %>
+  <% c.with(:body) do %>
+    <%= @event.notes %>
+  <% end %>
+<% end %>
+<% when PersonFlagChange %>
+<%= render TimelineItemComponent.new(icon: "flag-fill", icon_colour: @event.flag_in_progress ? 'bg-red-400' : 'bg-gray-400', time: @event.created_at, is_last: @last_event) do |c| %>
+  <% c.with(:title) do %>
+    <% if @event.flag_in_progress %>
+      <span class="font-semibold">Flag raised</span>
+    <% else %>
+      <span class="font-semibold">Flag lowered</span>
+    <% end %>
+    <% if @event.created_by %><span class="text-sm text-gray-400 italic"> by <%= @event.created_by&.name %></span><% end %>
   <% end %>
   <% c.with(:body) do %>
     <%= @event.notes %>

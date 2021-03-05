@@ -17,7 +17,7 @@ class Pl::CalleesController < Pl::PlController
     @callee.assign_attributes(status_params.merge({ "status_change_datetime": DateTime.now }))
 
     if @callee.save
-      RoleStatusChange.create(callee: @callee, status: @callee.status, notes: @callee.status_change_notes, created_by: current_user)
+      RoleStatusChange.create(callee: @callee, status: @callee.status, notes: @callee.status_change_notes, created_by: current_user, datetime: @status_change_datetime)
 
       SearchCacheRefresh.perform_async
       redirect_to pl_person_path(@current_pod_leader, @callee.person), notice: "Caller status was successfully updated."

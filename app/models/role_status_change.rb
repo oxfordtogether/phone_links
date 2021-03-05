@@ -1,5 +1,5 @@
 class RoleStatusChange < ApplicationRecord
-  validates :status, presence: { message: "This field is required" }
+  validates :status, :datetime, presence: { message: "This field is required" }
 
   options_field :status, {
     waiting_list: "On waiting list",
@@ -7,7 +7,7 @@ class RoleStatusChange < ApplicationRecord
     active: "Active",
   }
 
-  belongs_to :created_by, class_name: "Person"
+  belongs_to :created_by, class_name: "Person", optional: true
 
   belongs_to :callee, optional: true
   belongs_to :caller, optional: true

@@ -15,7 +15,7 @@ class A::PodLeadersController < A::AController
     @pod_leader.assign_attributes(status_params.merge({ "status_change_datetime": DateTime.now }))
 
     if @pod_leader.save
-      RoleStatusChange.create(pod_leader: @pod_leader, status: @pod_leader.status, notes: @pod_leader.status_change_notes, created_by: current_user)
+      RoleStatusChange.create(pod_leader: @pod_leader, status: @pod_leader.status, notes: @pod_leader.status_change_notes, created_by: current_user, datetime: @pod_leader.status_change_datetime)
 
       SearchCacheRefresh.perform_async
       redirect_to status_a_edit_pod_leader_path(@pod_leader), notice: "Pod leader status was successfully updated."

@@ -33,10 +33,10 @@ class A::MatchesController < A::AController
 
   def create
     @redirect_on_cancel = new_provisional_match_params[:redirect_on_cancel]
-    @match = Match.new(new_provisional_match_params.except(:redirect_on_cancel))
+    @match = Match.new(new_provisional_match_params.except(:redirect_on_cancel).merge({ status_change_datetime: DateTime.now }))
 
     if @match.save
-      MatchStatusChange.create(match: @match, created_by: current_user, status: @match.status, notes: @match.status_change_notes)
+      MatchStatusChange.create(match: @match, created_by: current_user, status: @match.status, notes: @match.status_change_notes, datetime: @match.status_change_datetime)
       redirect_to a_match_path(@match), notice: "Provisional match was successfully created."
     else
       @callers = Caller.all
@@ -52,8 +52,8 @@ class A::MatchesController < A::AController
   end
 
   def update
-    if @match.update(match_params)
-      MatchStatusChange.create(match: @match, created_by: current_user, status: @match.status, notes: @match.status_change_notes)
+    if @match.update(match_params.merge({ status_change_datetime: DateTime.now }))
+      MatchStatusChange.create(match: @match, created_by: current_user, status: @match.status, notes: @match.status_change_notes, datetime: @match.status_change_datetime)
       redirect_to a_match_path(@match), notice: "Match was successfully updated."
     else
       render :edit
