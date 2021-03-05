@@ -57,7 +57,7 @@ class A::PeopleController < A::AController
     @role = person_params[:role]
     @person = Person.new(person_params.except(:role, :redirect_on_cancel))
 
-    @person.send("build_#{@role}")
+    @person.send("build_#{@role}", { status: "active", status_change_datetime: DateTime.now })
 
     if @person.save
       SearchCacheRefresh.perform_async
@@ -76,7 +76,7 @@ class A::PeopleController < A::AController
 
   def create_role
     role = create_role_params[:role]
-    @person.send("build_#{role}")
+    @person.send("build_#{role}", { status: "active", status_change_datetime: DateTime.now })
 
     if @person.save
       SearchCacheRefresh.perform_async
