@@ -11,7 +11,17 @@
     <%= form.text_area :summary, label: "Brief summary of the call", width: :full %>
   <% end %>
   <div class="mt-4">
-    <%= alert(title: "Safeguarding", info: "If you have any concerns or safeguarding issues that are urgent, please fill out the safeguarding form (link)") %>
+  
+  <%= render(AlertingComponent.new) do |component| %>
+    <% component.with(:title) do %>
+      Hello Jane
+    <% end %>
+      
+    <% component.with(:info) do %>
+      <p>Have a great day.</p>
+      <p>If you have any concerns or safeguarding issues that are urgent, please fill out the <%= link_to("#", "Safeguarding form") %></p>
+    <% end %>
+  <% end %>
   </div>
   <%= form.button_section do %>
     <%= form.cancel @redirect_on_cancel %>
