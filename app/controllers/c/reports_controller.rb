@@ -3,8 +3,7 @@ class C::ReportsController < C::CController
 
   # GET /reports
   def index
-    matches = current_caller.match_ids
-    @reports = Report.where(match_id: matches)
+    redirect_to c_path
   end
 
   # GET /reports/1

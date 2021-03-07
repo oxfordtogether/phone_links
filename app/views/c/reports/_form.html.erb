@@ -9,22 +9,28 @@
     <%= form.select :caller_confidence, Report.caller_confidence_options_for_select, label: "How confident did you feel with the call", width: :half, required_asterix: true %>    
 
     <%= form.text_area :summary, label: "Brief summary of the call", width: :full %>
+
+    <div class="mt-4 flex w-screen">
+      <%= render(AlertingComponent.new) do |component| %>
+        <% component.with(:title) do %>
+          Safeguarding
+        <% end %>
+          
+        <% component.with(:info) do %>
+          <p>If you have any concerns or safeguarding issues that are urgent, please fill out the <%= link_to("Safeguarding form", "#", class: "underline") %>.</p>
+        <% end %>
+      <% end %>
+    </div>
+
+    <%= form.check_box :concerns, 1, "Do you have anything that you would like to discuss with your pod leader?", width: :full %>
+    <%= form.text_area :concerns_notes, label: "Please briefly describe what you would like to discuss with your pod leader", width: :full %>
+
+
   <% end %>
-  <div class="mt-4">
-  
-  <%= render(AlertingComponent.new) do |component| %>
-    <% component.with(:title) do %>
-      Hello Jane
-    <% end %>
-      
-    <% component.with(:info) do %>
-      <p>Have a great day.</p>
-      <p>If you have any concerns or safeguarding issues that are urgent, please fill out the <%= link_to("#", "Safeguarding form") %></p>
-    <% end %>
-  <% end %>
-  </div>
+
   <%= form.button_section do %>
     <%= form.cancel @redirect_on_cancel %>
     <%= form.submit label = "Submit report" %>
   <% end %>
+
 <% end %>
