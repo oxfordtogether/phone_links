@@ -54,6 +54,6 @@ class C::ReportsController < C::CController
 
   # Only allow a trusted parameter "white list" through.
   def report_params
-    params.require(:report).permit(:match_id, :duration, :summary, :datetime, :callee_state)
+    params.require(:report).permit(:match_id, :duration, :summary, :date_of_call, :callee_state, :caller_confidence, :concerns, :concerns_notes)
   end
 end

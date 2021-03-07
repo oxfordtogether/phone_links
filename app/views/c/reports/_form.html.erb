@@ -2,7 +2,7 @@
 
   <%= form.section do %>
     
-    <%= form.collection_select "Who did you call?", @matches, :id, :callee_name, include_blank: false, width: :third, required_asterix: true %>
+    <%= form.collection_select :match_id, @matches, :id, :callee_name, label: "Who did you call?", include_blank: false, width: :third, required_asterix: true %>
     <%= form.date_picker :date_of_call, label: "Date of the call", width: :third, required_asterix: true %>
     <%= form.select :duration, Report.duration_options_for_select, label: "Length of the call", width: :third, required_asterix: true %>
     <%= form.select :callee_state, ["Great!","Ok","Not great"], label: "How did the person you're calling feel today", width: :half, required_asterix: true %>    
