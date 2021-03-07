@@ -1,4 +1,4 @@
-class LegacyReportSyncer
+class LegacyReportWorker
   include Sidekiq::Worker
   sidekiq_options retry: false
 
