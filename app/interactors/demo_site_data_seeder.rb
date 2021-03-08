@@ -40,7 +40,7 @@ class DemoSiteDataSeeder
 
     # callers
     FactoryBot.create_list(:caller, 75)
-    FactoryBot.create(:admin,
+    FactoryBot.create(:caller,
                       person: FactoryBot.create(:person, auth0_id: nil, first_name: "Clare", last_name: "Caller", email: "clare_caller@teztr.com"),
                       status: "active")
 
