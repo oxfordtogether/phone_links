@@ -14,4 +14,9 @@ class ApplicationController < ActionController::Base
       Person.find(session[:person_id])
     end
   end
+
+  helper_method :demo?
+  def demo?
+    ENV["DEMO"] == "true" || ENV["DEMO"] == true
+  end
 end

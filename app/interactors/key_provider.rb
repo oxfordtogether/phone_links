@@ -16,7 +16,7 @@ class KeyProvider
   def kms_encryption_context
     {
       name: "oxford_hub_phone_links",
-      environment: Rails.env.production? ? "production" : "development",
+      environment: ENV["KEY_PROVIDER_ENVIRONMENT"] || "development",
     }
   end
 
