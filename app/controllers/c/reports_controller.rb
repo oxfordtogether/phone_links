@@ -14,6 +14,7 @@ class C::ReportsController < C::CController
     match_id = params[:match_id]
     @report = Report.new(match_id: match_id, date_of_call: Date.today)
     @matches = current_caller.matches.where(id: match_id)
+    @redirect_on_cancel = params[:redirect_on_cancel] || c_path
   end
 
   # GET /reports/1/edit
