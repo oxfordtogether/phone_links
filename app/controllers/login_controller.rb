@@ -9,4 +9,6 @@ class LoginController < ApplicationController
   def invalid_permissions_for_page; end
 
   def page_does_not_exist; end
+
+  def unverified_email; end
 end

@@ -2,6 +2,7 @@ require "rails_helper"
 
 RSpec.describe "login", type: :system do
   let(:admin) { create(:admin, active: true) }
+  let(:admin_no_auth0) { create(:admin, person: create(:person, auth0_id: nil), active: true) }
   let(:admin_not_active) { create(:admin, active: false) }
 
   let(:pod_leader) { create(:pod_leader, active: true) }
@@ -31,6 +32,40 @@ RSpec.describe "login", type: :system do
   it "redirects to /login if user isn't logged in" do
     visit "/"
     expect(current_path).to eq("/login")
+  end
+
+  describe "sets auth0 id if email verified" do
+    it "handles unverified email" do
+      expect(admin_no_auth0.person.auth0_id).to eq(nil)
+
+      login_as admin_no_auth0.person, email_verified: false
+
+      visit "/"
+      expect(current_path).to eq("/unverified_email")
+
+      admin_no_auth0.reload
+      expect(admin_no_auth0.person.auth0_id).to eq(nil)
+    end
+
+    it "handles unverified email for person with auth0 id" do
+      # if we already have an auth0 id, then access is allowed
+      login_as admin.person, email_verified: false
+
+      visit "/"
+      expect(current_path).to eq("/a")
+    end
+
+    it "handles updating auth0_id" do
+      expect(admin_no_auth0.person.auth0_id).to eq(nil)
+
+      login_as admin_no_auth0.person, email_verified: true
+
+      visit "/"
+      expect(current_path).to eq("/a")
+
+      admin_no_auth0.reload
+      expect(admin_no_auth0.person.auth0_id).to_not eq(nil)
+    end
   end
 
   describe "works for active user" do

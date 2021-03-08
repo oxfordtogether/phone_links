@@ -24,12 +24,16 @@ module Secured
   def logged_in_using_omniauth?
     return if bypass_auth?
 
-    unless session[:userinfo].present?
-      redirect_to("/login", turbolinks: false)
-      return
-    end
+    return true if current_admin_id.present? || current_pod_leader_id.present? || current_caller_id.present?
 
-    redirect_to("/invalid_permissions_for_app", turbolinks: false) unless current_admin_id.present? || current_pod_leader_id.present? || current_caller_id.present?
+    if session[:auth0_id].nil?
+      redirect_to("/login", turbolinks: false)
+    elsif !session[:email_verified]
+      redirect_to("/unverified_email", turbolinks: false)
+    else
+      # we've got a auth0_id and a verified email, so we're just not connected to a person
+      redirect_to("/invalid_permissions_for_app", turbolinks: false)
+    end
   end
 
   def auth0_user
