@@ -11,6 +11,8 @@ SET row_security = off;
 
 SET default_tablespace = '';
 
+SET default_table_access_method = heap;
+
 --
 -- Name: admins; Type: TABLE; Schema: public; Owner: -
 --
@@ -482,7 +484,6 @@ CREATE TABLE public.reports (
     updated_at timestamp(6) without time zone NOT NULL,
     summary_ciphertext text,
     match_id bigint,
-    datetime timestamp without time zone,
     legacy_caller_email_ciphertext text,
     legacy_caller_name_ciphertext text,
     legacy_callee_name_ciphertext text,
@@ -494,7 +495,9 @@ CREATE TABLE public.reports (
     concerns_notes_ciphertext text,
     legacy_outcome_ciphertext text,
     legacy_pod_id integer,
-    archived_at timestamp without time zone
+    archived_at timestamp without time zone,
+    date_of_call date,
+    caller_confidence character varying
 );
 
 
@@ -1260,6 +1263,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210302084427'),
 ('20210303105023'),
 ('20210303201322'),
-('20210303223122');
+('20210303223122'),
+('20210308123420');
 
 

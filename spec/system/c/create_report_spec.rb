@@ -16,15 +16,16 @@ RSpec.describe "create report", type: :system do
     login_as nil
     # will visit the homepage of the caller created in the test
     visit "/c/#{caller.id}"
-    click_on "Reports"
-    click_on "New"
-    select match_2.names, from: "Match"
-    select "Great!", from: "How was the call?"
-    date_picker_fill_in "report_datetime", date: Date.parse("2020-01-01")
-    select "12", from: "report[datetime(4i)]"
-    select "05", from: "report[datetime(5i)]"
-    select "15 to 30 minutes", from: "Call duration"
-    fill_in "Summary", with: "This is a test"
+    click_link href: "/c/#{caller.id}/callees/#{match_2.callee_id}"
+    click_on "New Report"
+    select match_2.callee_name, from: "Who did you call?"
+    date_picker_fill_in "report_date_of_call", date: Date.parse("2020-01-01")
+    select "15 - 30 minutes", from: "Length of the call"
+    select "Great!", from: "How did the person you're calling feel today"
+    select "Very confident", from: "How confident did you feel with the call"
+    fill_in "Brief summary of the call", with: "This is a test"
+    check "Do you have anything that you would like to discuss with your pod leader?"
+    fill_in "Please briefly describe what you would like to discuss with your pod leader", with: "This is a test"
 
     expect do
       click_on "Submit report"
@@ -33,18 +34,21 @@ RSpec.describe "create report", type: :system do
     report = Report.last
     # page is the destination page once clicked on Submit
     # report is the last entry in the Report database.
-    expect(page).to have_current_path("/c/#{caller.id}/reports")
+    expect(page).to have_current_path("/c/#{caller.id}")
     expect(report.match.id).to eq(match_2.id)
+    expect(report.date_of_call.strftime("%Y-%m-%d")).to eq("2020-01-01")
+    expect(report.duration).to eq(:fifteen_thirty)
     expect(report.callee_state).to eq("Great!")
-    expect(report.duration).to eq("15 to 30 minutes")
+    expect(report.caller_confidence).to eq(:very_confident)
     expect(report.summary).to eq("This is a test")
-    expect(report.datetime.strftime("%Y-%m-%d %H:%M:%S")).to eq("2020-01-01 12:05:00")
+    expect(report.concerns).to eq(true)
+    expect(report.concerns_notes).to eq("This is a test")
   end
 
   it "redirect back to correct page on cancel" do
     login_as nil
-
-    visit "/c/#{caller.id}/reports/new"
+    visit "/c/#{caller.id}/callees/#{match_2.callee_id}"
+    click_on "New Report"
 
     click_on "Cancel"
     expect(page).to have_current_path("/c/#{caller.id}")

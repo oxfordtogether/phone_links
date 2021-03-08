@@ -1,22 +1,15 @@
 class C::ReportsController < C::CController
   before_action :set_report, only: %i[show edit update destroy]
 
-  # GET /reports
-  def index
-    matches = current_caller.match_ids
-    @reports = Report.where(match_id: matches)
-  end
-
   # GET /reports/1
   def show; end
 
   # GET /reports/new
   def new
-    @report = Report.new
-    @redirect_on_cancel = params[:redirect_on_cancel] || c_path
-    matches = current_caller.match_ids
-    @reports = Report.where(match_id: matches)
-    @matches = current_caller.matches
+    match_id = params[:match_id]
+    @report = Report.new(match_id: match_id, date_of_call: Date.today)
+    @matches = current_caller.matches.where(id: match_id)
+    @redirect_on_cancel = params[:redirect_on_cancel] || c_path # TO DO: better default
   end
 
   # GET /reports/1/edit
@@ -27,7 +20,7 @@ class C::ReportsController < C::CController
     @report = Report.new(report_params)
 
     if @report.save
-      redirect_to c_reports_path, notice: "Report was successfully created."
+      redirect_to c_path, notice: "Report was successfully created."
     else
       render :new
     end
@@ -57,6 +50,6 @@ class C::ReportsController < C::CController
 
   # Only allow a trusted parameter "white list" through.
   def report_params
-    params.require(:report).permit(:match_id, :duration, :summary, :datetime, :callee_state)
+    params.require(:report).permit(:match_id, :duration, :summary, :date_of_call, :callee_state, :caller_confidence, :concerns, :concerns_notes)
   end
 end

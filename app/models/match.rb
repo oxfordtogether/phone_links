@@ -49,6 +49,10 @@ class Match < ApplicationRecord
     status == :ended
   end
 
+  def callee_name
+    callee.name
+  end
+
   def pod_mismatch
     # handle caller/callee not having a pod
     return "Caller and Callee are not assigned to a pod, match is assigned to #{pod.name}." unless caller.pod.present? && callee.pod.present?

@@ -2,15 +2,35 @@
 
   <%= form.section do %>
     
-    <%= form.collection_select :match_id, @matches, :id, :names, width: :half, required_asterix: true, info_message: "Please select your callee for this report" %>
-    <%= form.select :callee_state, ["Great!","Ok","Not great"], label: "How was the call?", width: :half, required_asterix: true %>
-    <%= form.date_picker :datetime, label: "Call date", width: :third %>
-    <%= form.time_select :datetime, label: "& time", width: :half, required_asterix: true, info_message: "" %>
-    <%= form.select :duration, ["less than 15 minutes","15 to 30 minutes","30 minutes to 1 hour","Over one hour","Did not answer"], label: "Call duration", width: :third, required_asterix: true %>
-    <%= form.text_area :summary, width: :full, required_asterix: true, info_message: "Give as many details as you wish, there is no word limit." %>
+    <%= form.collection_select :match_id, @matches, :id, :callee_name, label: "Who did you call?", include_blank: false, width: :third, required_asterix: true %>
+    <%= form.date_picker :date_of_call, label: "Date of the call", width: :third, required_asterix: true %>
+    <%= form.select :duration, Report.duration_options_for_select, label: "Length of the call", width: :third, required_asterix: true %>
+    <%= form.select :callee_state, Report.callee_state_options_for_select, label: "How did the person you're calling feel today", width: :half, required_asterix: true %>    
+    <%= form.select :caller_confidence, Report.caller_confidence_options_for_select, label: "How confident did you feel with the call", width: :half, required_asterix: true %>    
+
+    <%= form.text_area :summary, label: "Brief summary of the call", width: :full %>
+
+    <div class="mt-4 flex w-screen">
+      <%= render(AlertingComponent.new) do |component| %>
+        <% component.with(:title) do %>
+          Safeguarding
+        <% end %>
+          
+        <% component.with(:info) do %>
+          <p>If you have any concerns or safeguarding issues that are urgent, please fill out the <%= link_to("Safeguarding form", "https://www.oxfordhub.org/safeguarding", class: "underline") %>.</p>
+        <% end %>
+      <% end %>
+    </div>
+
+    <%= form.check_box :concerns, 1, "Do you have anything that you would like to discuss with your pod leader?", width: :full %>
+    <%= form.text_area :concerns_notes, label: "Please briefly describe what you would like to discuss with your pod leader", width: :full %>
+
+
   <% end %>
+
   <%= form.button_section do %>
     <%= form.cancel @redirect_on_cancel %>
     <%= form.submit label = "Submit report" %>
   <% end %>
+
 <% end %>
