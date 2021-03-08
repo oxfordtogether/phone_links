@@ -5,7 +5,7 @@
     <%= form.collection_select :match_id, @matches, :id, :callee_name, label: "Who did you call?", include_blank: false, width: :third, required_asterix: true %>
     <%= form.date_picker :date_of_call, label: "Date of the call", width: :third, required_asterix: true %>
     <%= form.select :duration, Report.duration_options_for_select, label: "Length of the call", width: :third, required_asterix: true %>
-    <%= form.select :callee_state, ["Great!","Ok","Not great"], label: "How did the person you're calling feel today", width: :half, required_asterix: true %>    
+    <%= form.select :callee_state, Report.callee_state_options_for_select, label: "How did the person you're calling feel today", width: :half, required_asterix: true %>    
     <%= form.select :caller_confidence, Report.caller_confidence_options_for_select, label: "How confident did you feel with the call", width: :half, required_asterix: true %>    
 
     <%= form.text_area :summary, label: "Brief summary of the call", width: :full %>
@@ -17,7 +17,7 @@
         <% end %>
           
         <% component.with(:info) do %>
-          <p>If you have any concerns or safeguarding issues that are urgent, please fill out the <%= link_to("Safeguarding form", "#", class: "underline") %>.</p>
+          <p>If you have any concerns or safeguarding issues that are urgent, please fill out the <%= link_to("Safeguarding form", "https://www.oxfordhub.org/safeguarding", class: "underline") %>.</p>
         <% end %>
       <% end %>
     </div>

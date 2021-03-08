@@ -1,4 +1,5 @@
 class Report < ApplicationRecord
+  validates :match_id, :date_of_call, :callee_state, :caller_confidence, :duration, presence: { message: "This field is required" }
   belongs_to :match, optional: true
   has_many :events
 
@@ -24,6 +25,12 @@ class Report < ApplicationRecord
     neutral: "Neutral",
     out_of_comfort: "Out of my comfort zone",
     very_difficult: "I found this call really difficult",
+  }
+
+  options_field :callee_state, {
+    great: "Great!",
+    ok: "Ok",
+    not_great: "Not great",
   }
 
   def legacy?
