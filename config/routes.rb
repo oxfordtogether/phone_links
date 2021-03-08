@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get "invalid_permissions_for_app", to: "login#invalid_permissions_for_app"
   get "invalid_permissions_for_page", to: "login#invalid_permissions_for_page"
   get "page_does_not_exist", to: "login#page_does_not_exist"
+  get "unverified_email", to: "login#unverified_email"
 
   namespace :a do
     get "/", to: "pages#home"

@@ -1,5 +1,5 @@
 module Login
-  def mock_auth0_success(user = nil)
+  def mock_auth0_success(user = nil, email_verified = true)
     # The mock_auth configuration allows you to set per-provider (or default)
     # authentication hashes to return during integration testing.
     opts = {
@@ -8,6 +8,11 @@ module Login
         "email": user&.email || "user@user.com",
         "first_name": user&.first_name || "Bob",
         "last_name": user&.last_name || "Userman",
+      },
+      "extra": {
+        "raw_info": {
+          "email_verified": email_verified,
+        },
       },
       "credentials": {
         "token": "XKLjnkKJj7hkHKJkk",
@@ -24,8 +29,8 @@ module Login
     OmniAuth.config.mock_auth[:auth0] = :invalid_credentials
   end
 
-  def login_as(user = nil, invalid: false)
-    invalid ? mock_auth0_failed : mock_auth0_success(user)
+  def login_as(user = nil, invalid: false, email_verified: true)
+    invalid ? mock_auth0_failed : mock_auth0_success(user, email_verified)
     Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:auth0]
 
     visit "/auth/auth0/callback?code=vihipkGaumc5IVgs"
