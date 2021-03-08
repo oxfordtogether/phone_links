@@ -4,7 +4,21 @@
 <div class="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl ">
   <section aria-labelledby="timeline-title">
     <div class="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
-      <%= events_timeline(@events) %>
+      <div class="mt-2 flow-root">
+        <% if @events.empty? %>
+          <div class="flex justify-center">
+            <div class="text-sm text-gray-500">No events recorded</div>
+          </div>
+        <% else %>
+          <ul class="-mb-8">
+            <% @events.each_with_index do |event, index| %>
+              <% @event = event %>
+              <% @last_event = @events.size - 1 == index %>
+              <%= render partial: "pl/events" %>
+            <% end %>
+          </ul>
+        <% end %>
+      </div>
     </div>
   </section>
 </div>

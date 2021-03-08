@@ -94,9 +94,7 @@
   </div>
   <div class="mt-3">
     <% if @report.concerns || @report.concerns_notes.present? %>
-      <% if false %>
-        <div class="mb-4"><%= alert(title: 'Caller has concerns and would like to be contacted', info: @report.concerns_notes) %></div>
-      <% end %>
+      <div class="mb-4"><%= alert(title: 'Caller has concerns and would like to be contacted by pod leader', info: @report.concerns_notes) %></div>
     <% end %>
     <% if @report.legacy? %>
       <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Caller email: </span><%= @report.legacy_caller_email %>, <span class="text-sm font-medium text-gray-500">caller name: </span><%= @report.legacy_caller_name %>, <span class="text-sm font-medium text-gray-500">callee name: </span> <%= @report.legacy_callee_name %></div>

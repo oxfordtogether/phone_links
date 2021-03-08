@@ -5,7 +5,8 @@ class Pl::PagesController < Pl::PlController
     @current_user = current_user
     @current_pod_leader = current_pod_leader
     @pod = @current_pod_leader.pod
-    @inbox_items = []
+
+    @report_count = Report.all.filter { |r| r.legacy_pod_id == @pod.id || @pod.matches.include?(r.match) }.count
   end
 
   def support
