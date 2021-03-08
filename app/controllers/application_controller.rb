@@ -7,8 +7,6 @@ class ApplicationController < ActionController::Base
 
   default_form_builder OclTools::TailwindFormBuilder
 
-  before_action :demo
-
   def current_user
     if bypass_auth?
       Admin.first.person if Admin.count >= 1
@@ -17,7 +15,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def demo
-    @demo ||= ENV["DEMO"]
+  helper_method :demo?
+  def demo?
+    ENV["DEMO"] == "true" || ENV["DEMO"] == true
   end
 end
