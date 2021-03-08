@@ -115,7 +115,7 @@
         <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">How do you feel the call went: </span><%= @report.legacy_outcome %></div>
       <% end %>
     <% else %>
-      <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call date: </span><%= format_date(@report.datetime) %></div>
+      <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call date: </span><%= format_date(@report.date_of_call) %></div>
       <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call length: </span><%= @report.duration %></div>
       <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Callee mood: </span>...</div>
       <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Summary: </span><%= @report.summary %></div>

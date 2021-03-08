@@ -47,6 +47,8 @@ class Match < ApplicationRecord
 
   def ended
     status == :ended
+  end
+
   def callee_name
     callee.name
   end

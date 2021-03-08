@@ -1,6 +1,6 @@
 <div class="flow-root">
   <ul class="-mb-8">
-    <% @reports.sort_by(&:datetime).reverse.each_with_index do |report, index| %>
+    <% @reports.sort_by(&:date_of_call).reverse.each_with_index do |report, index| %>
       <li>
         <div class="relative pb-8">
           <% if index == @reports.size - 1 %>
@@ -21,7 +21,7 @@
             </div>
             <div class="min-w-0 flex-1 flex justify-between space-x-4">
               <div class="text-sm">
-                <%= report.duration %> call on <%= format_date(report.datetime) %>
+                <%= report.duration %> call on <%= format_date(report.date_of_call) %>
                 <div class="flex">
                   <div class="flex items-center">
                     <div class="mr-2 text-gray-600">Callee</div>

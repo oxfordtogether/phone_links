@@ -73,7 +73,7 @@
           time: @event.created_at, is_last: @last_event) do |c| %>
     <% c.with(:title) do %>
       <div class="flex items-center">
-        <%= @event.match.caller.name %> called <%= @event.match.callee.name %> on <%= format_date(@event.datetime) %>
+        <%= @event.match.caller.name %> called <%= @event.match.callee.name %> on <%= format_date(@event.date_of_call) %>
         <% if @event.duration == "did not answer" %>
           <div class="ml-2 text-sm text-red-400 italic">no answer</div>
         <% else %>
