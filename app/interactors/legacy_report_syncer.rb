@@ -1,10 +1,11 @@
 require "google_drive"
 
 class LegacyReportSyncer
-  def initialize(legacy_pod_id, google_sheet_id, worksheet_index = 0)
+  def initialize(legacy_pod_id, google_sheet_id, worksheet_index: 0, timestamp_format: "%m/%d/%Y %H:%M:%S")
     @legacy_pod_id = legacy_pod_id
     @google_sheet_id = google_sheet_id
     @worksheet_index = worksheet_index
+    @timestamp_format = timestamp_format
   end
 
   def load_legacy_reports_data
@@ -13,7 +14,7 @@ class LegacyReportSyncer
     @data = raw_data.map { |d| Hash[headers.zip d] }
   end
 
-  attr_reader :legacy_pod_id, :google_sheet_id, :worksheet_index, :data
+  attr_reader :legacy_pod_id, :google_sheet_id, :worksheet_index, :data, :timestamp_format
 
   def session
     credentials = if ENV["GOOGLE_DRIVE_CLIENT_SECRET_CONFIG"]
@@ -35,20 +36,25 @@ class LegacyReportSyncer
     data = load_legacy_reports_data
 
     data.each do |record|
-      timestamp = DateTime.strptime(record["Timestamp"], "%m/%d/%Y %H:%M:%S")
+      begin
+        # ignore invalid timestamps
+        timestamp = DateTime.strptime(record["Timestamp"], timestamp_format)
+      rescue Date::Error
+        next
+      end
 
-      same_report = existing_reports.filter { |r| r.created_at == timestamp && existing_reports && r.legacy_caller_email == record["Email Address"] }
+      same_report = existing_reports.filter { |r| r.created_at == timestamp && existing_reports }
       next if same_report.count != 0
 
       Report.create!(
         created_at: timestamp,
-        legacy_caller_email: record["Email Address"],
+        legacy_caller_email: record["Email Address"] || record["Email address"],
         legacy_caller_name: record["Name & Surname"],
         legacy_callee_name: record["Name of person you called "],
         legacy_time_and_date: record["Time and date of phone call "],
         legacy_duration: record["Length of call"],
         summary: record["Brief summary of the conversation"],
-        concerns: record["Concerns"] == "Tick here if you'd like a follow-up call about this call",
+        concerns: record["Concerns"],
         legacy_pod_id: legacy_pod_id,
       )
     end
