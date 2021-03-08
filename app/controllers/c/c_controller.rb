@@ -17,6 +17,10 @@ class C::CController < ApplicationController
     redirect_to "/page_does_not_exist"
   end
 
+  def has_pod
+    @has_pod ||= current_caller.pod.present?
+  end
+
   def is_admin
     @is_admin ||= current_user.admin.present?
   end

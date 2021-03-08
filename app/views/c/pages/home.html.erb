@@ -13,6 +13,11 @@
             <div class="flex justify-center pr-4">
               <%= icon("person-circle", class: "h-8 w-8 rounded-full sm:block text-gray-600") %>
             </div>
+              <% if @has_pod %>
+                <h2 class="mt-4 text-xl font-bold text-gray-500 sm:mr-1 sm:mt-0">
+                  Pod <%= @current_pod_leader&.pod&.name || "?" %>
+                </h2>
+              <% end %>
           </div>
         </div>
       </div>
