@@ -1,5 +1,5 @@
 class Report < ApplicationRecord
-  validates :match_id, :date_of_call, :callee_state, :caller_confidence, :duration, presence: { message: "This field is required" }
+  validates :date_of_call, :callee_state, :caller_confidence, :duration, presence: { message: "This field is required" }
   belongs_to :match, optional: true
   has_many :events
 

@@ -1,11 +1,6 @@
 class C::ReportsController < C::CController
   before_action :set_report, only: %i[show edit update destroy]
 
-  # GET /reports
-  def index
-    redirect_to c_path
-  end
-
   # GET /reports/1
   def show; end
 
@@ -14,6 +9,7 @@ class C::ReportsController < C::CController
     match_id = params[:match_id]
     @report = Report.new(match_id: match_id, date_of_call: Date.today)
     @matches = current_caller.matches.where(id: match_id)
+    @redirect_on_cancel = params[:redirect_on_cancel] || c_path # TO DO: better default
   end
 
   # GET /reports/1/edit
@@ -24,7 +20,7 @@ class C::ReportsController < C::CController
     @report = Report.new(report_params)
 
     if @report.save
-      redirect_to c_reports_path, notice: "Report was successfully created."
+      redirect_to c_path, notice: "Report was successfully created."
     else
       render :new
     end

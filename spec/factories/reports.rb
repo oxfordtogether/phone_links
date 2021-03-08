@@ -5,7 +5,7 @@ FactoryBot.define do
     duration { Report.durations.keys.sample }
     summary { SUMMARY_EXAMPLE.sample }
     date_of_call { FFaker::Time.between(created_at - 1.week, created_at) }
-    callee_state { CALLEE_STATE_EXAMPLE.sample }
+    callee_state { Report.callee_states.keys.sample }
     caller_confidence { Report.caller_confidences.keys.sample }
 
     concerns { rand(3) == 1 }
@@ -41,12 +41,6 @@ SUMMARY_EXAMPLE ||= [
   "Agreed to meet up as soon as lockdown is over and walk along the thames",
   "We laughed and laughed and laughed",
   "Callee was busy and cut the call short",
-].freeze
-
-CALLEE_STATE_EXAMPLE ||= [
-  "Great!",
-  "Ok",
-  "Not great",
 ].freeze
 
 CONCERNS_NOTES_EXAMPLE ||= [
