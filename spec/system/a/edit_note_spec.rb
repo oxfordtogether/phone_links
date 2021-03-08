@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "edit note", type: :system do
   let!(:callee) { create(:callee) }
-  let!(:admin) { create(:admin, active: true) }
+  let!(:admin) { create(:admin, status: "active") }
   let!(:note) do
     note = create(:note, person: callee.person, created_by: admin.person)
     note.create_events!

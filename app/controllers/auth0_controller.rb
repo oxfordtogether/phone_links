@@ -26,9 +26,9 @@ class Auth0Controller < ApplicationController
     # now try to find a role
     if person
       session[:person_id] = person.id
-      session[:admin_id] = person.admin&.active ? person.admin.id : nil
-      session[:pod_leader_id] = person.pod_leader&.active ? person.pod_leader.id : nil
-      session[:caller_id] = person.caller&.active ? person.caller.id : nil
+      session[:admin_id] = person.admin && !person.admin.inactive ? person.admin.id : nil
+      session[:pod_leader_id] = person.pod_leader && !person.pod_leader.inactive ? person.pod_leader.id : nil
+      session[:caller_id] = person.caller && !person.caller&.inactive ? person.caller.id : nil
     end
     redirect_to "/"
   end

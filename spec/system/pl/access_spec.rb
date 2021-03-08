@@ -1,8 +1,8 @@
 require "rails_helper"
 
 RSpec.describe "access", type: :system do
-  let!(:pod_leader) { create(:pod_leader, active: true) }
-  let!(:pod_leader_no_pod) { create(:pod_leader, active: true) }
+  let!(:pod_leader) { create(:pod_leader, status: "active") }
+  let!(:pod_leader_no_pod) { create(:pod_leader, status: "active") }
 
   let!(:pod) { create(:pod, pod_leader: pod_leader) }
 
