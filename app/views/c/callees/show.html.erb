@@ -126,6 +126,87 @@
             <% end %>
             <div class="relative flex space-x-3">
               <div>
+                <% if report.duration == :no_answer %>
+                  <span class="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
+                    <%= icon('phone-missed-call', class: "h-5 w-5 text-gray-400") %>
+                  </span>
+                <% else %>
+                  <span class="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center">
+                    <%= icon('phone-outgoing', class: "h-5 w-5 text-gray-500") %>
+                  </span>
+                <% end %>
+              </div>
+              <div class="min-w-0 flex-1 flex justify-between space-x-4">
+                <div class="text-sm">
+                  <%= report.duration %> call on <%= format_date(report.date_of_call) %>
+                  <div class="flex">
+                    <div class="flex items-center">
+                      <div class="mr-2 text-gray-600">Callee</div>
+                      <% if report.callee_state == :great %>
+                        <span class="h-5 w-5 rounded-full bg-green-400 flex items-center justify-center">
+                          <svg class="h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-heart-eyes-fill" viewBox="0 0 16 16">
+                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zM4.756 4.566c.763-1.424 4.02-.12.952 3.434-4.496-1.596-2.35-4.298-.952-3.434zm6.559 5.448a.5.5 0 0 1 .548.736A4.498 4.498 0 0 1 7.965 13a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .548-.736h.005l.017.005.067.015.252.055c.215.046.515.108.857.169.693.124 1.522.242 2.152.242.63 0 1.46-.118 2.152-.242a26.58 26.58 0 0 0 1.109-.224l.067-.015.017-.004.005-.002zm-.07-5.448c1.397-.864 3.543 1.838-.953 3.434-3.067-3.554.19-4.858.952-3.434z"/>
+                          </svg>
+                        </span>
+                      <% elsif report.callee_state == :ok %>
+                        <span class="h-5 w-5 rounded-full bg-yellow-500 flex items-center justify-center">
+                          <svg class="h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-smile-fill" viewBox="0 0 16 16">
+                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zM4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM10 8c-.552 0-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5S10.552 8 10 8z"/>
+                          </svg>
+                        </span>
+                      <% elsif report.callee_state == :not_great %>
+                        <span class="h-5 w-5 rounded-full bg-blue-800 flex items-center justify-center">
+                          <svg class="h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-frown-fill" viewBox="0 0 16 16">
+                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm-2.715 5.933a.5.5 0 0 1-.183-.683A4.498 4.498 0 0 1 8 9.5a4.5 4.5 0 0 1 3.898 2.25.5.5 0 0 1-.866.5A3.498 3.498 0 0 0 8 10.5a3.498 3.498 0 0 0-3.032 1.75.5.5 0 0 1-.683.183zM10 8c-.552 0-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5S10.552 8 10 8z"/>
+                          </svg>
+                        </span>
+                      <% end %>
+                    </div>
+                    <div class="ml-10 flex items-center">
+                      <div class="mr-2 text-gray-600">Caller</div>
+                        <div class="ml-0.5 mt-0.5">
+                          <% case report.caller_confidence %>
+                            <% when :very_confident %>
+                              <div class="rounded-full h-2 w-2 bg-indigo-300 border border-gray-300"></div>
+                            <% when :confident %>
+                              <div class="rounded-full h-2 w-2 bg-indigo-300 border border-gray-300"></div>
+                            <% when :neutral %>
+                              <div class="rounded-full h-2 w-2 bg-indigo-300 border border-gray-300"></div>
+                            <% when :out_of_comfort %>
+                              <div class="rounded-full h-2 w-2 bg-indigo-300 border border-gray-300"></div>
+                            <% when :very_difficult %>
+                              <div class="rounded-full h-2 w-2 border border-gray-300"></div>
+                            <% end %>
+                        </div>
+                      <div class="flex items-center"><% if report.concerns %><%= icon('exclamation', class: "ml-10 w-6 h-6 text-yellow-400") %>
+                          <div class="pl-1">Concern raised</div>
+                        <% end %></div>
+                    </div>
+                  </div>
+                  <p> <a href="#" class="text-gray-700"><%= report.summary %></a></p>
+                </div>
+                <div class="hidden sm:block text-right text-sm whitespace-nowrap text-gray-500"> <%= format_date(report.created_at) %> </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+
+
+  <div class="flow-root">
+    <ul class="mt-8 -mb-8">
+      <% @reports.sort_by(&:date_of_call).reverse.each_with_index do |report, index| %>
+        <li>
+          <div class="relative pb-8">
+            <% if index == @reports.size - 1 %>
+            <% else %>
+              <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+            <% end %>
+            <div class="relative flex space-x-3">
+              <div>
                 <% if report.callee_state == :great %>
                   <span class="h-8 w-8 rounded-full bg-green-400 flex items-center justify-center">
                   <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-heart-eyes-fill" viewBox="0 0 16 16">
