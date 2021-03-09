@@ -49,11 +49,11 @@ class LegacyReportSyncer
       Report.create!(
         created_at: timestamp,
         legacy_caller_email: record["Email Address"] || record["Email address"],
-        legacy_caller_name: record["Name & Surname"],
-        legacy_callee_name: record["Name of person you called "],
-        legacy_time_and_date: record["Time and date of phone call "],
+        legacy_caller_name: record["Name & Surname"] || record["Your name"],
+        legacy_callee_name: record["Name of person you called "] || record["The person you rang "],
+        legacy_time_and_date: record["Time and date of phone call "] || record["Date and time"],
         legacy_duration: record["Length of call"],
-        summary: record["Brief summary of the conversation"],
+        summary: record["Brief summary of the conversation"] || record["Short description of your conversation "],
         concerns: record["Concerns"],
         legacy_pod_id: legacy_pod_id,
       )
