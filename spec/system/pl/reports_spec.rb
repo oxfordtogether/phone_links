@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "reports", type: :system do
-  let!(:pod_leader) { create(:pod_leader, active: true) }
+  let!(:pod_leader) { create(:pod_leader, status: "active") }
   let!(:pod) { create(:pod, pod_leader: pod_leader) }
 
   let!(:callers) { create_list(:caller, 5, pod: pod) }

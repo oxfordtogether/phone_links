@@ -1,22 +1,22 @@
 require "rails_helper"
 
 RSpec.describe "login", type: :system do
-  let(:admin) { create(:admin, active: true) }
-  let(:admin_no_auth0) { create(:admin, person: create(:person, auth0_id: nil), active: true) }
-  let(:admin_not_active) { create(:admin, active: false) }
+  let(:admin) { create(:admin, status: "active") }
+  let(:admin_no_auth0) { create(:admin, person: create(:person, auth0_id: nil), status: "active") }
+  let(:admin_not_active) { create(:admin, status: "left_programme") }
 
-  let(:pod_leader) { create(:pod_leader, active: true) }
-  let(:pod_leader_not_active) { create(:pod_leader, active: false) }
+  let(:pod_leader) { create(:pod_leader, status: "active") }
+  let(:pod_leader_not_active) { create(:pod_leader, status: "left_programme") }
 
-  let(:caller) { create(:caller, active: true) }
-  let(:caller_not_active) { create(:caller, active: false) }
+  let(:caller) { create(:caller, status: "active") }
+  let(:caller_not_active) { create(:caller, status: "left_programme") }
 
-  let(:callee) { create(:callee, active: true) }
+  let(:callee) { create(:callee, status: "active") }
 
   let(:person_with_2_roles) do
     person = create(:person)
-    create(:caller, person: person, active: true)
-    create(:pod_leader, person: person, active: true)
+    create(:caller, person: person, status: "active")
+    create(:pod_leader, person: person, status: "active")
 
     person
   end

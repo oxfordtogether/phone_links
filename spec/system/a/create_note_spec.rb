@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "create note", type: :system do
   let!(:callee) { create(:callee) }
-  let!(:admin) { create(:admin, active: true) }
+  let!(:admin) { create(:admin, status: "active") }
 
   before do
     ENV["BYPASS_AUTH"] = "false"

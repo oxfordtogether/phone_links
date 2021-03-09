@@ -3,8 +3,8 @@ require "rails_helper"
 RSpec.describe "create match", type: :system do
   let!(:pods) { create_list(:pod, 10) }
 
-  let!(:callers) { create_list(:caller, 10, pod: pods[0], active: true) }
-  let!(:callees) { create_list(:callee, 10, pod: pods[0], active: true) }
+  let!(:callers) { create_list(:caller, 10, pod: pods[0], status: "active") }
+  let!(:callees) { create_list(:callee, 10, pod: pods[0], status: "active") }
 
   it "works from waitlist page" do
     login_as nil

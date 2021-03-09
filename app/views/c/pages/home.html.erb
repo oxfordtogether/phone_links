@@ -10,7 +10,7 @@
                 Hi <%= @current_caller.name || "Unknown User" %>
               </h1>
             </div>
-            <div class="flex pr-4">
+            <div class="flex justify-center pr-4">
               <% if @has_pod %>
                 <h2 class="mt-4 pr-6 text-xl font-bold text-gray-500 sm:mr-1 sm:mt-0">
                   Pod <%= @current_caller&.pod&.name || "?" %>
@@ -21,134 +21,132 @@
               <span>
               <%= icon("person-circle", class: "h-8 w-8 rounded-full sm:block text-gray-600") %>
               </span>
+              <span>
+              <%= link_to logout_path, data: { turbolinks: false }, class: "ml-3 text-gray-500 hover:text-gray-700 items-center px-2 py-2 text-base font-medium" do %>
+                Logout
+              <% end %>
+              </span>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-    <!-- Nice banner for medium size screen -->
+  <!-- Nice banner for medium size screen -->
   <div>
     <img class="hidden md:inline" src="https://cdn-images-1.medium.com/max/2400/1*OqEGLMIIj1UC4bTTaz6bJw.png" alt="OxHub nicebackground">
   </div>
-    <!-- Nice banner for mobile / small screen (cropped) -->
+  <!-- Nice banner for mobile / small screen (cropped) -->
   <div>  <img class="md:hidden" src="/banner_cut.png" alt="OxHub nicebackground cut"> </div>
-
-    <div class="flex justify-center items-baseline">
-      <h1 class="text-center mt-6 mr-2 text-xl md:text-2xl font-extrabold tracking-tight text-green-600">
-              Welcome to Oxford Hub Phone Links
-      </h1>
-      <span>
-        <%= icon("chat-alt-2", class: "h-6 w-6 md:h-8 md:w-8 rounded-full text-green-600") %>
-      </span>
-    </div>
-    <div class="my-3 divide-y-2 divide-gray-300 max-w-xs">
-      <div></div>
-      <div></div>
-    </div>
-      <!-- Stats section -->
-    <div class="hidden md:block md:mt-6 md:px-4">
-     <!--  <div class="relative bg-fixed bg-center bg-cover bg-no-repeat"
+  <div class="flex justify-center items-baseline">
+    <h1 class="text-center mt-4 mr-2 text-xl md:text-2xl font-extrabold tracking-tight text-green-600">
+      Welcome to Oxford Hub Phone Links
+    </h1>
+    <span>
+      <%= icon("chat-alt-2", class: "h-6 w-6 md:h-8 md:w-8 rounded-full text-green-600") %>
+    </span>
+  </div>
+  <div class="my-3 divide-y-2 divide-gray-300 max-w-xs">
+    <div></div>
+    <div></div>
+  </div>
+  <!-- Stats section -->
+  <div class="hidden md:block md:mt-6 md:px-4">
+    <!--  <div class="relative bg-fixed bg-center bg-cover bg-no-repeat"
       style="background-image:linear-gradient(rgba(135, 80, 156, 0.9), rgba(135, 80, 156, 0.9)), url(img/hero-bg.jpg)"> -->
-      <!-- <div class="bg-fixed ..." style="background-image: url(...)"></div> -->
-        <div class= "flex justify-center">
-          <div>
-            <dl class="px-4 md:pt-4 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-4 ">
-              <div class="text-center">
-                <dd class="text-base font-semibold md:text-3xl md:font-semibold tracking-tight text-gray-900"><%= caller_duration(@current_caller.created_at) || "?" %></dd>
-                <dt class="text-sm text-gray-500 md:text-base md:font-medium">in the program</dt>
-              </div>
-
-              <div class="text-center">
-                <dd class="text-base font-semibold md:text-3xl md:font-semibold tracking-tight text-gray-900"><%= @matches.count %></dd>
-                <dt class="text-sm text-gray-500 md:text-base md:font-medium">callees</dt>
-              </div>
-
-              <div class="text-center">
-                <dd class="text-base font-semibold md:text-3xl md:font-semibold tracking-tight text-gray-900"><%= @reports.count || "no callee"  %></dd>
-                <dt class="text-sm text-gray-500 md:text-base md:font-medium">reports written</dt>
-              </div>
-
-              <div class="text-center">
-                <dd class="text-base font-semibold md:text-3xl md:font-semibold tracking-tight text-gray-900">+100</dd>
-                <dt class="text-sm text-gray-500 md:text-base md:font-medium">hours on the phone </dt>
-              </div>
-            </dl>
-            <div class="hidden md:block text-center mt-4 text-2xl font-extrabold tracking-tight text-gray-900">Thank you !</div>
+    <!-- <div class="bg-fixed ..." style="background-image: url(...)"></div> -->
+    <div class= "flex justify-center">
+      <div>
+        <dl class="px-4 md:pt-4 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-4 ">
+          <div class="text-center">
+            <dd class="text-base font-semibold md:text-3xl md:font-semibold tracking-tight text-gray-900"><%= caller_duration(@current_caller.created_at) || "?" %></dd>
+            <dt class="text-sm text-gray-500 md:text-base md:font-medium">in the program</dt>
           </div>
-          <img class="h-28 md:h-32 rounded-r-lg" src="https://i1.wp.com/oxfordshire.org/wp-content/uploads/2020/05/Oxford-hub-logo.png?ssl=1" alt="OxHub logo">
-        </div>
-      <div class="md:hidden text-center mt-4 text-2xl font-extrabold tracking-tight text-gray-900">Thank you !</div>
+          <div class="text-center">
+            <dd class="text-base font-semibold md:text-3xl md:font-semibold tracking-tight text-gray-900"><%= @matches.count %></dd>
+            <dt class="text-sm text-gray-500 md:text-base md:font-medium">callees</dt>
+          </div>
+          <div class="text-center">
+            <dd class="text-base font-semibold md:text-3xl md:font-semibold tracking-tight text-gray-900"><%= @reports.count || "no callee"  %></dd>
+            <dt class="text-sm text-gray-500 md:text-base md:font-medium">reports written</dt>
+          </div>
+          <div class="text-center">
+            <dd class="text-base font-semibold md:text-3xl md:font-semibold tracking-tight text-gray-900">+100</dd>
+            <dt class="text-sm text-gray-500 md:text-base md:font-medium">hours on the phone </dt>
+          </div>
+        </dl>
+        <div class="hidden md:block text-center mt-4 text-2xl font-extrabold tracking-tight text-gray-900">Thank you !</div>
+      </div>
+      <img class="h-28 md:h-32 rounded-r-lg" src="https://i1.wp.com/oxfordshire.org/wp-content/uploads/2020/05/Oxford-hub-logo.png?ssl=1" alt="OxHub logo">
     </div>
-
-    <div class="md:hidden">
-            <!--  <div class="relative bg-fixed bg-center bg-cover bg-no-repeat"
+    <div class="md:hidden text-center mt-4 text-2xl font-extrabold tracking-tight text-gray-900">Thank you !</div>
+  </div>
+  <div class="md:hidden">
+    <!--  <div class="relative bg-fixed bg-center bg-cover bg-no-repeat"
             style="background-image:linear-gradient(rgba(135, 80, 156, 0.9), rgba(135, 80, 156, 0.9)), url(img/hero-bg.jpg)"> -->
-            <!-- <div class="bg-fixed ..." style="background-image: url(...)"></div> -->
-
-      <div class= "flex mx-4 justify-center">
-        <div>
-          <div class="pl-4 text-center">
-            <% lucky_number = rand(4) %>
-            <% case lucky_number %>
-              <% when 0 %>
-                <h3 class="text-xl tracking-tight font-extrabold text-gray-600">
-                  <span class="block xl:inline">You have been helping us for</span>
-                  <span class="block text-green-600 xl:inline"><%= caller_duration(@current_caller.created_at) || "?" %></span>
-                </h3>
-                <p class=" max-w-md mx-auto text-base text-gray-500">
-                  Thank you!
-                </p>
-              <% when 1 %>
-                <h3 class="text-xl tracking-tight font-extrabold text-gray-600">
-                  <span class="block xl:inline">You currently have</span>
-                  <span class="block text-green-600 xl:inline"> <%= @matches.count || "no matches" %> callees</span>
-                </h3>
-                <p class=" max-w-md mx-auto text-base text-gray-500">
-                  Keep it up!
-                </p>
-              <% when 2 %>
-                <h3 class="text-xl tracking-tight font-extrabold text-gray-600">
-                  <span class="block xl:inline">You have already written </span>
-                  <span class="block text-green-600 xl:inline"><%= @reports.count || "no reports"  %> reports</span>
-                </h3>
-                <p class=" max-w-md mx-auto text-base text-gray-500">
-                  Thanks for keeping you records up-to-date!
-                </p>
-              <% when 3 %>
-                <h3 class="text-xl tracking-tight font-extrabold text-gray-600">
-                  <span class="block xl:inline">So far you have spent </span>
-                  <span class="block text-green-600 xl:inline">more than 100 hours on the phone</span>
-                </h3>
-                <p class=" max-w-md mx-auto text-base text-gray-500">
-                  This means so much for your callees!
-                </p>
-            <% end %>
-          </div>
-        </div>
-        <img class="h-20 pl-10 rounded-r-lg" src="https://i1.wp.com/oxfordshire.org/wp-content/uploads/2020/05/Oxford-hub-logo.png?ssl=1" alt="OxHub logo">
+    <!-- <div class="bg-fixed ..." style="background-image: url(...)"></div> -->
+    <div class= "flex mx-4 justify-center">
+      <div>
+        <div class="pl-4 text-center">
+          <% lucky_number = rand(4) %>
+          <% case lucky_number %>
+          <% when 0 %>
+          <h3 class="text-xl tracking-tight font-extrabold text-gray-600">
+            <span class="block xl:inline">You have been helping us for</span>
+            <span class="block text-green-600 xl:inline"><%= caller_duration(@current_caller.created_at) || "?" %></span>
+          </h3>
+          <p class=" max-w-md mx-auto text-base text-gray-500">
+            Thank you!
+          </p>
+          <% when 1 %>
+          <h3 class="text-xl tracking-tight font-extrabold text-gray-600">
+            <span class="block xl:inline">You currently have</span>
+            <span class="block text-green-600 xl:inline"> <%= @matches.count || "no matches" %> callees</span>
+          </h3>
+          <p class=" max-w-md mx-auto text-base text-gray-500">
+            Keep it up!
+          </p>
+          <% when 2 %>
+          <h3 class="text-xl tracking-tight font-extrabold text-gray-600">
+            <span class="block xl:inline">You have already written </span>
+            <span class="block text-green-600 xl:inline"><%= @reports.count || "no reports"  %> reports</span>
+          </h3>
+          <p class=" max-w-md mx-auto text-base text-gray-500">
+            Thanks for keeping you records up-to-date!
+          </p>
+          <% when 3 %>
+          <h3 class="text-xl tracking-tight font-extrabold text-gray-600">
+            <span class="block xl:inline">So far you have spent </span>
+            <span class="block text-green-600 xl:inline">more than 100 hours on the phone</span>
+          </h3>
+          <p class=" max-w-md mx-auto text-base text-gray-500">
+            This means so much for your callees!
+          </p>
+        <% end %>
       </div>
     </div>
-
-  <div class="mt-8 ">
-      <h2 class="mx-auto px-4 text-xs lg:text-base leading-6 font-medium uppercase tracking-wide text-gray-800 sm:px-6 md:px-10">
-        Your callees
-      </h2>
-              <!-- callee grid for md screen up -->
-    <% if @matches.count != 0 %>
-      <ul class="hidden max-w-7xl md:ml-10 lg:ml-20 xl:ml-32 mt-6 sm:grid sm:gap-2 md:gap-6 md:grid-cols-2 lg:grid-cols-2 md:px-10">
-        <% @matches.each do |match| %>
-          <li class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200">
-            <%= link_to "/c/#{match.caller.id}/callees/#{match.callee.id}", class: "text-gray-400 hover:text-gray-500 focus:outline-none" do %>
-              <span class="" aria-hidden="true"></span>
+    <img class="h-20 pl-10 rounded-r-lg" src="https://i1.wp.com/oxfordshire.org/wp-content/uploads/2020/05/Oxford-hub-logo.png?ssl=1" alt="OxHub logo">
+  </div>
+</div>
+<div class="mt-8 ">
+  <h2 class="mx-auto px-4 text-xs lg:text-base leading-6 font-medium uppercase tracking-wide text-gray-800 sm:px-6 md:px-10">
+    Your callees
+  </h2>
+  <!-- callee grid for md screen up -->
+  <% if @matches.count != 0 %>
+    <ul class="hidden md:grid md:gap-6 md:grid-cols-2 lg:grid-cols-2 md:px-10">
+      <% @matches.each do |match| %>
+        <li class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200">
+          <%= link_to "/c/#{match.caller.id}/callees/#{match.callee.id}", class: "text-gray-400 hover:text-gray-500 focus:outline-none" do %>
+            <span class="" aria-hidden="true"></span>
             <div class="flex-1 flex flex-col p-8">
               <div class="hidden sm:inline">
                 <% if rand(2) == 1 %>
                   <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="/iconfinder_boy_male_avatar_portrait_4043236.svg" alt="">
-                <% else %>  
+                <% else %>
                   <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="/iconfinder_girl_avatar_child_kid_4043250.svg" alt="">
                 <% end %>
-              </div> 
+              </div>
               <h3 class="mt-6 text-gray-900 text-sm font-medium"><%= match.callee.name %></h3>
               <dl class="mt-1 flex-grow flex flex-col justify-between">
                 <dt class="sr-only hidden md:inline">callee duration</dt>
@@ -168,92 +166,91 @@
                 -->
               </dl>
             </div>
-            <% end %>
-            <div>
-              <div class="-mt-px flex divide-x divide-gray-200">
-                <div class="-ml-px w-0 flex-1 flex">
-                  <a href="tel:#{match.callee.person.phone}" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
-                    <!-- Heroicon name: solid/phone -->
-                    <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                      <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                    </svg>
-                    <span class="ml-3">141<%= match.callee.person.phone %></span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </li>
-        <% end %>
-      </ul>
-    <% else %>
-      <div> No callees yet! </div>
-    <% end %>
-        <!-- callee grid for mobiles - -->
-    <div class="sm:hidden grid grid-cols-1 gap-4 sm:grid-cols-2 px-2 ">
-      <% if @matches.count != 0 %>
-        <% @matches.each do |match| %>
-          <div class="relative rounded-lg border border-gray-300 bg-white px-6 py-2 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-            <div class="flex-shrink-0">
-              <% if rand(2) == 1 %>
-                <img class="h-14 w-14 rounded-full" src="/iconfinder_girl_avatar_child_kid_4043250.svg" alt="">
-              <% else %>
-                <img class="w-14 h-14 rounded-full" src="/iconfinder_boy_male_avatar_portrait_4043236.svg" alt="">
-              <% end %>
-            </div>
-            <div class="pl-2 flex-1 min-w-0 divide-y divide-gray-200">
-              <%= link_to "/c/#{match.caller.id}/callees/#{match.callee.id}", class: "focus:outline-none" do %>
-                <span class="" aria-hidden="true"></span>
-                <p class="text-sm font-medium text-gray-900">
-                  <%= match.callee.name %>
-                </p>
-                <% if match.reports.count != 0 %>
-                  <p class=" pb-2 text-xs text-gray-500 truncate">
-                    Last report
-                    <%= last_report_days(format_datetime(match.reports.last.created_at)) %>
-                    ago
-                  </p>
-                <% else %>
-                <% end %>
-              <% end %>
-              <!-- Heroicon name: solid/phone -->
-              <div class="pt-2 -mt-px flex divide-x divide-gray-200">
-                <div class = "inline-flex items-center">
-                  <svg class="w-3 h-3 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <% end %>
+          <div>
+            <div class="-mt-px flex divide-x divide-gray-200">
+              <div class="-ml-px w-0 flex-1 flex">
+                <a href="tel:#{match.callee.person.phone}" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
+                  <!-- Heroicon name: solid/phone -->
+                  <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                   </svg>
-                  <a href= "tel:#{match.callee.person.phone}">
-                  <span class="ml-2 text-sm text-gray-900"><%= match.callee.person.phone %></span>
-                  </a>
-                </div>
+                  <span class="ml-3">141<%= match.callee.person.phone %></span>
+                </a>
               </div>
             </div>
           </div>
-        <% end %>
-      <% else %>
-        <div> No callees yet! </div>
+        </li>
       <% end %>
-    </div>
-
-  <!-- Useful link part - -->
-    <h2 class="mt-10 mx-auto px-4 text-xs lg:text-base leading-6 font-medium uppercase tracking-wide text-gray-800 sm:px-6 md:px-10">
-        Useful Links
-    </h2> 
+    </ul>
+  <% else %>
+    <div> No callees yet! </div>
+  <% end %>
+      <!-- callee grid for mobiles - -->
+  <div class="sm:hidden grid grid-cols-1 gap-4 sm:grid-cols-2 px-2 ">
+    <% if @matches.count != 0 %>
+      <% @matches.each do |match| %>
+        <div class="relative rounded-lg border border-gray-300 bg-white px-6 py-2 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+          <div class="flex-shrink-0">
+            <% if rand(2) == 1 %>
+              <img class="h-14 w-14 rounded-full" src="/iconfinder_girl_avatar_child_kid_4043250.svg" alt="">
+            <% else %>
+              <img class="w-14 h-14 rounded-full" src="/iconfinder_boy_male_avatar_portrait_4043236.svg" alt="">
+            <% end %>
+          </div>
+          <div class="pl-2 flex-1 min-w-0 divide-y divide-gray-200">
+            <%= link_to "/c/#{match.caller.id}/callees/#{match.callee.id}", class: "focus:outline-none" do %>
+              <span class="" aria-hidden="true"></span>
+              <p class="text-sm font-medium text-gray-900">
+                <%= match.callee.name %>
+              </p>
+              <% if match.reports.count != 0 %>
+                <p class=" pb-2 text-xs text-gray-500 truncate">
+                  Last report
+                  <%= last_report_days(format_datetime(match.reports.last.created_at)) %>
+                  ago
+                </p>
+              <% else %>
+              <% end %>
+            <% end %>
+            <!-- Heroicon name: solid/phone -->
+            <div class="pt-2 -mt-px flex divide-x divide-gray-200">
+              <div class = "inline-flex items-center">
+                <svg class="w-3 h-3 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                </svg>
+                <a href= "tel:#{match.callee.person.phone}">
+                  <span class="ml-2 text-sm text-gray-900"><%= match.callee.person.phone %></span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div> No callees yet! </div>
+    <% end %>
+  </div>
+  <!-- Useful link part -->
+  <h2 class="mt-10 mx-auto px-4 text-xs lg:text-base leading-6 font-medium uppercase tracking-wide text-gray-800 sm:px-6 md:px-10">
+      Useful Links
+  </h2> 
 <!-- Working example -->
   <div class="mt-6 md:mx-10 mx-2 mb-6 rounded-lg bg-gray-200 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0 sm:grid sm:grid-cols-2 sm:gap-px">
     <div class="rounded-tl-lg rounded-tr-lg sm:rounded-tr-none relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
       <a href="#" class="focus:outline-none">
         <h3 class="text-sm md:text-lg font-medium">
-              <!-- Extend touch target to entire panel -->
-              <span class="absolute inset-0" aria-hidden="true"></span>
-              Report a concern
+          <!-- Extend touch target to entire panel -->
+          <span class="absolute inset-0" aria-hidden="true"></span>
+          Report a concern
         </h3>
         <div class="inline-flex items-center mt-1">
-            <!-- Heroicon name: exclamation -->
+          <!-- Heroicon name: exclamation -->
           <span class="rounded-lg inline-flex p-1 bg-red-50 ring-4 ring-white mr-3">
             <%= icon "exclamation", class: "h-4 w-4 text-red-700" %>
           </span>
           <span class="text-sm text-gray-500">
-              link to page
+            link to page
           </span>
         </div>
       </a>
@@ -263,16 +260,15 @@
         </svg>
       </span>
     </div>
-
     <div class="sm:rounded-tr-lg relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
       <a href="https://trello.com/b/cgIsgGWg/phone-links-volunteers" class="focus:outline-none">
         <h3 class="text-sm md:text-lg font-medium">
-              <!-- Extend touch target to entire panel -->
-              <span class="absolute inset-0" aria-hidden="true"></span>
-              Trello board
+          <!-- Extend touch target to entire panel -->
+          <span class="absolute inset-0" aria-hidden="true"></span>
+          Trello board
         </h3>
         <div class="inline-flex items-center mt-1">
-            <!-- bootstrap: Card checklist -->
+          <!-- bootstrap: Card checklist -->
           <span class="rounded-lg inline-flex p-1 bg-green-50 ring-4 ring-white mr-3">
             <svg class="h-4 w-4 text-green-700" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="CurrentColor" class="bi bi-card-checklist" viewBox="0 0 16 16">
               <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
@@ -280,33 +276,7 @@
             </svg>
           </span>
           <span class="text-sm text-gray-500">
-              All useful resources for phone links
-          </span>
-        </div>
-      </a>
-      <span class="pointer-events-none absolute top-6 right-6 text-gray-400 group-hover:text-gray-500" aria-hidden="true">
-        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
-        </svg>
-      </span>    
-    </div>
-
-    <div class="sm:rounded-bl-lg relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
-      <a href="https://docs.google.com/document/d/1TyIEoG-xFcPM7m38qzAC12VweYZCRZTBDeMZ7d47kU4/edit" class="focus:outline-none">
-        <h3 class="text-sm md:text-lg font-medium">
-              <!-- Extend touch target to entire panel -->
-              <span class="absolute inset-0" aria-hidden="true"></span>
-              Resources and Signposting
-        </h3>
-        <div class="inline-flex items-center mt-1">
-            <!-- Heroicon name: email-fill -->
-          <span class="rounded-lg inline-flex p-1 bg-purple-50 text-purple-700 ring-4 ring-white mr-3">
-            <svg class="h-4 w-4 text-purple-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-            </svg>
-          </span>
-          <span class="text-sm text-gray-500">
-              Link to google form
+            All useful resources for phone links
           </span>
         </div>
       </a>
@@ -316,23 +286,47 @@
         </svg>
       </span>
     </div>
-
-    <div class="rounded-bl-lg rounded-br-lg sm:rounded-bl-none relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
-      <a href="https://www.oxfordhub.org/" class="focus:outline-none">
+    <div class="sm:rounded-bl-lg relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
+      <a href="https://docs.google.com/document/d/1TyIEoG-xFcPM7m38qzAC12VweYZCRZTBDeMZ7d47kU4/edit" class="focus:outline-none">
         <h3 class="text-sm md:text-lg font-medium">
-              <!-- Extend touch target to entire panel -->
-              <span class="absolute inset-0" aria-hidden="true"></span>
-              Go to Oxford Hub
+          <!-- Extend touch target to entire panel -->
+          <span class="absolute inset-0" aria-hidden="true"></span>
+          Resources and Signposting
         </h3>
         <div class="inline-flex items-center mt-1">
-            <!-- Heroicon name: email-fill -->
+          <!-- Heroicon name: email-fill -->
           <span class="rounded-lg inline-flex p-1 bg-purple-50 text-purple-700 ring-4 ring-white mr-3">
             <svg class="h-4 w-4 text-purple-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
             </svg>
           </span>
           <span class="text-sm text-gray-500">
-              https://www.oxfordhub.org/
+            Link to google form
+          </span>
+        </div>
+      </a>
+      <span class="pointer-events-none absolute top-6 right-6 text-gray-400 group-hover:text-gray-500" aria-hidden="true">
+        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
+        </svg>
+      </span>
+    </div>
+    <div class="rounded-bl-lg rounded-br-lg sm:rounded-bl-none relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
+      <a href="https://www.oxfordhub.org/" class="focus:outline-none">
+        <h3 class="text-sm md:text-lg font-medium">
+          <!-- Extend touch target to entire panel -->
+          <span class="absolute inset-0" aria-hidden="true"></span>
+          Go to Oxford Hub
+        </h3>
+        <div class="inline-flex items-center mt-1">
+          <!-- Heroicon name: email-fill -->
+          <span class="rounded-lg inline-flex p-1 bg-purple-50 text-purple-700 ring-4 ring-white mr-3">
+            <svg class="h-4 w-4 text-purple-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+            </svg>
+          </span>
+          <span class="text-sm text-gray-500">
+            https://www.oxfordhub.org/
           </span>
         </div>
       </a>
@@ -343,5 +337,4 @@
       </span>
     </div>
   </div>
-
 <% end %>

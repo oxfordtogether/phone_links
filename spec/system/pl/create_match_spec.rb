@@ -3,8 +3,8 @@ require "rails_helper"
 RSpec.describe "create match", type: :system do
   let!(:pod) { create(:pod) }
   let!(:pod_leader) { create(:pod_leader, pod: pod) }
-  let!(:callers) { create_list(:caller, 10, pod: pod, active: true) }
-  let!(:callees) { create_list(:callee, 10, pod: pod, active: true) }
+  let!(:callers) { create_list(:caller, 10, pod: pod, status: "active") }
+  let!(:callees) { create_list(:callee, 10, pod: pod, status: "active") }
 
   it "works" do
     login_as nil
