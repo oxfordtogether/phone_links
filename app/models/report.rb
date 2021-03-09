@@ -33,6 +33,6 @@ class Report < ApplicationRecord
   }
 
   def legacy?
-    legacy_caller_email.present?
+    legacy_caller_email.present? || legacy_caller_name.present?
   end
 end
