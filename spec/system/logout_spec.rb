@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "logout", type: :system do
-  let!(:admin) { create(:admin) }
+  let!(:admin) { create(:admin, status: "active") }
 
   before do
     ENV["BYPASS_AUTH"] = "false"
