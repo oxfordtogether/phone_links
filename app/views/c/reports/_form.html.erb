@@ -11,15 +11,15 @@
     <%= form.text_area :summary, label: "Brief summary of the call", width: :full %>
 
     <div class="mt-4 flex w-screen">
-      <%= render(AlertingComponent.new) do |component| %>
+        <%= render(OclTools::AlertComponent.new) do |component| %>
         <% component.with(:title) do %>
-          Safeguarding
+            Safeguarding
         <% end %>
-          
+            
         <% component.with(:info) do %>
-          <p>If you have any concerns or safeguarding issues that are urgent, please fill out the <%= link_to("Safeguarding form", "https://www.oxfordhub.org/safeguarding", class: "underline") %>.</p>
+            <p>If you have any concerns or safeguarding issues that are urgent, please fill out the <%= link_to("Safeguarding form", "https://www.oxfordhub.org/safeguarding", class: "underline") %>.</p>
         <% end %>
-      <% end %>
+    <% end %>
     </div>
 
     <%= form.check_box :concerns, 1, "Do you have anything that you would like to discuss with your pod leader?", width: :full %>
