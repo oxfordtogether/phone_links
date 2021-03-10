@@ -11,7 +11,7 @@
     <%= form.text_area :summary, label: "Brief summary of the call", width: :full %>
 
     <div class="mt-4 flex w-screen">
-        <%= render(OclTools::AlertComponent.new) do |component| %>
+        <%= render(OclTools::BlockAlertComponent.new) do |component| %>
         <% component.with(:title) do %>
             Safeguarding
         <% end %>
