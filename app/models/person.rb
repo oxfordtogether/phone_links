@@ -49,6 +49,10 @@ class Person < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def initials
+    "#{first_name[0]}#{last_name[0]}".upcase
+  end
+
   def roles
     [callee, caller, admin, pod_leader].filter { |p| !p.nil? }
   end

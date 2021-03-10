@@ -1,0 +1,7 @@
+<% text_color = ["text-yellow-500", "text-green-500", "text-indigo-500", "text-blue-500", "text-pink-500"][@scheme] %>
+<% border_color = ["border-yellow-300", "border-green-300", "border-indigo-300", "border-blue-300", "border-pink-300"][@scheme] %>
+<div class="w-12 h-12 md:w-32 md:h-32 border-4 <%= border_color %> rounded-full flex items-center self-center justify-center">
+  <div class="w-10 h-10 md:w-28 md:h-28 rounded-full flex items-center border-gray-200 border-4 justify-center bg-white ">
+    <div class="font-bold text-base md:text-5xl <%= text_color %>"><%= @initials %></div>
+  </div>
+</div>

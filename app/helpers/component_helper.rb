@@ -22,4 +22,8 @@ module ComponentHelper
   def reports_list(*args)
     render ReportsListComponent.new(*args)
   end
+
+  def profile_initials(*args)
+    render ProfileInitialsComponent.new(*args)
+  end
 end

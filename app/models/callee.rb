@@ -30,6 +30,10 @@ class Callee < ApplicationRecord
     person.name
   end
 
+  def initials
+    person.initials
+  end
+
   def name_and_pod
     if pod
       "#{person.name} (Pod: #{pod.name})"
