@@ -4,7 +4,7 @@ RSpec.describe "edit note", type: :system do
   let!(:callee) { create(:callee) }
   let!(:admin) { create(:admin, status: "active") }
   let!(:note) do
-    note = create(:note, person: callee.person, created_by: admin.person)
+    note = create(:note, person: callee.person, created_by: admin.person, deleted_at: nil)
     note.create_events!
     note
   end

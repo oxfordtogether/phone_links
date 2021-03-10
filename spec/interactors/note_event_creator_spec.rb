@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "NoteEventCreator", type: :model do
-  let!(:note) { create(:note, content: "hello") }
+  let!(:note) { create(:note, content: "hello", deleted_at: nil)) }
 
   it "works" do
     Events::NoteEventCreator.new(note).create_events!
