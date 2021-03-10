@@ -18,9 +18,7 @@ RSpec.describe "edit callee", type: :system do
     select "Left programme", from: "Status"
     fill_in "Status change notes", with: "boo"
 
-    expect do
-      click_on "Save"
-    end.to change { RoleStatusChange.count }.by(1)
+    click_on "Save"
 
     callee.reload
     status_change = RoleStatusChange.last
