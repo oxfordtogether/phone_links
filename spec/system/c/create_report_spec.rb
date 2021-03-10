@@ -38,7 +38,7 @@ RSpec.describe "create report", type: :system do
     expect(report.match.id).to eq(match_2.id)
     expect(report.date_of_call.strftime("%Y-%m-%d")).to eq("2020-01-01")
     expect(report.duration).to eq(:fifteen_thirty)
-    expect(report.callee_state).to eq("Great!")
+    expect(report.callee_state).to eq(:great)
     expect(report.caller_confidence).to eq(:very_confident)
     expect(report.summary).to eq("This is a test")
     expect(report.concerns).to eq(true)

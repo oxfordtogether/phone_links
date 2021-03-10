@@ -100,7 +100,7 @@ RSpec.describe "reports", type: :system do
       expect(page).to have_content("1 of 1")
 
       find("form.archive").find("button").click
-      expect(page).to have_content("No reports to display :(")
+      expect(page).to have_content("Inbox is empty, you're up to date!")
     end
   end
 
@@ -129,7 +129,7 @@ RSpec.describe "reports", type: :system do
 
       last_report = sorted_reports[sorted_reports.count - 1]
 
-      if last_report.match.present?
+      if !last_report.match.present?
         all("td", text: "#{last_report.legacy_caller_name} & #{last_report.legacy_callee_name}").last.click
       else
         all("td", text: last_report.match.match_names).last.click

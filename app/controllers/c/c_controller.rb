@@ -22,10 +22,10 @@ class C::CController < ApplicationController
   end
 
   def is_admin
-    @is_admin ||= current_user.admin.present?
+    @is_admin ||= current_user&.admin.present?
   end
 
   def is_pod_leader
-    @is_pod_leader ||= current_user.pod_leader.present?
+    @is_pod_leader ||= current_user&.pod_leader.present?
   end
 end

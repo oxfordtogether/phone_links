@@ -18,11 +18,11 @@ class Pl::PlController < ApplicationController
   end
 
   def is_admin
-    @is_admin ||= current_user.admin.present?
+    @is_admin ||= current_user&.admin.present?
   end
 
   def is_caller
-    @is_caller ||= current_user.caller.present?
+    @is_caller ||= current_user&.caller.present?
   end
 
   def has_pod
