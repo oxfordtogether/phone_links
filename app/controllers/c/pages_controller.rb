@@ -7,6 +7,4 @@ class C::PagesController < C::CController
     @reports = Report.where(match_id: matches)
     @matches = current_caller.matches
   end
-
-  def support; end
 end

@@ -157,9 +157,8 @@ Rails.application.routes.draw do
   namespace :c do
     scope "/:caller_id" do
       get "/", to: "pages#home"
-      get "support", to: "pages#support"
-      resources :reports
-      resources :callees
+      resources :reports, only: %i[new create]
+      resources :callees, only: %i[show]
     end
   end
 end
