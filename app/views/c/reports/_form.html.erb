@@ -1,26 +1,35 @@
-<%= tailwind_form_with(model: [:c, @report], local: true) do |form| %>
-  <%= form.section do %>
-    <%= form.collection_select :match_id, @matches, :id, :callee_name, label: "Who did you call?", include_blank: false, width: :third, required_asterix: true %>
-    <%= form.date_picker :date_of_call, label: "Date of the call", width: :third, required_asterix: true %>
-    <%= form.select :duration, Report.duration_options_for_select, label: "Length of the call", width: :third, required_asterix: true %>
-    <%= form.select :callee_state, Report.callee_state_options_for_select, label: "How did the person you're calling feel today", width: :half, required_asterix: true %>
-    <%= form.select :caller_confidence, Report.caller_confidence_options_for_select, label: "How confident did you feel with the call", width: :half, required_asterix: true %>
-    <%= form.text_area :summary, label: "Brief summary of the call", width: :full %>
-    <div class="sm:col-span-6">
-      <%= render(OclTools::BlockAlertComponent.new) do |component| %>
-        <% component.with(:title) do %>
-          Safeguarding
+<div data-controller='better-conditional-fields' class="sm:col-span-6">
+  <%= tailwind_form_with(model: [:c, @report], local: true) do |form| %>
+    <%= form.section do %>
+      <%= form.hidden_field :match_id, value: @match_id %>
+      <%= form.date_picker :date_of_call, label: "Date of the call", width: :half, required_asterix: true %>
+      <%= form.select :duration, Report.duration_options_for_select, label: "Length of the call", width: :half, required_asterix: true, html_options: {"data-better-conditional-fields-target" => "source", "data-name" => "duration"} %>
+      <div class="sm:col-span-6" data-better-conditional-fields-target="target" data-display-unless="duration.no_answer">
+        <%= form.select :callee_state, Report.callee_state_options_for_select, label: "How did the person you're calling feel today", width: :half, required_asterix: true %>
+        <%= form.select :caller_confidence, Report.caller_confidence_options_for_select, label: "How confident did you feel with the call", width: :half, required_asterix: true %>
+        <%= form.text_area :summary, label: "Brief summary of the call", width: :full %>
+      </div>
+      <div class="sm:col-span-6 hidden" data-better-conditional-fields-target="target" data-display-if="duration.no_answer">
+        <%= form.text_area :summary, label: "Notes?", width: :full %>
+      </div>
+      <div class="sm:col-span-6">
+        <%= render(OclTools::BlockAlertComponent.new) do |component| %>
+          <% component.with(:title) do %>
+            Safeguarding
+          <% end %>
+          <% component.with(:info) do %>
+            <p>If you have any safeguarding concerns or something that needs addressing urgently, please fill out the <%= link_to("Safeguarding form", "https://www.oxfordhub.org/safeguarding", class: "underline") %>.</p>
+          <% end %>
         <% end %>
-        <% component.with(:info) do %>
-          <p>If you have any safeguarding concerns or something that needs addressing urgently, please fill out the <%= link_to("Safeguarding form", "https://www.oxfordhub.org/safeguarding", class: "underline") %>.</p>
-        <% end %>
-      <% end %>
-    </div>
-    <%= form.check_box :concerns, 1, "Do you have anything that you would like to discuss with your pod leader?", width: :full %>
-    <%= form.text_area :concerns_notes, label: "Please briefly describe what you would like to discuss with your pod leader", width: :full %>
+      </div>
+      <%= form.check_box :concerns, 1, "Do you have anything that you would like to discuss with your pod leader?", width: :full, options: {"data-better-conditional-fields-target" => "source", "data-name" => "concerns"} %>
+      <div data-better-conditional-fields-target="target" data-display-if="concerns.1" class="sm:col-span-6 hidden">
+        <%= form.text_area :concerns_notes, label: "Please briefly describe what you would like to discuss with your pod leader", width: :full %>
+      </div>
+    <% end %>
+    <%= form.button_section do %>
+      <%= form.cancel c_callee_path(@current_caller, @callee) %>
+      <%= form.submit label = "Submit report" %>
+    <% end %>
   <% end %>
-  <%= form.button_section do %>
-    <%= form.cancel c_callee_path(@current_caller, @callee) %>
-    <%= form.submit label = "Submit report" %>
-  <% end %>
-<% end %>
+</div>

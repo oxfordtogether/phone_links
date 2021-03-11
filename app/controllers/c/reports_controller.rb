@@ -2,7 +2,6 @@ class C::ReportsController < C::CController
   def new
     @match_id = params[:match_id]
     @report = Report.new(match_id: @match_id, date_of_call: Date.today)
-    @matches = current_caller.matches.where(id: @match_id)
   end
 
   def create
