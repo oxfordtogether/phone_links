@@ -6,7 +6,7 @@
     <%= form.select :callee_state, Report.callee_state_options_for_select, label: "How did the person you're calling feel today", width: :half, required_asterix: true %>
     <%= form.select :caller_confidence, Report.caller_confidence_options_for_select, label: "How confident did you feel with the call", width: :half, required_asterix: true %>
     <%= form.text_area :summary, label: "Brief summary of the call", width: :full %>
-    <div class="mt-4 flex w-screen">
+    <div class="sm:col-span-6">
       <%= render(OclTools::BlockAlertComponent.new) do |component| %>
         <% component.with(:title) do %>
           Safeguarding
@@ -20,7 +20,7 @@
     <%= form.text_area :concerns_notes, label: "Please briefly describe what you would like to discuss with your pod leader", width: :full %>
   <% end %>
   <%= form.button_section do %>
-    <%= form.cancel @redirect_on_cancel %>
+    <%= form.cancel c_callee_path(@current_caller, @callee) %>
     <%= form.submit label = "Submit report" %>
   <% end %>
 <% end %>

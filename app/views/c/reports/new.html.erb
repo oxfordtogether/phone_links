@@ -1,9 +1,12 @@
+<% @callee = @report.match.callee %>
 <% content_for :breadcrumbs do %>
   <%= breadcrumbs do |list| %>
-    <% list.link "Reports", c_reports_path %>
+    <% list.link @callee.name, c_callee_path(@current_caller, @callee) %>
   <% end %>
 <% end %>
 <% content_for :page_head do %>
-  <%= render ReportsHeadComponent.new(@reports) %>
+  <%= render partial: "c/callees/show_head_page" %>
 <% end %>
-<%= render 'form', report: @report, action: :new %>
+<div class="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl">
+  <%= render 'form', report: @report %>
+</div>

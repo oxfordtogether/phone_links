@@ -10,36 +10,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body class="h-screen">
-    <% if demo? %>
-      <%= alert(title: 'Demo', info: 'This is a demo site. The production site can be found at https://phonelinks.oxfordhub.org.') %>
-    <% end %>
-    <div class="h-screen flex overflow-hidden bg-gray-100">
-      <div class="flex flex-col w-0 flex-1 overflow-hidden">
-        <main class="flex-1 relative z-0 overflow-y-auto focus:outline-none" tabindex="0">
-          <%= notice_component(notice: notice) %>
-          <% if content_for?(:full_page) %>
-            <%= yield(:full_page) %>
-          <% else %>
-            <div class="bg-white">
-              <div class="pt-6 max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                <% if content_for?(:breadcrumbs)%>
-                  <div class="pb-4">
-                    <%= yield(:breadcrumbs) %>
-                  </div>
-                <% end %>
-                <% if content_for?(:page_head) %>
-                  <%= yield(:page_head) %>
-                <% end %>
-              </div>
+    <div class="min-h-full flex flex-col bg-gray-100">
+      <% if demo? %>
+        <%= alert(title: 'Demo', info: 'This is a demo site. The production site can be found at https://phonelinks.oxfordhub.org.') %>
+      <% end %>
+      <main class="flex-1">
+        <%= notice_component(notice: notice) %>
+        <% if content_for?(:full_page) %>
+          <%= yield(:full_page) %>
+        <% else %>
+          <div class="bg-white">
+            <div class="pt-6 max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+              <% if content_for?(:breadcrumbs)%>
+                <div class="pb-4">
+                  <%= yield(:breadcrumbs) %>
+                </div>
+              <% end %>
+              <% if content_for?(:page_head) %>
+                <%= yield(:page_head) %>
+              <% end %>
             </div>
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-              <div class="py-6">
-                <%= yield %>
-              </div>
+          </div>
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+            <div class="py-6">
+              <%= yield %>
             </div>
-          <% end %>
-        </main>
-      </div>
+          </div>
+        <% end %>
+      </main>
       <%= render partial: "c/layouts/footer" %>
     </div>
   </body>

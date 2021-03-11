@@ -1,7 +1,6 @@
 class C::CalleesController < C::CController
-  before_action :set_callee, only: %i[show edit update destroy]
+  before_action :set_callee, only: %i[show]
 
-  # GET /callees
   def show
     @current_caller = current_caller
     match = Match.where(caller_id: current_caller, callee_id: @callee.id).first
@@ -11,7 +10,6 @@ class C::CalleesController < C::CController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_callee
     @callee = Callee.find(params[:id])
   end
