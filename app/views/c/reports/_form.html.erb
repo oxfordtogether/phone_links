@@ -9,7 +9,6 @@
           <%= form.grid do %>
             <%= form.icon_select :callee_state, @callee_state_options, label: "How did #{@match.callee.person.first_name} seem today?", required_asterix: true, info_message: "Please give #{@match.callee.person.first_name}'s mood at the beginning of the call." %>
             <%= form.icon_select :caller_confidence, @caller_state_options, label: "How do you feel the call went?", required_asterix: true, info_message: "" %>
-            <%= form.select :caller_confidence, Report.caller_confidence_options_for_select, label: "How confident did you feel with the call", width: :full, required_asterix: true %>
             <%= form.text_area :summary, label: "Brief summary of the call", width: :full, rows: 3, info_message: "Only fill in what is helpful for you to know and keep track of" %>
           <% end %>
         </div>

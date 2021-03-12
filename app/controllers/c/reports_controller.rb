@@ -3,17 +3,17 @@ class C::ReportsController < C::CController
     @match = Match.find(params[:match_id])
     @report = Report.new(match_id: @match.id, date_of_call: Date.today)
 
-    @callee_state_options = [{ 'icon': "emoji-angry-fill", value: "awful", selected_classes: "text-yellow-300", unselected_classes: "text-yellow-100", classes: "border border-yellow-400 bg-gray-600 hover:text-yellow-300 rounded-full" },
-                             { 'icon': "emoji-frown-fill", value: "bad", selected_classes: "text-yellow-300", unselected_classes: "text-yellow-100", classes: "border border-yellow-400 bg-gray-600 hover:text-yellow-300 rounded-full" },
-                             { 'icon': "emoji-neutral-fill", value: "neutral", selected_classes: "text-yellow-300", unselected_classes: "text-yellow-100", classes: "border border-yellow-400 bg-gray-600 hover:text-yellow-300 rounded-full" },
-                             { 'icon': "emoji-smile-fill", value: "good", selected_classes: "text-yellow-300", unselected_classes: "text-yellow-100", classes: "border border-yellow-400 bg-gray-600 hover:text-yellow-300 rounded-full" },
-                             { 'icon': "emoji-heart-eyes-fill", value: "great", selected_classes: "text-yellow-300", unselected_classes: "text-yellow-100", classes: "border border-yellow-400 bg-gray-600 hover:text-yellow-300 rounded-full" }]
+    @callee_state_options = [{ 'icon': "emoji-angry-fill", value: "awful", selected_classes: "bg-yellow-200 border-2", unselected_classes: "border", classes: "rounded-md p-2 bg-white text-yellow-300 border-yellow-400", icon_classes: "w-7 h-7 rounded-full bg-gray-500 border-gray-500 border" },
+                             { 'icon': "emoji-frown-fill", value: "bad", selected_classes: "bg-yellow-200 border-2", unselected_classes: "border", classes: "rounded-md p-2 bg-white text-yellow-300 border-yellow-400", icon_classes: "w-7 h-7 rounded-full bg-gray-500 border-gray-500 border" },
+                             { 'icon': "emoji-neutral-fill", value: "neutral", selected_classes: "bg-yellow-200 border-2", unselected_classes: "border", classes: "rounded-md p-2 bg-white text-yellow-300 border-yellow-400", icon_classes: "w-7 h-7 rounded-full bg-gray-500 border-gray-500 border" },
+                             { 'icon': "emoji-smile-fill", value: "good", selected_classes: "bg-yellow-200 border-2", unselected_classes: "border", classes: "rounded-md p-2 bg-white text-yellow-300 border-yellow-400", icon_classes: "w-7 h-7 rounded-full bg-gray-500 border-gray-500 border" },
+                             { 'icon': "emoji-heart-eyes-fill", value: "great", selected_classes: "bg-yellow-200 border-2", unselected_classes: "border", classes: "rounded-md p-2 bg-white text-yellow-300 border-yellow-400", icon_classes: "w-7 h-7 rounded-full bg-gray-500 border-gray-500 border" }]
 
-    @caller_state_options = [{ 'icon': "thumb-up", value: "awful", selected_classes: "border-2 border-gray-400", unselected_classes: "", classes: "transform rotate-180 p-1 text-red-400" },
-                             { 'icon': "thumb-up", value: "bad", selected_classes: "border-2 border-gray-400", unselected_classes: "", classes: "transform -rotate-135 p-1 text-red-300" },
-                             { 'icon': "thumb-up", value: "neutral", selected_classes: "border-2 border-gray-400", unselected_classes: "", classes: "transform -rotate-90 p-1 text-yellow-300" },
-                             { 'icon': "thumb-up", value: "good", selected_classes: "border-2 border-gray-400", unselected_classes: "", classes: "transform -rotate-45 p-1 text-green-300" },
-                             { 'icon': "thumb-up", value: "great", selected_classes: "border-2 border-gray-400", unselected_classes: "", classes: "p-1 text-green-400" }]
+    @caller_state_options = [{ 'icon': "thumb-up", value: "awful", selected_classes: "bg-red-200 border-2", unselected_classes: "border", classes: "rounded-md p-2 bg-white text-red-400 border-red-300", icon_classes: "w-7 h-7 transform rotate-180" },
+                             { 'icon': "thumb-up", value: "bad", selected_classes: "bg-red-100 border-2", unselected_classes: "border", classes: "rounded-md p-2 bg-white text-red-300 border-red-200", icon_classes: "w-7 h-7 transform -rotate-135" },
+                             { 'icon': "thumb-up", value: "neutral", selected_classes: "bg-yellow-100 border-2", unselected_classes: "border", classes: "rounded-md p-2 bg-white text-yellow-400 border-yellow-300", icon_classes: "w-7 h-7 transform -rotate-90" },
+                             { 'icon': "thumb-up", value: "good", selected_classes: "bg-green-50 border-2", unselected_classes: "border", classes: "rounded-md p-2 bg-white text-green-300 border-green-200", icon_classes: "w-7 h-7 transform -rotate-45" },
+                             { 'icon': "thumb-up", value: "great", selected_classes: "bg-green-100 border-2", unselected_classes: "border", classes: "rounded-md p-2 bg-white text-green-400 border-green-300", icon_classes: "w-7 h-7" }]
   end
 
   def create

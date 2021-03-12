@@ -1,5 +1,5 @@
 <% content_for :breadcrumbs do %>
-  <%= breadcrumbs do |list| %>
+  <%= breadcrumbs home_path: pl_path(@current_pod_leader) do |list| %>
     <% if @person.caller.present? %>
       <% list.link "Callers", pl_callers_path(@current_pod_leader) %>
     <% elsif @person.callee.present? %>

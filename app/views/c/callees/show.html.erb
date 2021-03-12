@@ -1,5 +1,5 @@
 <% content_for :breadcrumbs do %>
-  <%= breadcrumbs do |list| %>
+  <%= breadcrumbs home_path: c_path(@current_caller) do |list| %>
     <% list.link @callee.name, c_callee_path(@current_caller, @callee) %>
   <% end %>
 <% end %>
