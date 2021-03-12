@@ -1,0 +1,19 @@
+<% content_for :page_head do %>
+  <%= render partial: "pl/people/show_page_head" %>
+<% end %>
+<div class="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl ">
+  <% if @callee.emergency_contacts.present? %>
+    <% @callee.emergency_contacts.each do |contact| %>
+      <div class="mb-5">
+        <div><span class="text-sm text-gray-400">Name:</span> <span class="text-gray-800"><%= contact.name %>,</span></div>
+        <div><span class="text-sm text-gray-400">relationship:</span> <span class="text-gray-800"><%= contact.relationship %></span></div>
+        <div><span class="text-sm text-gray-400">Contact: </span><span class="text-gray-800"><%= contact.contact_details %></span></div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="flex justify-center text-gray-600">
+    No emergency contacts have been added for this callee yet.
+  </div>
+<% end %>
+</div>

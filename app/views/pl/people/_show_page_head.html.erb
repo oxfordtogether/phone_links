@@ -95,4 +95,7 @@
   <% if @person.caller %>
     <% nav.link "Status", status_pl_edit_caller_path(@current_pod_leader, @person.caller) %>
   <% end %>
+  <% if @person.callee %>
+    <% nav.link "Emergency contacts", emergency_contacts_pl_callee_path(@current_pod_leader, @person.callee) %>
+  <% end %>
 <% end %>

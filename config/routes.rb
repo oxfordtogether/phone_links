@@ -141,6 +141,8 @@ Rails.application.routes.draw do
 
       resources :callees, only: %i[index] do
         member do
+          get :emergency_contacts, to: "callees#emergency_contacts"
+
           scope path: :edit, as: :edit do
             get :status
             post :status, action: :save_status, as: :save_status
