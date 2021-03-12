@@ -78,21 +78,28 @@
       </h2>
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-wrap space-x-4 justify-evenly bg-white border-2 border-gray-300 bg-indigo-50 p-3 rounded-md text-sm">
-          <div class="mr-4 text-gray-500 font-medium hover:text-gray-600">
-            Pod:
-            <div class="inline font-medium text-gray-900"><%= @current_caller.pod.name %></div>
-          </div>
-          <div class="text-gray-500 font-medium hover:text-gray-600">
-            Pod leader:
-            <div class="inline font-medium text-gray-900">
-              <% if @current_caller.pod.pod_leader.present? %>
-                <%= @current_caller.pod.pod_leader.name %>
-                (<%= mail_to @current_caller.pod.pod_leader.person.email, @current_caller.pod.pod_leader.person.email %>)
-              <% else %>
-                <span>In between pod leaders</span>
-              <% end %>
+          <% if @current_caller.pod.present? %>
+            <div class="mr-4 text-gray-500 font-medium hover:text-gray-600">
+              Pod:
+              <div class="inline font-medium text-gray-900"><%= @current_caller.pod.name %></div>
             </div>
-          </div>
+            <div class="text-gray-500 font-medium hover:text-gray-600">
+              Pod leader:
+              <div class="inline font-medium text-gray-900">
+                <% if @current_caller.pod.pod_leader.present? %>
+                  <%= @current_caller.pod.pod_leader.name %>
+                  (<%= mail_to @current_caller.pod.pod_leader.person.email, @current_caller.pod.pod_leader.person.email %>)
+                <% else %>
+                  <span>In between pod leaders</span>
+                <% end %>
+              </div>
+            </div>
+          <% else %>
+            <div class="mr-4 text-gray-500 font-medium hover:text-gray-600">
+              Pod:
+              <div class="inline font-medium text-gray-900 italics">You're not currently assigned to a pod</div>
+            </div>
+          <% end %>
           <div class="text-gray-500 font-medium hover:text-gray-600">
             Oxford Hub Contact:
             <div class="inline font-medium text-gray-900">
