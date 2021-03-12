@@ -64,7 +64,7 @@
                 <div class="text-gray-500 font-medium hover:text-gray-600">
                   Last call:
                   <div class="inline text-lg font-medium text-gray-900"><%= format_date(@reports.sort_by(&:created_at).last.created_at) %></div>
-                </a>
+                </div>
               </div>
             </div>
           </li>
@@ -72,85 +72,117 @@
       </div>
     </div>
     <div class="mt-8">
-      <!-- handle no active matches yet -->
+      <!-- handle no pod yet -->
       <h2 class="mt-8 max-w-6xl mx-auto px-4 text-xs leading-6 font-medium uppercase tracking-wide text-gray-800 sm:px-6 lg:px-8">
-        Your active matches
+        Your pod
       </h2>
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <ul class="mb-6 mt-2 rounded-lg overflow-hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <% @matches.each do |match| %>
-            <li class="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
-              <%= link_to "/c/#{match.caller.id}/callees/#{match.callee.id}" do %>
-                <div class="flex md:flex-col px-6 py-3 md:p-8">
-                  <%= profile_initials(initials: match.callee.initials) %>
-                  <div class="flex flex-col items-start md:items-center px-8">
-                    <h3 class="mt-2 md:mt-6 text-gray-900 text-base font-medium"><%= match.callee.name %></h3>
-                    <% if match.reports.present? %>
-                      <dd class="text-gray-500 md:mt-1 text-sm">Last call: <%= last_report_days(match.reports.last.created_at) %> ago</dd>
-                    <% end %> <!-- handle no reports -->
-                  </div>
-                </div>
+        <div class="flex flex-wrap space-x-4 justify-evenly bg-white border-2 border-gray-300 bg-indigo-50 p-3 rounded-md text-sm">
+          <div class="mr-4 text-gray-500 font-medium hover:text-gray-600">
+            Pod:
+            <div class="inline font-medium text-gray-900"><%= @current_caller.pod.name %></div>
+          </div>
+          <div class="text-gray-500 font-medium hover:text-gray-600">
+            Pod leader:
+            <div class="inline font-medium text-gray-900">
+              <% if @current_caller.pod.pod_leader.present? %>
+                <%= @current_caller.pod.pod_leader.name %>
+                (<%= mail_to @current_caller.pod.pod_leader.person.email, @current_caller.pod.pod_leader.person.email %>)
+              <% else %>
+                <span>In between pod leaders</span>
               <% end %>
-              <%= link_to "tel:#{141}#{match.callee.person.phone}", class: "flex justify-center items-center p-3 hover:bg-gray-100" do %>
-                <%= icon('phone', class: "w-5 h-5 text-gray-400") %>
-                <span class="ml-3 text-gray-500"><%= match.callee.person.phone %></span>
-              <% end %>
-            </li>
-          <% end %>
-        </ul>
+            </div>
+          </div>
+          <div class="text-gray-500 font-medium hover:text-gray-600">
+            Oxford Hub Contact:
+            <div class="inline font-medium text-gray-900">
+              <%= mail_to "phone-link@oxfordhub.org", "phone-link@oxfordhub.org" %>
+            </div>
+          </div>
+          <div>
+          </div>
+        </div>
       </div>
       <div class="mt-8">
-        <h2 class="max-w-6xl mx-auto px-4 text-xs leading-6 font-medium uppercase tracking-wide text-gray-800 sm:px-6 lg:px-8">
-          Useful links
+        <!-- handle no active matches yet -->
+        <h2 class="mt-8 max-w-6xl mx-auto px-4 text-xs leading-6 font-medium uppercase tracking-wide text-gray-800 sm:px-6 lg:px-8">
+          Your active matches
         </h2>
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="mb-6 mt-2 rounded-lg bg-gray-200 overflow-hidden shadow divide-y divide-gray-200 lg:divide-y-0 lg:grid lg:grid-cols-2 lg:gap-px">
-            <div class="rounded-tl-lg rounded-tr-lg sm:rounded-tr-none relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
-              <a href="https://www.oxfordhub.org/safeguarding" class="focus:outline-none" target="_blank">
-                <h3 class="text-sm md:text-lg font-medium">
-                  <span class="absolute inset-0" aria-hidden="true"></span>
-                  Report a concern
-                </h3>
-                <div class="inline-flex items-center mt-1">
-                  <span class="rounded-lg inline-flex p-1 bg-red-50 ring-4 ring-white mr-3">
-                    <%= icon "exclamation", class: "h-4 w-4 text-red-700" %>
-                  </span>
-                  <%= link_to "Oxford Hub Safeguarding form", "", target: "_blank", class: "text-sm text-gray-500" %>
-                </div>
-              </a>
-              <span class="pointer-events-none absolute top-6 right-6 text-gray-400 group-hover:text-gray-500" aria-hidden="true">
-                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
-                </svg>
-              </span>
-            </div>
-            <div class="sm:rounded-tr-lg relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
-              <a href="https://trello.com/b/cgIsgGWg/phone-links-volunteers" target="_blank" class="focus:outline-none">
-                <h3 class="text-sm md:text-lg font-medium">
-                  <span class="absolute inset-0" aria-hidden="true"></span>
-                  Trello board
-                </h3>
-                <div class="inline-flex items-center mt-1">
-                  <span class="rounded-lg inline-flex p-1 bg-green-50 ring-4 ring-white mr-3">
-                    <svg class="h-4 w-4 text-green-700" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="CurrentColor" class="bi bi-card-checklist" viewBox="0 0 16 16">
-                      <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
-                      <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
-                    </svg>
-                  </span>
-                  <span class="text-sm text-gray-500">
-                    Resources for Phone Links Volunteers
-                  </span>
-                </div>
-              </a>
-              <span class="pointer-events-none absolute top-6 right-6 text-gray-400 group-hover:text-gray-500" aria-hidden="true">
-                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
-                </svg>
-              </span>
+          <ul class="mb-6 mt-2 rounded-lg overflow-hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <% @matches.each do |match| %>
+              <li class="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
+                <%= link_to "/c/#{match.caller.id}/callees/#{match.callee.id}" do %>
+                  <div class="flex md:flex-col px-6 py-3 md:p-8">
+                    <%= profile_initials(initials: match.callee.initials) %>
+                    <div class="flex flex-col items-start md:items-center px-8">
+                      <h3 class="mt-2 md:mt-6 text-gray-900 text-base font-medium"><%= match.callee.name %></h3>
+                      <% if match.reports.present? %>
+                        <dd class="text-gray-500 md:mt-1 text-sm">Last call: <%= last_report_days(match.reports.last.created_at) %> ago</dd>
+                      <% end %> <!-- handle no reports -->
+                    </div>
+                  </div>
+                <% end %>
+                <%= link_to "tel:#{141}#{match.callee.person.phone}", class: "flex justify-center items-center p-3 hover:bg-gray-100" do %>
+                  <%= icon('phone', class: "w-5 h-5 text-gray-400") %>
+                  <span class="ml-3 text-gray-500"><%= match.callee.person.phone %></span>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="mt-8">
+          <h2 class="max-w-6xl mx-auto px-4 text-xs leading-6 font-medium uppercase tracking-wide text-gray-800 sm:px-6 lg:px-8">
+            Useful links
+          </h2>
+          <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-6 mt-2 rounded-lg bg-gray-200 overflow-hidden shadow divide-y divide-gray-200 lg:divide-y-0 lg:grid lg:grid-cols-2 lg:gap-px">
+              <div class="rounded-tl-lg rounded-tr-lg sm:rounded-tr-none relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
+                <a href="https://www.oxfordhub.org/safeguarding" class="focus:outline-none" target="_blank">
+                  <h3 class="text-sm md:text-lg font-medium">
+                    <span class="absolute inset-0" aria-hidden="true"></span>
+                    Report a concern
+                  </h3>
+                  <div class="inline-flex items-center mt-1">
+                    <span class="rounded-lg inline-flex p-1 bg-red-50 ring-4 ring-white mr-3">
+                      <%= icon "exclamation", class: "h-4 w-4 text-red-700" %>
+                    </span>
+                    <%= link_to "Oxford Hub Safeguarding form", "", target: "_blank", class: "text-sm text-gray-500" %>
+                  </div>
+                </a>
+                <span class="pointer-events-none absolute top-6 right-6 text-gray-400 group-hover:text-gray-500" aria-hidden="true">
+                  <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
+                  </svg>
+                </span>
+              </div>
+              <div class="sm:rounded-tr-lg relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
+                <a href="https://trello.com/b/cgIsgGWg/phone-links-volunteers" target="_blank" class="focus:outline-none">
+                  <h3 class="text-sm md:text-lg font-medium">
+                    <span class="absolute inset-0" aria-hidden="true"></span>
+                    Trello board
+                  </h3>
+                  <div class="inline-flex items-center mt-1">
+                    <span class="rounded-lg inline-flex p-1 bg-green-50 ring-4 ring-white mr-3">
+                      <svg class="h-4 w-4 text-green-700" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="CurrentColor" class="bi bi-card-checklist" viewBox="0 0 16 16">
+                        <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                        <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
+                      </svg>
+                    </span>
+                    <span class="text-sm text-gray-500">
+                      Resources for Phone Links Volunteers
+                    </span>
+                  </div>
+                </a>
+                <span class="pointer-events-none absolute top-6 right-6 text-gray-400 group-hover:text-gray-500" aria-hidden="true">
+                  <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
+                  </svg>
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
