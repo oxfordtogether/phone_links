@@ -5,6 +5,7 @@ class Match < ApplicationRecord
   options_field :status, {
     provisional: "Provisional",
     provisional_cancelled: "Provisional match cancelled",
+    paused: "Paused",
     active: "Active",
     winding_down: "Winding down",
     ended: "Ended",
@@ -39,6 +40,10 @@ class Match < ApplicationRecord
 
   def active
     status == :active
+  end
+
+  def paused
+    status == :paused
   end
 
   def winding_down
