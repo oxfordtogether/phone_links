@@ -18,6 +18,7 @@ class Report < ApplicationRecord
     over_sixty: "Over 1 hour",
     no_answer: "I did not get through",
   }
+
   options_field :caller_confidence, {
     very_confident: "Very confident",
     confident: "Confident",
@@ -27,9 +28,11 @@ class Report < ApplicationRecord
   }
 
   options_field :callee_state, {
-    great: "Great!",
-    ok: "Ok",
-    not_great: "Not great",
+    great: "great",
+    good: "good",
+    neutral: "neutral",
+    bad: "bad",
+    awful: "awful",
   }
 
   def legacy?

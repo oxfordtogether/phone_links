@@ -1,35 +1,41 @@
-<div data-controller='better-conditional-fields' class="sm:col-span-6">
-  <%= tailwind_form_with(model: [:c, @report], local: true) do |form| %>
-    <%= form.section do %>
-      <%= form.hidden_field :match_id, value: @match_id %>
-      <%= form.date_picker :date_of_call, label: "Date of the call", width: :half, required_asterix: true %>
-      <%= form.select :duration, Report.duration_options_for_select, label: "Length of the call", width: :half, required_asterix: true, html_options: {"data-better-conditional-fields-target" => "source", "data-name" => "duration"} %>
-      <div class="sm:col-span-6" data-better-conditional-fields-target="target" data-display-unless="duration.no_answer">
-        <%= form.select :callee_state, Report.callee_state_options_for_select, label: "How did the person you're calling feel today", width: :half, required_asterix: true %>
-        <%= form.select :caller_confidence, Report.caller_confidence_options_for_select, label: "How confident did you feel with the call", width: :half, required_asterix: true %>
-        <%= form.text_area :summary, label: "Brief summary of the call", width: :full %>
-      </div>
-      <div class="sm:col-span-6 hidden" data-better-conditional-fields-target="target" data-display-if="duration.no_answer">
-        <%= form.text_area :summary, label: "Notes?", width: :full %>
-      </div>
-      <div class="sm:col-span-6">
-        <%= render(OclTools::BlockAlertComponent.new) do |component| %>
-          <% component.with(:title) do %>
-            Safeguarding
+<div data-controller='better-conditional-fields' class="sm:col-span-6 flex justify-center">
+  <div class="max-w-xl">
+    <%= tailwind_form_with(model: [:c, @report], local: true) do |form| %>
+      <%= form.section do %>
+        <%= form.hidden_field :match_id, value: @match.id %>
+        <%= form.date_picker :date_of_call, label: "Date of the call", width: :full, required_asterix: true %>
+        <%= form.select :duration, Report.duration_options_for_select, label: "Length of the call", width: :full, required_asterix: true, html_options: {"data-better-conditional-fields-target" => "source", "data-name" => "duration"} %>
+        <div class="sm:col-span-6" data-better-conditional-fields-target="target" data-display-unless="duration.no_answer">
+          <%= form.grid do %>
+            <%= form.icon_select :callee_state, @callee_state_options, label: "How did #{@match.callee.person.first_name} seem today?", required_asterix: true, info_message: "Please give #{@match.callee.person.first_name}'s mood at the beginning of the call." %>
+            <%= form.icon_select :caller_confidence, @caller_state_options, label: "How do you feel the call went?", required_asterix: true, info_message: "" %>
+            <%= form.select :caller_confidence, Report.caller_confidence_options_for_select, label: "How confident did you feel with the call", width: :full, required_asterix: true %>
+            <%= form.text_area :summary, label: "Brief summary of the call", width: :full, rows: 3, info_message: "Only fill in what is helpful for you to know and keep track of" %>
           <% end %>
-          <% component.with(:info) do %>
-            <p>If you have any safeguarding concerns or something that needs addressing urgently, please fill out the <%= link_to("Safeguarding form", "https://www.oxfordhub.org/safeguarding", class: "underline") %>.</p>
+        </div>
+        <div class="sm:col-span-6 hidden" data-better-conditional-fields-target="target" data-display-if="duration.no_answer">
+          <%= form.text_area :summary, label: "Please add any comments you have here", width: :full %>
+          <div class="mt-2 text-xs text-gray-400">Please review and follow our guidance for when someone does not pick up the phone <%= link_to "here", "https://docs.google.com/document/d/1zTwIzk0FT3R4801xjiOV2PI6vGI7yR-zLTpv-X8KH_g", class: "text-blue-500 hover:text-blue-600" %> and complete a <%= link_to "safeguarding form", "https://www.oxfordhub.org/safeguarding", class: "text-blue-500 hover:text-blue-600" %> if you are concerned.</div>
+        </div>
+        <%= form.check_box :concerns, 1, "Do you have anything that you would like to discuss with your pod leader?", width: :full, options: {"data-better-conditional-fields-target" => "source", "data-name" => "concerns"} %>
+        <div class="sm:col-span-6">
+          <%= render(OclTools::BlockAlertComponent.new) do |component| %>
+            <% component.with(:title) do %>
+              Safeguarding
+            <% end %>
+            <% component.with(:info) do %>
+              <p>If you have any safeguarding concerns or something that needs addressing urgently, please fill out the <%= link_to("Safeguarding form", "https://www.oxfordhub.org/safeguarding", class: "underline") %>.</p>
+            <% end %>
           <% end %>
-        <% end %>
-      </div>
-      <%= form.check_box :concerns, 1, "Do you have anything that you would like to discuss with your pod leader?", width: :full, options: {"data-better-conditional-fields-target" => "source", "data-name" => "concerns"} %>
-      <div data-better-conditional-fields-target="target" data-display-if="concerns.1" class="sm:col-span-6 hidden">
-        <%= form.text_area :concerns_notes, label: "Please briefly describe what you would like to discuss with your pod leader", width: :full %>
-      </div>
+        </div>
+        <div data-better-conditional-fields-target="target" data-display-if="concerns.1" class="sm:col-span-6 hidden">
+          <%= form.text_area :concerns_notes, label: "Please briefly describe what you would like to discuss with your pod leader", width: :full %>
+        </div>
+      <% end %>
+      <%= form.button_section do %>
+        <%= form.cancel c_callee_path(@current_caller, @callee) %>
+        <%= form.submit label = "Submit report" %>
+      <% end %>
     <% end %>
-    <%= form.button_section do %>
-      <%= form.cancel c_callee_path(@current_caller, @callee) %>
-      <%= form.submit label = "Submit report" %>
-    <% end %>
-  <% end %>
+  </div>
 </div>
