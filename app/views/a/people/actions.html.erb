@@ -9,53 +9,41 @@
 <% end %>
 <% if !@person.callee.present? %>
   <div class="">
-    <h1 class="my-3">Manage roles</h1>
-    <% if !@person.pod_leader.present? %>
-      <div class="new-pod-leader-role my-4">
-        <%= tailwind_form_with(model: [:a, @person],
+    <h1 class="mt-3 text-lg text-gray-800">Manage roles</h1>
+    <div class="flex flex-wrap space-x-4 my-2">
+      <% if !@person.pod_leader.present? %>
+        <div class="new-pod-leader-role">
+          <%= tailwind_form_with(model: [:a, @person],
                         url: "/a/people/#{@person.id}/create_role",
                         method: :post,
                         local: true) do |form| %>
-          <%= form.hidden_field :role, value: "pod_leader" %>
-          <%= form.submit "Add pod leader role" %>
-        <% end %>
-      </div>
-    <% end %>
-    <% if !@person.caller.present? %>
-      <div class="new-caller-role my-4">
-        <%= tailwind_form_with(model: [:a, @person],
+            <%= form.hidden_field :role, value: "pod_leader" %>
+            <%= form.submit "Add pod leader role" %>
+          <% end %>
+        </div>
+      <% end %>
+      <% if !@person.caller.present? %>
+        <div class="new-caller-role">
+          <%= tailwind_form_with(model: [:a, @person],
                         url: "/a/people/#{@person.id}/create_role",
                         method: :post,
                         local: true) do |form| %>
-          <%= form.hidden_field :role, value: "caller" %>
-          <%= form.submit "Add caller role" %>
-        <% end %>
-      </div>
-    <% end %>
-    <% if !@person.admin.present? %>
-      <div class="new-admin-role my-4">
-        <%= tailwind_form_with(model: [:a, @person],
+            <%= form.hidden_field :role, value: "caller" %>
+            <%= form.submit "Add caller role" %>
+          <% end %>
+        </div>
+      <% end %>
+      <% if !@person.admin.present? %>
+        <div class="new-admin-role">
+          <%= tailwind_form_with(model: [:a, @person],
                         url: "/a/people/#{@person.id}/create_role",
                         method: :post,
                         local: true) do |form| %>
-          <%= form.hidden_field :role, value: "admin" %>
-          <%= form.submit "Add admin role" %>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
-<% end %>
-<% if false %>
-  <div class="my-9">
-    <h1 class="my-3">Manage matches</h1>
-    <% if @person.callee.present? || @person.caller.present? %>
-      <%= button_link_to "New provisional match", new_a_match_path %>
-    <% end %>
-  </div>
-  <% if !@person.callee.present? %>
-    <div class="my-6">
-      <h1 class="my-3">Account management</h1>
-      <%= button_link_to "Invite to system", "" %>
+            <%= form.hidden_field :role, value: "admin" %>
+            <%= form.submit "Add admin role" %>
+          <% end %>
+        </div>
+      <% end %>
     </div>
-  <% end %>
+  </div>
 <% end %>
