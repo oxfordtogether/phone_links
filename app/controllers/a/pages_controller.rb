@@ -9,7 +9,7 @@ class A::PagesController < A::AController
   end
 
   def support
-    render "pages/support"
+    render "a/pages/support"
   end
 
   def search

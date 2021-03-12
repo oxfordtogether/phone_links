@@ -10,6 +10,6 @@ class Pl::PagesController < Pl::PlController
   end
 
   def support
-    render "pages/support"
+    render "pl/pages/support"
   end
 end
