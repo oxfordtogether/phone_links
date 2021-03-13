@@ -25,9 +25,9 @@
             <%= caller.active_matches.count %> active match<%= caller.active_matches.count > 1 ? "es" : ''%>
           </div>
         <% end %>
-        <% if callee.paused_matches.present? %>
+        <% if caller.paused_matches.present? %>
           <div class="ml-2 text-green-500">
-            <%= callee.paused_matches.count %> paused match<%= callee.paused_matches.count > 1 ? "es" : ''%>
+            <%= caller.paused_matches.count %> paused match<%= caller.paused_matches.count > 1 ? "es" : ''%>
           </div>
         <% end %>
         <% if caller.winding_down_matches.present? %>

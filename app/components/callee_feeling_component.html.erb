@@ -1,0 +1,12 @@
+<% case @feeling %>
+<% when :awful %>
+<%= icon("emoji-angry-fill", class: "w-6 h-6 rounded-full bg-gray-500 border-yellow-500 border text-yellow-300") %>
+<% when :bad %>
+<%= icon("emoji-frown-fill", class: "w-6 h-6 rounded-full bg-gray-500 border-yellow-500 border text-yellow-300") %>
+<% when :neutral %>
+<%= icon("emoji-neutral-fill", class: "w-6 h-6 rounded-full bg-gray-500 border-yellow-500 border text-yellow-300") %>
+<% when :good %>
+<%= icon("emoji-smile-fill", class: "w-6 h-6 rounded-full bg-gray-500 border-yellow-500 border text-yellow-300") %>
+<% when :great %>
+<%= icon("emoji-heart-eyes-fill", class: "w-6 h-6 rounded-full bg-gray-500 border-yellow-500 border text-yellow-300") %>
+<% end %>

@@ -43,7 +43,11 @@ module ApplicationHelper
     return unless date
 
     if date.today?
-      date.strftime("%H:%M")
+      if date.instance_of? Date
+        date.strftime("#{date.day.ordinalize} %b")
+      else
+        date.strftime("%H:%M")
+      end
     elsif date.year == Date.today.year
       date.strftime("#{date.day.ordinalize} %b")
     else

@@ -5,8 +5,8 @@ FactoryBot.define do
     duration { Report.durations.keys.sample }
     summary { SUMMARY_EXAMPLE.sample }
     date_of_call { FFaker::Time.between(created_at - 1.week, created_at) }
-    callee_state { Report.callee_states.keys.sample }
-    caller_confidence { Report.caller_confidences.keys.sample }
+    callee_feeling { Report.callee_feelings.keys.sample }
+    caller_feeling { Report.caller_feelings.keys.sample }
 
     concerns { rand(3) == 1 }
     concerns_notes { concerns ? CONCERNS_NOTES_EXAMPLE.sample : nil }

@@ -7,8 +7,8 @@
         <%= form.select :duration, Report.duration_options_for_select, label: "Length of the call", width: :full, required_asterix: true, html_options: {"data-better-conditional-fields-target" => "source", "data-name" => "duration"} %>
         <div class="sm:col-span-6" data-better-conditional-fields-target="target" data-display-unless="duration.no_answer">
           <%= form.grid do %>
-            <%= form.icon_select :callee_state, @callee_state_options, label: "How did #{@match.callee.person.first_name} seem today?", required_asterix: true, info_message: "Please give #{@match.callee.person.first_name}'s mood at the beginning of the call." %>
-            <%= form.icon_select :caller_confidence, @caller_state_options, label: "How do you feel the call went?", required_asterix: true, info_message: "" %>
+            <%= form.icon_select :callee_feeling, @callee_feeling_options, label: "How did #{@match.callee.person.first_name} seem today?", required_asterix: true, info_message: "Please give #{@match.callee.person.first_name}'s mood at the beginning of the call." %>
+            <%= form.icon_select :caller_feeling, @caller_feeling_options, label: "How do you feel the call went?", required_asterix: true, info_message: "" %>
             <%= form.text_area :summary, label: "Brief summary of the call", width: :full, rows: 3, info_message: "Only fill in what is helpful for you to know and keep track of" %>
           <% end %>
         </div>

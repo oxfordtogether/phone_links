@@ -1,0 +1,22 @@
+<% case @feeling %>
+<% when :awful %>
+<div class="rounded-md border border-red-300">
+  <%= icon("thumb-up", class: "w-6 h-6 text-red-400 transform rotate-180") %>
+</div>
+<% when :bad %>
+<div class="rounded-md border border-red-200">
+  <%= icon("thumb-up", class: "w-6 h-6 text-red-300 transform -rotate-135") %>
+</div>
+<% when :neutral %>
+<div class="rounded-md border border-yellow-300">
+  <%= icon("thumb-up", class: "w-6 h-6 text-yellow-300 transform -rotate-90") %>
+</div>
+<% when :good %>
+<div class="rounded-md border border-green-200">
+  <%= icon("thumb-up", class: "w-6 h-6 text-green-300 transform -rotate-45") %>
+</div>
+<% when :great %>
+<div class="rounded-md border border-green-300">
+  <%= icon("thumb-up", class: "w-6 h-6 text-green-400") %>
+</div>
+<% end %>

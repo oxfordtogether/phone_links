@@ -4,7 +4,7 @@ class C::CalleesController < C::CController
   def show
     @current_caller = current_caller
     match = Match.where(caller_id: current_caller, callee_id: @callee.id).first
-    @reports = Report.where(match_id: match.id)
+    @reports = Report.where(match_id: match.id).sort_by(&:created_at).reverse
     @match_id = match.id
   end
 

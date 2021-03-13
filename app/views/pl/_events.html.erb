@@ -25,11 +25,15 @@
   <% c.with(:title) do %>
     <% if @event.status == :provisional %>
       <span class="font-semibold">Provisional</span> match created for <span class="font-semibold"><%= @event.match.caller.name %> and <%= @event.match.callee.name %></span>
-      <% if @event.created_by %><div class="text-sm text-gray-400 italic">Created by <%= @event.created_by&.name %></div><% end %>
+      <% if @event.created_by %>
+        <div class="text-sm text-gray-400 italic">Created by <%= @event.created_by&.name %></div>
+      <% end %>
     <% else %>
       Match between <span class="font-semibold"><%= @event.match.caller.name %> and <%= @event.match.callee.name %></span>
       changed; status updated to <span class="font-semibold"><%= @event.humanized_status %></span>
-      <% if @event.created_by %><div class="text-sm text-gray-400 italic">Change made by <%= @event.created_by&.name %></div><% end %>
+      <% if @event.created_by %>
+        <div class="text-sm text-gray-400 italic">Change made by <%= @event.created_by&.name %></div>
+      <% end %>
     <% end %>
   <% end %>
   <% c.with(:body) do %>
@@ -88,37 +92,29 @@
           </span>
         </div>
       <% end %>
-      <div class="flex items-center">
-        <div class="text-sm text-gray-400">
-          Callee mood:
-          <% case @event.callee_state %><% when "Great!" %>😃<% when "Ok" %>😐<% when "Not great" %>🙁<% end %> ,
-      </div>
-      <div class="ml-3 flex items-center text-sm text-gray-400">caller confidence:
-        <% caller_confidence = rand(5) + 1 %>
-        <div class="flex items-center ml-1">
-          <% (1..5).each do |i| %>
-            <div class="ml-0.5 mt-0.5">
-              <% if i <= caller_confidence %>
-                <div class="rounded-full h-2 w-2 bg-yellow-300 border border-gray-300"></div>
-              <% else %>
-                <div class="rounded-full h-2 w-2 border border-gray-300"></div>
-              <% end %>
-            </div>
-          <% end %>
+      <div class="flex flex-wrap items-center">
+        <div class="flex items-center mr-3 text-sm text-gray-400">
+          <div class="mr-1">Callee:</div>
+          <%= callee_feeling(feeling: @event.callee_feeling) %>
+        </div>
+        <div class="flex items-center text-sm text-gray-400">
+          <div class="mr-1">caller:</div>
+          <%= caller_feeling(feeling: @event.caller_feeling) %>
         </div>
       </div>
-    </div>
+    <% end %>
+    <% c.with(:body) do %>
+      <%= @event.summary %>
+    <% end %>
   <% end %>
-  <% c.with(:body) do %>
-    <%= @event.summary %>
-  <% end %>
-<% end %>
 <% end %>
 <% when RoleStatusChange %>
 <%= render TimelineItemComponent.new(icon: "check-circle", icon_colour: 'bg-gray-400', time: @event.created_at, is_last: @last_event) do |c| %>
   <% c.with(:title) do %>
     <%= @event.role_description.to_s.humanize %> status updated to <span class="font-semibold"><%= @event.humanized_status %></span>
-    <% if @event.created_by %><div class="text-sm text-gray-400 italic">Change made by <%= @event.created_by&.name %></div><% end %>
+    <% if @event.created_by %>
+      <div class="text-sm text-gray-400 italic">Change made by <%= @event.created_by&.name %></div>
+    <% end %>
   <% end %>
   <% c.with(:body) do %>
     <%= @event.notes %>

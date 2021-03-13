@@ -58,23 +58,13 @@
         </div>
       <% end %>
       <div class="flex flex-wrap items-center">
-        <div class="mr-3 text-sm text-gray-400">
-          Callee mood:
-          <% case @event.callee_state %><% when :great %>😃<% when :ok %>😐<% when :not_great %>🙁<% end %> ,
+        <div class="flex items-center mr-3 text-sm text-gray-400">
+          <div class="mr-1">Callee:</div>
+          <%= callee_feeling(feeling: @event.callee_feeling) %>
         </div>
-        <div class="flex items-center text-sm text-gray-400">caller confidence:
-          <% caller_confidence = rand(5) + 1 %>
-          <div class="flex items-center ml-1">
-            <% (1..5).each do |i| %>
-              <div class="ml-0.5 mt-0.5">
-                <% if i <= caller_confidence %>
-                  <div class="rounded-full h-2 w-2 bg-yellow-300 border border-gray-300"></div>
-                <% else %>
-                  <div class="rounded-full h-2 w-2 border border-gray-300"></div>
-                <% end %>
-              </div>
-            <% end %>
-          </div>
+        <div class="flex items-center text-sm text-gray-400">
+          <div class="mr-1">caller:</div>
+          <%= caller_feeling(feeling: @event.caller_feeling) %>
         </div>
       </div>
     <% end %>
