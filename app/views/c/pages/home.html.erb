@@ -21,11 +21,13 @@
               <%= icon("login", class: "ml-1 w-5 h-5") %>
             </div>
           <% end %>
-          <% if @is_pod_leader %>
-            <div class="px-6 mt-3 text-sm flex justify-end items-center text-gray-600">
-              <%= link_to "Pod Leader's Area", pl_path(@current_user.pod_leader), class: '' %>
-              <%= icon("login", class: "ml-1 w-5 h-5") %>
-            </div>
+          <% if false %>
+            <% if @is_pod_leader %>
+              <div class="px-6 mt-3 text-sm flex justify-end items-center text-gray-600">
+                <%= link_to "Pod Leader's Area", pl_path(@current_user.pod_leader), class: '' %>
+                <%= icon("login", class: "ml-1 w-5 h-5") %>
+              </div>
+            <% end %>
           <% end %>
         </div>
       </div>
