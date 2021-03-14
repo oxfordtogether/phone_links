@@ -1,5 +1,5 @@
 <% content_for :breadcrumbs do %>
-  <%= breadcrumbs do |list| %>
+  <%= breadcrumbs home_path: pl_path(@current_pod_leader) do |list| %>
     <% list.link "Reports", pl_reports_path %>
   <% end %>
 <% end %>
@@ -64,7 +64,7 @@
                               url: pl_report_path(@current_pod_leader, @report, { view: params[:view] }),
                               method: :post,
                               local: true) do |form| %>
-          <%= form.collection_select :match_id, @proposed_matches, :id, :match_names, label: "Assign report to a match", width: :half %>
+          <%= form.collection_select :match_id, @proposed_matches.sort_by(&:match_names), :id, :match_names, label: "Assign report to a match", width: :half %>
           <%= form.button_section do %>
             <%= form.submit "Save", secondary: true %>
           <% end %>

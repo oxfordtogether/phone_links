@@ -34,6 +34,6 @@ class PodLeader < ApplicationRecord
   end
 
   def inactive
-    status == :left_programme || status == :pod_leader_role_inactive
+    status == :left_programme
   end
 end

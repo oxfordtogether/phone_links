@@ -477,7 +477,7 @@ ALTER SEQUENCE public.pods_id_seq OWNED BY public.pods.id;
 CREATE TABLE public.reports (
     id bigint NOT NULL,
     duration character varying,
-    callee_state character varying,
+    callee_feeling character varying,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     summary_ciphertext text,
@@ -494,7 +494,7 @@ CREATE TABLE public.reports (
     legacy_outcome_ciphertext text,
     legacy_pod_id integer,
     archived_at timestamp without time zone,
-    caller_confidence character varying,
+    caller_feeling character varying,
     date_of_call date
 );
 
@@ -1263,6 +1263,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210303201322'),
 ('20210303223122'),
 ('20210308123420'),
-('20210308152630');
+('20210308152630'),
+('20210312184948');
 
 

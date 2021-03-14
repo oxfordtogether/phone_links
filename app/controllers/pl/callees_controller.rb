@@ -1,5 +1,5 @@
 class Pl::CalleesController < Pl::PlController
-  before_action :set_callee_and_person, only: %i[status save_status]
+  before_action :set_callee_and_person, only: %i[status save_status emergency_contacts]
 
   def index
     @pod = current_pod_leader.pod
@@ -25,6 +25,8 @@ class Pl::CalleesController < Pl::PlController
       render "pl/callees/edit/status"
     end
   end
+
+  def emergency_contacts; end
 
   private
 

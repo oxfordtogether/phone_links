@@ -1,5 +1,5 @@
 <% content_for :breadcrumbs do %>
-  <%= breadcrumbs do |list| %>
+  <%= breadcrumbs home_path: pl_path(@current_pod_leader) do |list| %>
     <% list.link "Reports", pl_reports_path %>
   <% end %>
 <% end %>

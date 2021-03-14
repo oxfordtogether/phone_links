@@ -19,12 +19,6 @@
       <%= render(SidebarLinkComponent.new(name: "Pod #{@current_user.pod_leader.pod.name}", url: pl_path(@current_user.pod_leader), icon: 'circle')) %>
     </div>
   <% end %>
-  <% if false %>
-    <hr class="border-t border-gray-700 my-5" aria-hidden="true">
-    <div class="px-2 space-y-1">
-      <%= render(SidebarLinkComponent.new(name: "Call Summaries", url: "/", icon: 'file-text')) %>
-    </div>
-  <% end %>
   <hr class="border-t border-gray-700 my-5" aria-hidden="true">
   <div class="px-2 space-y-1">
     <%= render(SidebarLinkComponent.new(name: "Support", url: a_support_path, icon: 'question-mark-circle')) %>

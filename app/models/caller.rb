@@ -49,6 +49,10 @@ class Caller < ApplicationRecord
     matches.filter { |m| m.active }
   end
 
+  def paused_matches
+    matches.filter { |m| m.paused }
+  end
+
   def winding_down_matches
     matches.filter { |m| m.winding_down }
   end
@@ -62,6 +66,6 @@ class Caller < ApplicationRecord
   end
 
   def inactive
-    status == :left_programme || status == :caller_role_inactive
+    status == :left_programme
   end
 end

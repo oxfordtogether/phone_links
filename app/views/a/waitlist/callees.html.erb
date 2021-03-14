@@ -25,6 +25,11 @@
             <%= callee.active_matches.count %> active match<%= callee.active_matches.count > 1 ? "es" : ''%>
           </div>
         <% end %>
+        <% if callee.paused_matches.present? %>
+          <div class="ml-2 text-green-500">
+            <%= callee.paused_matches.count %> paused match<%= callee.paused_matches.count > 1 ? "es" : ''%>
+          </div>
+        <% end %>
         <% if callee.winding_down_matches.present? %>
           <div class="ml-2 text-green-500">
             <%= callee.winding_down_matches.count %> match<%= callee.winding_down_matches.count > 1 ? "es" : ''%> winding down

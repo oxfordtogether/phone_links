@@ -22,4 +22,16 @@ module ComponentHelper
   def reports_list(*args)
     render ReportsListComponent.new(*args)
   end
+
+  def profile_initials(*args)
+    render ProfileInitialsComponent.new(*args)
+  end
+
+  def callee_feeling(*args)
+    render CalleeFeelingComponent.new(*args)
+  end
+
+  def caller_feeling(*args)
+    render CallerFeelingComponent.new(*args)
+  end
 end

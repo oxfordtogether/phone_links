@@ -18,18 +18,21 @@ class Report < ApplicationRecord
     over_sixty: "Over 1 hour",
     no_answer: "I did not get through",
   }
-  options_field :caller_confidence, {
-    very_confident: "Very confident",
-    confident: "Confident",
-    neutral: "Neutral",
-    out_of_comfort: "Out of my comfort zone",
-    very_difficult: "I found this call really difficult",
+
+  options_field :caller_feeling, {
+    great: "great",
+    good: "good",
+    neutral: "neutral",
+    bad: "bad",
+    awful: "awful",
   }
 
-  options_field :callee_state, {
-    great: "Great!",
-    ok: "Ok",
-    not_great: "Not great",
+  options_field :callee_feeling, {
+    great: "great",
+    good: "good",
+    neutral: "neutral",
+    bad: "bad",
+    awful: "awful",
   }
 
   def legacy?

@@ -5,6 +5,7 @@ class Match < ApplicationRecord
   options_field :status, {
     provisional: "Provisional",
     provisional_cancelled: "Provisional match cancelled",
+    paused: "Paused",
     active: "Active",
     winding_down: "Winding down",
     ended: "Ended",
@@ -16,6 +17,9 @@ class Match < ApplicationRecord
   has_many :reports
   has_many :events
   has_many :match_status_changes
+
+  scope :live, -> { where(status: [:active, :paused, :winding_down]) }
+  scope :for_caller, lambda { |caller_id| where('caller_id = ?', caller_id) }
 
   encrypts :end_reason_notes, type: :string, key: :kms_key
   encrypts :status_change_notes, type: :string, key: :kms_key
@@ -39,6 +43,10 @@ class Match < ApplicationRecord
 
   def active
     status == :active
+  end
+
+  def paused
+    status == :paused
   end
 
   def winding_down

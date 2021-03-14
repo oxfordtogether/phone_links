@@ -8,7 +8,7 @@
     <%= form.section do %>
       <%= form.hidden_field :redirect_on_cancel, value: @redirect_on_cancel %>
       <%= form.hidden_field :status, value: "provisional" %>
-      <%= form.collection_select :pod_id, Pod.all, :id, :name, label: "Pod", width: :third, required_asterix: true, info_message: "Select a pod to filter the list of callers and callees", html_options: {"data-new-match-target": 'podId', "data-action": "change->new-match#filterCallersAndCallees"} %>
+      <%= form.collection_select :pod_id, Pod.all.sort_by(&:name), :id, :name_and_leader, label: "Pod", width: :third, required_asterix: true, info_message: "Select a pod to filter the list of callers and callees", html_options: {"data-new-match-target": 'podId', "data-action": "change->new-match#filterCallersAndCallees"} %>
       <div class="col-span-4"></div>
       <%= form.collection_select :caller_id, @callers.sort_by { |c| [c&.pod&.name || "zzz", c.person.name] }, :id, :name_pod_capacity, label: "Caller", width: :half, required_asterix: true %>
       <%= form.collection_select :callee_id, @callees.sort_by { |c| [c&.pod&.name || "zzz", c.person.name] }, :id, :name_and_pod, label: "Callee", width: :half, required_asterix: true %>

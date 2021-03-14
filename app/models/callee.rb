@@ -30,6 +30,10 @@ class Callee < ApplicationRecord
     person.name
   end
 
+  def initials
+    person.initials
+  end
+
   def name_and_pod
     if pod
       "#{person.name} (Pod: #{pod.name})"
@@ -52,6 +56,10 @@ class Callee < ApplicationRecord
 
   def active_matches
     matches.filter { |m| m.active }
+  end
+
+  def paused_matches
+    matches.filter { |m| m.paused }
   end
 
   def winding_down_matches

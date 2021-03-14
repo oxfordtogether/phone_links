@@ -1,0 +1,75 @@
+<% if @event.legacy? %>
+  <%= render TimelineItemComponent.new(
+      icon: @event.legacy_duration == "did not answer" ? "phone-missed-call" : 'phone-outgoing',
+      icon_colour: @event.legacy_duration == "did not answer" ? 'bg-red-300' : 'bg-green-300',
+      time: @event.created_at, is_last: @last_event) do |c| %>
+    <% c.with(:title) do %>
+      <div class="flex flex-wrap items-center">
+        <div class="mr-2">Call made on <% if @event.legacy_time_and_date.present? %><%= @event.legacy_time_and_date %><% elsif @event.legacy_date.present? %><% @event.legacy_date %><% else %>?<% end %></div>
+        <% if @event.legacy_duration %>
+          <% if @event.legacy_duration == "did not answer" %>
+            <div class="text-sm text-red-400 italic">no answer</div>
+          <% else %>
+            <div class="text-sm text-gray-400 italic">call length: <%= @event.legacy_duration %></div>
+          <% end %>
+        <% end %>
+      </div>
+      <% if @event.concerns %>
+        <div>
+          <%= icon('exclamation', class: "inline w-5 h-5 text-yellow-400") %>
+          <span class="inline text-sm text-yellow-700">
+            <% if @event.concerns_notes %>
+              <%= @event.concerns_notes %>
+            <% else %>
+              <span>Concern flagged</span>
+            <% end %>
+          </span>
+        </div>
+      <% end %>
+    <% end %>
+    <% c.with(:body) do %>
+      <%= @event.summary %>
+    <% end %>
+  <% end %>
+<% else %>
+  <%= render TimelineItemComponent.new(
+          icon: @event.duration == "did not answer" ? "phone-missed-call" : 'phone-outgoing',
+          icon_colour: @event.duration == "did not answer" ? 'bg-red-300' : 'bg-green-300',
+          time: @event.created_at, is_last: @last_event) do |c| %>
+    <% c.with(:title) do %>
+      <div class="flex flex-wrap items-center">
+        <div class="mr-2">Call made on <%= format_date(@event.date_of_call) %></div>
+        <% if @event.duration == "did not answer" %>
+          <div class="text-sm text-red-400 italic">no answer</div>
+        <% else %>
+          <div class="text-sm text-gray-400 italic">call length: <%= @event.humanized_duration %></div>
+        <% end %>
+      </div>
+      <% if @event.concerns %>
+        <div>
+          <%= icon('exclamation', class: "inline w-5 h-5 text-yellow-400") %>
+          <span class="inline text-sm text-yellow-700">
+            <% if @event.concerns_notes %>
+              <%= @event.concerns_notes %>
+            <% else %>
+              <span>Concern flagged</span>
+            <% end %>
+          </span>
+        </div>
+      <% end %>
+      <div class="flex flex-wrap items-center">
+        <div class="flex items-center mr-3 text-sm text-gray-400">
+          <div class="mr-1">Callee:</div>
+          <%= callee_feeling(feeling: @event.callee_feeling) %>
+        </div>
+        <div class="flex items-center text-sm text-gray-400">
+          <div class="mr-1">caller:</div>
+          <%= caller_feeling(feeling: @event.caller_feeling) %>
+        </div>
+      </div>
+    <% end %>
+    <% c.with(:body) do %>
+      <%= @event.summary %>
+    <% end %>
+  <% end %>
+<% end %>

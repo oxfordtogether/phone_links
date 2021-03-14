@@ -1,12 +1,14 @@
 <div class="sm:flex sm:justify-between">
   <div>
-    <h1 class="flex items-center text-2xl font-semibold text-gray-900">
-      <%= @person&.title.present? ? "#{@person.title.humanize} " : "" %><%= @person.name %>
-      <% @person.roles.each do |role| %>
-        <%= role_badge(role) %>
-      <% end %>
+    <h1 class="flex flex-wrap items-center text-2xl font-semibold text-gray-900">
+      <div class="mr-2"><%= @person&.title.present? ? "#{@person.title.humanize} " : "" %><%= @person.name %></div>
+      <div class="mb-1 mr-2">
+        <% @person.roles.each do |role| %>
+          <%= role_badge(role) %>
+        <% end %>
+      </div>
       <% if @person.flag_in_progress %>
-        <%= link_to flag_a_edit_person_path, class: "ml-2" do %>
+        <%= link_to flag_a_edit_person_path do %>
           <%= icon('flag-fill', class: "h-4 w-4 text-red-400") %>
         <% end %>
       <% end %>

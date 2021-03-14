@@ -141,6 +141,8 @@ Rails.application.routes.draw do
 
       resources :callees, only: %i[index] do
         member do
+          get :emergency_contacts, to: "callees#emergency_contacts"
+
           scope path: :edit, as: :edit do
             get :status
             post :status, action: :save_status, as: :save_status
@@ -157,9 +159,8 @@ Rails.application.routes.draw do
   namespace :c do
     scope "/:caller_id" do
       get "/", to: "pages#home"
-      get "support", to: "pages#support"
-      resources :reports
-      resources :callees
+      resources :reports, only: %i[new create]
+      resources :matches, only: %i[show]
     end
   end
 end

@@ -4,13 +4,6 @@
       <%= render(SidebarLinkComponent.new(name: "Back to Admin", url: a_path, icon: "login")) %>
     </div>
   <% end %>
-  <% if @is_caller %>
-    <% if false %>
-      <div class="px-2 pb-4 space-y-1">
-        <%= render(SidebarLinkComponent.new(name: "Switch to caller's area", url: c_path(@current_user.caller), icon: "login")) %>
-      </div>
-    <% end %>
-  <% end %>
   <div class="px-2 space-y-1">
     <%= render(SidebarLinkComponent.new(name: "Home", url: pl_path(@current_pod_leader.id), icon: "heroicon-home-unfilled")) %>
   </div>
@@ -22,6 +15,14 @@
       <%= render(SidebarLinkComponent.new(name: "Callees", url: pl_callees_path(@current_pod_leader.id), icon: "phone-incoming")) %>
       <%= render(SidebarLinkComponent.new(name: "Matches", url: pl_matches_path(@current_pod_leader.id), icon: "heroicon-link")) %>
     </div>
+  <% end %>
+  <% if false %>
+    <% if @is_caller %>
+      <hr class="border-t border-gray-700 my-5" aria-hidden="true">
+      <div class="px-2 space-y-1">
+        <%= render(SidebarLinkComponent.new(name: "Caller's Area", url: c_path(@current_user.caller), icon: "login")) %>
+      </div>
+    <% end %>
   <% end %>
   <hr class="border-t border-gray-700 my-5" aria-hidden="true">
   <div class="px-2 space-y-1">

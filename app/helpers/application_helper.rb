@@ -33,7 +33,7 @@ module ApplicationHelper
     if date.today?
       "today"
     elsif (Date.today.to_date - date.to_date).to_i == 1
-      "1 day ago"
+      "yesterday"
     else
       "#{(Date.today.to_date - date.to_date).to_i} days ago"
     end
@@ -43,7 +43,11 @@ module ApplicationHelper
     return unless date
 
     if date.today?
-      date.strftime("%H:%M")
+      if date.instance_of? Date
+        date.strftime("#{date.day.ordinalize} %b")
+      else
+        date.strftime("%H:%M")
+      end
     elsif date.year == Date.today.year
       date.strftime("#{date.day.ordinalize} %b")
     else
@@ -90,10 +94,10 @@ module ApplicationHelper
 
   def address_to_string(person)
     address = ""
-    address += "#{person.address_line_1}, " if person.address_line_1
-    address += "#{person.address_line_2}, " if person.address_line_2
-    address += "#{person.address_town}, " if person.address_town
-    address += "#{person.address_postcode}, " if person.address_postcode
+    address += "#{person.address_line_1}, " if person.address_line_1.present?
+    address += "#{person.address_line_2}, " if person.address_line_2.present?
+    address += "#{person.address_town}, " if person.address_town.present?
+    address += "#{person.address_postcode}, " if person.address_postcode.present?
 
     address.gsub(/, $/, "")
   end

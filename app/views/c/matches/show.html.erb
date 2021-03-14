@@ -1,0 +1,39 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs home_path: c_path(@current_caller) do |list| %>
+    <% list.link @match.callee.name, c_match_path(@current_caller, @match) %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <%= render partial: "c/matches/show_head_page" %>
+<% end %>
+<div class="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl ">
+  <section>
+    <div class="mb-4">
+      <%= render(OclTools::BlockAlertComponent.new) do |component| %>
+        <% component.with(:title) do %>
+          Safeguarding
+        <% end %>
+        <% component.with(:info) do %>
+          <p>If you have any safeguarding concerns or something that needs addressing urgently, please fill out the <%= link_to("safeguarding form", "https://www.oxfordhub.org/safeguarding", class: "underline") %>.</p>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
+      <div class="mt-2 flow-root">
+        <% if @reports.empty? %>
+          <div class="flex justify-center">
+            <div class="text-sm text-gray-500">No reports have been written yet!</div>
+          </div>
+        <% else %>
+          <ul class="-mb-8">
+            <% @reports.each_with_index do |report, index| %>
+              <% @event = report %>
+              <% @last_event = @reports.size - 1 == index %>
+              <%= render partial: "report" %>
+            <% end %>
+          </ul>
+        <% end %>
+      </div>
+    </div>
+  </section>
+</div>

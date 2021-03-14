@@ -11,18 +11,6 @@
 <span class="text-gray-400 italic">
   (<%= role&.humanized_status&.downcase %>)
 </span>
-<% when :caller_role_inactive %>
-<span class="text-gray-400 italic">
-  (<%= role&.humanized_status&.downcase %>)
-</span>
-<% when :pod_leader_role_inactive %>
-<span class="text-gray-400 italic">
-  (<%= role&.humanized_status&.downcase %>)
-</span>
-<% when :admin_role_inactive %>
-<span class="text-gray-400 italic">
-  (<%= role&.humanized_status&.downcase %>)
-</span>
 <% else %>
   <span class="text-gray-400 italic">
     (<%= role&.humanized_status&.downcase %>)

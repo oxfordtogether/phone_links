@@ -13,4 +13,12 @@ class Pod < ApplicationRecord
                { matches: { callee: :person } },
              ])
   }
+
+  def name_and_leader
+    if pod_leader
+      "#{name} (#{pod_leader.name})"
+    else
+      "#{name} (No pod leader assigned)"
+    end
+  end
 end
