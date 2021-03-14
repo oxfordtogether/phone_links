@@ -14,7 +14,7 @@ class C::ReportsController < C::CController
     @report = Report.new(report_params)
 
     if @report.save
-      redirect_to c_match_path(@current_caller, @match_id), notice: "Report was successfully created."
+      redirect_to c_match_path(@current_caller, @match), notice: "Report was successfully created."
     else
       render :new
     end

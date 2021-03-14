@@ -33,7 +33,7 @@ module ApplicationHelper
     if date.today?
       "today"
     elsif (Date.today.to_date - date.to_date).to_i == 1
-      "1 day ago"
+      "yesterday"
     else
       "#{(Date.today.to_date - date.to_date).to_i} days ago"
     end

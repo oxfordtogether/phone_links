@@ -3,20 +3,12 @@ require "rails_helper"
 RSpec.describe "show match", type: :system do
   let!(:caller) { create(:caller, status: "active") }
   let!(:callee) { create(:callee, status: "active") }
-  let!(:match) { create(:match, caller: caller, callee: callee) }
+  let!(:match) { create(:match, caller: caller, callee: callee, status: "active") }
 
   let!(:match_1) { create(:match, caller: create(:caller), status: "active") }
 
-  before do
-    ENV["BYPASS_AUTH"] = "false"
-  end
-
-  after do
-    ENV["BYPASS_AUTH"] = "true"
-  end
-
   it "doesn't give access to callees that caller isn't matched to" do
-    login_as caller.person
+    login_as nil
 
     expect do
       visit "/c/#{caller.id}/matches/#{match_1.id}"
@@ -25,7 +17,7 @@ RSpec.describe "show match", type: :system do
   end
 
   it "only gives access to active, paused and winding down matches" do
-    login_as caller.person
+    login_as nil
 
     Match.statuses.keys.each do |status|
       match.status = status

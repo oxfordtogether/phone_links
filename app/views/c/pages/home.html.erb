@@ -136,14 +136,20 @@
                       <div class="flex flex-col items-start md:items-center px-8">
                         <h3 class="mt-2 md:mt-6 text-gray-900 text-base font-medium"><%= match.callee.name %></h3>
                         <% if match.reports.present? %>
-                          <dd class="text-gray-500 md:mt-1 text-sm">Last call: <%= last_report_days(match.reports.last.created_at) %> ago</dd>
+                          <dd class="text-gray-500 md:mt-1 text-sm">Last call: <%= format_date_as_days_since(match.reports.last.created_at) %></dd>
                         <% end %>
+                        <div class="pt-2 text-sm flex items-center">
+                          <%= icon('phone', class: "w-4 h-4 text-gray-400") %>
+                          <span class="ml-1 text-gray-500"><%= match.callee.person.phone %></span>
+                        </div>
                       </div>
                     </div>
                   <% end %>
-                  <%= link_to "tel:#{141}#{match.callee.person.phone}", class: "flex justify-center items-center p-3 hover:bg-gray-100" do %>
-                    <%= icon('phone', class: "w-5 h-5 text-gray-400") %>
-                    <span class="ml-3 text-gray-500"><%= match.callee.person.phone %></span>
+                  <% if false %>
+                    <%= link_to "tel:#{141}#{match.callee.person.phone}", class: "flex justify-center items-center p-3 hover:bg-gray-100" do %>
+                      <%= icon('phone', class: "w-5 h-5 text-gray-400") %>
+                      <span class="ml-3 text-gray-500"><%= match.callee.person.phone %></span>
+                    <% end %>
                   <% end %>
                 </li>
               <% end %>
