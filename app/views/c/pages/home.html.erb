@@ -15,6 +15,18 @@
               <% end %>
             </div>
           </div>
+          <% if @is_admin %>
+            <div class="px-6 mt-3 text-sm flex justify-end items-center text-gray-600">
+              <%= link_to "Back to Admin", a_path, class: '' %>
+              <%= icon("login", class: "ml-1 w-5 h-5") %>
+            </div>
+          <% end %>
+          <% if @is_pod_leader %>
+            <div class="px-6 mt-3 text-sm flex justify-end items-center text-gray-600">
+              <%= link_to "Pod Leader's Area", pl_path(@current_user.pod_leader), class: '' %>
+              <%= icon("login", class: "ml-1 w-5 h-5") %>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
@@ -41,7 +53,7 @@
               <div class="flex-1 px-4 py-2 text-sm truncate">
                 <div class="text-gray-500 font-medium hover:text-gray-600">
                   Joined:
-                  <div class="inline text-lg font-medium text-gray-900"><%= format_date_as_days_since(@current_user.created_at) %></div>
+                  <div class="inline text-lg font-medium text-gray-900"><%= format_date_as_days_since(@current_user&.created_at) %></div>
                 </div>
               </div>
             </div>
@@ -63,7 +75,7 @@
               <div class="flex-1 px-4 py-2 text-sm truncate">
                 <div class="text-gray-500 font-medium hover:text-gray-600">
                   Last call:
-                  <div class="inline text-lg font-medium text-gray-900"><%= format_date(@reports.sort_by(&:created_at).last.created_at) %></div>
+                  <div class="inline text-lg font-medium text-gray-900"><% if @reports.present? %><%= format_date(@reports.sort_by(&:created_at).last.created_at) %><% else %>N/A<% end %></div>
                 </div>
               </div>
             </div>
@@ -72,7 +84,6 @@
       </div>
     </div>
     <div class="mt-8">
-      <!-- handle no pod yet -->
       <h2 class="mt-8 max-w-6xl mx-auto px-4 text-xs leading-6 font-medium uppercase tracking-wide text-gray-800 sm:px-6 lg:px-8">
         Your pod
       </h2>
@@ -111,33 +122,36 @@
         </div>
       </div>
       <div class="mt-8">
-        <!-- handle no active matches yet -->
         <h2 class="mt-8 max-w-6xl mx-auto px-4 text-xs leading-6 font-medium uppercase tracking-wide text-gray-800 sm:px-6 lg:px-8">
           Your active matches
         </h2>
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ul class="mb-6 mt-2 rounded-lg overflow-hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <% @matches.each do |match| %>
-              <li class="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
-                <%= link_to "/c/#{match.caller.id}/callees/#{match.callee.id}" do %>
-                  <div class="flex md:flex-col px-6 py-3 md:p-8">
-                    <%= profile_initials(initials: match.callee.initials) %>
-                    <div class="flex flex-col items-start md:items-center px-8">
-                      <h3 class="mt-2 md:mt-6 text-gray-900 text-base font-medium"><%= match.callee.name %></h3>
-                      <% if match.reports.present? %>
-                        <dd class="text-gray-500 md:mt-1 text-sm">Last call: <%= last_report_days(match.reports.last.created_at) %> ago</dd>
-                      <% end %> <!-- handle no reports -->
+        <% if @matches.present? %>
+          <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <ul class="mb-6 mt-2 rounded-lg overflow-hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <% @matches.each do |match| %>
+                <li class="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
+                  <%= link_to "/c/#{match.caller.id}/callees/#{match.callee.id}" do %>
+                    <div class="flex md:flex-col px-6 py-3 md:p-8">
+                      <%= profile_initials(initials: match.callee.initials) %>
+                      <div class="flex flex-col items-start md:items-center px-8">
+                        <h3 class="mt-2 md:mt-6 text-gray-900 text-base font-medium"><%= match.callee.name %></h3>
+                        <% if match.reports.present? %>
+                          <dd class="text-gray-500 md:mt-1 text-sm">Last call: <%= last_report_days(match.reports.last.created_at) %> ago</dd>
+                        <% end %>
+                      </div>
                     </div>
-                  </div>
-                <% end %>
-                <%= link_to "tel:#{141}#{match.callee.person.phone}", class: "flex justify-center items-center p-3 hover:bg-gray-100" do %>
-                  <%= icon('phone', class: "w-5 h-5 text-gray-400") %>
-                  <span class="ml-3 text-gray-500"><%= match.callee.person.phone %></span>
-                <% end %>
-              </li>
-            <% end %>
-          </ul>
-        </div>
+                  <% end %>
+                  <%= link_to "tel:#{141}#{match.callee.person.phone}", class: "flex justify-center items-center p-3 hover:bg-gray-100" do %>
+                    <%= icon('phone', class: "w-5 h-5 text-gray-400") %>
+                    <span class="ml-3 text-gray-500"><%= match.callee.person.phone %></span>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        <% else %>
+          <div class="flex justify-center text-sm text-gray-400">You don't have any active matches at the moment</div>
+        <% end %>
         <div class="mt-8">
           <h2 class="max-w-6xl mx-auto px-4 text-xs leading-6 font-medium uppercase tracking-wide text-gray-800 sm:px-6 lg:px-8">
             Useful links

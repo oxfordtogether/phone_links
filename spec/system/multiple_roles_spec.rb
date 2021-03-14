@@ -45,20 +45,19 @@ RSpec.describe "multiple roles", type: :system do
     expect(page).to have_content("Pod ABC")
   end
 
-  # it "allows switching between pod leader and callers areas when roles are valid" do
-  #   login_as person_pl_and_c_roles
+  it "allows switching between pod leader and callers areas when roles are valid" do
+    login_as person_pl_and_c_roles
 
-  #   expect(current_path).to eq("/pl/#{person_pl_and_c_roles.pod_leader.id}")
+    expect(current_path).to eq("/pl/#{person_pl_and_c_roles.pod_leader.id}")
 
-  #   expect(page).to have_content("Switch to caller's area")
-  #   click_on "Switch to caller's area"
-  #   expect(current_path).to eq("/c/#{person_pl_and_c_roles.caller.id}")
+    expect(page).to have_content("Caller's Area")
+    click_on "Caller's Area"
+    expect(current_path).to eq("/c/#{person_pl_and_c_roles.caller.id}")
 
-  #   # TO DO
-  #   # expect(page).to have_content("Switch to pod leader's area")
-  #   # click_on "Switch to pod leader's area"
-  #   # expect(current_path).to eq("/pl/#{person_pl_and_c_roles.pod_leader.id}")
-  # end
+    expect(page).to have_content("Pod Leader's Area")
+    click_on "Pod Leader's Area"
+    expect(current_path).to eq("/pl/#{person_pl_and_c_roles.pod_leader.id}")
+  end
 
   it "prevents switching between areas when roles aren't valid" do
     login_as person_pl_role
@@ -66,11 +65,11 @@ RSpec.describe "multiple roles", type: :system do
     # login spec tests that /c/.. area isn't accessible for pod leader & vice versa
 
     expect(current_path).to eq("/pl/#{person_pl_role.pod_leader.id}")
-    expect(page).not_to have_content("Switch to caller's area")
+    expect(page).not_to have_content("Caller's Area")
 
     login_as person_c_role
 
     expect(current_path).to eq("/c/#{person_c_role.caller.id}")
-    expect(page).not_to have_content("Switch to pod leader's area")
+    expect(page).not_to have_content("Pod Leader's Area")
   end
 end
