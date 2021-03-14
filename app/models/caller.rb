@@ -66,6 +66,6 @@ class Caller < ApplicationRecord
   end
 
   def inactive
-    status == :left_programme || status == :caller_role_inactive
+    status == :left_programme
   end
 end

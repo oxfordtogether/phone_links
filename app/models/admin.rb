@@ -23,6 +23,6 @@ class Admin < ApplicationRecord
   end
 
   def inactive
-    status == :left_programme || status == :admin_role_inactive
+    status == :left_programme
   end
 end

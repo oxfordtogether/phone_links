@@ -1,11 +1,11 @@
 require "rails_helper"
 
-RSpec.describe "show callee", type: :system do
+RSpec.describe "show match", type: :system do
   let!(:caller) { create(:caller, status: "active") }
   let!(:callee) { create(:callee, status: "active") }
   let!(:match) { create(:match, caller: caller, callee: callee) }
 
-  let!(:callee_1) { create(:callee, status: "active") }
+  let!(:match_1) { create(:match, caller: create(:caller), status: "active") }
 
   before do
     ENV["BYPASS_AUTH"] = "false"
@@ -18,8 +18,10 @@ RSpec.describe "show callee", type: :system do
   it "doesn't give access to callees that caller isn't matched to" do
     login_as caller.person
 
-    visit "/c/#{caller.id}/callees/#{callee_1.id}"
-    expect(page).to have_content("Invalid permissions")
+    expect do
+      visit "/c/#{caller.id}/matches/#{match_1.id}"
+      page.has_text? "Wait for page to load"
+    end.to raise_error(ActiveRecord::RecordNotFound)
   end
 
   it "only gives access to active, paused and winding down matches" do
@@ -29,12 +31,15 @@ RSpec.describe "show callee", type: :system do
       match.status = status
       match.save!
 
-      visit "/c/#{caller.id}/callees/#{callee.id}"
 
       if %w[active paused winding_down].include?(status)
+        visit "/c/#{caller.id}/matches/#{match.id}"
         expect(page).to have_content(match.callee.name)
       else
-        expect(page).to have_content("Invalid permissions")
+        expect do
+          visit "/c/#{caller.id}/matches/#{match.id}"
+          page.has_text? "Wait for page to load"
+        end.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end

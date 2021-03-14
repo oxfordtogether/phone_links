@@ -32,7 +32,7 @@
         </div>
       <% end %>
       <%= form.button_section do %>
-        <%= form.cancel c_callee_path(@current_caller, @callee) %>
+        <%= form.cancel c_match_path(@current_caller, @match) %>
         <%= form.submit label = "Submit report" %>
       <% end %>
     <% end %>

@@ -6,16 +6,6 @@ RSpec.describe "homepage", type: :system do
   let!(:callee_1) { create(:callee, status: "active") }
   let!(:callee_2) { create(:callee, status: "active") }
 
-  it "works for caller that has left programme" do
-    caller.status = "left_programme"
-    caller.save!
-
-    login_as nil
-
-    visit "/c/#{caller.id}"
-    expect(page).to have_content("Invalid permissions")
-  end
-
   it "works for caller without a pod" do
     caller.pod = nil
     caller.save!

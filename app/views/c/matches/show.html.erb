@@ -1,10 +1,10 @@
 <% content_for :breadcrumbs do %>
   <%= breadcrumbs home_path: c_path(@current_caller) do |list| %>
-    <% list.link @callee.name, c_callee_path(@current_caller, @callee) %>
+    <% list.link @match.callee.name, c_match_path(@current_caller, @match) %>
   <% end %>
 <% end %>
 <% content_for :page_head do %>
-  <%= render partial: "c/callees/show_head_page" %>
+  <%= render partial: "c/matches/show_head_page" %>
 <% end %>
 <div class="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl ">
   <section>

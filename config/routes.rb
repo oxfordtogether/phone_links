@@ -160,7 +160,7 @@ Rails.application.routes.draw do
     scope "/:caller_id" do
       get "/", to: "pages#home"
       resources :reports, only: %i[new create]
-      resources :callees, only: %i[show]
+      resources :matches, only: %i[show]
     end
   end
 end
