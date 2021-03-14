@@ -33,13 +33,13 @@
   <% end %>
 <% else %>
   <%= render TimelineItemComponent.new(
-          icon: @event.duration == "did not answer" ? "phone-missed-call" : 'phone-outgoing',
-          icon_colour: @event.duration == "did not answer" ? 'bg-red-300' : 'bg-green-300',
+          icon: @event.duration == :no_answer ? "phone-missed-call" : 'phone-outgoing',
+          icon_colour: @event.duration == :no_answer ? 'bg-red-300' : 'bg-green-300',
           time: @event.created_at, is_last: @last_event) do |c| %>
     <% c.with(:title) do %>
       <div class="flex flex-wrap items-center">
         <div class="mr-2">Call made on <%= format_date(@event.date_of_call) %></div>
-        <% if @event.duration == "did not answer" %>
+        <% if @event.duration == :no_answer %>
           <div class="text-sm text-red-400 italic">no answer</div>
         <% else %>
           <div class="text-sm text-gray-400 italic">call length: <%= @event.humanized_duration %></div>
@@ -58,18 +58,22 @@
         </div>
       <% end %>
       <div class="flex flex-wrap items-center">
-        <div class="flex items-center mr-3 text-sm text-gray-400">
-          <div class="mr-1">Callee:</div>
-          <%= callee_feeling(feeling: @event.callee_feeling) %>
-        </div>
-        <div class="flex items-center text-sm text-gray-400">
-          <div class="mr-1">caller:</div>
-          <%= caller_feeling(feeling: @event.caller_feeling) %>
-        </div>
+        <% if @event.callee_feeling.present? %>
+          <div class="flex items-center mr-3 text-sm text-gray-400">
+            <div class="mr-1">Callee:</div>
+            <%= callee_feeling(feeling: @event.callee_feeling) %>
+          </div>
+        <% end %>
+        <% if @event.caller_feeling.present? %>
+          <div class="flex items-center text-sm text-gray-400">
+            <div class="mr-1">caller:</div>
+            <%= caller_feeling(feeling: @event.caller_feeling) %>
+          </div>
+        <% end %>
       </div>
     <% end %>
     <% c.with(:body) do %>
-      <%= @event.summary %>
+      <% if @event.duration == "no_answer" %><%= @event.summary %><% else %><%= @event.no_answer_notes %><% end %>
     <% end %>
   <% end %>
 <% end %>

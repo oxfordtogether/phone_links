@@ -5,8 +5,8 @@
   <% if @callee.emergency_contacts.present? %>
     <% @callee.emergency_contacts.each do |contact| %>
       <div class="mb-5">
-        <div><span class="text-sm text-gray-400">Name:</span> <span class="text-gray-800"><%= contact.name %>,</span></div>
-        <div><span class="text-sm text-gray-400">relationship:</span> <span class="text-gray-800"><%= contact.relationship %></span></div>
+        <div><span class="text-sm text-gray-400">Name:</span> <span class="text-gray-800"><%= contact.name %></span></div>
+        <div><span class="text-sm text-gray-400">Relationship:</span> <span class="text-gray-800"><%= contact.relationship %></span></div>
         <div><span class="text-sm text-gray-400">Contact: </span><span class="text-gray-800"><%= contact.contact_details %></span></div>
       </div>
     <% end %>

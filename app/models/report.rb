@@ -3,6 +3,7 @@ class Report < ApplicationRecord
   has_many :events
 
   encrypts :summary, type: :string, key: :kms_key
+  encrypts :no_answer_notes, type: :string, key: :kms_key
 
   encrypts :legacy_caller_email, type: :string, key: :kms_key
   encrypts :legacy_caller_name, type: :string, key: :kms_key

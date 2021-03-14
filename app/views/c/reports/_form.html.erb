@@ -13,7 +13,7 @@
           <% end %>
         </div>
         <div class="sm:col-span-6 hidden" data-better-conditional-fields-target="target" data-display-if="duration.no_answer">
-          <%= form.text_area :summary, label: "Please add any comments you have here", width: :full %>
+          <%= form.text_area :no_answer_notes, label: "Please add any comments you have here", width: :full %>
           <div class="mt-2 text-xs text-gray-400">Please review and follow our guidance for when someone does not pick up the phone <%= link_to "here", "https://docs.google.com/document/d/1zTwIzk0FT3R4801xjiOV2PI6vGI7yR-zLTpv-X8KH_g", class: "text-blue-500 hover:text-blue-600" %> and complete a <%= link_to "safeguarding form", "https://www.oxfordhub.org/safeguarding", class: "text-blue-500 hover:text-blue-600" %> if you are concerned.</div>
         </div>
         <%= form.check_box :concerns, 1, "Do you have anything that you would like to discuss with your pod leader?", width: :full, options: {"data-better-conditional-fields-target" => "source", "data-name" => "concerns"} %>
@@ -23,7 +23,7 @@
               Safeguarding
             <% end %>
             <% component.with(:info) do %>
-              <p>If you have any safeguarding concerns or something that needs addressing urgently, please fill out the <%= link_to("Safeguarding form", "https://www.oxfordhub.org/safeguarding", class: "underline") %>.</p>
+              <p>If you have any safeguarding concerns or something that needs addressing urgently, please fill out the <%= link_to("safeguarding form", "https://www.oxfordhub.org/safeguarding", target: "_blank", class: "underline") %>.</p>
             <% end %>
           <% end %>
         </div>

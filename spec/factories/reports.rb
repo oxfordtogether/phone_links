@@ -4,6 +4,7 @@ FactoryBot.define do
     match { Match.order("RANDOM()").first || create(:match) }
     duration { Report.durations.keys.sample }
     summary { SUMMARY_EXAMPLE.sample }
+    no_answer_notes { FFaker::Lorem.phrase }
     date_of_call { FFaker::Time.between(created_at - 1.week, created_at) }
     callee_feeling { Report.callee_feelings.keys.sample }
     caller_feeling { Report.caller_feelings.keys.sample }

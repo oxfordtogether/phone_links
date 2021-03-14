@@ -495,7 +495,8 @@ CREATE TABLE public.reports (
     legacy_pod_id integer,
     archived_at timestamp without time zone,
     caller_feeling character varying,
-    date_of_call date
+    date_of_call date,
+    no_answer_notes_ciphertext text
 );
 
 
@@ -1264,6 +1265,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210303223122'),
 ('20210308123420'),
 ('20210308152630'),
-('20210312184948');
+('20210312184948'),
+('20210314175851');
 
 

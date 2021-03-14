@@ -7,7 +7,6 @@ RSpec.describe "create report", type: :system do
   let!(:match) { create(:match, caller: caller, callee: callee, status: "active") }
 
   it "works" do
-    skip "TO DO"
     login_as nil
 
     visit "/c/#{caller.id}"
@@ -20,7 +19,6 @@ RSpec.describe "create report", type: :system do
     select "15 - 30 minutes", from: "Length of the call"
     find("#report_callee_feeling_great").click
     find("#report_caller_feeling_awful").click
-
     fill_in "Brief summary of the call", with: "summary"
     check "Do you have anything that you would like to discuss with your pod leader?"
 
@@ -32,7 +30,7 @@ RSpec.describe "create report", type: :system do
     end.to change { Report.count }.by(1)
 
     report = Report.last
-    expect(page).to have_current_path("/c/#{caller.id}")
+    expect(page).to have_current_path("/c/#{caller.id}/matches/#{match.id}")
 
     expect(report.match.id).to eq(match.id)
     expect(report.date_of_call.strftime("%Y-%m-%d")).to eq("2020-01-01")
@@ -45,7 +43,6 @@ RSpec.describe "create report", type: :system do
   end
 
   it "works if call not answered" do
-    skip "TO DO"
     login_as nil
 
     visit "/c/#{caller.id}"
@@ -65,16 +62,17 @@ RSpec.describe "create report", type: :system do
     end.to change { Report.count }.by(1)
 
     report = Report.last
-    expect(page).to have_current_path("/c/#{caller.id}")
+    expect(page).to have_current_path("/c/#{caller.id}/matches/#{match.id}")
 
     expect(report.match.id).to eq(match.id)
     expect(report.date_of_call.strftime("%Y-%m-%d")).to eq("2020-01-01")
     expect(report.duration).to eq(:no_answer)
     expect(report.callee_feeling).to eq(nil)
     expect(report.caller_feeling).to eq(nil)
-    expect(report.summary).to eq("comments")
-    expect(report.concerns).to eq(false)
-    expect(report.concerns_notes).to eq(nil)
+    expect(report.summary).to eq(nil)
+    expect(report.no_answer_notes).to eq("comments")
+    expect(report.concerns).to eq(nil)
+    expect(report.concerns_notes).to eq("")
   end
 
   it "redirect back to correct page on cancel" do
