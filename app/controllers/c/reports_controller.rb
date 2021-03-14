@@ -1,6 +1,11 @@
 class C::ReportsController < C::CController
   def new
+    return redirect_to c_path(current_caller) unless params[:match_id].present?
+
     @match = Match.find(params[:match_id])
+
+    return redirect_to "/invalid_permissions_for_page" unless [:active, :paused, :winding_down].include?(@match.status) && @match.caller == current_caller
+
     @report = Report.new(match_id: @match.id, date_of_call: Date.today)
 
     @callee_feeling_options = [{ 'icon': "emoji-angry-fill", value: "awful", selected_classes: "bg-yellow-200 border-2", unselected_classes: "border", classes: "rounded-md p-3 bg-white text-yellow-300 border-yellow-400", icon_classes: "w-7 h-7 rounded-full bg-gray-500 border-gray-500 border" },

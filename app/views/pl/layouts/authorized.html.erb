@@ -5,11 +5,9 @@
     </div>
   <% end %>
   <% if @is_caller %>
-    <% if false %>
-      <div class="px-2 pb-4 space-y-1">
-        <%= render(SidebarLinkComponent.new(name: "Switch to caller's area", url: c_path(@current_user.caller), icon: "login")) %>
-      </div>
-    <% end %>
+    <div class="px-2 pb-4 space-y-1">
+      <%= render(SidebarLinkComponent.new(name: "Caller's area", url: c_path(@current_user.caller), icon: "login")) %>
+    </div>
   <% end %>
   <div class="px-2 space-y-1">
     <%= render(SidebarLinkComponent.new(name: "Home", url: pl_path(@current_pod_leader.id), icon: "heroicon-home-unfilled")) %>
