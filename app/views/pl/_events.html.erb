@@ -53,7 +53,7 @@
           <% if @event.legacy_duration == "did not answer" %>
             <div class="ml-2 text-sm text-red-400 italic">no answer</div>
           <% else %>
-            <div class="ml-2 text-sm text-gray-400 italic">call length: <%= @event.duration %></div>
+            <div class="ml-2 text-sm text-gray-400 italic">call length: <%= @event.legacy_duration %></div>
           <% end %>
         <% end %>
       </div>
@@ -81,7 +81,7 @@
         <% if @event.duration == :no_answer %>
           <div class="ml-2 text-sm text-red-400 italic">no answer</div>
         <% else %>
-          <div class="ml-2 text-sm text-gray-400 italic">call length: <%= @event.duration %></div>
+          <div class="ml-2 text-sm text-gray-400 italic">call length: <%= @event.humanized_duration %></div>
         <% end %>
       </div>
       <% if @event.concerns %>
