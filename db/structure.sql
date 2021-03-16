@@ -447,7 +447,8 @@ CREATE TABLE public.pods (
     pod_leader_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    theme character varying
+    theme character varying,
+    safeguarding_lead_id bigint
 );
 
 
@@ -558,6 +559,77 @@ ALTER SEQUENCE public.role_status_changes_id_seq OWNED BY public.role_status_cha
 
 
 --
+-- Name: safeguarding_concern_status_changes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.safeguarding_concern_status_changes (
+    id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    safeguarding_concern_id bigint NOT NULL,
+    status character varying NOT NULL,
+    notes_ciphertext text,
+    datetime timestamp without time zone NOT NULL,
+    created_by_id bigint NOT NULL
+);
+
+
+--
+-- Name: safeguarding_concern_status_changes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.safeguarding_concern_status_changes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: safeguarding_concern_status_changes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.safeguarding_concern_status_changes_id_seq OWNED BY public.safeguarding_concern_status_changes.id;
+
+
+--
+-- Name: safeguarding_concerns; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.safeguarding_concerns (
+    id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    person_id bigint NOT NULL,
+    created_by_id bigint NOT NULL,
+    concerns_ciphertext text NOT NULL,
+    status character varying NOT NULL,
+    status_changed_at timestamp without time zone NOT NULL,
+    status_changed_notes_ciphertext text
+);
+
+
+--
+-- Name: safeguarding_concerns_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.safeguarding_concerns_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: safeguarding_concerns_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.safeguarding_concerns_id_seq OWNED BY public.safeguarding_concerns.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -662,6 +734,20 @@ ALTER TABLE ONLY public.reports ALTER COLUMN id SET DEFAULT nextval('public.repo
 --
 
 ALTER TABLE ONLY public.role_status_changes ALTER COLUMN id SET DEFAULT nextval('public.role_status_changes_id_seq'::regclass);
+
+
+--
+-- Name: safeguarding_concern_status_changes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.safeguarding_concern_status_changes ALTER COLUMN id SET DEFAULT nextval('public.safeguarding_concern_status_changes_id_seq'::regclass);
+
+
+--
+-- Name: safeguarding_concerns id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.safeguarding_concerns ALTER COLUMN id SET DEFAULT nextval('public.safeguarding_concerns_id_seq'::regclass);
 
 
 --
@@ -782,6 +868,22 @@ ALTER TABLE ONLY public.reports
 
 ALTER TABLE ONLY public.role_status_changes
     ADD CONSTRAINT role_status_changes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: safeguarding_concern_status_changes safeguarding_concern_status_changes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.safeguarding_concern_status_changes
+    ADD CONSTRAINT safeguarding_concern_status_changes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: safeguarding_concerns safeguarding_concerns_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.safeguarding_concerns
+    ADD CONSTRAINT safeguarding_concerns_pkey PRIMARY KEY (id);
 
 
 --
@@ -961,6 +1063,13 @@ CREATE UNIQUE INDEX index_pods_on_pod_leader_id ON public.pods USING btree (pod_
 
 
 --
+-- Name: index_pods_on_safeguarding_lead_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_pods_on_safeguarding_lead_id ON public.pods USING btree (safeguarding_lead_id);
+
+
+--
 -- Name: index_reports_on_match_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1003,6 +1112,34 @@ CREATE INDEX index_role_status_changes_on_pod_leader_id ON public.role_status_ch
 
 
 --
+-- Name: index_safeguarding_concern_status_changes_on_created_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_safeguarding_concern_status_changes_on_created_by_id ON public.safeguarding_concern_status_changes USING btree (created_by_id);
+
+
+--
+-- Name: index_safeguarding_concerns_on_created_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_safeguarding_concerns_on_created_by_id ON public.safeguarding_concerns USING btree (created_by_id);
+
+
+--
+-- Name: index_safeguarding_concerns_on_person_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_safeguarding_concerns_on_person_id ON public.safeguarding_concerns USING btree (person_id);
+
+
+--
+-- Name: safeguarding_concerns_on_status_changes; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX safeguarding_concerns_on_status_changes ON public.safeguarding_concern_status_changes USING btree (safeguarding_concern_id);
+
+
+--
 -- Name: events fk_rails_0dd58ac981; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1035,6 +1172,14 @@ ALTER TABLE ONLY public.emergency_contacts
 
 
 --
+-- Name: safeguarding_concerns fk_rails_299444fc6c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.safeguarding_concerns
+    ADD CONSTRAINT fk_rails_299444fc6c FOREIGN KEY (person_id) REFERENCES public.people(id);
+
+
+--
 -- Name: callers fk_rails_2fcae7eb33; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1048,6 +1193,14 @@ ALTER TABLE ONLY public.callers
 
 ALTER TABLE ONLY public.match_status_changes
     ADD CONSTRAINT fk_rails_3e27337676 FOREIGN KEY (created_by_id) REFERENCES public.people(id);
+
+
+--
+-- Name: safeguarding_concern_status_changes fk_rails_40143a54c2; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.safeguarding_concern_status_changes
+    ADD CONSTRAINT fk_rails_40143a54c2 FOREIGN KEY (created_by_id) REFERENCES public.people(id);
 
 
 --
@@ -1128,6 +1281,14 @@ ALTER TABLE ONLY public.match_status_changes
 
 ALTER TABLE ONLY public.role_status_changes
     ADD CONSTRAINT fk_rails_5c95418a55 FOREIGN KEY (admin_id) REFERENCES public.admins(id);
+
+
+--
+-- Name: pods fk_rails_62a7a8f2fd; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pods
+    ADD CONSTRAINT fk_rails_62a7a8f2fd FOREIGN KEY (safeguarding_lead_id) REFERENCES public.people(id);
 
 
 --
@@ -1227,11 +1388,27 @@ ALTER TABLE ONLY public.person_flag_changes
 
 
 --
+-- Name: safeguarding_concerns fk_rails_cbb7ffc243; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.safeguarding_concerns
+    ADD CONSTRAINT fk_rails_cbb7ffc243 FOREIGN KEY (created_by_id) REFERENCES public.people(id);
+
+
+--
 -- Name: events fk_rails_df200f81d0; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.events
     ADD CONSTRAINT fk_rails_df200f81d0 FOREIGN KEY (replacement_event_id) REFERENCES public.events(id);
+
+
+--
+-- Name: safeguarding_concern_status_changes fk_rails_e6451f98a7; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.safeguarding_concern_status_changes
+    ADD CONSTRAINT fk_rails_e6451f98a7 FOREIGN KEY (safeguarding_concern_id) REFERENCES public.safeguarding_concerns(id);
 
 
 --
@@ -1266,6 +1443,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210308123420'),
 ('20210308152630'),
 ('20210312184948'),
-('20210314175851');
+('20210314175851'),
+('20210315165450');
 
 

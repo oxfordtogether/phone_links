@@ -1,0 +1,54 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Safeguarding", a_safeguarding_concerns_path %>
+    <% list.link "#{@safeguarding_concern.id}", a_safeguarding_concern_path(@safeguarding_concern) %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <div class="mb-1 sm:flex sm:justify-between">
+    <h1 class="flex flex-wrap items-center text-2xl text-gray-900">
+      Safeguarding Concern about <%= link_to @safeguarding_concern.person.name, a_person_path(@safeguarding_concern.person), class: "ml-1.5 font-semibold" %> <span class="ml-1.5">(#<%= @safeguarding_concern.id %>)</span>
+      <span class="ml-2 mb-1"><%= safeguarding_status(@safeguarding_concern) %></span>
+    </h1>
+  </div>
+  <div class="pb-8 text-sm text-gray-600">
+    Submitted by <%= link_to @safeguarding_concern.created_by.name, a_person_path(@safeguarding_concern.created_by) %>, <%= format_date(@safeguarding_concern.created_at) %>
+  </div>
+<% end %>
+<div class="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl ">
+  <section>
+    <div class="bg-white mb-8 px-4 py-5 shadow sm:rounded-lg sm:px-6">
+      <h1 class="mb-3 text-base text-gray-500 font-semibold">Details</h1>
+      <div class="my-1 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Submitted: </span><%= format_date(@safeguarding_concern.created_at) %></div>
+      <div class="my-1 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Submitted by: </span><%= @safeguarding_concern.created_by.name %></div>
+      <div class="mt-3">
+        <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Concerns: </span><%= @safeguarding_concern.concerns %></div>
+      </div>
+    </div>
+    <div class="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
+      <h1 class="mb-6 text-base text-gray-500 font-semibold">Activity</h1>
+      <div class="mb-10">
+        <%= tailwind_form_with(model: [:a, @safeguarding_concern], local: true) do |form| %>
+          <%= form.compact_section do %>
+            <%= form.select :status, SafeguardingConcern.status_options_for_select, width: :third, required_asterix: true %>
+            <%= form.text_area :status_changed_notes, width: :full, label: "Notes" %>
+          <% end %>
+          <%= form.compact_button_section do %>
+            <%= form.submit "Save", compact: true %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="mt-2 flow-root">
+        <% if @status_changes.present? %>
+          <ul class="-mb-8">
+            <% @status_changes.each_with_index do |event, index| %>
+              <% @event = event %>
+              <% @last_event = @status_changes.size - 1 == index %>
+              <%= render partial: "status_change" %>
+            <% end %>
+          </ul>
+        <% end %>
+      </div>
+    </div>
+  </section>
+</div>

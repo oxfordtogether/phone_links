@@ -1,0 +1,9 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Safeguarding", a_safeguarding_concerns_path %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <%= render partial: "index_head_page" %>
+<% end %>
+<%= render 'form', safeguarding_concern: @safeguarding_concern %>

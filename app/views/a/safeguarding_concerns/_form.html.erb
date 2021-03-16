@@ -1,0 +1,10 @@
+<%= tailwind_form_with(model: [:a, @safeguarding_concern], local: true) do |form| %>
+  <%= form.section do %>
+    <%= form.collection_select :person_id, Caller.all.map(&:person).sort_by(&:name), :id, :name, label: "Who is this concern about?", required_asterix: true %>
+    <%= form.text_area :concerns, rows: 5, label: "Please describe your concern in detail", width: :full, required_asterix: true %>
+  <% end %>
+  <%= form.button_section do %>
+    <%= form.cancel a_safeguarding_concerns_path %>
+    <%= form.submit label = "Submit" %>
+  <% end %>
+<% end %>

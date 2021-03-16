@@ -1,0 +1,12 @@
+<div class="sm:flex sm:justify-between">
+  <h1 class="text-2xl font-semibold text-gray-900">
+    Safeguarding
+  </h1>
+  <div class="mt-4 sm:mt-0">
+    <%= button_link_to "New safeguarding concern", new_a_safeguarding_concern_path, icon: 'icon-add' %>
+  </div>
+</div>
+<%= nav_tabs do |nav| %>
+  <% nav.link "Form submissions", a_safeguarding_concerns_path %>
+  <% nav.link "New", new_a_safeguarding_concern_path %>
+<% end %>

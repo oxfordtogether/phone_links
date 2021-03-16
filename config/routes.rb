@@ -112,6 +112,8 @@ Rails.application.routes.draw do
     get "waitlist/callers" => "waitlist#callers"
     get "waitlist/callees" => "waitlist#callees"
     get "waitlist/provisional_matches" => "waitlist#provisional_matches"
+
+    resources :safeguarding_concerns, only: %i[show index new create edit update]
   end
 
   namespace :pl do

@@ -6,6 +6,7 @@ class Pod < ApplicationRecord
   has_many :callees
   has_many :matches
   belongs_to :pod_leader, optional: true
+  belongs_to :safeguarding_lead, class_name: "Person"
 
   scope :with_matches, lambda {
     includes(callers: [
