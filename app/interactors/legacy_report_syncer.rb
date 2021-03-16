@@ -52,8 +52,10 @@ class LegacyReportSyncer
         legacy_caller_name: record["Name & Surname"] || record["Your name"],
         legacy_callee_name: record["Name of person you called "] || record["The person you rang "],
         legacy_time_and_date: record["Time and date of phone call "] || record["Date and time"],
+        legacy_time: record["Time of phone call "],
+        legacy_date: record["Date of phone call "],
         legacy_duration: record["Length of call"],
-        summary: record["Brief summary of the conversation"] || record["Short description of your conversation "],
+        summary: record["Brief summary of the conversation"] || record["Short description of your conversation "] || record["Brief summary of the call"],
         concerns: record["Concerns"],
         legacy_pod_id: legacy_pod_id,
       )
