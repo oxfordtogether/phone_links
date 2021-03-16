@@ -1,4 +1,4 @@
-<div class="pb-8 sm:flex sm:justify-between">
+<div class="sm:flex sm:justify-between">
   <div>
     <h1 class="text-2xl font-semibold text-gray-900">
       <%= @match.callee.name%>
@@ -26,3 +26,7 @@
     <%= button_link_to "New report", new_c_report_path(@current_caller, { match_id: @match.id }), icon: "icon-add" %>
   </div>
 </div>
+<%= nav_tabs do |nav| %>
+  <% nav.link "Reports", c_match_path(@current_caller, @match) %>
+  <% nav.link "New", new_c_report_path(@current_caller, { match_id: @match.id }) %>
+<% end %>

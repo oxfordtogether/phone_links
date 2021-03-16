@@ -48,7 +48,7 @@
       </div>
       <div class="hidden sm:inline max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
         <%= alert(title: 'Incorrect numbers?', info: 'Some of these numbers may be incorrect while we move data across from the old system.') %>
-        <ul class="grid grid-cols-1 gap-3 sm:gap-6 sm:grid-cols-2 md:grid-cols-3 mt-3">
+        <ul class="grid grid-cols-1 gap-3 sm:gap-6 sm:grid-cols-2 md:grid-cols-2 mt-3">
           <li class="relative col-span-1 flex shadow-sm rounded-md">
             <div class="flex-shrink-0 flex items-center justify-center w-12 bg-pink-600 text-white text-sm font-medium rounded-l-md"></div>
             <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
@@ -67,17 +67,6 @@
                 <div class="text-gray-500 font-medium hover:text-gray-600">
                   Calls:
                   <div class="inline text-lg font-medium text-gray-900"><%= @reports.count %></div>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li class="relative col-span-1 flex shadow-sm rounded-md">
-            <div class="flex-shrink-0 flex items-center justify-center w-12 bg-blue-600 text-white text-sm font-medium rounded-l-md"></div>
-            <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
-              <div class="flex-1 px-4 py-2 text-sm truncate">
-                <div class="text-gray-500 font-medium hover:text-gray-600">
-                  Last call:
-                  <div class="inline text-lg font-medium text-gray-900"><% if @reports.present? %><%= format_date(@reports.sort_by(&:date_of_call).last.date_of_call) %><% else %>N/A<% end %></div>
                 </div>
               </div>
             </div>
@@ -138,7 +127,7 @@
                       <div class="flex flex-col items-start md:items-center px-8">
                         <h3 class="mt-2 md:mt-6 text-gray-900 text-base font-medium"><%= match.callee.name %></h3>
                         <% if match.reports.present? %>
-                          <dd class="text-gray-500 md:mt-1 text-sm">Last call: <%= format_date_as_days_since(match.reports.sort_by(&:date_of_call).last.date_of_call) %></dd>
+                          <dd class="text-gray-500 md:mt-1 text-sm">Last report: <%= format_date_as_days_since(match.reports.max_by(&:created_at).created_at) %></dd>
                         <% end %>
                         <div class="pt-2 text-sm flex items-center">
                           <%= icon('phone', class: "w-4 h-4 text-gray-400") %>
@@ -170,7 +159,7 @@
                 <a href="https://www.oxfordhub.org/safeguarding" class="focus:outline-none" target="_blank">
                   <h3 class="text-sm md:text-lg font-medium">
                     <span class="absolute inset-0" aria-hidden="true"></span>
-                    Report a concern
+                    Safeguarding concern?
                   </h3>
                   <div class="inline-flex items-center mt-1">
                     <span class="rounded-lg inline-flex p-1 bg-red-50 ring-4 ring-white mr-3">

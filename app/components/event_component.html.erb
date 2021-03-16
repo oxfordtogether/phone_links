@@ -67,7 +67,7 @@
       <% end %>
     <% end %>
     <% c.with(:body) do %>
-      <%= @event.summary %>
+      <%= simple_format(@event.summary) %>
     <% end %>
   <% end %>
 <% else %>
@@ -108,7 +108,7 @@
       </div>
     <% end %>
     <% c.with(:body) do %>
-      <% if @event.duration == :no_answer %><%= @event.summary %><% else %><%= @event.no_answer_notes %><% end %>
+      <% if @event.duration != :no_answer %><%= simple_format(@event.summary) %><% else %><%= simple_format(@event.no_answer_notes) %><% end %>
     <% end %>
   <% end %>
 <% end %>
