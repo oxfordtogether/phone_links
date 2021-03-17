@@ -121,7 +121,6 @@ class A::PeopleController < A::AController
   def flag
     @person&.flag_change_notes = nil
 
-    @current_user = current_user
     render "a/people/edit/flag"
   end
 

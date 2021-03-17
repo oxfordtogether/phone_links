@@ -1,7 +1,5 @@
 class A::PagesController < A::AController
   def home
-    @current_user = current_user
-
     @flagged_people = Person.where(flag_in_progress: true)
 
     @waiting_list_count = Callee.with_matches.all.filter(&:waiting_list).count
