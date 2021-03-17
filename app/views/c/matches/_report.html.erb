@@ -15,14 +15,10 @@
         <% end %>
       </div>
       <% if @event.concerns %>
-        <div>
-          <%= icon('exclamation', class: "inline w-5 h-5 text-yellow-400") %>
-          <span class="inline text-sm text-yellow-700">
-            <% if @event.concerns_notes %>
-              <%= @event.concerns_notes %>
-            <% else %>
-              <span>Concern flagged</span>
-            <% end %>
+        <div class="flex items-center">
+          <%= icon('exclamation', class: "mr-1 w-6 h-6 text-yellow-400") %>
+          <span class="text-sm text-yellow-700">
+            <span class="font-semibold">Requested a call from the pod leader</span><% if @event.concerns_notes %> <%= @event.concerns_notes %><% end %>
           </span>
         </div>
       <% end %>
@@ -46,14 +42,10 @@
         <% end %>
       </div>
       <% if @event.concerns %>
-        <div>
-          <%= icon('exclamation', class: "inline w-5 h-5 text-yellow-400") %>
-          <span class="inline text-sm text-yellow-700">
-            <% if @event.concerns_notes %>
-              <%= @event.concerns_notes %>
-            <% else %>
-              <span>Concern flagged</span>
-            <% end %>
+        <div class="flex items-center">
+          <%= icon('exclamation', class: "mr-1 w-6 h-6 text-yellow-400") %>
+          <span class="text-sm text-yellow-700">
+            <span class="font-semibold">Requested a call from the pod leader</span><% if @event.concerns_notes %> <%= @event.concerns_notes %><% end %>
           </span>
         </div>
       <% end %>

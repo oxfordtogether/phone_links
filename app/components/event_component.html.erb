@@ -61,7 +61,7 @@
         <div class="flex items-center">
           <%= icon('exclamation', class: "mr-1 w-6 h-6 text-yellow-400") %>
           <span class="text-sm text-yellow-700">
-            <span class="font-semibold">Caller would like a call from pod leader</span><% if @event.concerns_notes %>: <%= @event.concerns_notes %><% end %>
+            <span class="font-semibold">Caller would like a call from their pod leader</span><% if @event.concerns_notes %> <%= @event.concerns_notes %><% end %>
           </span>
         </div>
       <% end %>
@@ -88,7 +88,7 @@
         <div class="flex items-center">
           <%= icon('exclamation', class: "mr-1 w-6 h-6 text-yellow-400") %>
           <span class="text-sm text-yellow-700">
-            <span class="font-semibold">Caller would like a call from pod leader</span><% if @event.concerns_notes %>: <%= @event.concerns_notes %><% end %>
+            <span class="font-semibold">Caller would like a call from their pod leader</span><% if @event.concerns_notes %> <%= @event.concerns_notes %><% end %>
           </span>
         </div>
       <% end %>
