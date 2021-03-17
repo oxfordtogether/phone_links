@@ -125,12 +125,12 @@
   <% end %>
 <% end %>
 <% when PersonFlagChange %>
-<%= render TimelineItemComponent.new(icon: "flag-fill", icon_colour: @event.flag_in_progress ? 'bg-red-400' : 'bg-gray-400', time: @event.created_at, is_last: @last_event) do |c| %>
+<%= render TimelineItemComponent.new(icon: "star-fill", icon_colour: @event.flag_in_progress ? 'bg-yellow-400' : 'bg-gray-400', time: @event.created_at, is_last: @last_event) do |c| %>
   <% c.with(:title) do %>
     <% if @event.flag_in_progress %>
-      <span class="font-semibold">Flag raised</span>
+      <span class="font-semibold">Starred</span>
     <% else %>
-      <span class="font-semibold">Flag lowered</span>
+      <span class="font-semibold">Star removed</span>
     <% end %>
     <% if @event.created_by %><span class="text-sm text-gray-400 italic"> by <%= @event.created_by&.name %></span><% end %>
   <% end %>

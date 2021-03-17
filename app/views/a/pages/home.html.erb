@@ -90,7 +90,7 @@
             <%= table @flagged_people.sort_by(&:name), row_url: ->(e) { a_person_path(e) } do |tbl| %>
               <% tbl.col "Person" do |person| %>
                 <div class="flex items-center">
-                  <span class="text-gray-900 font-medium"><%= person.name %></span><span class="ml-2 mr-2"><%= person.flag_change_notes %></span><%= icon('flag-fill', class: "h-4 w-4 text-red-400") %>
+                  <span class="text-gray-900 font-medium"><%= person.name %></span><span class="ml-2 mr-2"><%= person.flag_change_notes %></span><%= icon('star-fill', class: "h-4 w-4 text-yellow-400") %>
                 </div>
               <% end %>
               <% tbl.col "Date" do |person| %>
