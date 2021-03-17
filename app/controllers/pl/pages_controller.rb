@@ -6,7 +6,7 @@ class Pl::PagesController < Pl::PlController
     @current_pod_leader = current_pod_leader
     @pod = @current_pod_leader.pod
 
-    @report_count = (Report.all.filter { |r| r.legacy_pod_id == @pod.id || @pod.matches.include?(r.match) }.count if @pod.present?)
+    @report_count = (Report.where(legacy_pod_id: @pod.id).count + Report.where(legacy_pod_id: nil).where(match_id: @pod.matches.map(&:id)).count if @pod.present?)
   end
 
   def support

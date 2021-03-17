@@ -120,9 +120,9 @@
       <% if @report.duration == :no_answer %>
         <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Notes: </span><%= @report.no_answer_notes %></div>
       <% else %>
-        <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Summary: </span><%= @report.summary %></div>
         <div class="flex items-center my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">How did the callee seem? </span><%= callee_feeling(feeling: @report.callee_feeling) %></div>
         <div class="flex items-center my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">How do you feel the call went? </span><%= caller_feeling(feeling: @report.caller_feeling) %></div>
+        <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Summary: </span><%= @report.summary %></div>
       <% end %>
     <% end %>
   </div>

@@ -16,13 +16,11 @@
       <%= render(SidebarLinkComponent.new(name: "Matches", url: pl_matches_path(@current_pod_leader.id), icon: "heroicon-link")) %>
     </div>
   <% end %>
-  <% if false %>
-    <% if @is_caller %>
-      <hr class="border-t border-gray-700 my-5" aria-hidden="true">
-      <div class="px-2 space-y-1">
-        <%= render(SidebarLinkComponent.new(name: "Caller's Area", url: c_path(@current_user.caller), icon: "login")) %>
-      </div>
-    <% end %>
+  <% if @is_caller %>
+    <hr class="border-t border-gray-700 my-5" aria-hidden="true">
+    <div class="px-2 space-y-1">
+      <%= render(SidebarLinkComponent.new(name: "Caller's Area", url: c_path(@current_user.caller), icon: "login")) %>
+    </div>
   <% end %>
   <hr class="border-t border-gray-700 my-5" aria-hidden="true">
   <div class="px-2 space-y-1">
