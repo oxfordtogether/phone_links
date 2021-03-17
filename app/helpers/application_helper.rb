@@ -101,4 +101,10 @@ module ApplicationHelper
 
     address.gsub(/, $/, "")
   end
+
+  def current_page_starts_with?(url_string)
+    request_uri = URI.parser.unescape(request.fullpath).force_encoding(Encoding::BINARY)
+
+    request_uri.starts_with?(url_string)
+  end
 end
