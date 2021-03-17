@@ -132,7 +132,7 @@
 <% end %>
 <%= nav_tabs do |nav| %>
   <% nav.link "Events", events_a_person_path(@person) %>
-  <% nav.link "Details", personal_details_a_edit_person_path(@person) %>
+  <% nav.link "Details", edit_a_person_path(@person), partial_match: true %>
   <% if @note.present? && !@note.new_record? %>
     <% nav.link "Edit note", edit_a_note_path(@note) %>
   <% else %>

@@ -1,5 +1,6 @@
 class A::PeopleController < A::AController
   before_action :set_person, only: %i[show events details actions create_role
+                                      edit
                                       personal_details save_personal_details
                                       contact_details save_contact_details
                                       flag save_flag
@@ -86,6 +87,10 @@ class A::PeopleController < A::AController
     else
       render :actions
     end
+  end
+
+  def edit
+    redirect_to personal_details_a_edit_person_path(@person)
   end
 
   def personal_details
