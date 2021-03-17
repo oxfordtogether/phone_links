@@ -19,7 +19,7 @@ class Auth0Controller < ApplicationController
 
     # if there isn't a person, try to find one to link to
     if !person && email && email_verified
-      person = Person.all.find { |p| p.email == email }
+      person = Person.all.find { |p| clean_email(p.email) == email }
       person&.update!(auth0_id: auth0_id)
     end
 
@@ -36,5 +36,11 @@ class Auth0Controller < ApplicationController
   def failure
     # show a failure page or redirect to an error page
     @error_msg = request.params["message"]
+  end
+
+  private
+
+  def clean_email(email)
+    email.downcase.strip
   end
 end

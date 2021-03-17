@@ -35,7 +35,7 @@ class C::ReportsController < C::CController
 
   def feeling_options
     @callee_feeling_options = [{ 'icon': "openmoji-crying-face", value: "awful", selected_classes: "bg-yellow-200 border-2", unselected_classes: "border", classes: "rounded-md p-2 bg-white text-yellow-300 border-yellow-400", icon_classes: "w-10 h-10 rounded-full" },
-                               { 'icon': "openmoji-slightly-frowining-face", value: "bad", selected_classes: "bg-yellow-200 border-2", unselected_classes: "border", classes: "rounded-md p-2 bg-white text-yellow-300 border-yellow-400", icon_classes: "w-10 h-10 rounded-full" },
+                               { 'icon': "openmoji-slightly-frowning-face", value: "bad", selected_classes: "bg-yellow-200 border-2", unselected_classes: "border", classes: "rounded-md p-2 bg-white text-yellow-300 border-yellow-400", icon_classes: "w-10 h-10 rounded-full" },
                                { 'icon': "openmoji-neutral-face", value: "neutral", selected_classes: "bg-yellow-200 border-2", unselected_classes: "border", classes: "rounded-md p-2 bg-white text-yellow-300 border-yellow-400", icon_classes: "w-10 h-10 rounded-full" },
                                { 'icon': "openmoji-slightly-smiling-face", value: "good", selected_classes: "bg-yellow-200 border-2", unselected_classes: "border", classes: "rounded-md p-2 bg-white text-yellow-300 border-yellow-400", icon_classes: "w-10 h-10 rounded-full" },
                                { 'icon': "openmoji-grinning-face", value: "great", selected_classes: "bg-yellow-200 border-2", unselected_classes: "border", classes: "rounded-md p-2 bg-white text-yellow-300 border-yellow-400", icon_classes: "w-10 h-10 rounded-full" }]
