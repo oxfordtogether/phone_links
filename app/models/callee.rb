@@ -70,8 +70,20 @@ class Callee < ApplicationRecord
     matches.filter { |m| m.ended }
   end
 
+  def active
+    status == :active
+  end
+
   def waiting_list
     status == :waiting_list
+  end
+
+  def left_programme
+    status == :left_programme
+  end
+
+  def live
+    active || waiting_list
   end
 
   def inactive

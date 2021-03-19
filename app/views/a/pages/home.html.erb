@@ -3,7 +3,6 @@
     <div class="px-4 sm:px-6 lg:max-w-6xl lg:mx-auto lg:px-8">
       <div class="py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-gray-200">
         <div class="flex-1 min-w-0">
-          <!-- Profile -->
           <div class="flex items-center">
             <div>
               <div class="flex items-center">
@@ -21,7 +20,6 @@
     </div>
   </div>
   <div class="mt-8">
-    <!-- Quick links - TO DO: improve responsive behavior -->
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2 class="text-gray-800 text-xs font-medium uppercase tracking-wide">Quick links</h2>
       <ul class="flex flex-wrap mt-1">
@@ -39,160 +37,69 @@
         </li>
       </ul>
     </div>
-
-    <% if false %>
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 ">
-      <div class="flex space-x-4">
-        <div class="flex-1 bg-white overflow-hidden shadow rounded-lg">
-          <div class="p-3 sm:p-8">
-            <div class="text-lg font-medium text-gray-500 truncate">
-              Callers
-              <span class="block sm:inline sm:ml-1 text-sm text-gray-400">Breakdown by status</span>
-            </div>
-            <div class="mt-6 flex">
-            <div class="flex-1 mx-2 sm:mx-6">
-                <dl class="flex justify-between">
-                  <div class="text-gray-900">
-                    <dt>Total</dt>
-                    <dd class="text-3xl font-semibold"><%= @callers.count(&:live) %></dd>
-                  </div>
-                  <div class="hidden sm:block sm:-mx-6 sm:border-l"></div>
-                  <div class="text-red-500">
-                    <dt>Waiting list</dt>
-                    <dd class="text-3xl font-semibold">
-                      <dd class="text-3xl font-semibold"><%= @callers.count(&:waiting_list) %></dd>
-                    </dd>
-                  </div>
-                  <div class="text-green-500">
-                    <dt>Active</dt>
-                    <dd class="text-3xl font-semibold"><%= @callers.count(&:active) %></dd>
-                  </div>
-                </dl>
-              </div>
-            </div>
+    <div class="mt-8 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="mb-3 text-gray-800 text-xs font-medium uppercase tracking-wide">Overview</h2>
+      <dl class="sm:grid sm:grid-cols-3 sm:gap-x-3">
+        <div class="bg-white rounded-lg shadow-lg flex flex-col border-b border-gray-100 p-6 text-center sm:border-0 sm:border-r">
+          <dt class="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
+            Matches
+          </dt>
+          <dd class="order-1 text-5xl font-extrabold text-indigo-500">
+            <%= @matches %>
+          </dd>
+        </div>
+        <div class="bg-white rounded-lg shadow-lg flex flex-col border-t border-gray-100 p-6 text-center sm:border-0 sm:border-l">
+          <dt class="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
+            Callers
+          </dt>
+          <dd class="order-1 text-5xl font-extrabold text-green-500">
+            <%= @callers %>
+          </dd>
+        </div>
+        <div class="bg-white rounded-lg shadow-lg flex flex-col border-t border-gray-100 p-6 text-center sm:border-0 sm:border-l">
+          <dt class="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
+            Reports
+          </dt>
+          <dd class="order-1 text-5xl font-extrabold text-pink-500">
+            <%= @reports %>
+          </dd>
+        </div>
+      </dl>
+    </div>
+    <div class="mt-8 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <dl class="sm:grid sm:grid-cols-2 sm:gap-x-3">
+        <div class="bg-white rounded-lg shadow-lg flex flex-col border-b border-gray-100 p-6 text-center sm:border-0 sm:border-r">
+          <dt class="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
+            Provisional matches
+          </dt>
+          <dd class="order-1 text-5xl font-extrabold text-yellow-500">
+            <%= @provisional_matches %>
+          </dd>
+        </div>
+        <div class="bg-white rounded-lg shadow-lg flex flex-col border-t border-gray-100 p-6 text-center sm:border-0 sm:border-l">
+          <dt class="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
+            Waiting list
+          </dt>
+          <dd class="order-1 text-5xl font-extrabold text-purple-500">
+            <%= @waiting_callees %>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+  <div class="mt-8 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex-1 bg-white overflow-hidden shadow rounded-lg">
+      <div class="p-3 sm:p-8">
+        <div class="text-lg font-medium text-gray-500 truncate">
+          Reports
+          <span class="block sm:inline sm:ml-1 text-sm text-gray-400">Count by week for last 6 months</span>
+        </div>
+        <div class="mt-2">
+          <div class="h-48" class="px-4 py-2" data-controller="bar-chart" data-bar-chart-data='<%= @reports_by_week.to_json.html_safe %>' data-bar-chart-title=""  data-bar-chart-squashable="true">
+            <canvas data-bar-chart-target="chart" ></canvas>
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 ">
-      <div class="flex space-x-4">
-        <div class="flex-1 bg-white overflow-hidden shadow rounded-lg">
-          <div class="p-3 sm:p-8">
-            <div class="text-lg font-medium text-gray-500 truncate">
-              Callees
-              <span class="block sm:inline sm:ml-1 text-sm text-gray-400">Breakdown by status</span>
-            </div>
-            <div class="mt-6 flex">
-             <div class="flex-1 mx-2 sm:mx-6">
-                <dl class="flex justify-between">
-                  <div class="text-gray-900">
-                    <dt>Total</dt>
-                    <dd class="text-3xl font-semibold"><%= @callees.count(&:live) %></dd>
-                  </div>
-                  <div class="hidden sm:block sm:-mx-6 sm:border-l"></div>
-                  <div class="text-red-500">
-                    <dt>Waiting list</dt>
-                    <dd class="text-3xl font-semibold">
-                      <dd class="text-3xl font-semibold"><%= @callees.count(&:waiting_list) %></dd>
-                    </dd>
-                  </div>
-                  <div class="text-green-500">
-                    <dt>Active</dt>
-                    <dd class="text-3xl font-semibold"><%= @callees.count(&:active) %></dd>
-                  </div>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 ">
-      <div class="flex space-x-4">
-        <div class="flex-1 bg-white overflow-hidden shadow rounded-lg">
-          <div class="p-3 sm:p-8">
-            <div class="text-lg font-medium text-gray-500 truncate">
-              Matches
-              <span class="block sm:inline sm:ml-1 text-sm text-gray-400">Breakdown by status</span>
-            </div>
-            <div class="mt-6 flex">
-             <div class="flex-1 mx-2 sm:mx-6">
-                <dl class="flex justify-between">
-                  <div class="text-gray-900">
-                    <dt>Total</dt>
-                    <dd class="text-3xl font-semibold"><%= @matches.count(&:provisional) + @matches.count(&:active) + @matches.count(&:paused) + @matches.count(&:winding_down) %></dd>
-                  </div>
-                  <div class="hidden sm:block sm:-mx-6 sm:border-l"></div>
-                  <div class="text-red-500">
-                    <dt>Provisional</dt>
-                    <dd class="text-3xl font-semibold">
-                      <dd class="text-3xl font-semibold"><%= @matches.count(&:provisional) %></dd>
-                    </dd>
-                  </div>
-                  <div class="text-green-500">
-                    <dt>Active</dt>
-                    <dd class="text-3xl font-semibold"><%= @matches.count(&:active) %></dd>
-                  </div>
-                  <div class="text-blue-500">
-                    <dt>Paused</dt>
-                    <dd class="text-3xl font-semibold"><%= @matches.count(&:paused) %></dd>
-                  </div>
-                  <div class="text-gray-500">
-                    <dt>Winding down</dt>
-                    <dd class="text-3xl font-semibold"><%= @matches.count(&:winding_down) %></dd>
-                  </div>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <% end %>
-
-    <!-- Overview  -->
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 ">
-      <h2 class="text-gray-800 text-xs font-medium uppercase tracking-wide">Overview</h2>
-      <ul class="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 xl:grid-cols-4 mt-3">
-        <!-- start -->
-        <li class="relative col-span-1 flex shadow-sm rounded-md">
-          <div class="flex-shrink-0 flex items-center justify-center w-12 bg-pink-600 text-white text-sm font-medium rounded-l-md"></div>
-          <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
-            <div class="flex-1 px-4 py-2 text-sm truncate">
-              <a href="#" class="text-gray-500 font-medium hover:text-gray-600">
-                Provisional matches:
-                <div class="inline text-lg font-medium text-gray-900"><%= @provisional_matches_count || "?"  %></div>
-              </a>
-            </div>
-          </div>
-        </li>
-        <li class="relative col-span-1 flex shadow-sm rounded-md">
-          <div class="flex-shrink-0 flex items-center justify-center w-12 bg-green-600 text-white text-sm font-medium rounded-l-md"></div>
-          <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
-            <div class="flex-1 px-4 py-2 text-sm truncate">
-              <a href="#" class="text-gray-500 font-medium hover:text-gray-600">
-                Referrals:
-                <div class="inline text-lg font-medium text-gray-900"><%= @referrals_count || "?" %></div>
-              </a>
-            </div>
-          </div>
-        </li>
-        <li class="relative col-span-1 flex shadow-sm rounded-md">
-          <div class="flex-shrink-0 flex items-center justify-center w-12 bg-blue-600 text-white text-sm font-medium rounded-l-md"></div>
-          <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
-            <div class="flex-1 px-4 py-2 text-sm truncate">
-              <a href="#" class="text-gray-500 font-medium hover:text-gray-600">
-                Waiting callees:
-                <div class="inline text-lg font-medium text-gray-900"><%= @waiting_list_count || "?" %></div>
-              </a>
-            </div>
-          </div>
-        </li>
-        <!-- end -->
-      </ul>
     </div>
   </div>
 <% end %>
