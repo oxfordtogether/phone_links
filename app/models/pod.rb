@@ -15,6 +15,10 @@ class Pod < ApplicationRecord
              ])
   }
 
+  def live_matches
+    matches.live
+  end
+
   def name_and_leader
     if pod_leader
       "#{name} (#{pod_leader.name})"

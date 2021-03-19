@@ -18,8 +18,8 @@ class Match < ApplicationRecord
   has_many :events
   has_many :match_status_changes
 
-  scope :live, -> { where(status: [:active, :paused, :winding_down]) }
-  scope :for_caller, lambda { |caller_id| where('caller_id = ?', caller_id) }
+  scope :live, -> { where(status: %i[active paused winding_down]) }
+  scope :for_caller, ->(caller_id) { where("caller_id = ?", caller_id) }
 
   encrypts :end_reason_notes, type: :string, key: :kms_key
   encrypts :status_change_notes, type: :string, key: :kms_key
