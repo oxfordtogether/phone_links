@@ -74,8 +74,7 @@ RSpec.describe "create match", type: :system do
     callee = create(:callee, pod: pod)
     match = create(:match, caller: caller, callee: callee, pod: pod)
 
-    visit "/a/matches/new"
-    select pod.name, from: "Pod"
+    visit "/a/matches/new?pod_id=#{pod.id}"
     select callee.name_and_pod, from: "Callee"
     select caller.name_pod_capacity, from: "Caller"
 

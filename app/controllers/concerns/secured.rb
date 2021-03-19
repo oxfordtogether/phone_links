@@ -2,7 +2,7 @@ module Secured
   extend ActiveSupport::Concern
 
   included do
-    before_action :logged_in_using_omniauth?
+    before_action :logged_in_using_omniauth?, :set_current
   end
 
   def bypass_auth?
@@ -38,5 +38,15 @@ module Secured
 
   def auth0_user
     session[:userinfo]
+  end
+
+  private
+
+  def set_current
+    Current.person_id = if bypass_auth?
+                          Person.first.id
+                        else
+                          session[:person_id]
+                        end
   end
 end

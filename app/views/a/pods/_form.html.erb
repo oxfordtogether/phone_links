@@ -1,8 +1,9 @@
 <%= tailwind_form_with(model: [:a, @pod], local: true) do |form| %>
   <%= form.section do %>
     <%= form.text_field :name, width: :third, required_asterix: true %>
-    <%= form.text_field :theme, width: :third %>
-    <%= form.collection_select :pod_leader_id, PodLeader.all.filter { |p| p.pod.nil? || p.pod.id == @pod.id }.sort_by(&:name), :id, :name, label: "Pod Leader", width: :third, info_message: "Dropdown includes pod leaders not already leading a pod." %>
+    <%= form.text_field :theme, width: :two_thirds %>
+    <%= form.collection_select :pod_leader_id, PodLeader.all.filter { |p| p.pod.nil? || p.pod.id == @pod.id }.sort_by(&:name), :id, :name, label: "Pod Leader", width: :half, info_message: "Dropdown includes pod leaders not already leading a pod." %>
+    <%= form.collection_select :safeguarding_lead_id, @safeguarding_leads.sort_by(&:name), :id, :name, label: "Safeguarding lead", width: :half, info_message: "This person will receive emails about concerns submitted via the safeguarding form. NOT CURRENTLY IN USE.", required_asterix: true %>
   <% end %>
   <%= form.button_section do %>
     <%= form.cancel action == :new ? a_pods_path : matches_a_pod_path(@pod) %>

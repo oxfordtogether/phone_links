@@ -11,6 +11,10 @@ module ComponentHelper
     render MatchStatusBadgeComponent.new(*args)
   end
 
+  def safeguarding_status(*args)
+    render SafeguardingStatusBadgeComponent.new(*args)
+  end
+
   def blue_link(*args)
     render LinkToComponent.new(*args)
   end

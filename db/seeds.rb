@@ -37,4 +37,7 @@ FactoryBot.create_list(:report, 200, :legacy)
 FactoryBot.create_list(:report, 200, :legacy, match: nil)
 FactoryBot.create_list(:note, 500)
 
+# safeguarding concerns
+FactoryBot.create_list(:safeguarding_concern, 50)
+
 SearchCache.refresh
