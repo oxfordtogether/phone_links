@@ -56,4 +56,20 @@ class Person < ApplicationRecord
   def roles
     [callee, caller, admin, pod_leader].filter { |p| !p.nil? }
   end
+
+  def missing_email
+    !email.present?
+  end
+
+  def signed_up
+    auth0_id.present?
+  end
+
+  def invite_needed
+    !signed_up && !invite_email_sent_at.present?
+  end
+
+  def invite_sent
+    !signed_up && invite_email_sent_at.present?
+  end
 end

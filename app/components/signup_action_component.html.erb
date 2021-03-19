@@ -1,0 +1,35 @@
+<div class="text-sm flex justify-center">
+  <% if @person.missing_email %>
+    <%= link_to contact_details_a_edit_person_path(@person), class: "inline-block cursor-pointer shadow bg-red-400 hover:bg-red-500 text-gray-100 rounded px-2 py-0.5" do %>
+      <div class="flex items-center">
+        <%= icon("email-fill", class: "w-4 h-4 mr-1.5") %>
+        <div>Missing email</div>
+      </div>
+    <% end %>
+  <% else %>
+    <% if @person.invite_needed %>
+      <%= button_to save_invite_a_edit_person_path(@person), class: "cursor-pointer shadow bg-blue-400 hover:bg-blue-500 text-gray-100 rounded px-2 py-0.5" do %>
+        <div class="flex items-center">
+          <%= icon("email-fill", class: "w-4 h-4 mr-1.5") %>
+          <div>Invite</div>
+        </div>
+      <% end %>
+    <% elsif @person.invite_sent %>
+      <div class="inline-block bg-indigo-100 text-gray-600 rounded-full px-2 py-0.5">
+        <div class="flex items-center">
+          <%= icon("check", class: "w-4 h-4 mr-1.5") %>
+          <div>Invite pending</div>
+        </div>
+      </div>
+    <% elsif @person.signed_up %>
+      <% if false %>
+        <div class="inline-block bg-gray-100 text-gray-600 rounded-full px-2 py-0.5">
+          <div class="flex items-center">
+            <%= icon("person-check", class: "w-4 h-4 mr-1.5") %>
+            <div>Signed up</div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

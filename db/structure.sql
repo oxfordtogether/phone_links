@@ -337,7 +337,8 @@ CREATE TABLE public.people (
     flag_in_progress boolean,
     age_bracket character varying,
     flag_change_notes_ciphertext text,
-    flag_change_datetime timestamp without time zone
+    flag_change_datetime timestamp without time zone,
+    invite_email_sent_at timestamp without time zone
 );
 
 
@@ -1437,6 +1438,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210312184948'),
 ('20210314175851'),
 ('20210315165450'),
-('20210321171009');
-
+('20210321171009'),
+('20210322172217');
 

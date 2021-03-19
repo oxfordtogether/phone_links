@@ -11,6 +11,9 @@
     <% tbl.col "Name" do |caller| %>
       <%= link_to caller.name, a_person_path(caller.person) %> <span><%= role_status(caller) %></span>
     <% end %>
+    <% tbl.col "" do |caller| %>
+      <%= signup_action(person: caller.person) %>
+    <% end %>
     <% tbl.col "Login as", classes: "text-right " do |caller| %>
       <div class="flex justify-end">
         <%= link_to c_path(caller.id) do %>

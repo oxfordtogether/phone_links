@@ -38,4 +38,8 @@ module ComponentHelper
   def caller_feeling(*args)
     render CallerFeelingComponent.new(*args)
   end
+
+  def signup_action(*args)
+    render SignupActionComponent.new(*args)
+  end
 end

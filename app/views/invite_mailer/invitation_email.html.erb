@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>
+      Hi <%= @person.name %>
+    </p>
+    <p>
+      You've been invited to Oxford Hub's Phone Links platform! The platform can be found at this URL: <a href="https://phonelinks.oxfordhub.org" target="_blank">phonelinks.oxfordhub.org</a>.
+    </p>
+    <p>
+      To signup, please follow this link: <a href="<%= @signup_link %>">sign up</a>
+    </p>
+    <p>
+      If you have any questions email <a href="mailto:phone-link@oxfordhub.org">phone-link@oxfordhub.org</a> for help.
+    </p>
+    <p>
+      From, Oxford Hub
+    </p>
+  </body>
+</html>
