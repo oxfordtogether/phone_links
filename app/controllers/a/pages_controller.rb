@@ -1,9 +1,11 @@
 class A::PagesController < A::AController
   def home
-    @flagged_people = Person.where(flag_in_progress: true)
-
     @waiting_list_count = Callee.with_matches.all.filter(&:waiting_list).count
     @provisional_matches_count = Match.all.filter(&:provisional).count
+
+    # @callers = Caller.all
+    # @callees = Callee.all
+    # @matches = Match.all
   end
 
   def support
