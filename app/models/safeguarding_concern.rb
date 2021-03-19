@@ -1,5 +1,5 @@
 class SafeguardingConcern < ApplicationRecord
-  validates :person_id, :created_by, :person_id, :concerns, :status, :status_changed_at, presence: { message: "This field is required" }
+  validates :created_by_id, :person_id, :concerns, :status, :status_changed_at, presence: { message: "This field is required" }
 
   after_save :create_status_changed_record
 
@@ -19,7 +19,7 @@ class SafeguardingConcern < ApplicationRecord
   private
 
   def create_status_changed_record
-    SafeguardingConcernStatusChange.create!(
+    SafeguardingConcernStatusChange.create(
       safeguarding_concern: self,
       created_by_id: Current.person_id,
       status: status,

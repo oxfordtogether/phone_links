@@ -3,7 +3,7 @@
 </div>
 <%= tailwind_form_with(model: [:a, @safeguarding_concern], local: true) do |form| %>
   <%= form.section do %>
-    <%= form.collection_select :person_id, Caller.all.map(&:person).sort_by(&:name), :id, :name, label: "Who is this concern about?", required_asterix: true, width: :third %>
+    <%= form.collection_select :person_id, Callee.all.map(&:person).sort_by(&:name), :id, :name, label: "Who is this concern about?", required_asterix: true, width: :third %>
     <%= form.text_area :concerns, rows: 5, label: "Please describe your concern in detail", width: :full, required_asterix: true, info_message: "Please provide details of the incident or concern you have, including times, dates, description of any injuries, whether information is first hand or the accounts of others, including any other relevant details." %>
   <% end %>
   <%= form.button_section do %>
