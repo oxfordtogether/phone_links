@@ -21,7 +21,7 @@
   <% end %>
 <% end %>
 <% when MatchStatusChange %>
-<%= render TimelineItemComponent.new(icon: "link-45deg", icon_colour: 'bg-blue-400', time: @event.created_at, is_last: @last_event) do |c| %>
+<%= render TimelineItemComponent.new(icon: "link-45deg", icon_colour: 'bg-blue-400', time: @event.datetime, is_last: @last_event) do |c| %>
   <% c.with(:title) do %>
     <% if @event.status == :provisional %>
       <span class="font-semibold">Provisional</span> match created for <span class="font-semibold"><%= @event.match.caller.name %> and <%= @event.match.callee.name %></span>
@@ -47,19 +47,19 @@
       icon_colour: @event.legacy_duration == "did not answer" ? 'bg-red-300' : 'bg-green-300',
       time: @event.created_at, is_last: @last_event) do |c| %>
     <% c.with(:title) do %>
-      <div class="flex items-center">
-        <%= @event.match.caller.name %> called <%= @event.match.callee.name %> on <% if @event.legacy_time_and_date.present? %><%= @event.legacy_time_and_date %><% elsif @event.legacy_date.present? %><% @event.legacy_date %><% else %>?<% end %>
+      <div class="flex flex-wrap items-center">
+        <div class="mr-2"><%= @event.match.caller.name %> called <%= @event.match.callee.name %> on <% if @event.legacy_time_and_date.present? %><%= @event.legacy_time_and_date %><% elsif @event.legacy_date.present? %><% @event.legacy_date %><% else %>?<% end %></div>
         <% if @event.legacy_duration %>
           <% if @event.legacy_duration == "did not answer" %>
-            <div class="ml-2 text-sm text-red-400 italic">no answer</div>
+            <div class="text-sm text-red-400 italic">no answer</div>
           <% else %>
-            <div class="ml-2 text-sm text-gray-400 italic">call length: <%= @event.legacy_duration %></div>
+            <div class="text-sm text-gray-400 italic">call length: <%= @event.legacy_duration %></div>
           <% end %>
         <% end %>
       </div>
       <% if @event.concerns %>
         <div class="flex items-center">
-          <%= icon('exclamation', class: "mr-1 w-6 h-6 text-yellow-400") %>
+          <div class="flex-1"><%= icon('exclamation', class: "mr-1 w-6 h-6 text-yellow-400") %></div>
           <span class="text-sm text-yellow-700">
             <span class="font-semibold">Caller would like a call from pod leader</span><% if @event.concerns_notes %> <%= @event.concerns_notes %><% end %>
           </span>
@@ -76,17 +76,17 @@
           icon_colour: @event.duration == :no_answer ? 'bg-red-300' : 'bg-green-300',
           time: @event.created_at, is_last: @last_event) do |c| %>
     <% c.with(:title) do %>
-      <div class="flex items-center">
-        <%= @event.match.caller.name %> called <%= @event.match.callee.name %> on <%= format_date(@event.date_of_call) %>
+      <div class="flex flex-wrap items-center">
+        <div class="mr-2"><%= @event.match.caller.name %> called <%= @event.match.callee.name %> on <%= format_date(@event.date_of_call) %></div>
         <% if @event.duration == :no_answer %>
-          <div class="ml-2 text-sm text-red-400 italic">no answer</div>
+          <div class="text-sm text-red-400 italic">no answer</div>
         <% else %>
-          <div class="ml-2 text-sm text-gray-400 italic">call length: <%= @event.humanized_duration %></div>
+          <div class="text-sm text-gray-400 italic">call length: <%= @event.humanized_duration %></div>
         <% end %>
       </div>
       <% if @event.concerns %>
         <div class="flex items-center">
-          <%= icon('exclamation', class: "mr-1 w-6 h-6 text-yellow-400") %>
+          <div class="flex-1"><%= icon('exclamation', class: "mr-1 w-6 h-6 text-yellow-400") %></div>
           <span class="text-sm text-yellow-700">
             <span class="font-semibold">Caller would like a call from pod leader</span><% if @event.concerns_notes %> <%= @event.concerns_notes %><% end %>
           </span>
@@ -113,7 +113,7 @@
   <% end %>
 <% end %>
 <% when RoleStatusChange %>
-<%= render TimelineItemComponent.new(icon: "check-circle", icon_colour: 'bg-gray-400', time: @event.created_at, is_last: @last_event) do |c| %>
+<%= render TimelineItemComponent.new(icon: "check-circle", icon_colour: 'bg-gray-400', time: @event.datetime, is_last: @last_event) do |c| %>
   <% c.with(:title) do %>
     <%= @event.role_description.to_s.humanize %> status updated to <span class="font-semibold"><%= @event.humanized_status %></span>
     <% if @event.created_by %>
