@@ -23,7 +23,7 @@ class SafeguardingTables < ActiveRecord::Migration[6.0]
       t.string :status, null: false
       t.text :notes_ciphertext, null: true
       t.datetime :datetime, null: false
-      # t.references :created_by, null: false, foreign_key: { to_table: :people }
+      t.references :created_by, null: false, foreign_key: { to_table: :people }
     end
   end
 end

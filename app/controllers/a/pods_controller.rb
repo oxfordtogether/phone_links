@@ -21,9 +21,12 @@ class A::PodsController < A::AController
 
   def new
     @pod = Pod.new
+    @safeguarding_leads = (Admin.all.map(&:person) + PodLeader.all.map(&:person)).uniq
   end
 
-  def edit; end
+  def edit
+    @safeguarding_leads = (Admin.all.map(&:person) + PodLeader.all.map(&:person)).uniq
+  end
 
   def create
     @pod = Pod.new(pod_params)
@@ -31,6 +34,7 @@ class A::PodsController < A::AController
     if @pod.save
       redirect_to a_pod_path(@pod), notice: "Pod was successfully created."
     else
+      @safeguarding_leads = (Admin.all.map(&:person) + PodLeader.all.map(&:person)).uniq
       render :new
     end
   end
@@ -39,6 +43,7 @@ class A::PodsController < A::AController
     if @pod.update(pod_params)
       redirect_to a_pod_path(@pod), notice: "Pod was successfully updated."
     else
+      @safeguarding_leads = (Admin.all.map(&:person) + PodLeader.all.map(&:person)).uniq
       render :edit
     end
   end
@@ -50,6 +55,6 @@ class A::PodsController < A::AController
   end
 
   def pod_params
-    params.require(:pod).permit(:name, :pod_leader_id, :theme)
+    params.require(:pod).permit(:name, :pod_leader_id, :theme, :safeguarding_lead_id)
   end
 end

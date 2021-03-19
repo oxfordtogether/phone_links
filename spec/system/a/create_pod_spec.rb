@@ -21,6 +21,7 @@ RSpec.describe "create pod", type: :system do
     fill_in "Theme", with: "Parents"
     expect(find("#pod_pod_leader_id").all("option").length).to eq(3 + 1)
     select pod_leaders[7].name, from: "Pod Leader"
+    select pod_leaders[9].name, from: "Safeguarding lead"
 
     expect do
       click_on "Save"
@@ -33,6 +34,26 @@ RSpec.describe "create pod", type: :system do
     expect(pod.name).to eq("ABCD")
     expect(pod.theme).to eq("Parents")
     expect(pod.pod_leader).to eq(pod_leaders[7])
+    expect(pod.safeguarding_lead).to eq(pod_leaders[9].person)
+  end
+
+  it "can't create a pod without a safeguarding lead" do
+    login_as nil
+
+    visit "/a"
+    click_on "Pods"
+    click_on "New"
+
+    fill_in "Name", with: "ABCD"
+    fill_in "Theme", with: "Parents"
+    expect(find("#pod_pod_leader_id").all("option").length).to eq(3 + 1)
+    select pod_leaders[7].name, from: "Pod Leader"
+
+    expect do
+      click_on "Save"
+    end.to change { Pod.count }.by(0)
+
+    expect(page).to have_content("This field is required")
   end
 
   it "redirect back to correct page on cancel" do

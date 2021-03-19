@@ -6,6 +6,9 @@
     <%= button_link_to "New safeguarding concern", new_a_safeguarding_concern_path, icon: 'icon-add' %>
   </div>
 </div>
+<div class="mt-6">
+  <%= alert(title: "This section is not currently in use", info: "Pod leaders and callers are still being directed to the safeguarding form on Oxford Hub's website") %>
+</div>
 <%= nav_tabs do |nav| %>
   <% nav.link "Form submissions", a_safeguarding_concerns_path %>
   <% nav.link "New", new_a_safeguarding_concern_path %>
