@@ -30,6 +30,7 @@ class Auth0Controller < ApplicationController
       session[:pod_leader_id] = person.pod_leader && !person.pod_leader.inactive ? person.pod_leader.id : nil
       session[:caller_id] = person.caller && !person.caller&.inactive ? person.caller.id : nil
     end
+
     redirect_to "/"
   end
 
