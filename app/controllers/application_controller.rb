@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   def add_user_info_to_bugsnag(report)
     report.user = {
       auth0_id: current_auth0_id,
-      guest_id: current_person_id,
+      person_id: current_person_id,
     }
   end
 

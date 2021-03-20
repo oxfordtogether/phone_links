@@ -19,7 +19,7 @@ class Auth0Controller < ApplicationController
 
     # if there isn't a person, try to find one to link to
     if !person && email && email_verified
-      person = Person.all.find { |p| clean_email(p.email) == email }
+      person = Person.all.find { |p| p.email.present? && clean_email(p.email) == email }
       person&.update!(auth0_id: auth0_id)
     end
 
@@ -42,6 +42,6 @@ class Auth0Controller < ApplicationController
   private
 
   def clean_email(email)
-    email.downcase.strip
+    email.downcase.strip if email.present?
   end
 end
