@@ -138,19 +138,19 @@ RSpec.describe "edit callee", type: :system do
     expect(status_change.notes).to eq("boo")
   end
 
-  it "edits flag" do
+  it "edits star" do
     login_as nil
 
     visit "/a/people/#{person.id}"
     click_on "Edit"
-    click_on "Flag"
+    click_on "Star"
     expect(page).to have_current_path("/a/people/#{person.id}/edit/flag")
 
     expect(find_field("person_flag_in_progress").checked?).to eq person.flag_in_progress
     expect(find_field("person_flag_change_notes").value).to eq ""
 
-    check "Flag in progress"
-    fill_in "Flag change notes", with: "boo"
+    check "Star"
+    fill_in "Notes", with: "boo"
 
     click_on "Save"
 

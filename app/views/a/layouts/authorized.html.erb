@@ -5,6 +5,7 @@
   <div class="my-4" aria-hidden="true"></div>
   <div class="px-2 space-y-1">
     <%= render(SidebarLinkComponent.new(name: "Home", url: a_path, icon: "heroicon-home-unfilled")) %>
+    <%= render(SidebarLinkComponent.new(name: "Inbox", url: a_inbox_path, icon: "inbox")) %>
     <%= render(SidebarLinkComponent.new(name: "Pods", url: a_pods_path, icon: 'phone')) %>
     <%= render(SidebarLinkComponent.new(name: "Waiting list", url: a_waitlist_path, icon: 'watch')) %>
     <% if false %>

@@ -19,6 +19,11 @@ class A::PodsController < A::AController
     @callers = @pod.callers
   end
 
+  def callees
+    @pod = Pod.with_matches.find(params[:id])
+    @callees = @pod.callees
+  end
+
   def new
     @pod = Pod.new
     @safeguarding_leads = (Admin.all.map(&:person) + PodLeader.all.map(&:person)).uniq

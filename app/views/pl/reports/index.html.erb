@@ -7,8 +7,8 @@
   <% render partial: "page_head" %>
 <% end %>
 <div class="mb-4">
-  <%= link_to "Inbox", { params: { } }, class: "#{current_page?(pl_reports_path, check_parameters: true) ? 'bg-yellow-200' : 'bg-white border-gray-300' } px-3 py-1.5 border rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-300" %>
-  <%= link_to "All", { params: { view: "all" } }, class: "#{current_page?(pl_reports_path(view: 'all')) ? 'bg-yellow-200' : 'bg-white border-gray-300' } px-3 py-1.5 border rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-300" %>
+  <%= link_to "Inbox", { params: { view: "inbox" } }, class: "#{current_page_starts_with?(pl_reports_path(view: 'inbox')) ? 'bg-yellow-200' : 'bg-white border-gray-300' } px-3 py-1.5 border rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-300" %>
+  <%= link_to "All", { params: { view: "all" } }, class: "#{current_page_starts_with?(pl_reports_path(view: 'all')) ? 'bg-yellow-200' : 'bg-white border-gray-300' } px-3 py-1.5 border rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-300" %>
 </div>
 <% if @reports.length > 0 %>
   <%= table @reports, row_url: ->(r) { pl_report_path(@current_pod_leader, r, { view: params[:view] }) }, small: true do |tbl| %>

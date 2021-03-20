@@ -108,6 +108,8 @@ Rails.application.routes.draw do
       end
     end
 
+    get "inbox" => "inbox#index"
+
     get "waitlist" => "waitlist#index"
     get "waitlist/callers" => "waitlist#callers"
     get "waitlist/callees" => "waitlist#callees"

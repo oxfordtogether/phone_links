@@ -68,6 +68,30 @@ RSpec.describe "login", type: :system do
     end
   end
 
+  it "handles badly formatted email" do
+    person = admin_no_auth0.person
+
+    # set badly formatted email in db, but login with well formatted email
+    person.email = " Test@Test.com "
+    person.save!
+
+    person.email = "test@test.com"
+    login_as person
+
+    visit "/"
+    expect(current_path).to eq("/a")
+  end
+
+  it "handles missing emails in db" do
+    create(:person, email: nil)
+    person = admin_no_auth0.person
+
+    login_as person
+
+    visit "/"
+    expect(current_path).to eq("/a")
+  end
+
   describe "works for active user" do
     it "logs in and shows homepage for active admin" do
       login_as admin.person

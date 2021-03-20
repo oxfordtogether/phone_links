@@ -1,0 +1,30 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Pods", a_pods_path %>
+    <% list.link "Pod #{@pod.name}", a_pod_path(@pod) %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <%= render PodHeadComponent.new(pod: @pod) %>
+<% end %>
+<% if @callees.length > 0 %>
+  <%= table @callees.sort_by { |c| c.name }, row_url: ->(c) { a_person_path(c.person) } do |tbl| %>
+    <% tbl.col "Callee" do |callee| %>
+      <%= callee.name %><span class="ml-1"><%= role_status(callee) %></span>
+    <% end %>
+    <% tbl.col "Match(es)" do |callee| %>
+      <% @matches = callee.matches.filter { |m| !m.provisional_cancelled } %>
+      <% if @matches.present? %>
+        <% @matches.each_with_index do |match, index| %>
+          <%= match.caller.name %> (<%= match.humanized_status.downcase %>)<% if @matches.size - 1 != index %>, <% end %>
+        <% end %>
+      <% else %>
+        <div class="italic">No matches</div>
+      <% end %>
+    <% end %>
+  <% end %>
+<% else %>
+  <div class="flex justify-center text-gray-600">
+    Add some callees to this pod!
+  </div>
+<% end %>

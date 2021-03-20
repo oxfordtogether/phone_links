@@ -1,9 +1,15 @@
 class A::PagesController < A::AController
   def home
-    @flagged_people = Person.where(flag_in_progress: true)
+    @callers = Caller.where.not(status: "left_programme").count
+    @matches = Match.live.count
+    @reports = Report.count
 
-    @waiting_list_count = Callee.with_matches.all.filter(&:waiting_list).count
-    @provisional_matches_count = Match.all.filter(&:provisional).count
+    @waiting_callees = Callee.where(status: "waiting_list").count
+    @provisional_matches = Match.where(status: "provisional").count
+
+    @reports_by_week = Report.where("created_at > ?", 6.months.ago).group_by_week(:created_at).count.map do |k, v|
+      { label: k, value: v, background_color: "rgba(54, 162, 235, 0.2)", border_color: "rgba(54, 162, 235, 1)" }
+    end
   end
 
   def support
