@@ -91,3 +91,5 @@ gem "pagy"
 gem "google_drive"
 
 gem "groupdate"
+
+gem "lograge"

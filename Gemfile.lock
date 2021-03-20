@@ -182,6 +182,11 @@ GEM
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     lockbox (0.6.2)
+    lograge (0.11.2)
+      actionpack (>= 4)
+      activesupport (>= 4)
+      railties (>= 4)
+      request_store (~> 1.0)
     loofah (2.9.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -277,6 +282,8 @@ GEM
       declarative (< 0.1.0)
       declarative-option (< 0.2.0)
       uber (< 0.2.0)
+    request_store (1.5.0)
+      rack (>= 1.4)
     rest-client (2.0.2)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
@@ -420,6 +427,7 @@ DEPENDENCIES
   kms_encrypted
   listen (~> 3.2)
   lockbox
+  lograge
   ocl_tools!
   omniauth-auth0 (~> 2.2)
   omniauth-rails_csrf_protection (~> 0.1)
