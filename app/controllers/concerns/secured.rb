@@ -9,6 +9,14 @@ module Secured
     return true if !Rails.env.production? && ENV["BYPASS_AUTH"] == "true"
   end
 
+  def current_person_id
+    session[:person_id]
+  end
+
+  def current_auth0_id
+    session[:auth0_id]
+  end
+
   def current_admin_id
     session[:admin_id]
   end

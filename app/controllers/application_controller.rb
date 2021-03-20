@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  before_bugsnag_notify :add_user_info_to_bugsnag
+
   helper OclTools::ComponentsHelper
   helper OclTools::FormHelper
   include Pagy::Backend
@@ -13,6 +15,15 @@ class ApplicationController < ActionController::Base
     elsif session[:person_id]
       Person.find(session[:person_id])
     end
+  end
+
+  private
+
+  def add_user_info_to_bugsnag(report)
+    report.user = {
+      auth0_id: current_auth0_id,
+      guest_id: current_person_id,
+    }
   end
 
   helper_method :demo?
