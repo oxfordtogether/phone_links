@@ -15,8 +15,8 @@
         <% end %>
       </div>
       <% if @event.concerns %>
-        <div class="flex items-center">
-          <div class="flex-1"><%= icon('exclamation', class: "mr-1 w-6 h-6 text-yellow-400") %></div>
+        <div class="flex items-start">
+          <div><%= icon('exclamation', class: "mr-1 w-6 h-6 text-yellow-400") %></div>
           <span class="text-sm text-yellow-700">
             <span class="font-semibold">Requested a call from the pod leader</span><% if @event.concerns_notes %> <%= @event.concerns_notes %><% end %>
           </span>
@@ -42,8 +42,8 @@
         <% end %>
       </div>
       <% if @event.concerns %>
-        <div class="flex items-center">
-          <div class="flex-1"><%= icon('exclamation', class: "mr-1 w-6 h-6 text-yellow-400") %></div>
+        <div class="flex items-start">
+          <div><%= icon('exclamation', class: "mr-1 w-6 h-6 text-yellow-400") %></div>
           <span class="text-sm text-yellow-700">
             <span class="font-semibold">Requested a call from the pod leader</span><% if @event.concerns_notes %> <%= @event.concerns_notes %><% end %>
           </span>

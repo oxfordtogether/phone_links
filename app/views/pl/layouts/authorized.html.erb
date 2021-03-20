@@ -10,7 +10,7 @@
   <div class="my-4" aria-hidden="true"></div>
   <% if @has_pod %>
     <div class="px-2 space-y-1">
-      <%= render(SidebarLinkComponent.new(name: "Reports", url: pl_reports_path(@current_pod_leader.id), icon: "document-report")) %>
+      <%= render(SidebarLinkComponent.new(name: "Reports", url: pl_reports_path(@current_pod_leader.id, { view: "inbox" }), icon: "document-report")) %>
       <%= render(SidebarLinkComponent.new(name: "Callers", url: pl_callers_path(@current_pod_leader.id), icon: "phone-outgoing")) %>
       <%= render(SidebarLinkComponent.new(name: "Callees", url: pl_callees_path(@current_pod_leader.id), icon: "phone-incoming")) %>
       <%= render(SidebarLinkComponent.new(name: "Matches", url: pl_matches_path(@current_pod_leader.id), icon: "heroicon-link")) %>
