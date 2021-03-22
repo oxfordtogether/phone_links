@@ -21,7 +21,6 @@ class Match < ApplicationRecord
   scope :live, -> { where(status: %i[active paused winding_down]) }
   scope :for_caller, ->(caller_id) { where("caller_id = ?", caller_id) }
 
-  encrypts :end_reason_notes, type: :string, key: :kms_key
   encrypts :status_change_notes, type: :string, key: :kms_key
 
   # TO DO: combine following methods

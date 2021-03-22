@@ -20,9 +20,8 @@ CREATE TABLE public.admins (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     person_id bigint NOT NULL,
-    active boolean,
     status_change_notes_ciphertext text,
-    status character varying,
+    status character varying NOT NULL,
     status_change_datetime timestamp without time zone
 );
 
@@ -67,7 +66,6 @@ CREATE TABLE public.callees (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     person_id bigint NOT NULL,
-    active boolean,
     reason_for_referral_ciphertext text,
     living_arrangements_ciphertext text,
     other_information_ciphertext text,
@@ -76,7 +74,7 @@ CREATE TABLE public.callees (
     call_frequency_ciphertext text,
     added_to_waiting_list date,
     status_change_notes_ciphertext text,
-    status character varying,
+    status character varying NOT NULL,
     status_change_datetime timestamp without time zone
 );
 
@@ -109,12 +107,11 @@ CREATE TABLE public.callers (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     person_id bigint NOT NULL,
-    active boolean,
     experience_ciphertext text,
     pod_id bigint,
     added_to_waiting_list date,
     status_change_notes_ciphertext text,
-    status character varying,
+    status character varying NOT NULL,
     status_change_datetime timestamp without time zone
 );
 
@@ -222,10 +219,10 @@ CREATE TABLE public.match_status_changes (
     created_at timestamp(6) without time zone,
     updated_at timestamp(6) without time zone NOT NULL,
     match_id bigint,
-    status character varying,
+    status character varying NOT NULL,
     created_by_id bigint,
     notes_ciphertext text,
-    datetime timestamp without time zone
+    datetime timestamp without time zone NOT NULL
 );
 
 
@@ -254,15 +251,11 @@ ALTER SEQUENCE public.match_status_changes_id_seq OWNED BY public.match_status_c
 
 CREATE TABLE public.matches (
     id bigint NOT NULL,
-    start_date date,
-    end_date date,
     caller_id bigint NOT NULL,
     callee_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     pod_id bigint NOT NULL,
-    end_reason character varying,
-    end_reason_notes_ciphertext text,
     deleted_at timestamp without time zone,
     status character varying,
     status_change_notes_ciphertext text,
@@ -411,9 +404,8 @@ CREATE TABLE public.pod_leaders (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     person_id bigint NOT NULL,
-    active boolean,
     status_change_notes_ciphertext text,
-    status character varying,
+    status character varying NOT NULL,
     status_change_datetime timestamp without time zone
 );
 
@@ -532,9 +524,9 @@ CREATE TABLE public.role_status_changes (
     callee_id bigint,
     admin_id bigint,
     pod_leader_id bigint,
-    status character varying,
+    status character varying NOT NULL,
     notes_ciphertext text,
-    datetime timestamp without time zone,
+    datetime timestamp without time zone NOT NULL,
     created_by_id bigint
 );
 
@@ -1444,6 +1436,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210308152630'),
 ('20210312184948'),
 ('20210314175851'),
-('20210315165450');
+('20210315165450'),
+('20210321171009');
 
 

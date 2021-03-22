@@ -12,7 +12,7 @@ class Pl::MatchesController < Pl::PlController
   end
 
   def new
-    @match = Match.new(start_date: Date.today, pod_id: @current_pod_leader.pod.id)
+    @match = Match.new(pod_id: @current_pod_leader.pod.id)
     @callees = current_pod_leader.pod.callees
     @callers = current_pod_leader.pod.callers
   end
