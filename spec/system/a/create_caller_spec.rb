@@ -30,7 +30,7 @@ RSpec.describe "create caller", type: :system do
     expect(person.last_name).to eq("Jones")
     expect(person.phone).to eq("12345")
     expect(person.caller).to eq(caller)
-    expect(person.caller.status).to eq(:active)
+    expect(person.caller.status).to eq(:waiting_list)
     expect(person.caller.status_change_datetime.strftime("%Y-%m-%d")).to eq(Date.today.strftime("%Y-%m-%d"))
   end
 

@@ -29,7 +29,7 @@ RSpec.describe "reports", type: :system do
 
       visit "/pl/#{pod_leader.id}"
       click_on "Reports"
-      expect(page).to have_current_path("/pl/#{pod_leader.id}/reports")
+      expect(page).to have_current_path("/pl/#{pod_leader.id}/reports?view=inbox")
 
       unarchived_reports = reports.filter { |r| r.archived_at.nil? }.count
       expect(page).to have_content("Displaying 1 to #{unarchived_reports} of #{unarchived_reports} reports")
