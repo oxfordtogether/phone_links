@@ -19,6 +19,7 @@ class Caller < ApplicationRecord
 
   encrypts :experience, type: :string, key: :kms_key
   encrypts :status_change_notes, type: :string, key: :kms_key
+  encrypts :languages_notes, type: :string, key: :kms_key
 
   def name
     person.name

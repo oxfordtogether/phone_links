@@ -247,11 +247,11 @@ class A::PeopleController < A::AController
   end
 
   def referral_details_params
-    params.require(:person).permit(:id, callee_attributes: %w[id reason_for_referral living_arrangements other_information call_frequency additional_needs])
+    params.require(:person).permit(:id, callee_attributes: %w[id reason_for_referral living_arrangements other_information call_frequency additional_needs languages_notes])
   end
 
   def experience_params
-    params.require(:person).permit(:id, caller_attributes: %w[id experience])
+    params.require(:person).permit(:id, caller_attributes: %w[id experience languages_notes])
   end
 
   def pod_membership_params

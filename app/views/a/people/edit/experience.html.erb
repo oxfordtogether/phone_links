@@ -20,6 +20,7 @@
       <%= form.section do %>
         <%= form.fields_for :caller do |caller_fields| %>
           <%= caller_fields.text_area :experience, width: :full %>
+          <%= caller_fields.text_area :languages_notes, label: "Languages", width: :full %>
         <% end %>
       <% end %>
       <%= form.button_section do %>

@@ -75,7 +75,8 @@ CREATE TABLE public.callees (
     added_to_waiting_list date,
     status_change_notes_ciphertext text,
     status character varying NOT NULL,
-    status_change_datetime timestamp without time zone
+    status_change_datetime timestamp without time zone,
+    languages_notes_ciphertext text
 );
 
 
@@ -112,7 +113,8 @@ CREATE TABLE public.callers (
     added_to_waiting_list date,
     status_change_notes_ciphertext text,
     status character varying NOT NULL,
-    status_change_datetime timestamp without time zone
+    status_change_datetime timestamp without time zone,
+    languages_notes_ciphertext text
 );
 
 
@@ -1052,7 +1054,7 @@ CREATE INDEX index_pod_leaders_on_person_id ON public.pod_leaders USING btree (p
 -- Name: index_pods_on_pod_leader_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_pods_on_pod_leader_id ON public.pods USING btree (pod_leader_id);
+CREATE INDEX index_pods_on_pod_leader_id ON public.pods USING btree (pod_leader_id);
 
 
 --
@@ -1439,5 +1441,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210314175851'),
 ('20210315165450'),
 ('20210321171009'),
-('20210322172217');
+('20210322172217'),
+('20210323141425');
+
 

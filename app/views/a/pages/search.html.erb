@@ -52,6 +52,18 @@
                   <% end %>
                 </p>
               </div>
+              <div>
+                <% if result&.callee&.languages_notes.present? %>
+                  <p class="mt-2 flex text-xs text-gray-400">
+                    Languages: <%= result&.callee&.languages_notes %>
+                  </p>
+                <% end %>
+                <% if result&.caller&.languages_notes.present? %>
+                  <p class="mt-2 flex text-xs text-gray-400">
+                    Languages: <%= result&.caller&.languages_notes %>
+                  </p>
+                <% end %>
+              </div>
             </div>
           <% end %>
         </li>
