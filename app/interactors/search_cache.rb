@@ -57,8 +57,14 @@ class SearchCache
   end
 
   def self.to_searchable_string(person)
+    caller_languages = person&.caller&.languages_notes
+    callee_languages = person&.callee&.languages_notes
+
+    norm_caller_languages = caller_languages ? normalize(caller_languages) : ""
+    norm_callee_languages = callee_languages ? normalize(callee_languages) : ""
+
     # configure, e.g. if you want to be able to search by DoB as well
-    normalize(person.name)
+    normalize(person.name) + norm_caller_languages + norm_callee_languages
   end
 
   def self.normalize(string)
