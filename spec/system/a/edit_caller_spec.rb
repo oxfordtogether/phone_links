@@ -28,13 +28,16 @@ RSpec.describe "edit caller", type: :system do
     expect(page).to have_current_path("/a/people/#{person.id}/edit/experience")
 
     expect(find_field("Experience").value).to eq caller.experience
+    expect(find_field("Languages").value).to eq caller.languages_notes
 
     fill_in "Experience", with: "experience"
+    fill_in "Language", with: "language"
 
     click_on "Save"
 
     caller.reload
     expect(caller.experience).to eq("experience")
+    expect(caller.languages_notes).to eq("language")
   end
 
   it "edits status" do

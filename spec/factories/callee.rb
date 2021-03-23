@@ -9,6 +9,7 @@ FactoryBot.define do
     additional_needs { FFaker::Lorem.phrase }
     other_information { FFaker::Lorem.phrase }
     call_frequency { FFaker::Lorem.phrase }
+    languages_notes { FFaker::Lorem.phrase }
 
     status { Callee.statuses.keys.sample }
     status_change_notes { FFaker::Lorem.phrase }

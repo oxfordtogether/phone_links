@@ -93,12 +93,14 @@ RSpec.describe "edit callee", type: :system do
     expect(find_field("person_callee_attributes_other_information").value).to eq callee.other_information
     expect(find_field("person_callee_attributes_additional_needs").value).to eq callee.additional_needs
     expect(find_field("person_callee_attributes_call_frequency").value).to eq callee.call_frequency
+    expect(find_field("person_callee_attributes_languages_notes").value).to eq callee.languages_notes
 
     fill_in "Reason for referral", with: "referral"
     fill_in "Living arrangements", with: "living"
     fill_in "Other information", with: "other"
     fill_in "Additional needs", with: "needs"
     fill_in "Call frequency", with: "call_frequency"
+    fill_in "Languages", with: "language"
 
     click_on "Save"
 
@@ -108,6 +110,7 @@ RSpec.describe "edit callee", type: :system do
     expect(callee.other_information).to eq("other")
     expect(callee.additional_needs).to eq("needs")
     expect(callee.call_frequency).to eq("call_frequency")
+    expect(callee.languages_notes).to eq("language")
   end
 
   it "edits status" do
