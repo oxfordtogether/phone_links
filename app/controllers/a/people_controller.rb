@@ -60,7 +60,11 @@ class A::PeopleController < A::AController
     @role = person_params[:role]
     @person = Person.new(person_params.except(:role, :redirect_on_cancel))
 
-    @person.send("build_#{@role}", { status: "active", status_change_datetime: DateTime.now })
+    if %w[caller callee].include?(@role)
+      @person.send("build_#{@role}", { status: "waiting_list", status_change_datetime: DateTime.now })
+    else
+      @person.send("build_#{@role}", { status: "active", status_change_datetime: DateTime.now })
+    end
 
     if @person.save
       SearchCacheRefresh.perform_async
