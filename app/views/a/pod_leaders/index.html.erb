@@ -14,6 +14,9 @@
     <% tbl.col "Name" do |pod_leader| %>
       <%= link_to pod_leader.name, a_person_path(pod_leader.person) %> <span><%= role_status(pod_leader) %></span>
     <% end %>
+    <% tbl.col "" do |pod_leader| %>
+      <%= signup_action(person: pod_leader.person) %>
+    <% end %>
     <% tbl.col "Login as", classes: "text-right " do |pod_leader| %>
       <div class="flex justify-end">
         <%= link_to pl_path(pod_leader.id) do %>

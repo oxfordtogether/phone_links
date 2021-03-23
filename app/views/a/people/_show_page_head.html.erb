@@ -7,6 +7,9 @@
           <%= role_badge(role) %>
         <% end %>
       </div>
+      <div class="mr-2">
+        <%= signup_action(person: @person) %>
+      </div>
       <% if @person.flag_in_progress %>
         <%= link_to flag_a_edit_person_path do %>
           <%= icon('star-fill', class: "h-4 w-4 text-yellow-400") %>

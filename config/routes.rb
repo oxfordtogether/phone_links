@@ -45,6 +45,7 @@ Rails.application.routes.draw do
           post :pod_membership, action: :save_pod_membership, as: :save_pod_membership
           get :emergency_contacts
           post :emergency_contacts, action: :save_emergency_contacts, as: :save_emergency_contacts
+          post :invite, action: :save_invite, as: :save_invite
         end
 
         resources :notes, only: %i[new create]

@@ -8,7 +8,8 @@ class A::PeopleController < A::AController
                                       experience save_experience
                                       active save_active
                                       pod_membership save_pod_membership
-                                      emergency_contacts save_emergency_contacts]
+                                      emergency_contacts save_emergency_contacts
+                                      save_invite]
 
   def show
     redirect_to events_a_person_path(@person)
@@ -203,6 +204,15 @@ class A::PeopleController < A::AController
       redirect_to emergency_contacts_a_edit_person_path(@person), notice: "Profile was successfully updated."
     else
       render "edit/emergency_contacts"
+    end
+  end
+
+  def save_invite
+    InviteEmailWorker.perform_async(@person)
+    if @person.update(invite_email_sent_at: DateTime.now)
+      redirect_back(fallback_location: root_path)
+    else
+      redirect_back(fallback_location: root_path)
     end
   end
 

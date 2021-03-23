@@ -10,9 +10,12 @@
   <%= button_link_to "New Admin", "#{new_a_person_path}?role=admin&redirect_on_cancel=#{a_admin_admins_path}" %>
 </div>
 <% if @admins.length > 0 %>
-  <%= table @admins.sort_by(&:name), row_url: ->(p) { a_person_path(p.person) } do |tbl| %>
+  <%= table @admins.sort_by(&:name) do |tbl| %>
     <% tbl.col "Name" do |admin| %>
-      <%= admin.name %> <span><%= role_status(admin) %></span>
+      <%= link_to admin.name, a_person_path(admin.person) %> <span><%= role_status(admin) %></span>
+     <% end %>
+    <% tbl.col "" do |admin| %>
+      <%= signup_action(person: admin.person) %>
     <% end %>
   <% end %>
 <% else %>
