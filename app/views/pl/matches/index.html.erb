@@ -1,13 +1,13 @@
 <% content_for :breadcrumbs do %>
-  <%= breadcrumbs home_path: pl_path(@current_pod_leader) do |list| %>
-    <% list.link "Matches", pl_matches_path %>
+  <%= breadcrumbs home_path: pl_pod_path(@pod) do |list| %>
+    <% list.link "Matches", pl_matches_path(@pod) %>
   <% end %>
 <% end %>
 <% content_for :page_head do %>
   <%= render partial: "index_page_head" %>
 <% end %>
 <% if @matches.length > 0 %>
-  <%= table @matches.sort_by { |m| m.caller.name }, row_url: ->(m) { pl_match_path(@current_pod_leader, m) } do |tbl| %>
+  <%= table @matches.sort_by { |m| m.caller.name }, row_url: ->(m) { pl_match_path(m) } do |tbl| %>
     <% tbl.col "Caller & Callee" do |match| %>
       <%= match.match_names %><span class="ml-1"><%= match_status(match) %></span>
     <% end %>

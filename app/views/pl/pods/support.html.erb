@@ -1,6 +1,6 @@
 <% content_for :breadcrumbs do %>
-  <%= breadcrumbs home_path: pl_path(@current_pod_leader) do |list| %>
-    <% list.link "Support", pl_support_path(@current_pod_leader) %>
+  <%= breadcrumbs home_path: pl_pod_path(@pod) do |list| %>
+    <% list.link "Support", support_pl_pod_path(@pod) %>
   <% end %>
 <% end %>
 <% content_for :page_head do %>

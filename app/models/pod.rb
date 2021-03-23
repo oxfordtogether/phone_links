@@ -14,6 +14,7 @@ class Pod < ApplicationRecord
                { matches: { callee: :person } },
              ])
   }
+  scope :for_pod_leader, ->(pod_leader_id) { where("pod_leader_id = ?", pod_leader_id) }
 
   def live_matches
     matches.live

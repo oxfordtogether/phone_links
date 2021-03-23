@@ -8,6 +8,8 @@ class Note < ApplicationRecord
 
   encrypts :content, type: :string, key: :kms_key
 
+  scope :for_people, ->(people_ids) { where(person_id: people_ids) }
+
   def create_events!
     Events::NoteEventCreator.new(self).create_events!
   end

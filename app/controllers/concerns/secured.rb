@@ -30,7 +30,12 @@ module Secured
   end
 
   def logged_in_using_omniauth?
-    return if bypass_auth?
+    if bypass_auth?
+      admin = Admin.first || Admin.create(person_attributes: { first_name: "Agatha", last_name: "Admin" }, status: "active")
+      session[:admin_id] = admin.id
+      session[:person_id] = admin.person.id
+      return
+    end
 
     return true if current_admin_id.present? || current_pod_leader_id.present? || current_caller_id.present?
 
@@ -51,10 +56,6 @@ module Secured
   private
 
   def set_current
-    Current.person_id = if bypass_auth?
-                          Person.first.id
-                        else
-                          session[:person_id]
-                        end
+    Current.person_id = session[:person_id]
   end
 end

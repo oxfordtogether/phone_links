@@ -17,7 +17,7 @@ RSpec.describe "edit note", type: :system do
     ENV["BYPASS_AUTH"] = "true"
   end
 
-  it "creates new note" do
+  it "deletes note" do
     login_as admin.person
 
     visit "/a/people/#{callee.person.id}"

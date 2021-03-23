@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "login", type: :system do
-  let(:admin) { create(:admin, status: "active") }
+  let(:admin) { create(:admin, status: "active", person: create(:person, auth0_id: '123')) }
   let(:admin_no_auth0) { create(:admin, person: create(:person, auth0_id: nil), status: "active") }
   let(:admin_not_active) { create(:admin, status: "left_programme") }
 
@@ -103,7 +103,7 @@ RSpec.describe "login", type: :system do
       login_as pod_leader.person
 
       visit "/"
-      expect(current_path).to eq("/pl/#{pod_leader.id}")
+      expect(current_path).to eq("/pl/pod_leaders/#{pod_leader.id}")
     end
     it "logs in and shows homepage for active caller" do
       login_as caller.person
@@ -116,8 +116,8 @@ RSpec.describe "login", type: :system do
   describe "restricts access" do
     it "allows admin to access whole site" do
       login_as admin.person
-      visit "/pl/#{pod_leader.id}"
-      expect(current_path).to eq("/pl/#{pod_leader.id}")
+      visit "/pl/pod_leaders/#{pod_leader.id}"
+      expect(current_path).to eq("/pl/pod_leaders/#{pod_leader.id}")
       visit "/c/#{caller_not_active.id}"
       expect(current_path).to eq("/c/#{caller_not_active.id}")
     end
@@ -128,8 +128,10 @@ RSpec.describe "login", type: :system do
       visit "/a"
       expect(current_path).to eq("/invalid_permissions_for_page")
 
-      visit "/pl/#{pod_leader_not_active.id}"
-      expect(current_path).to eq("/invalid_permissions_for_page")
+      expect do
+        visit "/pl/pod_leaders/#{pod_leader_not_active.id}"
+        page.has_text? "Wait for page to load"
+      end.to raise_error(ActiveRecord::RecordNotFound)
 
       visit "/c/#{caller.id}"
       expect(current_path).to eq("/invalid_permissions_for_page")
@@ -141,8 +143,10 @@ RSpec.describe "login", type: :system do
       visit "/a"
       expect(current_path).to eq("/invalid_permissions_for_page")
 
-      visit "/pl/#{pod_leader.id}"
-      expect(current_path).to eq("/invalid_permissions_for_page")
+      expect do
+        visit "/pl/pod_leaders/#{pod_leader.id}"
+        page.has_text? "Wait for page to load"
+      end.to raise_error(ActiveRecord::RecordNotFound)
 
       visit "/c/#{caller_not_active.id}"
       expect(current_path).to eq("/invalid_permissions_for_page")
@@ -155,11 +159,13 @@ RSpec.describe "login", type: :system do
     visit "/a"
     expect(current_path).to eq("/invalid_permissions_for_page")
 
-    visit "/pl/#{person_with_2_roles.pod_leader.id}"
-    expect(current_path).to eq("/pl/#{person_with_2_roles.pod_leader.id}")
+    visit "/pl/pod_leaders/#{person_with_2_roles.pod_leader.id}"
+    expect(current_path).to eq("/pl/pod_leaders/#{person_with_2_roles.pod_leader.id}")
 
-    visit "/pl/#{pod_leader.id}"
-    expect(current_path).to eq("/invalid_permissions_for_page")
+    expect do
+      visit "/pl/pod_leaders/#{pod_leader.id}"
+      page.has_text? "Wait for page to load"
+    end.to raise_error(ActiveRecord::RecordNotFound)
 
     visit "/c/#{person_with_2_roles.caller.id}"
     expect(current_path).to eq("/c/#{person_with_2_roles.caller.id}")
@@ -218,8 +224,10 @@ RSpec.describe "login", type: :system do
     it "invalid namespaced id" do
       login_as admin.person
 
-      visit "/pl/1000"
-      expect(current_path).to eq("/page_does_not_exist")
+      expect do
+        visit "/pl/pod_leaders/1000"
+        page.has_text? "Wait for page to load"
+      end.to raise_error(ActiveRecord::RecordNotFound)
 
       visit "/c/1000"
       expect(current_path).to eq("/page_does_not_exist")
@@ -244,12 +252,12 @@ RSpec.describe "login", type: :system do
 
       click_on "Back"
       page.has_text? "Hi #{pod_leader.name}"
-      expect(current_path).to eq("/pl/#{pod_leader.id}")
+      expect(current_path).to eq("/pl/pod_leaders/#{pod_leader.id}")
     end
     it "/page_does_not_exist links to homepage" do
       login_as admin.person
 
-      visit "/pl/10000"
+      visit "/c/10000"
       expect(current_path).to eq("/page_does_not_exist")
 
       click_on "Back"

@@ -20,6 +20,7 @@ class Match < ApplicationRecord
 
   scope :live, -> { where(status: %i[active paused winding_down]) }
   scope :for_caller, ->(caller_id) { where("caller_id = ?", caller_id) }
+  scope :for_pod_leader, ->(pod_leader_id) { where(pod_id: PodLeader.find(pod_leader_id).pods) }
 
   encrypts :status_change_notes, type: :string, key: :kms_key
 

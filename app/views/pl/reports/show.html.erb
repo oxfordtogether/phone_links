@@ -1,6 +1,6 @@
 <% content_for :breadcrumbs do %>
-  <%= breadcrumbs home_path: pl_path(@current_pod_leader) do |list| %>
-    <% list.link "Reports", pl_reports_path %>
+  <%= breadcrumbs home_path: pl_pod_path(@pod) do |list| %>
+    <% list.link "Reports", pl_reports_path(@pod) %>
   <% end %>
 <% end %>
 <% content_for :page_head do %>
@@ -8,15 +8,15 @@
 <% end %>
 <div class="shadow border-b border-gray-200 bg-gray-50 sm:rounded-lg py-4 px-6">
   <div class="flex items-center text-gray-500">
-    <%= link_to pl_reports_path(@current_pod_leader, { view: params[:view] }), class: "back flex-1" do %>
+    <%= link_to pl_reports_path(@pod, { view: params[:view] }), class: "back flex-1" do %>
       <%= icon("arrow-left", class: "w-6 h-6") %>
     <% end %>
     <div class="flex items-center mr-5">
       <% if @report.archived_at %>
         <div class="text-sm">archived: <%= format_date(@report.archived_at) %></div>
         <%= tailwind_form_with(model: @report,
-                              url: pl_report_path(@current_pod_leader, @report, { view: params[:view] }),
-                              method: :post,
+                              url: pl_report_path(@report, { view: params[:view] }),
+                              method: :patch,
                               local: true,
                               class: "unarchive") do |form| %>
           <%= form.hidden_field :archive, value: false %>
@@ -28,8 +28,8 @@
         <% end %>
       <% else %>
         <%= tailwind_form_with(model: @report,
-                              url: pl_report_path(@current_pod_leader, @report, { view: params[:view] }),
-                              method: :post,
+                              url: pl_report_path(@report, { view: params[:view] }),
+                              method: :patch,
                               local: true,
                               class: "archive") do |form| %>
           <%= form.hidden_field :archive, value: true %>
@@ -61,8 +61,8 @@
       </div>
       <div class="px-8">
         <%= tailwind_form_with(model: @report,
-                              url: pl_report_path(@current_pod_leader, @report, { view: params[:view] }),
-                              method: :post,
+                              url: pl_report_path(@report, { view: params[:view] }),
+                              method: :patch,
                               local: true) do |form| %>
           <%= form.collection_select :match_id, @proposed_matches.sort_by(&:match_names), :id, :match_names, label: "Assign report to a match", width: :half %>
           <%= form.button_section do %>
@@ -77,7 +77,7 @@
       <% if @report.match.present? %>
         <div class="flex items-center">
           <%= @report.match.match_names %>
-          <%= link_to pl_match_path(@current_pod_leader, @report.match) do %>
+          <%= link_to pl_match_path(@report.match) do %>
             <%= icon('link-45deg', class: "ml-2 w-5 h-5 text-gray-600") %>
           <% end %>
         </div>

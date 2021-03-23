@@ -4,16 +4,16 @@
       <%= render(SidebarLinkComponent.new(name: "Back to Admin", url: a_path, icon: "login")) %>
     </div>
   <% end %>
-  <div class="px-2 space-y-1">
-    <%= render(SidebarLinkComponent.new(name: "Home", url: pl_path(@current_pod_leader.id), icon: "heroicon-home-unfilled")) %>
-  </div>
-  <div class="my-4" aria-hidden="true"></div>
-  <% if @has_pod %>
+  <% if @pod.present? %>
     <div class="px-2 space-y-1">
-      <%= render(SidebarLinkComponent.new(name: "Reports", url: pl_reports_path(@current_pod_leader.id, { view: "inbox" }), icon: "document-report")) %>
-      <%= render(SidebarLinkComponent.new(name: "Callers", url: pl_callers_path(@current_pod_leader.id), icon: "phone-outgoing")) %>
-      <%= render(SidebarLinkComponent.new(name: "Callees", url: pl_callees_path(@current_pod_leader.id), icon: "phone-incoming")) %>
-      <%= render(SidebarLinkComponent.new(name: "Matches", url: pl_matches_path(@current_pod_leader.id), icon: "heroicon-link")) %>
+      <%= render(SidebarLinkComponent.new(name: "Home", url: pl_pod_leader_path(@pod_leader || @pod.pod_leader), icon: "heroicon-home-unfilled")) %>
+    </div>
+    <div class="my-4" aria-hidden="true"></div>
+    <div class="px-2 space-y-1">
+      <%= render(SidebarLinkComponent.new(name: "Reports", url: pl_reports_path(@pod, { view: "inbox" }), icon: "document-report")) %>
+      <%= render(SidebarLinkComponent.new(name: "Callers", url: pl_callers_path(@pod), icon: "phone-outgoing")) %>
+      <%= render(SidebarLinkComponent.new(name: "Callees", url: pl_callees_path(@pod), icon: "phone-incoming")) %>
+      <%= render(SidebarLinkComponent.new(name: "Matches", url: pl_matches_path(@pod), icon: "heroicon-link")) %>
     </div>
   <% end %>
   <% if @is_caller %>
@@ -22,9 +22,11 @@
       <%= render(SidebarLinkComponent.new(name: "Caller's Area", url: c_path(@current_user.caller), icon: "login")) %>
     </div>
   <% end %>
-  <hr class="border-t border-gray-700 my-5" aria-hidden="true">
-  <div class="px-2 space-y-1">
-    <%= render(SidebarLinkComponent.new(name: "Support", url: pl_support_path(@current_pod_leader.id), icon: 'question-mark-circle')) %>
-  </div>
+  <% if @pod.present? %>
+    <hr class="border-t border-gray-700 my-5" aria-hidden="true">
+    <div class="px-2 space-y-1">
+      <%= render(SidebarLinkComponent.new(name: "Support", url: support_pl_pod_path(@pod), icon: 'question-mark-circle')) %>
+    </div>
+  <% end %>
 <% end %>
 <%= render template: "layouts/application" %>

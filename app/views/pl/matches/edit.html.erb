@@ -1,19 +1,19 @@
 <% content_for :breadcrumbs do %>
-  <%= breadcrumbs home_path: pl_path(@current_pod_leader) do |list| %>
-    <% list.link "Matches", pl_matches_path(@current_pod_leader) %>
-    <% list.link "#{@match.caller.name} & #{@match.callee.name}", pl_match_path(@current_pod_leader, @match) %>
+  <%= breadcrumbs home_path: pl_pod_path(@match.pod) do |list| %>
+    <% list.link "Matches", pl_matches_path(@match.pod) %>
+    <% list.link "#{@match.caller.name} & #{@match.callee.name}", pl_match_path(@match) %>
   <% end %>
 <% end %>
 <% content_for :page_head do %>
   <%= render partial: "show_page_head" %>
 <% end %>
-<%= tailwind_form_with(model: @match, url: pl_match_path(@current_pod_leader, @match), local: true) do |form| %>
+<%= tailwind_form_with(model: @match, url: pl_match_path(@match), local: true) do |form| %>
   <%= form.section "" do %>
     <%= form.select :status, Match.status_options_for_select, include_blank: false, width: :half %>
     <%= form.text_area :status_change_notes %>
   <% end %>
   <%= form.button_section do %>
-    <%= form.cancel pl_match_path(@current_pod_leader, @match) %>
+    <%= form.cancel pl_match_path(@match) %>
     <%= form.submit "Save" %>
   <% end %>
 <% end %>

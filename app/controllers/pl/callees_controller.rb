@@ -1,10 +1,9 @@
 class Pl::CalleesController < Pl::PlController
-  before_action :set_callee_and_person, only: %i[status save_status emergency_contacts]
+  before_action :set_callee, only: %i[status update emergency_contacts]
 
   def index
-    @pod = current_pod_leader.pod
-    @current_pod_leader = current_pod_leader
-    @callees = Callee.where(pod_id: @pod.id).filter { |c| !c.inactive }
+    @pod = @fetcher.pod(params[:id])
+    @callees = @pod.callees
   end
 
   def status
@@ -13,14 +12,14 @@ class Pl::CalleesController < Pl::PlController
     render "pl/callees/edit/status"
   end
 
-  def save_status
-    @callee.assign_attributes(status_params.merge({ "status_change_datetime": DateTime.now }))
+  def update
+    @callee.assign_attributes(update_params.merge({ "status_change_datetime": DateTime.now }))
 
     if @callee.save
       RoleStatusChange.create(callee: @callee, status: @callee.status, notes: @callee.status_change_notes, created_by: current_user, datetime: @callee.status_change_datetime)
 
       SearchCacheRefresh.perform_async
-      redirect_to pl_person_path(@current_pod_leader, @callee.person), notice: "Caller status was successfully updated."
+      redirect_to pl_person_path(@callee.person), notice: "Caller status was successfully updated."
     else
       render "pl/callees/edit/status"
     end
@@ -30,14 +29,13 @@ class Pl::CalleesController < Pl::PlController
 
   private
 
-  def set_callee_and_person
-    @callee = Callee.find(params[:id])
+  def set_callee
+    @callee = @fetcher.callee(params[:id])
     @person = @callee.person
-
-    redirect_to "/invalid_permissions_for_page" if @callee.pod != current_pod_leader.pod
+    @pod = @callee.pod
   end
 
-  def status_params
+  def update_params
     params.require(:callee).permit(:id, :status, :status_change_notes)
   end
 end

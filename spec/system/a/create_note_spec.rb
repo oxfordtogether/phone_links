@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "create note", type: :system do
-  let!(:callee) { create(:callee) }
+  let!(:callee) { create(:callee, status: "active") }
   let!(:admin) { create(:admin, status: "active") }
 
   before do
