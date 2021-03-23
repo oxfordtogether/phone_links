@@ -93,3 +93,5 @@ gem "google_drive"
 gem "groupdate"
 
 gem "lograge"
+
+gem "mailgun-ruby"

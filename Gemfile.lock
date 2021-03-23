@@ -192,6 +192,8 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
+    mailgun-ruby (1.2.3)
+      rest-client (>= 2.0.2)
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
     memoist (0.16.2)
@@ -428,6 +430,7 @@ DEPENDENCIES
   listen (~> 3.2)
   lockbox
   lograge
+  mailgun-ruby
   ocl_tools!
   omniauth-auth0 (~> 2.2)
   omniauth-rails_csrf_protection (~> 0.1)
