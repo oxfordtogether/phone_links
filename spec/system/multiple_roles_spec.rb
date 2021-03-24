@@ -38,12 +38,12 @@ RSpec.describe "multiple roles", type: :system do
   it "links between admin and pod leader areas for an admin with multiple roles" do
     login_as person_a_role
 
-    expect(current_path).to eq("/a")
+    expect(page).to have_current_path("/a")
     expect(page).to_not have_content("Pod ABC")
 
     login_as person_a_and_pl_roles
 
-    expect(current_path).to eq("/a")
+    expect(page).to have_current_path("/a")
     expect(page).to have_content("Pod ABC")
   end
 
@@ -61,16 +61,19 @@ RSpec.describe "multiple roles", type: :system do
     expect(current_path).to eq("/pl/pod_leaders/#{person_pl_and_c_roles.pod_leader.id}")
   end
 
-  it "prevents switching between areas when roles aren't valid" do
-    login_as person_pl_role
+  describe "prevents switching between areas when roles aren't valid" do
+    it "as a pod leader" do
+      login_as person_pl_role
 
-    # login spec tests that /c/.. area isn't accessible for pod leader & vice versa
-    expect(current_path).to eq("/pl/pod_leaders/#{person_pl_role.pod_leader.id}")
-    expect(page).not_to have_content("Caller's Area")
+      # login spec tests that /c/.. area isn't accessible for pod leader & vice versa
+      expect(current_path).to eq("/pl/pod_leaders/#{person_pl_role.pod_leader.id}")
+      expect(page).not_to have_content("Caller's Area")
+    end
+    it "as a caller" do
+      login_as person_c_role
 
-    login_as person_c_role
-
-    expect(current_path).to eq("/c/#{person_c_role.caller.id}")
-    expect(page).not_to have_content("Pod Leader's Area")
+      expect(page).to have_current_path("/c/#{person_c_role.caller.id}")
+      expect(page).not_to have_content("Pod Leader's Area")
+    end
   end
 end
