@@ -1,0 +1,19 @@
+<%= render TimelineItemComponent.new(
+        icon: "cone-stripped",
+        icon_colour: case @event.status; when :unread; 'bg-red-300'; when :in_progress; 'bg-blue-300'; when :archived; 'bg-green-300'; else 'bg-gray-300'; end,
+        time: @event.datetime, is_last: @last_event) do |c| %>
+  <% c.with(:title) do %>
+    <% if @last_event %>
+      <div class="flex flex-wrap items-center text-sm">
+        <div class="mr-2">Safeguarding concern submitted by <%= @event.created_by.name %>, with status <%= safeguarding_status(@event) %></div>
+      </div>
+    <% else %>
+      <div class="flex flex-wrap items-center text-sm">
+        <div class="mr-2">Status changed to <%= safeguarding_status(@event) %>by <%= @event.created_by.name %></div>
+      </div>
+    <% end %>
+  <% end %>
+  <% c.with(:body) do %>
+    <%= @event.notes %>
+  <% end %>
+<% end %>

@@ -14,6 +14,10 @@ RSpec.describe "PodLeaderDataFetcher", type: :helper do
       callers = create_list(:caller, 3, pod: pod)
       callees = create_list(:callee, 3, pod: pod)
 
+      callees.each do |callee|
+        create(:safeguarding_concern, person: callee.person)
+      end
+
       (0..2).to_a.each do |i|
         match = create(:match, pod: pod, caller: callers[i], callee: callees[i])
         create_list(:report, 2, match: match)
@@ -51,6 +55,9 @@ RSpec.describe "PodLeaderDataFetcher", type: :helper do
 
       expect(fetcher.callers(pod.id).count).to eq(pod.callers.count)
       expect(fetcher.callees(pod.id).count).to eq(pod.callees.count)
+
+      safeguarding_concern_count = SafeguardingConcern.where(person_id: pod.callees.map(&:person_id)).count
+      expect(fetcher.safeguarding_concerns(pod.id).count).to eq(safeguarding_concern_count)
     end
 
     report = reports.sample
@@ -75,6 +82,9 @@ RSpec.describe "PodLeaderDataFetcher", type: :helper do
     expect do
       fetcher.note(note.id)
     end.to raise_error(ActiveRecord::RecordNotFound)
+
+    safeguarding_concern = SafeguardingConcern.all.sample
+    expect(fetcher.safeguarding_concern(safeguarding_concern.id)).to eq(safeguarding_concern)
   end
 
   it "restricts access for pod leaders" do
@@ -95,6 +105,9 @@ RSpec.describe "PodLeaderDataFetcher", type: :helper do
 
       expect(fetcher.callers(pod.id).count).to eq(pod.callers.count)
       expect(fetcher.callees(pod.id).count).to eq(pod.callees.count)
+
+      safeguarding_concern_count = SafeguardingConcern.where(person_id: pod.callees.map(&:person_id)).count
+      expect(fetcher.safeguarding_concerns(pod.id).count).to eq(safeguarding_concern_count)
 
       match = pod.matches.sample
       expect(fetcher.match(match.id)).to eq(match)
@@ -123,6 +136,9 @@ RSpec.describe "PodLeaderDataFetcher", type: :helper do
       # this fails sometimes
       report = Report.where(match_id: pod.matches.map(&:id)).sample
       expect(fetcher.report(report.id)).to eq(report)
+
+      safeguarding_concern = SafeguardingConcern.where(person_id: pod.callees.map(&:person_id)).sample
+      expect(fetcher.safeguarding_concern(safeguarding_concern.id)).to eq(safeguarding_concern)
     end
 
     pod_leader_2.pods.each do |pod|
@@ -142,6 +158,10 @@ RSpec.describe "PodLeaderDataFetcher", type: :helper do
       end.to raise_error(ActiveRecord::RecordNotFound)
       expect do
         fetcher.callees(pod.id)
+      end.to raise_error(ActiveRecord::RecordNotFound)
+
+      expect do
+        fetcher.safeguarding_concerns(pod.id)
       end.to raise_error(ActiveRecord::RecordNotFound)
 
       match = pod.matches.sample
@@ -177,6 +197,11 @@ RSpec.describe "PodLeaderDataFetcher", type: :helper do
       report = Report.where(match_id: pod.matches).sample
       expect do
         fetcher.report(report.id)
+      end.to raise_error(ActiveRecord::RecordNotFound)
+
+      safeguarding_concern = SafeguardingConcern.where(person_id: pod.callees.map(&:person_id)).sample
+      expect do
+        fetcher.safeguarding_concern(safeguarding_concern.id)
       end.to raise_error(ActiveRecord::RecordNotFound)
     end
   end

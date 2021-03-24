@@ -9,6 +9,7 @@ class A::SafeguardingConcernsController < A::AController
     @safeguarding_concern = SafeguardingConcern.new(create_safeguarding_concern_params.merge({ "status": :unread, "status_changed_at": DateTime.now, "created_by_id": Current.person_id }))
 
     if @safeguarding_concern.save
+      SafeguardingEmailWorker.perform_async(@safeguarding_concern.id)
       redirect_to a_safeguarding_concerns_path, notice: "Safeguarding form successfully submitted."
     else
       render :new

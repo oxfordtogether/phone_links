@@ -12,6 +12,7 @@ class Person < ApplicationRecord
   has_many :notes
   has_many :events
   has_many :person_flag_changes
+  has_many :safeguarding_concerns
 
   accepts_nested_attributes_for :admin
   accepts_nested_attributes_for :caller

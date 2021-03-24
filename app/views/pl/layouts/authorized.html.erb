@@ -14,6 +14,9 @@
       <%= render(SidebarLinkComponent.new(name: "Callers", url: pl_callers_path(@pod), icon: "phone-outgoing")) %>
       <%= render(SidebarLinkComponent.new(name: "Callees", url: pl_callees_path(@pod), icon: "phone-incoming")) %>
       <%= render(SidebarLinkComponent.new(name: "Matches", url: pl_matches_path(@pod), icon: "heroicon-link")) %>
+      <% if false %>
+        <%= render(SidebarLinkComponent.new(name: "Safeguarding", url: pl_safeguarding_concerns_path(@pod), icon: "cone-stripped")) %>
+      <% end %>
     </div>
   <% end %>
   <% if @is_caller %>

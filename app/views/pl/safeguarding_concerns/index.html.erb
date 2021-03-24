@@ -1,0 +1,28 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs home_path: pl_pod_path(@pod) do |list| %>
+    <% list.link "Safeguarding", pl_safeguarding_concerns_path(@pod) %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <%= render partial: "index_head_page" %>
+<% end %>
+<% if @safeguarding_concerns.length > 0 %>
+  <%= table @safeguarding_concerns.sort_by(&:created_at).reverse, row_url: ->(s) { pl_safeguarding_concern_path(s) } do |tbl| %>
+    <% tbl.col "Person" do |concern| %>
+      <%= concern.person.name %>
+    <% end %>
+    <% tbl.col "Submitted by" do |concern| %>
+      <%= concern.created_by.name %>
+    <% end %>
+    <% tbl.col "Status" do |concern| %>
+      <%= safeguarding_status(concern) %>
+    <% end %>
+    <% tbl.col "Created", classes: "text-right" do |concern| %>
+      <%= format_date(concern.created_at) %>
+    <% end %>
+  <% end %>
+<% else %>
+  <div class="flex justify-center text-gray-600">
+    No safeguarding concerns have been recorded yet.
+  </div>
+<% end %>

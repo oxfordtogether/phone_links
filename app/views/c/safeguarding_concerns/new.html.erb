@@ -1,0 +1,16 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs home_path: c_path(@current_caller) do |list| %>
+    <% list.link "Safeguarding", new_c_safeguarding_concern_path(@current_caller) %>
+  <% end %>
+<% end %>
+<div class="my-6">
+  <%= alert(title: "This section is not currently in use", info: "Please use the safeguarding form on Oxford Hub's website") %>
+</div>
+<% content_for :page_head do %>
+  <div class="sm:flex sm:justify-between">
+    <h1 class="pb-8 text-2xl font-semibold text-gray-900">
+      Safeguarding
+    </h1>
+  </div>
+<% end %>
+<%= render 'form', safeguarding_concern: @safeguarding_concern %>
