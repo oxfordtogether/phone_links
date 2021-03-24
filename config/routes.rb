@@ -156,6 +156,7 @@ Rails.application.routes.draw do
       member do
         get "emergency_contacts"
         get "status"
+        get "details"
       end
     end
 

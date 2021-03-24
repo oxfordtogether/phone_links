@@ -1,5 +1,5 @@
 class Pl::CalleesController < Pl::PlController
-  before_action :set_callee, only: %i[status update emergency_contacts]
+  before_action :set_callee, only: %i[status update emergency_contacts details]
 
   def index
     @pod = @fetcher.pod(params[:id])
@@ -10,6 +10,10 @@ class Pl::CalleesController < Pl::PlController
     @callee&.status_change_notes = nil
 
     render "pl/callees/edit/status"
+  end
+
+  def details
+    @fields = ["reason_for_referral", "living_arrangements", "other_information", "additional_needs", "call_frequency", "languages_notes"]
   end
 
   def update

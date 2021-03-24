@@ -90,6 +90,9 @@
     <% nav.link "New note", new_pl_note_path(@person) %>
   <% end %>
   <% if @person.callee %>
+    <% nav.link "Details", details_pl_callee_path(@person.callee) %>
+  <% end %>
+  <% if @person.callee %>
     <% nav.link "Status", status_pl_callee_path(@person.callee) %>
   <% end %>
   <% if @person.caller %>

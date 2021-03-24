@@ -1,0 +1,15 @@
+<% content_for :page_head do %>
+  <%= render partial: "pl/people/show_page_head" %>
+<% end %>
+<dl class="">
+  <% @fields.each do |field| %>
+    <div class="mb-6">
+      <dt class="text-sm text-gray-400">
+        <%= field.humanize %>
+      </dt>
+      <dd class="mt-1 ml-1 text-base text-gray-800">
+        <%= @callee.send(field) %>
+      </dd>
+    </div>
+  <% end %>
+</dl>
