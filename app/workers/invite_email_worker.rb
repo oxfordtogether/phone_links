@@ -4,6 +4,6 @@ class InviteEmailWorker
 
   def perform(id)
     person = Person.find(id)
-    InviteMailer.with(person).invitation_email.deliver
+    InviteMailer.with(person: person).invitation_email.deliver
   end
 end
