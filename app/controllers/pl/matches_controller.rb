@@ -26,7 +26,7 @@ class Pl::MatchesController < Pl::PlController
 
     @match = Match.new(new_match_params.merge({ status_change_datetime: DateTime.now }))
     if @match.save
-      MatchStatusChange.create(match: @match, created_by: current_user, status: @match.status, notes: @match.status_change_notes, datetime: @match.status_change_datetime)
+      MatchStatusChange.create(match: @match, created_by: @current_user, status: @match.status, notes: @match.status_change_notes, datetime: @match.status_change_datetime)
       redirect_to pl_match_path(@match), notice: "Match was successfully created."
     else
       @callees = @fetcher.callees(@match.pod_id)
@@ -45,7 +45,7 @@ class Pl::MatchesController < Pl::PlController
     @fetcher.caller(@match.caller_id)
 
     if @match.update(edit_match_params.merge({ status_change_datetime: DateTime.now }))
-      MatchStatusChange.create(match: @match, created_by: current_user, status: @match.status, notes: @match.status_change_notes, datetime: @match.status_change_datetime)
+      MatchStatusChange.create(match: @match, created_by: @current_user, status: @match.status, notes: @match.status_change_notes, datetime: @match.status_change_datetime)
       redirect_to pl_match_path(@match), notice: "Match was successfully updated."
     else
       render :edit

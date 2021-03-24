@@ -11,7 +11,7 @@ class A::CalleesController < A::AController
     @callee.assign_attributes(status_params.merge({ "status_change_datetime": DateTime.now }))
 
     if @callee.save
-      RoleStatusChange.create(callee: @callee, status: @callee.status, notes: @callee.status_change_notes, created_by: current_user, datetime: @callee.status_change_datetime)
+      RoleStatusChange.create(callee: @callee, status: @callee.status, notes: @callee.status_change_notes, created_by: @current_user, datetime: @callee.status_change_datetime)
 
       SearchCacheRefresh.perform_async
       redirect_to status_a_edit_callee_path(@callee), notice: "Callee status was successfully updated."

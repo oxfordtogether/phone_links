@@ -3,7 +3,7 @@ class A::NotesController < A::AController
 
   def new
     @person = Person.find(params[:id])
-    @note = Note.new(created_by: current_user, person: @person)
+    @note = Note.new(created_by: @current_user, person: @person)
   end
 
   def create

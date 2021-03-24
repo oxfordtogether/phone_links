@@ -11,10 +11,6 @@ class ApplicationController < ActionController::Base
 
   before_action :set_current_user, :is_admin, :is_pod_leader, :is_caller
 
-  def current_user
-    Person.find(session[:person_id])
-  end
-
   private
 
   def add_user_info_to_bugsnag(report)
@@ -30,18 +26,18 @@ class ApplicationController < ActionController::Base
   end
 
   def set_current_user
-    @current_user = current_user
+    @current_user = Person.find(session[:person_id]) if session[:person_id].present?
   end
 
   def is_admin
-    @is_admin ||= current_user&.admin.present?
+    @is_admin ||= @current_user&.admin.present?
   end
 
   def is_pod_leader
-    @is_pod_leader ||= current_user&.pod_leader.present?
+    @is_pod_leader ||= @current_user&.pod_leader.present?
   end
 
   def is_caller
-    @is_caller ||= current_user&.caller.present?
+    @is_caller ||= @current_user&.caller.present?
   end
 end

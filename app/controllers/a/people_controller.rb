@@ -138,7 +138,7 @@ class A::PeopleController < A::AController
     @person.assign_attributes(flag_params.merge({ flag_change_datetime: DateTime.now }))
 
     if @person.save
-      PersonFlagChange.create(person: @person, flag_in_progress: @person.flag_in_progress, notes: @person.flag_change_notes, created_by: current_user, datetime: @person.flag_change_datetime)
+      PersonFlagChange.create(person: @person, flag_in_progress: @person.flag_in_progress, notes: @person.flag_change_notes, created_by: @current_user, datetime: @person.flag_change_datetime)
       SearchCacheRefresh.perform_async
 
       redirect_to a_person_path(@person), notice: "Profile was successfully updated."
