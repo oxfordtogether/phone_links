@@ -18,31 +18,28 @@ class Pl::NotesController < Pl::PlController
       redirect_to pl_person_path(@note.person), notice: "Note was successfully created."
     else
       @person = @note.person
+      @pod = @person&.callee&.pod || @person&.caller&.pod
       render :new
     end
   end
 
   def edit
-    redirect_to "/invalid_permissions_for_page" if Current.person_id != @note.created_by
-
     @person = @note.person
+    @pod = @person&.callee&.pod || @person&.caller&.pod
   end
 
   def update
-    redirect_to "/invalid_permissions_for_page" if Current.person_id != @note.created_by
-
     if @note.update(note_params)
       @note.create_events!
       redirect_to pl_person_path(@note.person), notice: "Note was successfully updated."
     else
       @person = @note.person
+      @pod = @person&.callee&.pod || @person&.caller&.pod
       render :edit
     end
   end
 
   def destroy
-    redirect_to "/invalid_permissions_for_page" if Current.person_id != @note.created_by
-
     @note.update(deleted_at: Time.now)
     @note.create_events!
 

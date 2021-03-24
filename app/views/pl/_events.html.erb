@@ -5,12 +5,20 @@
     <% if @event.status == 'deleted' %>
       <span class="text-gray-500 italic">Note deleted</span>
     <% else %>
-      <%= link_to edit_pl_note_path(@event.note) do %>
+      <% if @event.note.created_by_id == Current.person_id %>
+        <%= link_to edit_pl_note_path(@event.note) do %>
+          <span class="my-1">
+            <% time = @event.occurred_at%>
+            <span><%= @event.created_by&.name || "?" %></span> <span class="text-xs text-gray-500 italic"><%= "at #{time.strftime("%l.%M%P")}" if time.hour != 0 %> on <%= time.strftime("%a #{time.day.ordinalize} %b") %></span>
+            <% if @event.status == "edited" %><span class="text-gray-500 italic">(edited)</span><% end %>
+            <span><%= icon("heroicon-edit", class: "inline text-gray-500 hover:text-blue-500 w-4 h-4") %></span>
+          </span>
+        <% end %>
+      <% else %>
         <span class="my-1">
           <% time = @event.occurred_at%>
           <span><%= @event.created_by&.name || "?" %></span> <span class="text-xs text-gray-500 italic"><%= "at #{time.strftime("%l.%M%P")}" if time.hour != 0 %> on <%= time.strftime("%a #{time.day.ordinalize} %b") %></span>
           <% if @event.status == "edited" %><span class="text-gray-500 italic">(edited)</span><% end %>
-          <span><%= icon("heroicon-edit", class: "inline text-gray-500 hover:text-blue-500 w-4 h-4") %></span>
         </span>
       <% end %>
     <% end %>

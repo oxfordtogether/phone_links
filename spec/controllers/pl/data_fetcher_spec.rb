@@ -22,7 +22,9 @@ RSpec.describe "PodLeaderDataFetcher", type: :helper do
       create_list(:report, 4, legacy_pod_id: pod.id)
 
       (0..2).to_a.each do |i|
-        create_list(:note, 2, person: callees[i].person)
+        create(:note, person: callees[i].person, created_by: admin.person)
+        create(:note, person: callees[i].person, created_by: pod_leader_1.person)
+        create(:note, person: callees[i].person, created_by: pod_leader_2.person)
       end
     end
   end
@@ -34,6 +36,8 @@ RSpec.describe "PodLeaderDataFetcher", type: :helper do
   let!(:notes) { Note.all }
 
   it "gives access to everything for admins" do
+    Current.person_id = admin.person_id
+
     fetcher = Pl::PodLeaderDataFetcher.new(admin: admin)
 
     expect(fetcher.pod_leader(pod_leader_1.id)).to eq(pod_leader_1)
@@ -64,11 +68,18 @@ RSpec.describe "PodLeaderDataFetcher", type: :helper do
     match = matches.sample
     expect(fetcher.match(match.id)).to eq(match)
 
-    note = notes.sample
+    note = notes.filter { |n| n.created_by == admin.person }.sample
     expect(fetcher.note(note.id)).to eq(note)
+
+    note = notes.filter { |n| n.created_by == pod_leader_1.person }.sample
+    expect do
+      fetcher.note(note.id)
+    end.to raise_error(ActiveRecord::RecordNotFound)
   end
 
   it "restricts access for pod leaders" do
+    Current.person_id = pod_leader_1.person_id
+
     fetcher = Pl::PodLeaderDataFetcher.new(pod_leader: pod_leader_1)
 
     expect(fetcher.pod_leader(pod_leader_1.id)).to eq(pod_leader_1)
@@ -98,8 +109,13 @@ RSpec.describe "PodLeaderDataFetcher", type: :helper do
       person = pod_people.sample
       expect(fetcher.person(person.id)).to eq(person)
 
-      note = (pod_people.map(&:notes).flatten).sample
+      note = (pod_people.map(&:notes).flatten).filter { |n| n.created_by == pod_leader_1.person }.sample
       expect(fetcher.note(note.id)).to eq(note)
+
+      note = (pod_people.map(&:notes).flatten).filter { |n| n.created_by == admin.person }.sample
+      expect do
+        fetcher.note(note.id)
+      end.to raise_error(ActiveRecord::RecordNotFound)
 
       report = Report.where(legacy_pod_id: pod.id).sample
       expect(fetcher.report(report.id)).to eq(report)

@@ -1,6 +1,4 @@
-<%= tailwind_form_with(model: @note,
-                      url: action == :edit ? pl_note_path(@note) : new_pl_note_path(@pod),
-                      local: true) do |form| %>
+<%= tailwind_form_with(model: [:pl, @note], local: true) do |form| %>
   <%= form.section do %>
     <%= form.hidden_field :person_id, value: @person.id %>
     <%= form.hidden_field :created_by_id, value: @note&.created_by&.id %>

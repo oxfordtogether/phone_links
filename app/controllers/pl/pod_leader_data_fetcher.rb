@@ -88,11 +88,13 @@ class Pl::PodLeaderDataFetcher
   end
 
   def note(note_id)
-    if @admin.present?
-      Note.find(note_id)
-    else
-      note = Note.find(note_id)
+    records = Note.where(id: note_id).where(created_by_id: Current.person_id)
+    raise ActiveRecord::RecordNotFound if records.empty?
+    note = records.first
 
+    if @admin.present?
+      note
+    else
       person(note.person_id)
       note
     end
