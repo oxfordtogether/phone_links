@@ -19,7 +19,7 @@
     <% end %>
     <% tbl.col "Login as", classes: "text-right " do |pod_leader| %>
       <div class="flex justify-end">
-        <%= link_to pl_path(pod_leader.id) do %>
+        <%= link_to pl_pod_leader_path(pod_leader) do %>
           <%= icon("login", class: "w-5 h-5") %>
         <% end %>
       </div>

@@ -11,7 +11,7 @@ class A::CallersController < A::AController
     @caller.assign_attributes(status_params.merge({ "status_change_datetime": DateTime.now }))
 
     if @caller.save
-      RoleStatusChange.create(caller: @caller, status: @caller.status, notes: @caller.status_change_notes, created_by: current_user, datetime: @caller.status_change_datetime)
+      RoleStatusChange.create(caller: @caller, status: @caller.status, notes: @caller.status_change_notes, created_by: @current_user, datetime: @caller.status_change_datetime)
 
       SearchCacheRefresh.perform_async
       redirect_to status_a_edit_caller_path(@caller), notice: "Caller status was successfully updated."

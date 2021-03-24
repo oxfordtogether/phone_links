@@ -22,9 +22,9 @@ RSpec.describe "login as", type: :system do
     click_on "Admin"
     click_on "Pod Leaders"
 
-    click_link href: "/pl/#{pod_leaders[0].id}"
+    click_link href: "/pl/pod_leaders/#{pod_leaders[0].id}"
 
-    expect(current_path).to eq("/pl/#{pod_leaders[0].id}")
+    expect(current_path).to eq("/pl/pod_leaders/#{pod_leaders[0].id}")
     expect(page).to have_content("Hi #{pod_leaders[0].name}")
 
     click_on "Back to Admin"
@@ -56,17 +56,15 @@ RSpec.describe "login as", type: :system do
   it "hides back to links for pod leaders and callers" do
     login_as pod_leaders[0].person
 
-    expect(current_path).to eq("/pl/#{pod_leaders[0].id}")
+    expect(current_path).to eq("/pl/pod_leaders/#{pod_leaders[0].id}")
     expect(page).to have_content("Hi #{pod_leaders[0].name}")
 
     expect(page).to_not have_content("Back to Admin")
 
     login_as callers[0].person
-
-    expect(current_path).to eq("/c/#{callers[0].id}")
     expect(page).to have_content("Hi #{callers[0].name}")
+    expect(current_path).to eq("/c/#{callers[0].id}")
 
     expect(page).to_not have_content("Back to Admin")
-
   end
 end

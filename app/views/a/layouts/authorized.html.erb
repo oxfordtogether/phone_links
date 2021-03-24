@@ -15,11 +15,19 @@
     <%= render(SidebarLinkComponent.new(name: "Safeguarding", url: a_safeguarding_concerns_path, icon: 'cone-stripped')) %>
     <%= render(SidebarLinkComponent.new(name: "Admin", url: a_admin_path, icon: 'person-badge')) %>
   </div>
-  <% if @current_user&.pod_leader&.pod %>
+  <% if @is_caller %>
     <hr class="border-t border-gray-700 my-5" aria-hidden="true">
     <div class="px-2 space-y-1">
-      <%= render(SidebarLinkComponent.new(name: "Pod #{@current_user.pod_leader.pod.name}", url: pl_path(@current_user.pod_leader), icon: 'circle')) %>
+      <%= render(SidebarLinkComponent.new(name: "Caller's Area", url: c_path(@current_user.caller), icon: "login")) %>
     </div>
+  <% end %>
+  <% if @is_pod_leader %>
+    <hr class="border-t border-gray-700 my-5" aria-hidden="true">
+    <% @current_user.pod_leader.pods.each do |pod| %>
+      <div class="px-2 space-y-1">
+        <%= render(SidebarLinkComponent.new(name: "Pod #{pod.name}", url: pl_pod_path(pod), icon: 'circle')) %>
+      </div>
+    <% end %>
   <% end %>
   <hr class="border-t border-gray-700 my-5" aria-hidden="true">
   <div class="px-2 space-y-1">

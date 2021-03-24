@@ -123,10 +123,12 @@
       <dt class="text-sm font-medium text-gray-500">
         Leads
       </dt>
-      <% if @person&.pod_leader&.pod.present? %>
-        <dd class="mt-1 text-sm text-gray-900">
-          <%= link_to @person.pod_leader.pod.name, a_pod_path(@person.pod_leader.pod) %>
-        </dd>
+      <% if @person&.pod_leader&.pods.present? %>
+        <% @person&.pod_leader&.pods.each do |pod| %>
+          <dd class="mt-1 text-sm text-gray-900">
+            <%= link_to pod.name, a_pod_path(pod) %>
+          </dd>
+        <% end %>
       <% else %>
         <div class="mt-1 text-sm text-gray-900 italic">Not assigned to a pod</div>
       <% end %>

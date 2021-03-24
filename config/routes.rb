@@ -120,45 +120,48 @@ Rails.application.routes.draw do
   end
 
   namespace :pl do
-    scope "/:pod_leader_id" do
-      get "/", to: "pages#home"
-
-      get "support", to: "pages#support"
-
-      resources :reports, only: %i[index show]
-      post "/reports/:id", to: "reports#update"
-
-      resources :people, only: %i[show] do
-        member do
-          get "/notes/new", to: "notes#new"
-          post "/notes", to: "notes#create"
-        end
+    resources :pod_leaders, only: %i[show] do
+      member do
+        resources :pods, only: %i[index]
       end
-
-      resources :callers, only: %i[index] do
-        member do
-          scope path: :edit, as: :edit do
-            get :status
-            post :status, action: :save_status, as: :save_status
-          end
-        end
-      end
-
-      resources :callees, only: %i[index] do
-        member do
-          get :emergency_contacts, to: "callees#emergency_contacts"
-
-          scope path: :edit, as: :edit do
-            get :status
-            post :status, action: :save_status, as: :save_status
-          end
-        end
-      end
-
-      resources :matches
-
-      resources :notes, only: %i[edit update destroy]
     end
+
+    resources :pods, only: %i[show] do
+      member do
+        get "support", to: "pods#support"
+
+        resources :reports, only: %i[index]
+        resources :callers, only: %i[index]
+        resources :callees, only: %i[index]
+
+        resources :matches, only: %i[index new create]
+      end
+    end
+
+    resources :people, only: %i[show] do
+      member do
+        resources :notes, only: %i[new create]
+      end
+    end
+
+    resources :reports, only: %i[show edit update]
+
+    resources :callers, only: %i[update] do
+      member do
+        get "status"
+      end
+    end
+
+    resources :callees, only: %i[update] do
+      member do
+        get "emergency_contacts"
+        get "status"
+      end
+    end
+
+    resources :matches, only: %i[show edit update]
+
+    resources :notes, only: %i[edit update destroy]
   end
 
   namespace :c do

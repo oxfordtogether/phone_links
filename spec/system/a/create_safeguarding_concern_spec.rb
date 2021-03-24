@@ -1,10 +1,19 @@
 require "rails_helper"
 
-RSpec.describe "createx safeguarding concern", type: :system do
+RSpec.describe "create safeguarding concern", type: :system do
   let!(:callees) { create_list(:callee, 10) }
+  let!(:admin) { create(:admin, status: "active") }
+
+  before do
+    ENV["BYPASS_AUTH"] = "false"
+  end
+
+  after do
+    ENV["BYPASS_AUTH"] = "true"
+  end
 
   it "works" do
-    login_as nil
+    login_as admin.person
 
     visit "/a"
     click_on "Safeguarding"
@@ -23,14 +32,14 @@ RSpec.describe "createx safeguarding concern", type: :system do
 
     expect(safeguarding_concern.person).to eq(callees[7].person)
     expect(safeguarding_concern.concerns).to eq("test")
-    expect(safeguarding_concern.created_by).to eq(Person.first)
+    expect(safeguarding_concern.created_by).to eq(admin.person)
     expect(safeguarding_concern.status).to eq(:unread)
     expect(safeguarding_concern.status_changed_at).to_not eq(nil)
     expect(safeguarding_concern.status_changed_notes).to eq(nil)
   end
 
   it "handles required fields" do
-    login_as nil
+    login_as admin.person
 
     visit "/a"
     click_on "Safeguarding"

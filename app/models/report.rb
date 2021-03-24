@@ -36,6 +36,14 @@ class Report < ApplicationRecord
     awful: "awful",
   }
 
+  scope :for_pod, lambda { |pod_id|
+                    where(match_id: Pod.find(pod_id).matches.map(&:id))
+                      .or(Report.where(legacy_pod_id: pod_id))
+                      .order(created_at: :desc)
+                  }
+  scope :inbox, -> { where(archived_at: nil) }
+  scope :newest_first, -> { order(created_at: :desc) }
+
   def legacy?
     legacy_caller_email.present? || legacy_caller_name.present?
   end

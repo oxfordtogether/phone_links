@@ -1,36 +1,36 @@
 class Pl::MatchesController < Pl::PlController
   before_action :set_match, only: %i[show edit update]
-  before_action :set_current_pod_leader, only: %i[index show new create edit update]
 
   def index
-    @pod = current_pod_leader.pod
-    @matches = Match.where(pod_id: @pod.id)
+    @pod = @fetcher.pod(params[:id])
+    @matches = @pod.matches
   end
 
   def show
     @events = (@match.match_status_changes + @match.reports).sort_by(&:created_at).reverse
+    @pod = @match.pod
   end
 
   def new
-    @match = Match.new(pod_id: @current_pod_leader.pod.id)
-    @callees = current_pod_leader.pod.callees
-    @callers = current_pod_leader.pod.callers
+    @pod = @fetcher.pod(params[:id])
+    @match = Match.new(pod_id: @pod.id)
+
+    @callees = @fetcher.callees(@pod.id)
+    @callers = @fetcher.callers(@pod.id)
   end
 
   def create
-    unless current_pod_leader.pod.id == new_match_params[:pod_id].to_i &&
-           current_pod_leader.pod.callers.map(&:id).include?(new_match_params[:caller_id].to_i) &&
-           current_pod_leader.pod.callees.map(&:id).include?(new_match_params[:callee_id].to_i)
-      return redirect_to "/invalid_permissions_for_page"
-    end
+    @pod = @fetcher.pod(new_match_params[:pod_id])
+    @fetcher.callee(new_match_params[:callee_id])
+    @fetcher.caller(new_match_params[:caller_id])
 
     @match = Match.new(new_match_params.merge({ status_change_datetime: DateTime.now }))
     if @match.save
-      MatchStatusChange.create(match: @match, created_by: current_user, status: @match.status, notes: @match.status_change_notes, datetime: @match.status_change_datetime)
-      redirect_to pl_match_path(current_pod_leader, @match), notice: "Match was successfully created."
+      MatchStatusChange.create(match: @match, created_by: @current_user, status: @match.status, notes: @match.status_change_notes, datetime: @match.status_change_datetime)
+      redirect_to pl_match_path(@match), notice: "Match was successfully created."
     else
-      @callees = current_pod_leader.pod.callees
-      @callers = current_pod_leader.pod.callers
+      @callees = @fetcher.callees(@match.pod_id)
+      @callers = @fetcher.callers(@match.pod_id)
       render :new
     end
   end
@@ -40,15 +40,13 @@ class Pl::MatchesController < Pl::PlController
   end
 
   def update
-    unless current_pod_leader.pod.id == @match.pod.id &&
-           current_pod_leader.pod.callers.map(&:id).include?(@match.caller.id) &&
-           current_pod_leader.pod.callees.map(&:id).include?(@match.callee.id)
-      return redirect_to "/invalid_permissions_for_page"
-    end
+    @pod = @fetcher.pod(@match.pod_id)
+    @fetcher.callee(@match.callee_id)
+    @fetcher.caller(@match.caller_id)
 
     if @match.update(edit_match_params.merge({ status_change_datetime: DateTime.now }))
-      MatchStatusChange.create(match: @match, created_by: current_user, status: @match.status, notes: @match.status_change_notes, datetime: @match.status_change_datetime)
-      redirect_to pl_match_path(current_pod_leader, @match), notice: "Match was successfully updated."
+      MatchStatusChange.create(match: @match, created_by: @current_user, status: @match.status, notes: @match.status_change_notes, datetime: @match.status_change_datetime)
+      redirect_to pl_match_path(@match), notice: "Match was successfully updated."
     else
       render :edit
     end
@@ -56,14 +54,9 @@ class Pl::MatchesController < Pl::PlController
 
   private
 
-  def set_current_pod_leader
-    @current_pod_leader = current_pod_leader
-  end
-
   def set_match
-    @match = Match.find(params[:id])
-
-    redirect_to "/invalid_permissions_for_page" if @match.pod != current_pod_leader.pod
+    @match = @fetcher.match(params[:id])
+    @pod = @match.pod
   end
 
   def new_match_params

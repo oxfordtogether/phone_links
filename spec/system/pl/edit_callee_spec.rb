@@ -2,15 +2,15 @@ require "rails_helper"
 
 RSpec.describe "edit callee", type: :system do
   let!(:pod) { create(:pod) }
-  let!(:pod_leader) { create(:pod_leader, pod: pod) }
+  let!(:pod_leader) { create(:pod_leader, pods: [pod]) }
   let!(:callee) { create(:callee, pod: pod) }
 
   it "edits status" do
     login_as nil
 
-    visit "/pl/#{pod_leader.id}/people/#{callee.person.id}"
+    visit "/pl/people/#{callee.person.id}"
     click_on "Status"
-    expect(page).to have_current_path("/pl/#{pod_leader.id}/callees/#{callee.id}/edit/status")
+    expect(page).to have_current_path("/pl/callees/#{callee.id}/status")
 
     expect(find_field("callee_status").value).to eq callee.status.to_s
     expect(find_field("callee_status_change_notes").value).to eq ""

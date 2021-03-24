@@ -9,13 +9,7 @@ class ApplicationController < ActionController::Base
 
   default_form_builder OclTools::TailwindFormBuilder
 
-  def current_user
-    if bypass_auth?
-      Admin.first.person if Admin.count >= 1
-    elsif session[:person_id]
-      Person.find(session[:person_id])
-    end
-  end
+  before_action :set_current_user, :is_admin, :is_pod_leader, :is_caller
 
   private
 
@@ -29,5 +23,21 @@ class ApplicationController < ActionController::Base
   helper_method :demo?
   def demo?
     ENV["DEMO"] == "true" || ENV["DEMO"] == true
+  end
+
+  def set_current_user
+    @current_user = Person.find(session[:person_id]) if session[:person_id].present?
+  end
+
+  def is_admin
+    @is_admin ||= @current_user&.admin.present?
+  end
+
+  def is_pod_leader
+    @is_pod_leader ||= @current_user&.pod_leader.present?
+  end
+
+  def is_caller
+    @is_caller ||= @current_user&.caller.present?
   end
 end

@@ -12,7 +12,7 @@
     <%= form.text_area :status_change_notes, label: "Notes" %>
   <% end %>
   <%= form.button_section do %>
-    <%= form.cancel pl_matches_path(@current_pod_leader) %>
+    <%= form.cancel pl_matches_path(@pod) %>
     <%= form.submit %>
   <% end %>
 <% end %>

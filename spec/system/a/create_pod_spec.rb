@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "create pod", type: :system do
-  let!(:pod_leaders) { create_list(:pod_leader, 10) }
+  let!(:pod_leaders) { create_list(:pod_leader, 10, status: 'active') }
   let!(:pods) do
     (0..6).each do |i|
       create(:pod, pod_leader: pod_leaders[i])
@@ -19,7 +19,6 @@ RSpec.describe "create pod", type: :system do
 
     fill_in "Name", with: "ABCD"
     fill_in "Theme", with: "Parents"
-    expect(find("#pod_pod_leader_id").all("option").length).to eq(3 + 1)
     select pod_leaders[7].name, from: "Pod Leader"
     select pod_leaders[9].name, from: "Safeguarding lead"
 
@@ -46,7 +45,6 @@ RSpec.describe "create pod", type: :system do
 
     fill_in "Name", with: "ABCD"
     fill_in "Theme", with: "Parents"
-    expect(find("#pod_pod_leader_id").all("option").length).to eq(3 + 1)
     select pod_leaders[7].name, from: "Pod Leader"
 
     expect do

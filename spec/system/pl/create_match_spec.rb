@@ -2,14 +2,14 @@ require "rails_helper"
 
 RSpec.describe "create match", type: :system do
   let!(:pod) { create(:pod) }
-  let!(:pod_leader) { create(:pod_leader, pod: pod) }
+  let!(:pod_leader) { create(:pod_leader, pods: [pod]) }
   let!(:callers) { create_list(:caller, 10, pod: pod, status: "active") }
   let!(:callees) { create_list(:callee, 10, pod: pod, status: "active") }
 
   it "works" do
     login_as nil
 
-    visit "/pl/#{pod_leader.id}/matches"
+    visit "/pl/pods/#{pod.id}/matches"
     click_on "New provisional match"
 
     select callees[5].name, from: "Callee"
@@ -33,7 +33,7 @@ RSpec.describe "create match", type: :system do
     callee = create(:callee, pod: pod)
     match = create(:match, caller: caller, callee: callee, pod: pod)
 
-    visit "/pl/#{pod_leader.id}/matches/new"
+    visit "/pl/pods/#{pod.id}/matches/new"
     select callee.name, from: "Callee"
     select caller.name, from: "Caller"
 

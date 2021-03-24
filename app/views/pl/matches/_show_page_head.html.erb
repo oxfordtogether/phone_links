@@ -1,17 +1,17 @@
 <div class="sm:flex sm:justify-between">
   <h1 class="flex justify-start flex-wrap text-2xl font-semibold text-gray-900">
     <div>
-      <span><%= link_to @match.caller.name, pl_person_path(@current_pod_leader, @match.caller.person) %></span>
+      <span><%= link_to @match.caller.name, pl_person_path(@match.caller.person) %></span>
       <span class="mx-2"><%= role_badge(@match.caller) %></span>
       <span class="ml-1 mr-3"> - </span>
     </div>
     <div>
-      <span><%= link_to @match.callee.name, pl_person_path(@current_pod_leader, @match.callee.person) %></span>
+      <span><%= link_to @match.callee.name, pl_person_path(@match.callee.person) %></span>
       <span class="mx-2"><%= role_badge(@match.callee) %></span>
     </div>
   </h1>
   <div class="mt-4 sm:mt-0">
-    <%= button_link_to "Edit", edit_pl_match_path(@current_pod_leader, @match), icon: 'heroicon-edit' %>
+    <%= button_link_to "Edit", edit_pl_match_path(@match), icon: 'heroicon-edit' %>
   </div>
 </div>
 <% if @match.pod_mismatch.present? %>
@@ -20,6 +20,6 @@
   </div>
 <% end %>
 <%= nav_tabs do |nav| %>
-  <% nav.link "Events", pl_match_path(@current_pod_leader, @match) %>
-  <% nav.link "Details", edit_pl_match_path(@current_pod_leader, @match) %>
+  <% nav.link "Events", pl_match_path(@match) %>
+  <% nav.link "Details", edit_pl_match_path(@match) %>
 <% end %>

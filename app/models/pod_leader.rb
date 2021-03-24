@@ -7,7 +7,7 @@ class PodLeader < ApplicationRecord
   }
 
   belongs_to :person
-  has_one :pod
+  has_many :pods
   has_many :role_status_changes
 
   accepts_nested_attributes_for :person
@@ -15,7 +15,7 @@ class PodLeader < ApplicationRecord
   encrypts :status_change_notes, type: :string, key: :kms_key
 
   default_scope { includes(:person) }
-  scope :with_pod, -> { includes(pod: %i[callers callees]) }
+  scope :with_pods, -> { includes(pods: %i[callers callees]) }
 
   def name
     person.name

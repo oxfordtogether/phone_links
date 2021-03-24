@@ -1,6 +1,4 @@
-<%= tailwind_form_with(model: @note,
-                      url: action == :edit ? pl_note_path(@current_pod_leader, @note) : notes_pl_person_path(@current_pod_leader),
-                      local: true) do |form| %>
+<%= tailwind_form_with(model: [:pl, @note], local: true) do |form| %>
   <%= form.section do %>
     <%= form.hidden_field :person_id, value: @person.id %>
     <%= form.hidden_field :created_by_id, value: @note&.created_by&.id %>
@@ -9,10 +7,10 @@
   <%= form.button_section do %>
     <% if action == :edit %>
       <div class="flex-1">
-        <%= form.delete pl_note_path %>
+        <%= form.delete pl_note_path(@note) %>
       </div>
     <% end %>
-    <%= form.cancel pl_person_path(@current_pod_leader, @person) %>
+    <%= form.cancel pl_person_path(@person) %>
     <%= form.submit %>
   <% end %>
 <% end %>

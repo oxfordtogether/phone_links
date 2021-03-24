@@ -1,7 +1,7 @@
 require "rails_helper"
 
-RSpec.describe "create pod", type: :system do
-  let!(:pod_leaders) { create_list(:pod_leader, 10) }
+RSpec.describe "edit pod", type: :system do
+  let!(:pod_leaders) { create_list(:pod_leader, 10, status: 'active') }
   let!(:pods) do
     (0..6).each do |i|
       create(:pod, pod_leader: pod_leaders[i])
