@@ -208,7 +208,7 @@ class A::PeopleController < A::AController
   end
 
   def save_invite
-    InviteEmailWorker.perform_async(@person)
+    InviteEmailWorker.perform_async(@person.id)
     if @person.update(invite_email_sent_at: DateTime.now)
       redirect_back(fallback_location: root_path)
     else
