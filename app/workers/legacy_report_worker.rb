@@ -35,8 +35,8 @@ class LegacyReportWorker
     syncer = LegacyReportSyncer.new(10, "1LZqZtwU0a1xuxFeUB7LPuPC-BvKgmhrcs8UG7nDSm0A", worksheet_index: 0)
     syncer.sync
 
-    # # E NEED POD ID
-    # syncer = LegacyReportSyncer.new("?", "1hBt7hUBUf5OQ8wcYTsPnLO26Y8IPtDsf-68xOx8WFRU", worksheet_index: 2)
-    # syncer.sync
+    # E
+    syncer = LegacyReportSyncer.new(13, "1hBt7hUBUf5OQ8wcYTsPnLO26Y8IPtDsf-68xOx8WFRU", worksheet_index: 2)
+    syncer.sync
   end
 end
