@@ -7,8 +7,8 @@
       <dt class="text-sm text-gray-400">
         <%= field.humanize %>
       </dt>
-      <dd class="mt-1 ml-1 text-base text-gray-800">
-        <%= @callee.send(field) %>
+      <dd class="mt-1 text-base text-gray-800">
+        <% if @callee.send(field).present? %><%= @callee.send(field) %><% else %><span class="text-gray-500 text-sm italic">No information</span><% end %>
       </dd>
     </div>
   <% end %>
