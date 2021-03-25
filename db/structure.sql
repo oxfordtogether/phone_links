@@ -467,6 +467,101 @@ ALTER SEQUENCE public.pods_id_seq OWNED BY public.pods.id;
 
 
 --
+-- Name: referral_status_changes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.referral_status_changes (
+    id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    referral_id bigint NOT NULL,
+    status character varying NOT NULL,
+    notes_ciphertext text,
+    datetime timestamp without time zone NOT NULL,
+    created_by_id bigint NOT NULL
+);
+
+
+--
+-- Name: referral_status_changes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.referral_status_changes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: referral_status_changes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.referral_status_changes_id_seq OWNED BY public.referral_status_changes.id;
+
+
+--
+-- Name: referrals; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.referrals (
+    id bigint NOT NULL,
+    submitted_at timestamp without time zone NOT NULL,
+    referrer_type character varying,
+    referrer_organisation_ciphertext text,
+    referrer_full_name_ciphertext text,
+    referrer_phone_ciphertext text,
+    referrer_email_ciphertext text,
+    first_name_ciphertext text NOT NULL,
+    last_name_ciphertext text NOT NULL,
+    phone_ciphertext text NOT NULL,
+    age_bracket character varying,
+    date_of_birth_ciphertext text,
+    address_line_1_ciphertext text,
+    address_line_2_ciphertext text,
+    address_town_ciphertext text,
+    address_postcode_ciphertext text,
+    reason_for_referral_ciphertext text,
+    additional_needs_ciphertext text,
+    other_information_ciphertext text,
+    other_support_ciphertext text,
+    languages_ciphertext text,
+    emergency_contact_name_ciphertext text,
+    emergency_contact_relationship_ciphertext text,
+    emergency_contact_details_ciphertext text,
+    callee_id bigint,
+    status character varying NOT NULL,
+    notes_ciphertext text,
+    status_changed_at timestamp without time zone NOT NULL,
+    confirm_consent boolean NOT NULL,
+    confirm_data_shared boolean NOT NULL,
+    confirm_data_protection boolean NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: referrals_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.referrals_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: referrals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.referrals_id_seq OWNED BY public.referrals.id;
+
+
+--
 -- Name: reports; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -718,6 +813,20 @@ ALTER TABLE ONLY public.pods ALTER COLUMN id SET DEFAULT nextval('public.pods_id
 
 
 --
+-- Name: referral_status_changes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.referral_status_changes ALTER COLUMN id SET DEFAULT nextval('public.referral_status_changes_id_seq'::regclass);
+
+
+--
+-- Name: referrals id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.referrals ALTER COLUMN id SET DEFAULT nextval('public.referrals_id_seq'::regclass);
+
+
+--
 -- Name: reports id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -847,6 +956,22 @@ ALTER TABLE ONLY public.pod_leaders
 
 ALTER TABLE ONLY public.pods
     ADD CONSTRAINT pods_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: referral_status_changes referral_status_changes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.referral_status_changes
+    ADD CONSTRAINT referral_status_changes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: referrals referrals_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.referrals
+    ADD CONSTRAINT referrals_pkey PRIMARY KEY (id);
 
 
 --
@@ -1062,6 +1187,27 @@ CREATE INDEX index_pods_on_pod_leader_id ON public.pods USING btree (pod_leader_
 --
 
 CREATE INDEX index_pods_on_safeguarding_lead_id ON public.pods USING btree (safeguarding_lead_id);
+
+
+--
+-- Name: index_referral_status_changes_on_created_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_referral_status_changes_on_created_by_id ON public.referral_status_changes USING btree (created_by_id);
+
+
+--
+-- Name: index_referral_status_changes_on_referral_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_referral_status_changes_on_referral_id ON public.referral_status_changes USING btree (referral_id);
+
+
+--
+-- Name: index_referrals_on_callee_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_referrals_on_callee_id ON public.referrals USING btree (callee_id);
 
 
 --
@@ -1383,11 +1529,27 @@ ALTER TABLE ONLY public.person_flag_changes
 
 
 --
+-- Name: referrals fk_rails_bf1604e992; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.referrals
+    ADD CONSTRAINT fk_rails_bf1604e992 FOREIGN KEY (callee_id) REFERENCES public.callees(id);
+
+
+--
 -- Name: safeguarding_concerns fk_rails_cbb7ffc243; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.safeguarding_concerns
     ADD CONSTRAINT fk_rails_cbb7ffc243 FOREIGN KEY (created_by_id) REFERENCES public.people(id);
+
+
+--
+-- Name: referral_status_changes fk_rails_d532508123; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.referral_status_changes
+    ADD CONSTRAINT fk_rails_d532508123 FOREIGN KEY (created_by_id) REFERENCES public.people(id);
 
 
 --
@@ -1404,6 +1566,14 @@ ALTER TABLE ONLY public.events
 
 ALTER TABLE ONLY public.safeguarding_concern_status_changes
     ADD CONSTRAINT fk_rails_e6451f98a7 FOREIGN KEY (safeguarding_concern_id) REFERENCES public.safeguarding_concerns(id);
+
+
+--
+-- Name: referral_status_changes fk_rails_ec2aa0bf11; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.referral_status_changes
+    ADD CONSTRAINT fk_rails_ec2aa0bf11 FOREIGN KEY (referral_id) REFERENCES public.referrals(id);
 
 
 --
@@ -1443,6 +1613,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210321171009'),
 ('20210322172217'),
 ('20210323141425'),
-('20210324081428');
+('20210324081428'),
+('20210324112724');
 
 

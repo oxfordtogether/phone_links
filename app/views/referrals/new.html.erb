@@ -1,0 +1,47 @@
+<% content_for :content do %>
+  <div class="bg-green-50 py-6 px-3">
+    <% if demo? %>
+      <div class="mb-6">
+        <%= alert(title: 'Demo', info: 'This is a demo site.') %>
+      </div>
+    <% end %>
+    <div class="max-w-2xl mx-auto rounded-md">
+      <div class="mb-4 rounded-md">
+        <img class="rounded-md object-none lg:object-cover max-h-24 w-full" src="/footer-big.jpg" alt="footer">
+      </div>
+      <div class="bg-white border-t-8 border-green-500 px-10 py-6 rounded-md shadow-md">
+        <div class="sm:col-span-6 text-gray-800 text-sm">
+          <h1 class="text-2xl text-gray-800 font-semibold">Oxford Hub: Phone Link Referral Form</h1>
+          <p class="mt-5">
+            Oxford Together is Oxford Hub's volunteer programme to help those who are feeling isolated during Covid-19. We are delivering Oxford Together in collaboration with Oxford City Council and other local aid groups.
+          </p>
+          <p class="my-5">
+            Oxford Together Phone Link Volunteers will offer companionship and problem solving to people who may benefit from a friendly chat during the Covid 19 pandemic. This is a key service for people who are self-isolating and may struggle with their mental health, practicalities or access to information.
+          </p>
+          <p class="my-5">
+            Phone calls will be weekly or a few times a week. People will be matched with a volunteer who will ring them at an agreed time, regularly, for them to build up a relationship over time.
+          </p>
+          <p class="my-5">
+            You can use this form to refer someone who will then receive a regular phone call or you can refer yourself. We currently have a waiting list for phone calls so you may not be matched for a few weeks.
+          </p>
+          <p class="my-5">
+            This service is coordinated by Oxford Hub, using volunteer callers. Please note that they will ring with a with-held number. To find out more about the Oxford Hub, please visit <%= link_to "www.oxfordhub.org", "https://www.oxfordhub.org", target: "_blank", class: "text-blue-600 hover:text-blue-700" %>.
+          </p>
+          <p class="mt-8 text-red-500">
+            * Required
+          </p>
+        </div>
+        <% if demo? %>
+          <hr class="mt-8" />
+          <div class="mt-8">
+            <%= render "form", referral: @referral %>
+          </div>
+        <% else %>
+          <div class="mt-8">
+            <%= info(title: 'Referrals paused', info: 'Oxford Hub is not currently taking referrals for the Phone Links programme.') %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

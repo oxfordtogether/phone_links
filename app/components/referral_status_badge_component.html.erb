@@ -1,0 +1,26 @@
+<% case referral.status %>
+<% when :unread %>
+<span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium text-gray-800 bg-red-200">
+  <%= referral.humanized_status&.downcase %>
+</span>
+<% when :in_progress %>
+<span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium text-gray-800 bg-blue-200">
+  <%= referral.humanized_status&.downcase %>
+</span>
+<% when :duplicate %>
+<span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium text-gray-800 bg-gray-200">
+  <%= referral.humanized_status&.downcase %>
+</span>
+<% when :approved %>
+<span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium text-gray-800 bg-green-200">
+  <%= referral.humanized_status&.downcase %>
+</span>
+<% when :rejected %>
+<span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium text-gray-800 bg-gray-200">
+  <%= referral.humanized_status&.downcase %>
+</span>
+<% else %>
+  <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium text-gray-800 bg-gray-200">
+    <%= referral.humanized_status&.downcase %>
+  </span>
+<% end %>
