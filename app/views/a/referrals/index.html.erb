@@ -1,0 +1,25 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Referrals", a_referrals_path %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <%= render partial: "index_head_page" %>
+<% end %>
+<% if @referrals.length > 0 %>
+  <%= table @referrals.sort_by(&:submitted_at).reverse, row_url: ->(s) { a_referral_path(s) } do |tbl| %>
+    <% tbl.col "Name" do |referral| %>
+      <%= referral.name %>
+    <% end %>
+    <% tbl.col "Status" do |referral| %>
+      <%= referral_status(referral) %>
+    <% end %>
+    <% tbl.col "Submitted", classes: "text-right" do |referral| %>
+      <%= format_date(referral.submitted_at) %>
+    <% end %>
+  <% end %>
+<% else %>
+  <div class="flex justify-center text-gray-600">
+    No referrals have been recorded yet.
+  </div>
+<% end %>

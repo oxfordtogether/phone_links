@@ -12,6 +12,7 @@ class Callee < ApplicationRecord
   has_many :matches
   has_many :emergency_contacts
   has_many :role_status_changes
+  has_many :referrals
 
   accepts_nested_attributes_for :person
   accepts_nested_attributes_for :emergency_contacts

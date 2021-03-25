@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   get "page_does_not_exist", to: "login#page_does_not_exist"
   get "unverified_email", to: "login#unverified_email"
 
+  resources :referrals, only: %i[new create]
+
   namespace :a do
     get "/", to: "pages#home"
 
@@ -117,6 +119,12 @@ Rails.application.routes.draw do
     get "waitlist/provisional_matches" => "waitlist#provisional_matches"
 
     resources :safeguarding_concerns, only: %i[show index new create edit update]
+
+    resources :referrals, only: %i[show index edit update] do
+      member do
+        post "new_callee" => "referrals#new_callee"
+      end
+    end
   end
 
   namespace :pl do

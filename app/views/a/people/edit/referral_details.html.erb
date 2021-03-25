@@ -12,6 +12,11 @@
     <%= render partial: "a/people/edit/menu" %>
   </div>
   <div class="col-span-3 col-start-2">
+    <% if @person&.callee&.referrals.present? %>
+      <div class=" mb-6">
+        <%= link_to "go to referral", a_referral_path(@person&.callee&.referrals[0]), class: "text-blue-600 text-sm" %>
+      </div>
+    <% end %>
     <%= tailwind_form_with(
         model: [:a, @person],
         url: save_referral_details_a_edit_person_path(@person),
