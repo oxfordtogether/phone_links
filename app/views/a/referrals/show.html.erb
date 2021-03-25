@@ -1,0 +1,219 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Referrals", a_referrals_path %>
+    <% list.link "#{@referral.id}", a_referral_path(@referral) %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <div class="mb-1 sm:flex sm:justify-between">
+    <h1 class="flex flex-wrap items-center text-2xl text-gray-900">
+      Referral for <%= @referral.name %> <span class="ml-1.5">(#<%= @referral.id %>)</span>
+      <span class="ml-2 mb-1"><%= referral_status(@referral) %></span>
+    </h1>
+  </div>
+  <div class="pb-8 text-sm text-gray-600">
+    Submitted by <%= @referral.referrer_full_name %>, <%= format_date(@referral.submitted_at) %>
+  </div>
+<% end %>
+<% if @referral.callee.present? %>
+  <%= button_link_to "See profile for #{@referral.callee.name}", a_person_path(@referral.callee.person) %>
+<% else %>
+  <div class="mt-4 sm:mt-0">
+    <%= button_to 'Create callee from referral', new_callee_a_referral_path(@referral), :method=>:post, class: "border-transparent text-white bg-indigo-600 hover:bg-indigo-700 inline-flex items-center px-4 py-2 border rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+  </div>
+  <% if @duplicates.present? %>
+    <div class="my-5 rounded-md bg-yellow-50 p-4">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <%= icon('exclamation', class: "h-5 w-5 text-yellow-400") %>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-yellow-800">
+            Possible duplication: <span class="mt-2 text-sm font-normal text-yellow-800">This person might already be in the system. If this is the case, change the referral status to duplicate.</span>
+          </h3>
+          <div>
+            <div class="md:flex md:flex-wrap text-gray-900">
+              <% @duplicates.each do |dup| %>
+                <%= link_to a_person_path(dup) do %>
+                  <div class="mt-4 py-3 px-3 mr-3 rounded-md shadow-md bg-white">
+                    <div class="flex items-center">
+                      <%= icon('person-badge', class: "w-7 h-7 text-gray-400") %>
+                      <div class="text-base	ml-2"><%= dup.name %></div>
+                    </div>
+                    <div class="text-sm mt-2">
+                      <div><span class="mr-3 text-gray-400">postcode:</span>
+                        <% if dup.address_postcode.present? %><%= dup.address_postcode %><% else %><span class="italic text-gray-400">unknown</span><% end %>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+<div class="my-6 bg-white shadow overflow-hidden sm:rounded-lg p-6 ">
+  <%= tailwind_form_with(model: [:a, @referral], local: true) do |form| %>
+    <%= form.compact_section do %>
+      <%= form.select :status, Referral.status_options_for_select, width: :third, required_asterix: true %>
+      <%= form.text_area :notes, width: :full, label: "Notes" %>
+    <% end %>
+    <%= form.compact_button_section do %>
+      <%= form.submit "Save", compact: true %>
+    <% end %>
+  <% end %>
+  <div class="mt-2 flow-root">
+    <% if @status_changes.present? %>
+      <ul class="-mb-8">
+        <% @status_changes.sort_by(&:datetime).reverse.each_with_index do |event, index| %>
+          <% @event = event %>
+          <% @last_event = @status_changes.size - 1 == index %>
+          <%= render partial: "status_change" %>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+</div>
+<div class="my-6 bg-white shadow overflow-hidden sm:rounded-lg">
+  <div class="px-4 py-5 sm:px-6">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">
+      Referrer Information
+    </h3>
+    <p class="mt-1 max-w-2xl text-sm text-gray-500">
+      <span class="mt-1 text-sm text-gray-800">Referrer type: </span><%= @referral.humanized_referrer_type %>
+    </p>
+  </div>
+  <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+    <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Full name
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          <%= @referral.referrer_full_name %>
+        </dd>
+      </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Organisation
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          <%= @referral.referrer_organisation %>
+        </dd>
+      </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Email
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          <%= @referral.referrer_email %>
+        </dd>
+      </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Phone
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          <%= @referral.referrer_phone %>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</div>
+<div class="my-6 bg-white shadow overflow-hidden sm:rounded-lg">
+  <div class="px-4 py-5 sm:px-6">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">
+      Referee information
+    </h3>
+    <p class="mt-1 max-w-2xl text-sm text-gray-500">
+      Personal and contact details
+    </p>
+  </div>
+  <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+    <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Full name
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          <%= @referral.name %>
+        </dd>
+      </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Phone
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          <%= @referral.phone %>
+        </dd>
+      </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Age
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          <%= @referral.humanized_age_bracket %> (dob: <%= @referral.date_of_birth %>)
+        </dd>
+      </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Address
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          <%= address_to_string(@referral) %>
+        </dd>
+      </div>
+      <div class="sm:col-span-2">
+        <dt class="text-sm font-medium text-gray-500">
+          Reason for referral
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          <%= @referral.reason_for_referral %>
+        </dd>
+      </div>
+      <div class="sm:col-span-2">
+        <dt class="text-sm font-medium text-gray-500">
+          Additional needs
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          <%= @referral.additional_needs %>
+        </dd>
+      </div>
+      <div class="sm:col-span-2">
+        <dt class="text-sm font-medium text-gray-500">
+          Other information
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          <%= @referral.other_information %>
+        </dd>
+      </div>
+      <div class="sm:col-span-2">
+        <dt class="text-sm font-medium text-gray-500">
+          Other support
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          <%= @referral.other_support %>
+        </dd>
+      </div>
+      <div class="sm:col-span-2">
+        <dt class="text-sm font-medium text-gray-500">
+          Other languages requested
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          <%= @referral.languages %>
+        </dd>
+      </div>
+      <div class="sm:col-span-2">
+        <dt class="text-sm font-medium text-gray-500">
+          Emergency contact
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900">
+          <%= @referral.emergency_contact_name %>, <%= @referral.emergency_contact_relationship %>, <%= @referral.emergency_contact_details %>
+        </dd>
+      </div>
+    </dl>
+  </dl>
+</div>

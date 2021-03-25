@@ -8,10 +8,7 @@
     <%= render(SidebarLinkComponent.new(name: "Inbox", url: a_inbox_path, icon: "inbox")) %>
     <%= render(SidebarLinkComponent.new(name: "Pods", url: a_pods_path, icon: 'phone')) %>
     <%= render(SidebarLinkComponent.new(name: "Waiting list", url: a_waitlist_path, icon: 'watch')) %>
-    <% if false %>
-      <%= render(SidebarLinkComponent.new(name: "Referrals (TO DO)", url: "/", icon: 'heroicon-document-text-small')) %>
-      <%= render(SidebarLinkComponent.new(name: "Applicants (TO DO)", url: "/", icon: 'user-group')) %>
-    <% end %>
+    <%= render(SidebarLinkComponent.new(name: "Referrals", url: a_referrals_path, icon: 'heroicon-document-text-small')) %>
     <%= render(SidebarLinkComponent.new(name: "Safeguarding", url: a_safeguarding_concerns_path, icon: 'cone-stripped')) %>
     <%= render(SidebarLinkComponent.new(name: "Admin", url: a_admin_path, icon: 'person-badge')) %>
   </div>

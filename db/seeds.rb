@@ -41,3 +41,6 @@ FactoryBot.create_list(:note, 500)
 FactoryBot.create_list(:safeguarding_concern, 50)
 
 SearchCache.refresh
+
+# referrals
+FactoryBot.create_list(:referral, 30)

@@ -1,0 +1,42 @@
+<%= tailwind_form_with(model: @referral, local: true) do |form| %>
+  <%= form.section "About the person making the referral" do %>
+    <%= form.select :referrer_type, Referral.referrer_type_options_for_select, label: "I am...", width: :full, required_asterix: true %>
+    <div class="sm:col-span-6 text-gray-900 text-sm">Please provide contact details for the person who is making the referral. If you are referring yourself, please leave this section blank.</div>
+    <%= form.text_field :referrer_organisation, label: "What organisation do you work for? (if applicable)", width: :full %>
+    <%= form.text_field :referrer_full_name, label: "Your full name", width: :full %>
+    <%= form.text_field :referrer_phone, label: "Your phone number", width: :full %>
+    <%= form.text_field :referrer_email, label: "Your email address", width: :full %>
+  <% end %>
+  <%= form.section "About the person being referred" do %>
+    <div class="sm:col-span-6 text-gray-900 text-sm">Please provide contact details for the person who would like regular phone calls. If that's you, please fill out your own details.</div>
+    <%= form.text_field :first_name, width: :full, required_asterix: true %>
+    <%= form.text_field :last_name, width: :full, required_asterix: true %>
+    <%= form.select :age_bracket, Referral.age_bracket_options_for_select, label: "Age range", width: :full %>
+    <%= form.date_field :date_of_birth, label: "Date of birth (if known)", width: :full %>
+    <%= form.text_field :address_postcode, label: "Postcode", width: :full, required_asterix: true, info_message: "Please remember that we primarily support people living in Oxford City. This is because we are most aware of the resources, networks and opportunities for support locally." %>
+    <%= form.text_field :address_line_1, width: :full, required_asterix: true %>
+    <%= form.text_field :address_line_2, width: :full %>
+    <%= form.text_field :address_town, label: "Town", width: :full, required_asterix: true %>
+    <%= form.text_field :phone, label: "Phone number (this best one for the person being referred to be phoned on)", width: :full, required_asterix: true %>
+  <% end %>
+  <%= form.section "Additional information about the person being referred" do %>
+    <%= form.text_area :reason_for_referral, width: :full, required_asterix: true, info_message: "We're looking for a few sentences about what support this person needs to give context to your referral. The more information you can provide, the better we will be able to match support." %>
+    <%= form.text_area :additional_needs, label: "Do you/they have any additional needs which a caller may need to be aware of?", width: :full %>
+    <%= form.text_area :languages, label: "Do you/they want phone calls in a language other than English? Please give details.", width: :full %>
+    <%= form.text_area :other_information, label: "Any other information that you would like a caller to know e.g any interests that you, things they like doing or they might like to talk about", width: :full %>
+    <%= form.text_area :other_support, label: "What other support does this person currently receive?", width: :full, info_message: "This might be from agencies, charities, the Council, Adult Social Care, doctor, family members." %>
+  <% end %>
+  <%= form.section "Emergency contact for the person being referred" do %>
+    <%= form.text_field :emergency_contact_name, label: "Please provide the name of an emergency contact", width: :full %>
+    <%= form.text_field :emergency_contact_relationship, label: "Relationship to the person being referred", width: :full %>
+    <%= form.text_field :emergency_contact_details, label: "Contact details for emergency contact", width: :full %>
+  <% end %>
+  <%= form.section "Please confirm that..." do %>
+    <%= form.check_box :confirm_consent, true, "...you have received the consent of the person to make this referral", width: :full, required_asterix: true %>
+    <%= form.check_box :confirm_data_shared, true, "...you agree to the data above being shared with Oxford Hub Phone Link volunteers and leaders", width: :full, required_asterix: true %>
+    <%= form.check_box :confirm_data_protection, true, "...you have read and understand the following: This data will be stored with Oxford Hub and you agree to being contacted in relation with this request. If your request needs the involvement of volunteers then some of your data may be shared with a community volunteer so that they can fulfil the task. You agree and understand that Oxford Hub will use it's data in accordance with its privacy policy. Our privacy policy can be found on our website https://www.oxfordhub.org/privacy-statement. I understand that I can withdraw my consent at any time.", width: :full, required_asterix: true %>
+  <% end %>
+  <%= form.button_section do %>
+    <%= form.submit "Submit" %>
+  <% end %>
+<% end %>

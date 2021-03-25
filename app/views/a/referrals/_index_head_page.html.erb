@@ -1,0 +1,14 @@
+<div class="sm:flex sm:justify-between">
+  <h1 class="text-2xl font-semibold text-gray-900">
+    Referrals
+  </h1>
+  <div class="mt-4 sm:mt-0">
+    <%= button_link_to "External referral form", new_referral_path, icon: 'icon-add' %>
+  </div>
+</div>
+<div class="mt-6">
+  <%= alert(title: "Referrals are paused.", info: "The external referral form is not yet linked from Oxford Hub's website, and is not available for people to fill out.") %>
+</div>
+<%= nav_tabs do |nav| %>
+  <% nav.link "Referrals", a_referrals_path %>
+<% end %>

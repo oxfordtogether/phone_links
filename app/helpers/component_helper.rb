@@ -15,6 +15,10 @@ module ComponentHelper
     render SafeguardingStatusBadgeComponent.new(*args)
   end
 
+  def referral_status(*args)
+    render ReferralStatusBadgeComponent.new(*args)
+  end
+
   def blue_link(*args)
     render LinkToComponent.new(*args)
   end
