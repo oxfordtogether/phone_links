@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "create report", type: :system do
-  let!(:caller) { create(:caller, status: "active", person: create(:person, auth0_id: '123')) }
+  let!(:caller) { create(:caller, status: "active", person: create(:person, auth0_id: '123', email: "caller@test.com")) }
   let!(:callee) { create(:callee, status: "active") }
 
   let!(:match) { create(:match, caller: caller, callee: callee, status: "active") }

@@ -1,24 +1,24 @@
 require "rails_helper"
 
 RSpec.describe "multiple roles", type: :system do
-  let!(:pod_leader) { create(:pod_leader, status: "active") }
+  let!(:pod_leader) { create(:pod_leader, create(:person, email: "pod_leader@test.com", auth0_id: "123"), status: "active") }
   let!(:person_pl_role) { pod_leader.person }
 
-  let!(:caller) { create(:caller, status: "active", pod: nil) }
+  let!(:caller) { create(:caller, create(:person, email: "caller@test.com", auth0_id: "234"), status: "active", pod: nil) }
   let!(:person_c_role) { caller.person }
 
   let!(:person_pl_and_c_roles) do
-    person = create(:person)
+    person = create(:person, email: "pl_and_c_roles@test.com", auth0_id: "345")
     create(:caller, person: person, status: "active", pod: nil)
     create(:pod_leader, person: person, status: "active")
 
     person
   end
 
-  let!(:admin) { create(:admin, status: "active") }
+  let!(:admin) { create(:admin, create(:person, email: "admin@test.com", auth0_id: "456"), status: "active") }
   let!(:person_a_role) { admin.person }
   let!(:person_a_and_pl_roles) do
-    person = create(:person)
+    person = create(:person, email: "a_and_pl_roles@test.com", auth0_id: "567")
     create(:admin, person: person, status: "active")
 
     pod = create(:pod, name: "ABC", pod_leader: nil)

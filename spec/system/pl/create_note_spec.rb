@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "create note", type: :system do
   let!(:pod) { create(:pod, pod_leader: nil) }
   let!(:callee) { create(:callee, status: "active", pod: pod) }
-  let!(:pod_leader) { create(:pod_leader, status: "active", pods: [pod]) }
+  let!(:pod_leader) { create(:pod_leader, person: create(:person, email: "pod_leader@test.com", auth0_id: "234"), status: "active", pods: [pod]) }
 
   before do
     ENV["BYPASS_AUTH"] = "false"
