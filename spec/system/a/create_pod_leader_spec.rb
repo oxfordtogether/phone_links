@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "create pod leader", type: :system do
   let!(:person) { create(:person, first_name: "Tim", last_name: "Thompson") }
 
-  before do
+  before(:each) do
     SearchCache.refresh
   end
 

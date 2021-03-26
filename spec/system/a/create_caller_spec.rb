@@ -4,7 +4,7 @@ RSpec.describe "create caller", type: :system do
   let!(:person) { create(:person, first_name: "Tim", last_name: "Thompson") }
   let!(:pods) { create_list(:pod, 10) }
 
-  before do
+  before(:each) do
     SearchCache.refresh
   end
 

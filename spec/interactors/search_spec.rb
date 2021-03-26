@@ -7,7 +7,7 @@ RSpec.describe "search cache", type: :model do
   let!(:person4) { create(:person, first_name: "David", last_name: "Doesn't match") }
 
   describe "searching people" do
-    before do
+    before(:each) do
       SearchCache.refresh
     end
 
@@ -28,7 +28,7 @@ RSpec.describe "search cache", type: :model do
     let!(:admin) { create(:admin, person: person2) }
     let!(:pod_leader) { create(:pod_leader, person: person3) }
 
-    before do
+    before(:each) do
       SearchCache.refresh
     end
 
