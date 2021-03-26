@@ -52,7 +52,7 @@
               <div class="flex-1 px-4 py-2 text-sm truncate">
                 <div class="text-gray-500 font-medium hover:text-gray-600">
                   Joined:
-                  <div class="inline text-lg font-medium text-gray-900"><%= format_date_as_days_since(@current_user&.created_at) %></div>
+                  <div class="inline text-lg font-medium text-gray-900"><%= format_date_as_days_since(@caller.person.created_at) %></div>
                 </div>
               </div>
             </div>
