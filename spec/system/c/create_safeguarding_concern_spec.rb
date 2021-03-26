@@ -1,4 +1,5 @@
 require "rails_helper"
+require "sidekiq/testing"
 
 RSpec.describe "create safeguarding concern", type: :system do
   let!(:pod) { create(:pod) }
@@ -29,7 +30,9 @@ RSpec.describe "create safeguarding concern", type: :system do
 
     expect do
       click_on "Submit"
-    end.to change { SafeguardingConcern.count }.by(1).and change { SafeguardingConcernStatusChange.count }.by(1)
+    end.to change { SafeguardingConcern.count }.by(1)
+       .and change { SafeguardingConcernStatusChange.count }.by(1)
+       .and change(SafeguardingEmailWorker.jobs, :size).by (1)
 
     safeguarding_concern = SafeguardingConcern.last
 
