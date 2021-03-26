@@ -21,12 +21,12 @@
               <%= icon("login", class: "ml-1 w-5 h-5") %>
             </div>
           <% end %>
-            <% if @is_pod_leader %>
-              <div class="px-6 mt-3 text-sm flex justify-end items-center text-gray-600">
-                <%= link_to "Pod Leader's Area", pl_pod_leader_path(@current_user.pod_leader), class: '' %>
-                <%= icon("login", class: "ml-1 w-5 h-5") %>
-              </div>
-            <% end %>
+          <% if @is_pod_leader %>
+            <div class="px-6 mt-3 text-sm flex justify-end items-center text-gray-600">
+              <%= link_to "Pod Leader's Area", pl_pod_leader_path(@current_user.pod_leader), class: '' %>
+              <%= icon("login", class: "ml-1 w-5 h-5") %>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
@@ -45,7 +45,6 @@
         </span>
       </div>
       <div class="hidden sm:inline max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-        <%= alert(title: 'Incorrect numbers?', info: 'Some of these numbers may be incorrect while we move data across from the old system.') %>
         <ul class="grid grid-cols-1 gap-3 sm:gap-6 sm:grid-cols-2 md:grid-cols-2 mt-3">
           <li class="relative col-span-1 flex shadow-sm rounded-md">
             <div class="flex-shrink-0 flex items-center justify-center w-12 bg-pink-600 text-white text-sm font-medium rounded-l-md"></div>
