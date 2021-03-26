@@ -42,6 +42,8 @@ RSpec.describe "submit referral form", type: :system do
       click_on "Submit"
     end.to change { Referral.count }.by(1)
 
+    expect(page).to have_content("Referral was successfully submitted.")
+
     referral = Referral.last
 
     expect(page).to have_current_path("/referrals/new")
@@ -85,6 +87,14 @@ RSpec.describe "submit referral form", type: :system do
     expect(page).to have_content("Referrals paused")
 
     ENV["REFERRALS_PAUSED"] = "false"
+  end
+
+  it "displays text if submission failed" do
+    visit "/referrals/new"
+
+    click_on "Submit"
+
+    expect(page).to have_content("Referral form didn't submit")
   end
 end
 

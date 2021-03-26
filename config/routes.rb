@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get "page_does_not_exist", to: "login#page_does_not_exist"
   get "unverified_email", to: "login#unverified_email"
 
-  resources :referrals, only: %i[new create]
+  resources :referrals, only: %i[index new create]
 
   namespace :a do
     get "/", to: "pages#home"

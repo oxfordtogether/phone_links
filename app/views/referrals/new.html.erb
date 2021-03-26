@@ -1,10 +1,9 @@
 <% content_for :content do %>
+  <% if demo? %>
+    <%= alert(title: 'Demo', info: 'This is a demo site.') %>
+  <% end %>
+  <%= notice_component(notice: notice) %>
   <div class="bg-green-50 py-6 px-3">
-    <% if demo? %>
-      <div class="mb-6">
-        <%= alert(title: 'Demo', info: 'This is a demo site.') %>
-      </div>
-    <% end %>
     <div class="max-w-2xl mx-auto rounded-md">
       <div class="mb-4 rounded-md">
         <img class="rounded-md object-none lg:object-cover max-h-24 w-full" src="/footer-big.jpg" alt="footer">

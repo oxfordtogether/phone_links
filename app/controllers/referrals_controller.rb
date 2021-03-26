@@ -2,6 +2,10 @@ class ReferralsController < ApplicationController
   skip_before_action :logged_in_using_omniauth?
   layout 'unauthorized'
 
+  def index
+    redirect_to new_referral_path
+  end
+
   def new
     @referral = Referral.new
   end
@@ -12,6 +16,7 @@ class ReferralsController < ApplicationController
     if @referral.save
       redirect_to new_referral_path, notice: "Referral was successfully submitted."
     else
+      flash.now[:notice] = "Referral form didn't submit, please check for errors."
       render :new
     end
   end
