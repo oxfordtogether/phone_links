@@ -55,7 +55,7 @@ RSpec.describe "edit callee", type: :system do
     click_on "Contact"
     expect(page).to have_current_path("/a/people/#{person.id}/edit/contact_details")
 
-    expect(find_field("Email").value).to eq person.email
+    expect(find_field("Email").value).to eq person.email || ""
     expect(find_field("Phone").value).to eq person.phone
     expect(find_field("Address line 1").value).to eq person.address_line_1
     expect(find_field("Address line 2").value).to eq person.address_line_2

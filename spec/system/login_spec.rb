@@ -109,7 +109,7 @@ RSpec.describe "login", type: :system do
       login_as caller.person
 
       visit "/"
-      expect(current_path).to eq("/c/#{caller.id}")
+      expect(current_path).to eq("/c/callers/#{caller.id}")
     end
   end
 
@@ -118,8 +118,8 @@ RSpec.describe "login", type: :system do
       login_as admin.person
       visit "/pl/pod_leaders/#{pod_leader.id}"
       expect(current_path).to eq("/pl/pod_leaders/#{pod_leader.id}")
-      visit "/c/#{caller_not_active.id}"
-      expect(current_path).to eq("/c/#{caller_not_active.id}")
+      visit "/c/callers/#{caller_not_active.id}"
+      expect(current_path).to eq("/c/callers/#{caller_not_active.id}")
     end
 
     it "restricts access to areas of site for pod leaders" do
@@ -133,8 +133,10 @@ RSpec.describe "login", type: :system do
         page.has_text? "Wait for page to load"
       end.to raise_error(ActiveRecord::RecordNotFound)
 
-      visit "/c/#{caller.id}"
-      expect(current_path).to eq("/invalid_permissions_for_page")
+      expect do
+        visit "/c/callers/#{caller.id}"
+        page.has_text? "Wait for page to load"
+      end.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     it "restricts access to areas of site for callers" do
@@ -148,8 +150,10 @@ RSpec.describe "login", type: :system do
         page.has_text? "Wait for page to load"
       end.to raise_error(ActiveRecord::RecordNotFound)
 
-      visit "/c/#{caller_not_active.id}"
-      expect(current_path).to eq("/invalid_permissions_for_page")
+      expect do
+        visit "/c/callers/#{caller_not_active.id}"
+        page.has_text? "Wait for page to load"
+      end.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 
@@ -167,11 +171,13 @@ RSpec.describe "login", type: :system do
       page.has_text? "Wait for page to load"
     end.to raise_error(ActiveRecord::RecordNotFound)
 
-    visit "/c/#{person_with_2_roles.caller.id}"
-    expect(current_path).to eq("/c/#{person_with_2_roles.caller.id}")
+    visit "/c/callers/#{person_with_2_roles.caller.id}"
+    expect(current_path).to eq("/c/callers/#{person_with_2_roles.caller.id}")
 
-    visit "/c/#{caller.id}"
-    expect(current_path).to eq("/invalid_permissions_for_page")
+    expect do
+      visit "/c/callers/#{caller.id}"
+      page.has_text? "Wait for page to load"
+    end.to raise_error(ActiveRecord::RecordNotFound)
   end
 
   describe "prevents access" do
@@ -229,8 +235,10 @@ RSpec.describe "login", type: :system do
         page.has_text? "Wait for page to load"
       end.to raise_error(ActiveRecord::RecordNotFound)
 
-      visit "/c/1000"
-      expect(current_path).to eq("/page_does_not_exist")
+      expect do
+        visit "/c/callers/1000"
+        page.has_text? "Wait for page to load"
+      end.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 
@@ -257,8 +265,7 @@ RSpec.describe "login", type: :system do
     it "/page_does_not_exist links to homepage" do
       login_as admin.person
 
-      visit "/c/10000"
-      expect(current_path).to eq("/page_does_not_exist")
+      visit "/page_does_not_exist"
 
       click_on "Back"
       page.has_text? "Hi #{admin.name}"

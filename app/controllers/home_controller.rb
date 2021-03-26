@@ -7,7 +7,7 @@ class HomeController < ApplicationController
     elsif current_pod_leader_id.present?
       redirect_to pl_pod_leader_path(current_pod_leader_id)
     elsif current_caller_id.present?
-      redirect_to c_path(current_caller_id)
+      redirect_to c_caller_path(current_caller_id)
     else
       redirect_to "/invalid_permissions_for_app"
     end

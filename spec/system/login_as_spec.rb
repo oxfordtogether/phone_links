@@ -2,8 +2,11 @@ require "rails_helper"
 
 RSpec.describe "login as", type: :system do
   let!(:admin) { create(:admin, status: "active") }
-  let!(:pod_leaders) { create_list(:pod_leader, 10, status: "active") }
-  let!(:callers) { create_list(:caller, 10, status: "active") }
+  let!(:pod) { create(:pod, pod_leader: nil) }
+  let!(:pod_leader) { create(:pod_leader, pods: [pod], status: "active")}
+  let!(:pod_leader_1) { create(:pod_leader, pods: [], status: "active")}
+  let!(:caller) { create(:caller, status: "active") }
+  let!(:caller_1) { create(:caller, status: "active") }
 
   before do
     ENV["BYPASS_AUTH"] = "false"
@@ -22,10 +25,11 @@ RSpec.describe "login as", type: :system do
     click_on "Admin"
     click_on "Pod Leaders"
 
-    click_link href: "/pl/pod_leaders/#{pod_leaders[0].id}"
+    click_link href: "/pl/pod_leaders/#{pod_leader.id}"
 
-    expect(current_path).to eq("/pl/pod_leaders/#{pod_leaders[0].id}")
-    expect(page).to have_content("Hi #{pod_leaders[0].name}")
+    expect(page).to have_content("Hi #{pod_leader.name}")
+    expect(page).to have_content("Reports")
+    expect(current_path).to eq("/pl/pods/#{pod_leader.pods[0].id}")
 
     click_on "Back to Admin"
 
@@ -42,10 +46,10 @@ RSpec.describe "login as", type: :system do
     click_on "Admin"
     click_on "Callers"
 
-    click_link href: "/c/#{callers[0].id}"
+    click_link href: "/c/callers/#{caller.id}"
 
-    expect(current_path).to eq("/c/#{callers[0].id}")
-    expect(page).to have_content("Hi #{callers[0].name}")
+    expect(current_path).to eq("/c/callers/#{caller.id}")
+    expect(page).to have_content("Hi #{caller.name}")
 
     click_on "Back to Admin"
 
@@ -54,16 +58,17 @@ RSpec.describe "login as", type: :system do
   end
 
   it "hides back to links for pod leaders and callers" do
-    login_as pod_leaders[0].person
+    login_as pod_leader.person
 
-    expect(current_path).to eq("/pl/pod_leaders/#{pod_leaders[0].id}")
-    expect(page).to have_content("Hi #{pod_leaders[0].name}")
+    expect(page).to have_content("Hi #{pod_leader.name}")
+    expect(page).to have_content("Reports")
+    expect(current_path).to eq("/pl/pods/#{pod_leader.pods[0].id}")
 
     expect(page).to_not have_content("Back to Admin")
 
-    login_as callers[0].person
-    expect(page).to have_content("Hi #{callers[0].name}")
-    expect(current_path).to eq("/c/#{callers[0].id}")
+    login_as caller.person
+    expect(page).to have_content("Hi #{caller.name}")
+    expect(current_path).to eq("/c/callers/#{caller.id}")
 
     expect(page).to_not have_content("Back to Admin")
   end

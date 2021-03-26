@@ -54,7 +54,7 @@ RSpec.describe "multiple roles", type: :system do
 
     expect(page).to have_content("Caller's Area")
     click_on "Caller's Area"
-    expect(current_path).to eq("/c/#{person_pl_and_c_roles.caller.id}")
+    expect(current_path).to eq("/c/callers/#{person_pl_and_c_roles.caller.id}")
 
     expect(page).to have_content("Pod Leader's Area")
     click_on "Pod Leader's Area"
@@ -72,7 +72,7 @@ RSpec.describe "multiple roles", type: :system do
     it "as a caller" do
       login_as person_c_role
 
-      expect(page).to have_current_path("/c/#{person_c_role.caller.id}")
+      expect(page).to have_current_path("/c/callers/#{person_c_role.caller.id}")
       expect(page).not_to have_content("Pod Leader's Area")
     end
   end
