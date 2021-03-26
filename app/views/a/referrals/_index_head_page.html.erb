@@ -6,9 +6,11 @@
     <%= button_link_to "External referral form", new_referral_path, icon: 'icon-add' %>
   </div>
 </div>
-<div class="mt-6">
-  <%= alert(title: "Referrals are paused.", info: "The external referral form is not yet linked from Oxford Hub's website, and is not available for people to fill out.") %>
-</div>
+<% if referrals_paused? %>
+  <div class="mt-6">
+    <%= alert(title: "Referrals are paused", info: "New referrals can not be submitted.") %>
+  </div>
+<% end %>
 <%= nav_tabs do |nav| %>
   <% nav.link "Referrals", a_referrals_path %>
 <% end %>

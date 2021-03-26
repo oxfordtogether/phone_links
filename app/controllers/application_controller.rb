@@ -25,6 +25,11 @@ class ApplicationController < ActionController::Base
     ENV["DEMO"] == "true" || ENV["DEMO"] == true
   end
 
+  helper_method :referrals_paused?
+  def referrals_paused?
+    ENV["REFERRALS_PAUSED"] == "true" || ENV["REFERRALS_PAUSED"] == true
+  end
+
   def set_current_user
     @current_user = Person.find(session[:person_id]) if session[:person_id].present?
   end

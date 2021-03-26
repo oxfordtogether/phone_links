@@ -31,7 +31,7 @@
             * Required
           </p>
         </div>
-        <% if demo? %>
+        <% if !referrals_paused? %>
           <hr class="mt-8" />
           <div class="mt-8">
             <%= render "form", referral: @referral %>

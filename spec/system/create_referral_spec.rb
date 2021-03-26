@@ -1,9 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "submit referral form", type: :system do
-  it "works in demo" do
-    ENV["DEMO"] = "true"
-
+  it "works" do
     visit "/referrals/new"
 
     select "A professional referring someone", from: "I am..."
@@ -78,13 +76,15 @@ RSpec.describe "submit referral form", type: :system do
     expect(referral.confirm_consent).to eq(true)
     expect(referral.confirm_data_shared).to eq(true)
     expect(referral.confirm_data_protection).to eq(true)
-
-    ENV["DEMO"] = "false"
   end
 
   it "is disabled" do
+    ENV["REFERRALS_PAUSED"] = "true"
+
     visit "/referrals/new"
     expect(page).to have_content("Referrals paused")
+
+    ENV["REFERRALS_PAUSED"] = "false"
   end
 end
 
