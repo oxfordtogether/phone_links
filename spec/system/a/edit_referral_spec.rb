@@ -9,26 +9,26 @@ RSpec.describe "edit referral", type: :system do
 
     visit "/a"
     click_on "Referrals"
-    find("tr", text: referral.full_name).click
+    find("tr", text: referral.name).click
 
     expect(page).to have_current_path("/a/referrals/#{referral.id}")
 
     expect(find_field("Status").value).to eq "unread"
     expect(find_field("Notes").value).to eq ""
 
-    select "in progress", from: "Status"
+    select "In progress", from: "Status"
     fill_in "Notes", with: "test"
 
     expect do
       click_on "Save"
     end.to change { Referral.count }.by(0).and change { ReferralStatusChange.count }.by(1)
 
-    safeguarding_concern.reload
+    referral.reload
 
     expect(page).to have_current_path("/a/referrals/#{referral.id}")
 
     expect(referral.status).to eq(:in_progress)
-    expect(referral.status_changed_notes).to eq("test")
+    expect(referral.notes).to eq("test")
   end
 
   it "creates callee" do
