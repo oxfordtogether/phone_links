@@ -6,7 +6,7 @@ Phone Links supports isolated people by linking them up with someone who can off
 
 ## Get in touch
 
-Please get in touch with Oxford Hub or Oxford Code Lab.
+If you're interesting in hearing more about the codebase or Phone Links programme, please get in touch with [Oxford Hub](https://www.oxfordhub.org/) or [Oxford Code Lab](https://www.oxfordcodelab.com/).
 
 ## Quickstart
 
@@ -15,7 +15,7 @@ This app is a standard [rails](https://rubyonrails.org/) app.
 ### Requirements
 
 1. You will need to be running ruby 2.7.2.
-1. You will also need to have [postgres](https://www.postgresql.org/download/) installed and running
+1. You will also need to have [postgres](https://www.postgresql.org/download/) installed and running and package manager [yarn](https://classic.yarnpkg.com/en/).
 
 ### Installation
 
@@ -44,23 +44,19 @@ This app is a standard [rails](https://rubyonrails.org/) app.
 
 ### Tests
 
-1. Install chromedriver
-
-On a mac, chromedriver can be installed via homebrew
-
-```
-brew install chromedriver
-```
+1. Install chromedriver. On a mac, chromedriver can be installed via homebrew
+   ```
+   brew install chromedriver
+   ```
 
 You may need to follow [these](https://stackoverflow.com/questions/60362018/macos-catalinav-10-15-3-error-chromedriver-cannot-be-opened-because-the-de/60362134#60362134) instructions to bypass security issues.
 
 2. Then use the following command to run the tests:
+   ```
+   bundle exec rspec
+   ```
 
-```
-bundle exec rspec
-```
-
-### Contributing
+### Contributing
 
 Please get in touch with Oxford Code Lab (support@oxfordcodelab.com) if you'd like to contribute. Or create a pull request!
 
