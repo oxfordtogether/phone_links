@@ -107,4 +107,22 @@ class Pl::PodLeaderDataFetcher
       Match.for_pod_leader(@pod_leader.id).find(match_id)
     end
   end
+
+  def safeguarding_concerns(pod_id)
+    callee_people_records = callees(pod_id).map(&:person)
+    callee_people_records.map(&:safeguarding_concerns).flatten
+  end
+
+  def safeguarding_concern(safeguarding_concern_id)
+    concern = SafeguardingConcern.find(safeguarding_concern_id)
+
+    if @admin.present?
+      concern
+    else
+      callee_people_records = Callee.for_pod_leader(@pod_leader.id).map(&:person)
+      raise ActiveRecord::RecordNotFound unless callee_people_records.include?(concern.person)
+
+      concern
+    end
+  end
 end

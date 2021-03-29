@@ -1,0 +1,18 @@
+<div class="sm:flex sm:justify-between">
+  <h1 class="text-2xl font-semibold text-gray-900">
+    Safeguarding
+  </h1>
+  <div class="mt-4 sm:mt-0">
+    <%= button_link_to "New safeguarding concern", new_pl_safeguarding_concern_path(@pod), icon: 'icon-add' %>
+  </div>
+</div>
+<div class="mt-6">
+  <%= alert(title: "This section is not currently in use", info: "Callers are still being directed to the safeguarding form on Oxford Hub's website") %>
+</div>
+<div class="mt-6">
+  <%= info(title: "This section is read-only", info: "Safeguarding concerns will be handled by the pod's safeguarding lead, #{@pod.safeguarding_lead.name}") %>
+</div>
+<%= nav_tabs do |nav| %>
+  <% nav.link "Form submissions", pl_safeguarding_concerns_path(@pod) %>
+  <% nav.link "New", new_pl_safeguarding_concern_path(@pod) %>
+<% end %>

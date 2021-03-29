@@ -131,7 +131,7 @@ Rails.application.routes.draw do
     resources :pod_leaders, only: %i[show] do
       member do
         resources :pods, only: %i[index]
-      end
+     end
     end
 
     resources :pods, only: %i[show] do
@@ -143,6 +143,8 @@ Rails.application.routes.draw do
         resources :callees, only: %i[index]
 
         resources :matches, only: %i[index new create]
+
+        resources :safeguarding_concerns, only: %i[index new create]
       end
     end
 
@@ -171,6 +173,8 @@ Rails.application.routes.draw do
     resources :matches, only: %i[show edit update]
 
     resources :notes, only: %i[edit update destroy]
+
+    resources :safeguarding_concerns, only: %i[show index]
   end
 
   namespace :c do
@@ -178,6 +182,8 @@ Rails.application.routes.draw do
       get "/", to: "pages#home"
       resources :reports, only: %i[new create]
       resources :matches, only: %i[show]
+
+      resources :safeguarding_concerns, only: %i[new create]
     end
   end
 end

@@ -1,13 +1,16 @@
 <div class="my-6">
   <%= alert(title: "This form is monitored each working day", info: "However, if your concerns are immediate, please contact Oxford Hub's safeguarding lead Emma on 07795 023068. If you cannot get through to Emma then call the County Council Emergency Duty Team on 0800 833 408 and then complete this form with any updates.") %>
 </div>
-<%= tailwind_form_with(model: [:a, @safeguarding_concern], local: true) do |form| %>
+<div class="text-blue-800 mb-5 bg-blue-50 p-3 shadow rounded">
+  Safeguarding concerns will be handled by your pod's safeguarding lead, <%= @current_caller&.pod&.safeguarding_lead&.name %>. You pod leader will also be able to see details of this form submission.
+</div>
+<%= tailwind_form_with(model: [:c, @safeguarding_concern], local: true) do |form| %>
   <%= form.section do %>
-    <%= form.collection_select :person_id, Callee.all.map(&:person).sort_by(&:name), :id, :name, label: "Who is this concern about?", required_asterix: true, width: :third %>
+    <%= form.collection_select :person_id, @callee_people_records, :id, :name, label: "Who is this concern about?", required_asterix: true, width: :third %>
     <%= form.text_area :concerns, rows: 5, label: "Please describe your concern in detail", width: :full, required_asterix: true, info_message: "Please provide details of the incident or concern you have, including times, dates, description of any injuries, whether information is first hand or the accounts of others, including any other relevant details." %>
   <% end %>
   <%= form.button_section do %>
-    <%= form.cancel a_safeguarding_concerns_path %>
+    <%= form.cancel c_path(@current_caller) %>
     <%= form.submit label = "Submit" %>
   <% end %>
 <% end %>
