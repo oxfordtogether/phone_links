@@ -6,7 +6,7 @@ class SafeguardingMailer < ApplicationMailer
 
     mail(to: clean_email(safeguarding_admin), subject: "Phone Links: Safeguarding Concern Submitted") if safeguarding_admin.present?
 
-    safeguarding_lead = @safeguarding_concern&.person&.pod&.safeguarding_lead
+    safeguarding_lead = @safeguarding_concern&.person&.caller&.pod&.safeguarding_lead
     mail(to: clean_email(safeguarding_lead.email), subject: "Phone Links: Safeguarding Concern Submitted") if safeguarding_lead&.email.present?
   end
 
