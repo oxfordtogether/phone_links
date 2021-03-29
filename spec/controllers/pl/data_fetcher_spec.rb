@@ -10,16 +10,15 @@ RSpec.describe "PodLeaderDataFetcher", type: :helper do
 
   let!(:na) do
     pods.each do |pod|
-
       callers = create_list(:caller, 3, pod: pod)
       callees = create_list(:callee, 3, pod: pod)
 
       (0..2).to_a.each do |i|
         match = create(:match, pod: pod, caller: callers[i], callee: callees[i])
-        create_list(:report, 2, match: match)
+        create_list(:report, 2, match: match, legacy_pod_id: pod.id)
       end
 
-      create_list(:report, 4, legacy_pod_id: pod.id)
+      create_list(:report, 4, match: nil, legacy_pod_id: pod.id)
 
       (0..2).to_a.each do |i|
         create(:note, person: callees[i].person, created_by: admin.person)
@@ -109,10 +108,10 @@ RSpec.describe "PodLeaderDataFetcher", type: :helper do
       person = pod_people.sample
       expect(fetcher.person(person.id)).to eq(person)
 
-      note = (pod_people.map(&:notes).flatten).filter { |n| n.created_by == pod_leader_1.person }.sample
+      note = pod_people.map(&:notes).flatten.filter { |n| n.created_by == pod_leader_1.person }.sample
       expect(fetcher.note(note.id)).to eq(note)
 
-      note = (pod_people.map(&:notes).flatten).filter { |n| n.created_by == admin.person }.sample
+      note = pod_people.map(&:notes).flatten.filter { |n| n.created_by == admin.person }.sample
       expect do
         fetcher.note(note.id)
       end.to raise_error(ActiveRecord::RecordNotFound)
@@ -164,7 +163,7 @@ RSpec.describe "PodLeaderDataFetcher", type: :helper do
         fetcher.person(person.id)
       end.to raise_error(ActiveRecord::RecordNotFound)
 
-      note = (pod_people.map(&:notes).flatten).sample
+      note = pod_people.map(&:notes).flatten.sample
       expect do
         fetcher.note(note.id)
       end.to raise_error(ActiveRecord::RecordNotFound)

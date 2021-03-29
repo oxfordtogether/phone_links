@@ -37,7 +37,7 @@ class Pl::PodLeaderDataFetcher
       Report.find(report_id)
     else
       report = Report.find(report_id)
-      pod_id = report.legacy_pod_id || report.match.pod_id
+      pod_id = report.match&.pod_id || report.legacy_pod_id
 
       pod(pod_id)
 
@@ -90,6 +90,7 @@ class Pl::PodLeaderDataFetcher
   def note(note_id)
     records = Note.where(id: note_id).where(created_by_id: Current.person_id)
     raise ActiveRecord::RecordNotFound if records.empty?
+
     note = records.first
 
     if @admin.present?
