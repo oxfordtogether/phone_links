@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "delete note", type: :system do
   let!(:callee) { create(:callee) }
-  let!(:admin) { create(:admin, status: "active") }
+  let!(:admin) { create(:admin, person: create(:person, email: "admin@test.com", auth0_id: "234"), status: "active") }
   let!(:note) do
     note = create(:note, person: callee.person, created_by: admin.person, deleted_at: nil)
     note.create_events!

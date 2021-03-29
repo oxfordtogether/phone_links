@@ -12,14 +12,14 @@ RSpec.describe "homepage", type: :system do
 
     login_as nil
 
-    visit "/c/#{caller.id}"
+    visit "/c/callers/#{caller.id}"
     expect(page).to have_content("You're not currently assigned to a pod")
   end
 
   it "works for caller without a match" do
     login_as nil
 
-    visit "/c/#{caller.id}"
+    visit "/c/callers/#{caller.id}"
     expect(page).to have_content("You don't have any active matches at the moment")
   end
 
@@ -32,7 +32,7 @@ RSpec.describe "homepage", type: :system do
       match.status = status
       match.save!
 
-      visit "/c/#{caller.id}"
+      visit "/c/callers/#{caller.id}"
 
       if %w[active paused winding_down].include?(status)
         expect(page).to have_content(match.callee.name)

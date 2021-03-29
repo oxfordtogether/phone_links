@@ -3,8 +3,8 @@ require "rails_helper"
 RSpec.describe "edit note", type: :system do
   let!(:pod) { create(:pod, pod_leader: nil) }
   let!(:callee) { create(:callee, status: "active", pod: pod) }
-  let!(:pod_leader) { create(:pod_leader, status: "active", pods: [pod]) }
-  let!(:admin) { create(:admin, status: "active") }
+  let!(:pod_leader) { create(:pod_leader, person: create(:person, email: "pod_leader@test.com", auth0_id: "123"), status: "active", pods: [pod]) }
+  let!(:admin) { create(:admin, person: create(:person, email: "admin@test.com", auth0_id: "234"), status: "active") }
 
   let!(:note) do
     note = create(:note, person: callee.person, created_by: pod_leader.person, deleted_at: nil)

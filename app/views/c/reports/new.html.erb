@@ -1,6 +1,6 @@
 <% content_for :breadcrumbs do %>
-  <%= breadcrumbs home_path: c_path(@current_caller) do |list| %>
-    <% list.link @report.match.callee.name, c_match_path(@current_caller, @report.match) %>
+  <%= breadcrumbs home_path: c_caller_path(@caller) do |list| %>
+    <% list.link @report.match.callee.name, c_match_path(@report.match) %>
   <% end %>
 <% end %>
 <% content_for :page_head do %>

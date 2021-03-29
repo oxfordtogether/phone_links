@@ -16,7 +16,7 @@
     <% end %>
     <% tbl.col "Login as", classes: "text-right " do |caller| %>
       <div class="flex justify-end">
-        <%= link_to c_path(caller.id) do %>
+        <%= link_to c_caller_path(caller.id) do %>
           <%= icon("login", class: "w-5 h-5") %>
         <% end %>
       </div>

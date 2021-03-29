@@ -6,7 +6,7 @@
           <div class="px-6 flex justify-between items-center">
             <div>
               <h1 class="text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
-                Hi <%= @current_caller.name || "Unknown User" %>
+                Hi <%= @caller.name %>
               </h1>
             </div>
             <div class="text-xs sm:text-base sm:text-center">
@@ -52,7 +52,7 @@
               <div class="flex-1 px-4 py-2 text-sm truncate">
                 <div class="text-gray-500 font-medium hover:text-gray-600">
                   Joined:
-                  <div class="inline text-lg font-medium text-gray-900"><%= format_date_as_days_since(@current_user&.created_at) %></div>
+                  <div class="inline text-lg font-medium text-gray-900"><%= format_date_as_days_since(@caller.person.created_at) %></div>
                 </div>
               </div>
             </div>
@@ -77,17 +77,17 @@
       </h2>
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-wrap space-x-4 justify-evenly bg-white border-2 border-gray-300 bg-indigo-50 p-3 rounded-md text-sm">
-          <% if @current_caller.pod.present? %>
+          <% if @caller.pod.present? %>
             <div class="mr-4 text-gray-500 font-medium hover:text-gray-600">
               Pod:
-              <div class="inline font-medium text-gray-900"><%= @current_caller.pod.name %></div>
+              <div class="inline font-medium text-gray-900"><%= @caller.pod.name %></div>
             </div>
             <div class="text-gray-500 font-medium hover:text-gray-600">
               Pod leader:
               <div class="inline font-medium text-gray-900">
-                <% if @current_caller.pod.pod_leader.present? %>
-                  <%= @current_caller.pod.pod_leader.name %>
-                  (<%= mail_to @current_caller.pod.pod_leader.person.email, @current_caller.pod.pod_leader.person.email %>)
+                <% if @caller.pod.pod_leader.present? %>
+                  <%= @caller.pod.pod_leader.name %>
+                  (<%= mail_to @caller.pod.pod_leader.person.email, @caller.pod.pod_leader.person.email %>)
                 <% else %>
                   <span>In between pod leaders</span>
                 <% end %>
@@ -118,7 +118,7 @@
             <ul class="mb-6 mt-2 rounded-lg overflow-hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <% @matches.each do |match| %>
                 <li class="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
-                  <%= link_to "/c/#{match.caller.id}/matches/#{match.id}" do %>
+                  <%= link_to c_match_path(match) do %>
                     <div class="flex md:flex-col px-6 py-3 md:p-8">
                       <%= profile_initials(initials: match.callee.initials) %>
                       <div class="flex flex-col items-start md:items-center px-8">

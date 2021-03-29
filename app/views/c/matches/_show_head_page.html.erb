@@ -23,10 +23,10 @@
     </div>
   </div>
   <div class="mt-4 sm:my-0">
-    <%= button_link_to "New report", new_c_report_path(@current_caller, { match_id: @match.id }), icon: "icon-add" %>
+    <%= button_link_to "New report", new_c_match_report_path(@match), icon: "icon-add" %>
   </div>
 </div>
 <%= nav_tabs do |nav| %>
-  <% nav.link "Reports", c_match_path(@current_caller, @match) %>
-  <% nav.link "New", new_c_report_path(@current_caller, { match_id: @match.id }) %>
+  <% nav.link "Reports", c_match_path(@match) %>
+  <% nav.link "New", new_c_match_report_path(@match) %>
 <% end %>

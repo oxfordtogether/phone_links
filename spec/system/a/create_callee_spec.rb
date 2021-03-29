@@ -7,7 +7,7 @@ RSpec.describe "create callee", type: :system do
   end
   let!(:pods) { create_list(:pod, 10) }
 
-  before do
+  before(:each) do
     SearchCache.refresh
   end
 

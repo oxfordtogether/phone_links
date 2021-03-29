@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "create report", type: :system do
-  let!(:caller) { create(:caller, status: "active") }
+  let!(:caller) { create(:caller, status: "active", person: create(:person, auth0_id: '123', email: "caller@test.com")) }
   let!(:callee) { create(:callee, status: "active") }
 
   let!(:match) { create(:match, caller: caller, callee: callee, status: "active") }
@@ -9,9 +9,10 @@ RSpec.describe "create report", type: :system do
   it "works" do
     login_as nil
 
-    visit "/c/#{caller.id}"
+    visit "/c/callers/#{caller.id}"
 
-    click_link href: "/c/#{caller.id}/matches/#{match.id}"
+    click_link href: "/c/matches/#{match.id}"
+
     click_on "New report"
 
     date_picker_fill_in "report_date_of_call", date: Date.parse("2020-01-01")
@@ -30,7 +31,7 @@ RSpec.describe "create report", type: :system do
     end.to change { Report.count }.by(1)
 
     report = Report.last
-    expect(page).to have_current_path("/c/#{caller.id}/matches/#{match.id}")
+    expect(page).to have_current_path("/c/matches/#{match.id}")
 
     expect(report.match.id).to eq(match.id)
     expect(report.date_of_call.strftime("%Y-%m-%d")).to eq("2020-01-01")
@@ -45,9 +46,9 @@ RSpec.describe "create report", type: :system do
   it "works if call not answered" do
     login_as nil
 
-    visit "/c/#{caller.id}"
+    visit "/c/callers/#{caller.id}"
 
-    click_link href: "/c/#{caller.id}/matches/#{match.id}"
+    click_link href: "/c/matches/#{match.id}"
     click_on "New report"
 
     date_picker_fill_in "report_date_of_call", date: Date.parse("2020-01-01")
@@ -62,7 +63,7 @@ RSpec.describe "create report", type: :system do
     end.to change { Report.count }.by(1)
 
     report = Report.last
-    expect(page).to have_current_path("/c/#{caller.id}/matches/#{match.id}")
+    expect(page).to have_current_path("/c/matches/#{match.id}")
 
     expect(report.match.id).to eq(match.id)
     expect(report.date_of_call.strftime("%Y-%m-%d")).to eq("2020-01-01")
@@ -77,35 +78,32 @@ RSpec.describe "create report", type: :system do
 
   it "redirect back to correct page on cancel" do
     login_as nil
-    visit "/c/#{caller.id}/matches/#{match.id}"
+    visit "/c/matches/#{match.id}"
     click_on "New report"
 
     click_on "Cancel"
-    expect(page).to have_current_path("/c/#{caller.id}/matches/#{match.id}")
-  end
-
-  it "redirects to homepage if no match specified" do
-    login_as nil
-    visit "/c/#{caller.id}/reports/new"
-
-    expect(page).to have_current_path("/c/#{caller.id}")
+    expect(page).to have_current_path("/c/matches/#{match.id}")
   end
 
   it "prevents access to page for invalid match" do
-    login_as nil
+    ENV["BYPASS_AUTH"] = "false"
+
+    login_as caller.person
 
     match.status = "ended"
     match.save!
 
     expect do
-      visit "/c/#{caller.id}/reports/new?match_id=#{match.id}"
+      visit "/c/matches/#{match.id}/reports/new"
       page.has_text? "Wait for page to load"
     end.to raise_error(ActiveRecord::RecordNotFound)
 
     match_1 = create(:match, caller: create(:caller))
     expect do
-      visit "/c/#{caller.id}/reports/new?match_id=#{match_1.id}"
+      visit "/c/matches/#{match_1.id}/reports/new"
       page.has_text? "Wait for page to load"
     end.to raise_error(ActiveRecord::RecordNotFound)
+
+    ENV["BYPASS_AUTH"] = "true"
   end
 end

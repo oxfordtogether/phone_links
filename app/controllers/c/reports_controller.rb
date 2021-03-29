@@ -2,9 +2,8 @@ class C::ReportsController < C::CController
   before_action :feeling_options, only: %i[new create]
 
   def new
-    return redirect_to c_path(@current_caller) unless params[:match_id].present?
-
     @match = @fetcher.match(params[:match_id])
+    @caller = @match.caller
     @report = Report.new(match_id: @match.id, date_of_call: Date.today)
   end
 
@@ -25,7 +24,7 @@ class C::ReportsController < C::CController
     @report = Report.new(report_params_hash)
 
     if @report.save
-      redirect_to c_match_path(@current_caller, @match), notice: "Report was successfully created."
+      redirect_to c_match_path(@match), notice: "Report was successfully created."
     else
       render :new
     end

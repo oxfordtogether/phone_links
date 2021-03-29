@@ -174,10 +174,10 @@ Rails.application.routes.draw do
   end
 
   namespace :c do
-    scope "/:caller_id" do
-      get "/", to: "pages#home"
+    resources :callers, only: %i[show]
+
+    resources :matches, only: %i[show] do
       resources :reports, only: %i[new create]
-      resources :matches, only: %i[show]
     end
   end
 end
