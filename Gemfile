@@ -97,3 +97,8 @@ gem "lograge"
 gem "mailgun-ruby", "~>1.1.6"
 
 gem "rack-attack"
+
+group :development do
+  gem "solargraph"
+  gem "htmlbeautifier", git: "https://github.com/jeremyf/htmlbeautifier", ref: "4d4467f"
+end

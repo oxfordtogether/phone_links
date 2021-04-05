@@ -1,5 +1,15 @@
 {
+  "[ruby]": {
+    "editor.defaultFormatter": "castwide.solargraph"
+  },
+  "[erb]": {
+    "editor.defaultFormatter": "tomclose.format-erb"
+  },
   "editor.formatOnSave": true,
-  "ruby.rubocop.executePath": "bin/rubocop-daemon-wrapper/"
+  "solargraph.autoformat": true,
+  "solargraph.diagnostics": true,
+  "solargraph.formatting": true,
+  "solargraph.useBundler": true,
+  "format-erb.useBundler": true,
 }
 
