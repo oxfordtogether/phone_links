@@ -19,7 +19,7 @@ class Pl::CallersController < Pl::PlController
 
     if @caller.save
       SearchCacheRefresh.perform_async
-      redirect_to pl_person_path(@caller.person), notice: "Caller status was successfully updated."
+      redirect_to pl_person_path(@caller.person), notice: "Caller was successfully updated."
     else
       render "pl/callers/details"
     end
