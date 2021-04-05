@@ -14,7 +14,7 @@ RSpec.describe "edit caller", type: :system do
 
     expect(page).to have_content("Personal")
     expect(page).to have_content("Contact")
-    expect(page).to have_content("Caller experience")
+    expect(page).to have_content("Caller information")
     expect(page).to have_content("Pod")
     expect(page).to have_content("Caller status")
   end
@@ -24,20 +24,23 @@ RSpec.describe "edit caller", type: :system do
 
     visit "/a/people/#{person.id}"
     click_on "Edit"
-    click_on "Caller experience"
+    click_on "Caller information"
     expect(page).to have_current_path("/a/people/#{person.id}/edit/experience")
 
     expect(find_field("Experience").value).to eq caller.experience
     expect(find_field("Languages").value).to eq caller.languages_notes
+    expect(find_field("Check-in frequency").value).to eq caller.check_in_frequency.to_s || ""
 
     fill_in "Experience", with: "experience"
     fill_in "Language", with: "language"
+    select "Every 2 months", from: "Check-in frequency"
 
     click_on "Save"
 
     caller.reload
     expect(caller.experience).to eq("experience")
     expect(caller.languages_notes).to eq("language")
+    expect(caller.check_in_frequency).to eq(:every_2_months)
   end
 
   it "edits status" do

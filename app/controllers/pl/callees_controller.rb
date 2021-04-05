@@ -13,7 +13,7 @@ class Pl::CalleesController < Pl::PlController
   end
 
   def details
-    @fields = ["reason_for_referral", "living_arrangements", "other_information", "additional_needs", "call_frequency", "languages_notes"]
+    @fields = %w[reason_for_referral living_arrangements other_information additional_needs call_frequency languages_notes]
   end
 
   def update

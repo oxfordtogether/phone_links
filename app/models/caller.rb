@@ -7,6 +7,16 @@ class Caller < ApplicationRecord
     active: "Active",
   }
 
+  options_field :check_in_frequency, {
+    weekly: "Weekly",
+    fortnightly: "Fortnightly",
+    monthly: "Monthly",
+    every_2_months: "Every 2 months",
+    every_3_months: "Every 3 months",
+    every_6_months: "Every 6 months",
+    check_ins_not_required: "Check-ins not required",
+  }
+
   belongs_to :person
   belongs_to :pod, optional: true
   has_many :matches

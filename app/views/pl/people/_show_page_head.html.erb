@@ -92,6 +92,9 @@
   <% if @person.callee %>
     <% nav.link "Details", details_pl_callee_path(@person.callee) %>
   <% end %>
+  <% if @person.caller %>
+    <% nav.link "Details", details_pl_caller_path(@person.caller) %>
+  <% end %>
   <% if @person.callee %>
     <% nav.link "Status", status_pl_callee_path(@person.callee) %>
   <% end %>

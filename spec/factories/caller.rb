@@ -6,9 +6,10 @@ FactoryBot.define do
 
     experience { FFaker::Lorem.phrase }
     languages_notes { FFaker::Lorem.phrase }
+    check_in_frequency { Caller.check_in_frequencies.keys.sample }
 
     status { Caller.statuses.keys.sample }
     status_change_notes { FFaker::Lorem.phrase }
     status_change_datetime { FFaker::Time.between(Date.today - 1.year, Date.today) }
-   end
+  end
 end
