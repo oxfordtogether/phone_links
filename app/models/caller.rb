@@ -14,7 +14,7 @@ class Caller < ApplicationRecord
     every_2_months: "Every 2 months",
     every_3_months: "Every 3 months",
     every_6_months: "Every 6 months",
-    check_ins_not_required: "Check-ins not required",
+    check_ins_not_required: "Not required",
   }
 
   belongs_to :person

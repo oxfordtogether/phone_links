@@ -81,6 +81,18 @@
       <% end %>
     <% end %>
   </div>
+  <% if @person&.caller&.present? %>
+    <div class="sm:col-span-1">
+      <dt class="text-sm font-medium text-gray-500">
+        Check-in frequency
+      </dt>
+      <dd class="mt-1 text-sm text-gray-900">
+        <% if @person&.caller.present? %>
+          <% if @person.caller.check_in_frequency.present? %><%= @person.caller.humanized_check_in_frequency %></span><% else %><span class="italic">Unknown</span><% end %>
+        <% end %>
+      </dd>
+    </div>
+  <% end %>
 </dl>
 <%= nav_tabs do |nav| %>
   <% nav.link "Events", pl_person_path(@person) %>

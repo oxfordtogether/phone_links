@@ -16,6 +16,9 @@
     <% tbl.col "Name" do |caller| %>
       <%= caller.name %><span class="ml-1"><%= role_status(caller) %></span>
     <% end %>
+    <% tbl.col "Check-in frequency" do |caller| %>
+      <% if caller.check_in_frequency.present? %><%= caller.humanized_check_in_frequency %></span><% else %><span class="italic">Unknown</span><% end %>
+    <% end %>
     <% tbl.col "Active match(es)", classes: "text-right" do |caller| %>
       <% @matches = caller.matches %>
       <% if @matches.present? %>

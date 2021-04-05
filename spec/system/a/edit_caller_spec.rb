@@ -29,18 +29,18 @@ RSpec.describe "edit caller", type: :system do
 
     expect(find_field("Experience").value).to eq caller.experience
     expect(find_field("Languages").value).to eq caller.languages_notes
-    expect(find_field("Check-in frequency").value).to eq caller.check_in_frequency.to_s || ""
+    # expect(find_field("Check-in frequency").value).to eq caller.check_in_frequency.to_s || ""
 
     fill_in "Experience", with: "experience"
     fill_in "Language", with: "language"
-    select "Every 2 months", from: "Check-in frequency"
+    # select "Every 2 months", from: "Check-in frequency"
 
     click_on "Save"
 
     caller.reload
     expect(caller.experience).to eq("experience")
     expect(caller.languages_notes).to eq("language")
-    expect(caller.check_in_frequency).to eq(:every_2_months)
+    # expect(caller.check_in_frequency).to eq(:every_2_months)
   end
 
   it "edits status" do
