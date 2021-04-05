@@ -22,6 +22,12 @@
             unknown match
           </span>
         <% end %>
+        <% if report.concerns || report.concerns_notes.present? %>
+          <span class="flex text-yellow-800">
+            <%= icon('exclamation', class: "h-5 w-5 text-yellow-400 mr-1") %>
+            Caller has concerns and would like to be contacted by their pod leader
+          </span>
+        <% end %>
       </div>
       <div class="<%= !report.archived_at.present? && params[:view] == 'all' && 'font-medium text-gray-800' %> max-w-xs sm:max-w-md lg:max-w-3xl truncate">
         <%= report.summary %>
