@@ -13,7 +13,7 @@ class Pl::CalleesController < Pl::PlController
   end
 
   def details
-    @fields = ["reason_for_referral", "living_arrangements", "other_information", "additional_needs", "call_frequency", "languages_notes"]
+    @fields = %w[reason_for_referral living_arrangements other_information additional_needs call_frequency languages_notes]
   end
 
   def update
@@ -23,7 +23,7 @@ class Pl::CalleesController < Pl::PlController
       RoleStatusChange.create(callee: @callee, status: @callee.status, notes: @callee.status_change_notes, created_by: @current_user, datetime: @callee.status_change_datetime)
 
       SearchCacheRefresh.perform_async
-      redirect_to pl_person_path(@callee.person), notice: "Caller status was successfully updated."
+      redirect_to pl_person_path(@callee.person), notice: "Callee status was successfully updated."
     else
       render "pl/callees/edit/status"
     end

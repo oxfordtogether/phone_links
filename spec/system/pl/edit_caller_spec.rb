@@ -33,4 +33,24 @@ RSpec.describe "edit caller", type: :system do
     expect(status_change.status).to eq(:left_programme)
     expect(status_change.notes).to eq("boo")
   end
+
+  it "edits check in frequency" do
+    login_as nil
+
+    visit "/pl/people/#{caller.person.id}"
+    click_on "Details"
+    expect(page).to have_current_path("/pl/callers/#{caller.id}/details")
+
+    expect(find_field("Check-in frequency").value).to eq caller.check_in_frequency.to_s || ""
+
+    select "Every 2 months", from: "Check-in frequency"
+
+    expect do
+      click_on "Save"
+    end.to change { RoleStatusChange.count }.by(0)
+
+    caller.reload
+
+    expect(caller.check_in_frequency).to eq(:every_2_months)
+  end
 end

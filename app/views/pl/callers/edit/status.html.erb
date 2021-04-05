@@ -4,8 +4,8 @@
 <div class="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl ">
   <%= tailwind_form_with(
         model: [:pl, @caller],
-        url: pl_caller_path(@caller),
-        method: :patch,
+        url: update_status_pl_caller_path(@caller),
+        method: :post,
         local: true) do |form| %>
     <%= form.section do %>
       <%= form.select :status, Caller.status_options_for_select, include_blank: false, width: :half %>

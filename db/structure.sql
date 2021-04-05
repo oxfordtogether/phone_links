@@ -114,7 +114,8 @@ CREATE TABLE public.callers (
     status_change_notes_ciphertext text,
     status character varying NOT NULL,
     status_change_datetime timestamp without time zone,
-    languages_notes_ciphertext text
+    languages_notes_ciphertext text,
+    check_in_frequency character varying
 );
 
 
@@ -1614,6 +1615,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210322172217'),
 ('20210323141425'),
 ('20210324081428'),
-('20210324112724');
+('20210324112724'),
+('20210329123023');
 
 

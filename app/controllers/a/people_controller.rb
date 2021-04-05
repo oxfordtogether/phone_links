@@ -251,7 +251,7 @@ class A::PeopleController < A::AController
   end
 
   def experience_params
-    params.require(:person).permit(:id, caller_attributes: %w[id experience languages_notes])
+    params.require(:person).permit(:id, caller_attributes: %w[id experience languages_notes check_in_frequency])
   end
 
   def pod_membership_params

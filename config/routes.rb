@@ -157,6 +157,8 @@ Rails.application.routes.draw do
     resources :callers, only: %i[update] do
       member do
         get "status"
+        post :status, action: :update_status, as: :update_status
+        get "details"
       end
     end
 

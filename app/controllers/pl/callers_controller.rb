@@ -1,5 +1,5 @@
 class Pl::CallersController < Pl::PlController
-  before_action :set_caller, only: %i[status update]
+  before_action :set_caller, only: %i[status update update_status details]
 
   def index
     @pod = @fetcher.pod(params[:id])
@@ -12,8 +12,21 @@ class Pl::CallersController < Pl::PlController
     render "pl/callers/edit/status"
   end
 
+  def details; end
+
   def update
-    @caller.assign_attributes(update_params.merge({ "status_change_datetime": DateTime.now }))
+    @caller.assign_attributes(update_params)
+
+    if @caller.save
+      SearchCacheRefresh.perform_async
+      redirect_to pl_person_path(@caller.person), notice: "Caller was successfully updated."
+    else
+      render "pl/callers/details"
+    end
+  end
+
+  def update_status
+    @caller.assign_attributes(update_status_params.merge({ "status_change_datetime": DateTime.now }))
 
     if @caller.save
       RoleStatusChange.create(caller: @caller, status: @caller.status, notes: @caller.status_change_notes, created_by: @current_user, datetime: @caller.status_change_datetime)
@@ -33,7 +46,11 @@ class Pl::CallersController < Pl::PlController
     @pod = @caller.pod
   end
 
-  def update_params
+  def update_status_params
     params.require(:caller).permit(:id, :status, :status_change_notes)
+  end
+
+  def update_params
+    params.require(:caller).permit(:check_in_frequency)
   end
 end
