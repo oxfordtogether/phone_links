@@ -76,30 +76,30 @@ RSpec.describe "reports", type: :system do
       visit "/pl/reports/#{unarchived_reports[3].id}"
       expect(page).to have_content("4 of 6")
 
-      find("form.archive").find("button").click
+      find(".archive").click
       expect(page).to have_current_path("/pl/reports/#{unarchived_reports[4].id}")
       expect(page).to have_content("4 of 5")
 
-      find("form.archive").find("button").click
+      find(".archive").click
       expect(page).to have_current_path("/pl/reports/#{unarchived_reports[5].id}")
       expect(page).to have_content("4 of 4")
 
-      find("form.archive").find("button").click
+      find(".archive").click
       expect(page).to have_current_path("/pl/pods/#{pod.id}/reports")
       expect(page).to have_content("Displaying 1 to 3 of 3 reports")
 
       visit "/pl/reports/#{unarchived_reports[0].id}"
       expect(page).to have_content("1 of 3")
 
-      find("form.archive").find("button").click
+      find(".archive").click
       expect(page).to have_current_path("/pl/reports/#{unarchived_reports[1].id}")
       expect(page).to have_content("1 of 2")
 
-      find("form.archive").find("button").click
+      find(".archive").click
       expect(page).to have_current_path("/pl/reports/#{unarchived_reports[2].id}")
       expect(page).to have_content("1 of 1")
 
-      find("form.archive").find("button").click
+      find(".archive").click
       expect(page).to have_content("Inbox is empty, you're up to date!")
     end
   end
@@ -161,12 +161,12 @@ RSpec.describe "reports", type: :system do
       report = reports.filter { |r| r.archived_at.nil? }.sample
 
       visit "/pl/reports/#{report.id}?view=all"
-      find("form.archive").find("button").click
+      find(".archive").click
       expect(page).to have_current_path("/pl/reports/#{report.id}?view=all")
       report.reload
       expect(report.archived_at).to_not eq(nil)
 
-      find("form.unarchive").find("button").click
+      find(".unarchive").click
       expect(page).to have_current_path("/pl/reports/#{report.id}?view=all")
       report.reload
       expect(report.archived_at).to eq(nil)

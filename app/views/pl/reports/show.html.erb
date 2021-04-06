@@ -14,30 +14,16 @@
     <div class="flex items-center mr-5">
       <% if @report.archived_at %>
         <div class="text-sm">archived: <%= format_date(@report.archived_at) %></div>
-        <%= tailwind_form_with(model: @report,
-                              url: pl_report_path(@report, { view: params[:view] }),
-                              method: :patch,
-                              local: true,
-                              class: "unarchive") do |form| %>
-          <%= form.hidden_field :archive, value: false %>
-          <%= button_tag type: "submit" do %>
-            <div class="flex items-center justify-center w-9 h-9 rounded-full hover:bg-green-100">
-              <%= icon('bookmark-check-fill', class: "w-5 h-5 text-green-500") %>
-            </div>
-          <% end %>
+        <%= button_to pl_report_path(@report, { view: params[:view] }), params: { report: { archive: false } }, :method=>:patch, class: "unarchive" do %>
+          <div class="flex items-center justify-center w-9 h-9 rounded-full hover:bg-green-100">
+            <%= icon('bookmark-check-fill', class: "w-5 h-5 text-green-500") %>
+          </div>
         <% end %>
       <% else %>
-        <%= tailwind_form_with(model: @report,
-                              url: pl_report_path(@report, { view: params[:view] }),
-                              method: :patch,
-                              local: true,
-                              class: "archive") do |form| %>
-          <%= form.hidden_field :archive, value: true %>
-          <%= button_to type: "submit" do %>
-            <div class="flex items-center justify-center w-9 h-9 rounded-full hover:bg-gray-200">
-              <%= icon('bookmark-check', class: "w-5 h-5 text-gray-500") %>
-            </div>
-          <% end %>
+        <%= button_to pl_report_path(@report, { view: params[:view] }), params: { report: { archive: true } }, :method=>:patch, class: "archive" do %>
+          <div class="flex items-center justify-center w-9 h-9 rounded-full hover:bg-gray-200">
+            <%= icon('bookmark-check', class: "w-5 h-5 text-gray-500") %>
+          </div>
         <% end %>
       <% end %>
     </div>
@@ -56,7 +42,8 @@
     <div class="mb-5 bg-blue-50 rounded-md p-3 text-sm">
       <div class="flex mb-4 text-blue-800">
         <div class="flex-1"><%= icon('exclamation', class: "w-5 h-5 text-blue-400 mr-2") %></div>
-        <div><span class="font-medium">This report came to the old system using google forms.</span>
+        <div>
+          <span class="font-medium">This report came to the old system using google forms.</span>
           In this case we don't always know which match the report is linked to. Use the form below to fill in this information.</div>
       </div>
       <div class="px-8">
@@ -97,32 +84,62 @@
       <div class="mb-4"><%= alert(title: 'Caller has concerns and would like to be contacted by their pod leader', info: @report.concerns_notes) %></div>
     <% end %>
     <% if @report.legacy? %>
-      <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Caller email: </span><%= @report.legacy_caller_email %>, <span class="text-sm font-medium text-gray-500">caller name: </span><%= @report.legacy_caller_name %>, <span class="text-sm font-medium text-gray-500">callee name: </span> <%= @report.legacy_callee_name %></div>
+      <div class="my-3 text-sm text-gray-900">
+        <span class="text-sm font-medium text-gray-500">Caller email: </span>
+        <%= @report.legacy_caller_email %>,
+        <span class="text-sm font-medium text-gray-500">caller name: </span>
+        <%= @report.legacy_caller_name %>,
+        <span class="text-sm font-medium text-gray-500">callee name: </span>
+        <%= @report.legacy_callee_name %></div>
       <% if @report.legacy_time_and_date %>
-        <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call date: </span><%= @report.legacy_time_and_date %></div>
+        <div class="my-3 text-sm text-gray-900">
+          <span class="text-sm font-medium text-gray-500">Call date: </span>
+          <%= @report.legacy_time_and_date %></div>
       <% end %>
       <% if @report.legacy_date %>
-        <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call date: </span><%= @report.legacy_date %></div>
+        <div class="my-3 text-sm text-gray-900">
+          <span class="text-sm font-medium text-gray-500">Call date: </span>
+          <%= @report.legacy_date %></div>
       <% end %>
       <% if @report.legacy_time %>
-        <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call time: </span><%= @report.legacy_time %></div>
+        <div class="my-3 text-sm text-gray-900">
+          <span class="text-sm font-medium text-gray-500">Call time: </span>
+          <%= @report.legacy_time %></div>
       <% end %>
       <% if @report.legacy_duration %>
-        <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call length: </span><%= @report.legacy_duration %></div>
+        <div class="my-3 text-sm text-gray-900">
+          <span class="text-sm font-medium text-gray-500">Call length: </span>
+          <%= @report.legacy_duration %></div>
       <% end %>
-      <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Summary: </span><%= @report.summary %></div>
+      <div class="my-3 text-sm text-gray-900">
+        <span class="text-sm font-medium text-gray-500">Summary: </span>
+        <%= @report.summary %></div>
       <% if @report.legacy_outcome %>
-        <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">How do you feel the call went: </span><%= @report.legacy_outcome %></div>
+        <div class="my-3 text-sm text-gray-900">
+          <span class="text-sm font-medium text-gray-500">How do you feel the call went: </span>
+          <%= @report.legacy_outcome %></div>
       <% end %>
     <% else %>
-      <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call date: </span><%= format_date(@report.date_of_call) %></div>
-      <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Call length: </span><%= @report.humanized_duration %></div>
+      <div class="my-3 text-sm text-gray-900">
+        <span class="text-sm font-medium text-gray-500">Call date: </span>
+        <%= format_date(@report.date_of_call) %></div>
+      <div class="my-3 text-sm text-gray-900">
+        <span class="text-sm font-medium text-gray-500">Call length: </span>
+        <%= @report.humanized_duration %></div>
       <% if @report.duration == :no_answer %>
-        <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Notes: </span><%= @report.no_answer_notes %></div>
+        <div class="my-3 text-sm text-gray-900">
+          <span class="text-sm font-medium text-gray-500">Notes: </span>
+          <%= @report.no_answer_notes %></div>
       <% else %>
-        <div class="flex items-center my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">How did the callee seem? </span><%= callee_feeling(feeling: @report.callee_feeling) %></div>
-        <div class="flex items-center my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">How do you feel the call went? </span><%= caller_feeling(feeling: @report.caller_feeling) %></div>
-        <div class="my-3 text-sm text-gray-900"><span class="text-sm font-medium text-gray-500">Summary: </span><%= @report.summary %></div>
+        <div class="flex items-center my-3 text-sm text-gray-900">
+          <span class="text-sm font-medium text-gray-500">How did the callee seem? </span>
+          <%= callee_feeling(feeling: @report.callee_feeling) %></div>
+        <div class="flex items-center my-3 text-sm text-gray-900">
+          <span class="text-sm font-medium text-gray-500">How do you feel the call went? </span>
+          <%= caller_feeling(feeling: @report.caller_feeling) %></div>
+        <div class="my-3 text-sm text-gray-900">
+          <span class="text-sm font-medium text-gray-500">Summary: </span>
+          <%= @report.summary %></div>
       <% end %>
     <% end %>
   </div>
