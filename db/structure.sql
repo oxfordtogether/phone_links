@@ -11,6 +11,8 @@ SET row_security = off;
 
 SET default_tablespace = '';
 
+SET default_table_access_method = heap;
+
 --
 -- Name: admins; Type: TABLE; Schema: public; Owner: -
 --
@@ -341,7 +343,8 @@ CREATE TABLE public.people (
     age_bracket character varying,
     flag_change_notes_ciphertext text,
     flag_change_datetime timestamp without time zone,
-    invite_email_sent_at timestamp without time zone
+    invite_email_sent_at timestamp without time zone,
+    opas_id character varying
 );
 
 
@@ -1616,6 +1619,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210323141425'),
 ('20210324081428'),
 ('20210324112724'),
-('20210329123023');
+('20210329123023'),
+('20210411145446');
 
 
