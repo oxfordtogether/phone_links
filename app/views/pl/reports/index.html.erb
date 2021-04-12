@@ -22,7 +22,7 @@
             unknown match
           </span>
         <% end %>
-        <% if report.concerns || report.concerns_notes.present? %>
+        <% if report.concerns %>
           <span class="flex text-yellow-800">
             <%= icon('exclamation', class: "h-5 w-5 text-yellow-400 mr-1") %>
             Caller has concerns and would like to be contacted by their pod leader
