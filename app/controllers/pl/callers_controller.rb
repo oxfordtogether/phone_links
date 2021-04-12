@@ -12,8 +12,6 @@ class Pl::CallersController < Pl::PlController
     render "pl/callers/edit/status"
   end
 
-  def details; end
-
   def update
     @caller.assign_attributes(update_params)
 

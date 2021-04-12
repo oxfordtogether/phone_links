@@ -122,7 +122,7 @@
     <% nav.link "Details", details_pl_callee_path(@person.callee) %>
   <% end %>
   <% if @person.caller %>
-    <% nav.link "Details", details_pl_caller_path(@person.caller) %>
+    <% nav.link "Details", edit_pl_person_path(@person), partial_match: true %>
   <% end %>
   <% if @person.callee %>
     <% nav.link "Status", status_pl_callee_path(@person.callee) %>

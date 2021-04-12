@@ -39,7 +39,8 @@ RSpec.describe "edit caller", type: :system do
 
     visit "/pl/people/#{caller.person.id}"
     click_on "Details"
-    expect(page).to have_current_path("/pl/callers/#{caller.id}/details")
+    click_on "Check-ins"
+    expect(page).to have_current_path("/pl/people/#{caller.person.id}/edit/check_ins")
 
     expect(find_field("Check-in frequency").value).to eq caller.check_in_frequency.to_s || ""
 
@@ -52,5 +53,34 @@ RSpec.describe "edit caller", type: :system do
     caller.reload
 
     expect(caller.check_in_frequency).to eq(:every_2_months)
+  end
+
+  it "edits address" do
+    login_as nil
+
+    visit "/pl/people/#{caller.person.id}"
+    click_on "Details"
+    expect(page).to have_current_path("/pl/people/#{caller.person.id}/edit/contact_details")
+
+    expect(find_field("Phone").value).to eq caller.person.phone
+    expect(find_field("Address line 1").value).to eq caller.person.address_line_1
+    expect(find_field("Address line 2").value).to eq caller.person.address_line_2
+    expect(find_field("Town").value).to eq caller.person.address_town
+    expect(find_field("Postcode").value).to eq caller.person.address_postcode
+
+    fill_in "Phone", with: "12345"
+    fill_in "Address line 1", with: "1 RR"
+    fill_in "Address line 2", with: "XX"
+    fill_in "Town", with: "Town"
+    fill_in "Postcode", with: "XXX"
+
+    click_on "Save"
+
+    caller.person.reload
+    expect(caller.person.phone).to eq("12345")
+    expect(caller.person.address_line_1).to eq("1 RR")
+    expect(caller.person.address_line_2).to eq("XX")
+    expect(caller.person.address_town).to eq("Town")
+    expect(caller.person.address_postcode).to eq("XXX")
   end
 end
