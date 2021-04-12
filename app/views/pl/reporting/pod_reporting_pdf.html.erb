@@ -80,6 +80,7 @@
             <% @reports_by_month.keys.sort.each do |month| %>
               <th><%= month.strftime("%Y-%m") %></th>
             <% end %>
+            <th class="totals">Total</th>
           </tr>
           <% @pod.callers.sort_by(&:name).each do |caller| %>
             <tr class="caller">
@@ -87,6 +88,7 @@
               <% @reports_by_month.keys.sort.each do |month| %>
                 <td><%= @reports.for_caller(caller.id).for_month(month).count %></td>
               <% end %>
+              <td class="totals"><%= @reports.for_caller(caller.id).count %></td>
             </tr>
             <% caller.matches.sort_by(&:match_names).each do |match| %>
               <tr class="callee">
@@ -94,6 +96,7 @@
                 <% @reports_by_month.keys.sort.each do |month| %>
                   <td><%= match.reports.for_month(month).count %></td>
                 <% end %>
+                <td class="totals"><%= match.reports.count %></td>
               </tr>
             <% end %>
           <% end %>
@@ -102,6 +105,7 @@
             <% @reports_by_month.keys.sort.each do |month| %>
               <td><%= @reports_by_month[month] %></td>
             <% end %>
+            <td><%= @reports.count %></td>
           </tr>
         </table>
       </div>
