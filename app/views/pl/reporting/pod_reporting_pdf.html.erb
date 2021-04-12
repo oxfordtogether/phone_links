@@ -43,12 +43,13 @@
       }
 
       .header {
+        padding-right: 25px;
         font-size: 25px;
       }
 
       .header-element {
         padding-right: 25px;
-        font-size: 15px;
+        font-size: 20px;
       }
 
       tr.caller {
@@ -68,7 +69,7 @@
   <body>
     <div id="container">
       <div id="header-container">
-        <span class="header-element header"><%= "#{@pod.name} Report" %></span>
+        <span class="header"><%= "#{@pod.name} Report" %></span>
         <span class="header-element">Active callers: <%= @pod.callers.filter { |c| c.active }.count %></span>
         <span class="header-element">Active callees: <%= @pod.callees.filter { |c| c.active }.count %></span>
       </div>
