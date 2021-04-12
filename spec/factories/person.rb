@@ -10,6 +10,8 @@ FactoryBot.define do
     address_town { FFaker::AddressUK.city }
     address_postcode { FFaker::AddressUK.postcode }
 
+    opas_id { rand(10) == 1 ? rand(1000) : nil }
+
     auth0_id { rand(2) == 1 ? "auth0|#{(0...18).map { rand(10) }.join}" : nil }
 
     flag_in_progress { rand(10) == 1 }

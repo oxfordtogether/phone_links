@@ -235,7 +235,7 @@ class A::PeopleController < A::AController
   end
 
   def personal_details_params
-    params.require(:person).permit(:id, :title, :first_name, :last_name, :age_bracket)
+    params.require(:person).permit(:id, :title, :first_name, :last_name, :age_bracket, :opas_id)
   end
 
   def contact_details_params
