@@ -44,6 +44,18 @@
         <% end %>
       </div>
     </div>
+    <% if @person.opas_id.present? %>
+      <div class="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0">
+        <div class="mr-6 mt-2 flex items-center text-sm text-gray-500">
+          <dt class="text-sm font-medium text-gray-500">
+            OPAS ID:
+          </dt>
+          <dd class="ml-1.5 text-sm text-gray-900">
+            <%= @person.opas_id %>
+          </dd>
+        </div>
+      </div>
+    <% end %>
   </div>
   <div class="mt-4 sm:my-0">
     <%= button_link_to "Edit", personal_details_a_edit_person_path(@person), icon: "heroicon-edit" %>
@@ -58,7 +70,8 @@
       <% if @person&.callee&.matches.present? %>
         <% @person&.callee&.matches.each do |match| %>
           <dd class="mt-1 text-sm text-gray-900">
-            <%= link_to match.caller.name, a_match_path(match) %>, <span class="italic"><%= match.humanized_status %></span>
+            <%= link_to match.caller.name, a_match_path(match) %>,
+            <span class="italic"><%= match.humanized_status %></span>
           </dd>
         <% end %>
       <% else %>
@@ -93,7 +106,8 @@
       <% if @person&.caller&.matches.present? %>
         <% @person&.caller&.matches.each do |match| %>
           <dd class="mt-1 text-sm text-gray-900">
-            <%= link_to match.callee.name, a_match_path(match) %>, <span class="italic"><%= match.humanized_status %></span>
+            <%= link_to match.callee.name, a_match_path(match) %>,
+            <span class="italic"><%= match.humanized_status %></span>
           </dd>
         <% end %>
       <% else %>

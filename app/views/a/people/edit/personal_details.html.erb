@@ -23,6 +23,7 @@
         <%= form.text_field :first_name, width: :half, required_asterix: true %>
         <%= form.text_field :last_name, width: :half, required_asterix: true %>
         <%= form.select :age_bracket, Person.age_bracket_options_for_select, width: :full %>
+        <%= form.text_field :opas_id, label: "OPAS ID (if appropriate)", width: :third %>
       <% end %>
       <%= form.button_section do %>
         <%= form.cancel a_person_path(@person) %>

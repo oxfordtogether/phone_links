@@ -1,8 +1,7 @@
 class Pl::PeopleController < Pl::PlController
-  def show
-    @person = @fetcher.person(params[:id])
-    @pod = @person.callee.present? ? @person.callee.pod : @person.caller.pod
+  before_action :set_person, only: %i[show edit check_ins contact_details save_check_ins save_contact_details]
 
+  def show
     @std_events = Event.most_recent_first
                        .where(person_id: @person.id)
                        .all
@@ -28,5 +27,44 @@ class Pl::PeopleController < Pl::PlController
                      end
 
     @events = (@std_events + @match_events + @report_events + @role_events).sort_by(&:created_at).reverse
+  end
+
+  def edit
+    redirect_to contact_details_pl_edit_person_path(@person)
+  end
+
+  def check_ins; end
+
+  def contact_details; end
+
+  def save_check_ins
+    if @person.update(check_ins_params)
+      redirect_to pl_person_path(@person), notice: "Person was successfully updated."
+    else
+      render :check_ins
+    end
+  end
+
+  def save_contact_details
+    if @person.update(contact_details_params)
+      redirect_to pl_person_path(@person), notice: "Person was successfully updated."
+    else
+      render :contact_details
+    end
+  end
+
+  private
+
+  def set_person
+    @person = @fetcher.person(params[:id])
+    @pod = @person.callee.present? ? @person.callee.pod : @person.caller.pod
+  end
+
+  def contact_details_params
+    params.require(:person).permit(:id, :address_line_1, :address_line_2, :address_town, :address_postcode, :phone)
+  end
+
+  def check_ins_params
+    params.require(:person).permit(:id, caller_attributes: %w[id check_in_frequency])
   end
 end
