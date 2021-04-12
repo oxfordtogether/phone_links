@@ -80,7 +80,7 @@
     </div>
   </div>
   <div class="mt-3">
-    <% if @report.concerns || @report.concerns_notes.present? %>
+    <% if @report.concerns %>
       <div class="mb-4"><%= alert(title: 'Caller has concerns and would like to be contacted by their pod leader', info: @report.concerns_notes) %></div>
     <% end %>
     <% if @report.legacy? %>

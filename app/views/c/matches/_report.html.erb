@@ -18,7 +18,8 @@
         <div class="flex items-start">
           <div><%= icon('exclamation', class: "mr-1 w-6 h-6 text-yellow-400") %></div>
           <span class="text-sm text-yellow-700">
-            <span class="font-semibold">Requested a call from the pod leader</span><% if @event.concerns_notes %> <%= @event.concerns_notes %><% end %>
+            <span class="font-semibold">Requested a call from the pod leader</span>
+            <% if @event.concerns_notes %> <%= @event.concerns_notes %><% end %>
           </span>
         </div>
       <% end %>
@@ -45,7 +46,8 @@
         <div class="flex items-start">
           <div><%= icon('exclamation', class: "mr-1 w-6 h-6 text-yellow-400") %></div>
           <span class="text-sm text-yellow-700">
-            <span class="font-semibold">Requested a call from the pod leader</span><% if @event.concerns_notes %> <%= @event.concerns_notes %><% end %>
+            <span class="font-semibold">Requested a call from the pod leader</span>
+            <% if @event.concerns_notes %> <%= @event.concerns_notes %><% end %>
           </span>
         </div>
       <% end %>
