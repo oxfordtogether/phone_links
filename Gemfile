@@ -102,3 +102,7 @@ group :development do
   gem "solargraph"
   gem "htmlbeautifier", git: "https://github.com/jeremyf/htmlbeautifier", ref: "4d4467f"
 end
+
+gem "wicked_pdf", git: "https://github.com/mileszs/wicked_pdf", ref: "2dc96dd"
+gem "wkhtmltopdf-binary"
+

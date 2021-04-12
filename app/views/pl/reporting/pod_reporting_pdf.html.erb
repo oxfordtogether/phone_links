@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <style>
+      html {
+        font-family: Helvetica, sans-serif;
+      }
+
+      #container {
+        padding: 10px 60px;
+      }
+
+      table {
+        border: 1px solid black;
+        border-collapse: collapse;
+        margin-right: auto;
+        margin-left: auto;
+        width: 100%;
+      }
+
+      th {
+        background-color: #eee;
+        text-align: left;
+        padding: 10px;
+      }
+
+      td {
+        border-bottom: 1px solid #999;
+        padding: 10px;
+      }
+
+      .totals {
+        font-weight: bold;
+      }
+
+      div h1 {
+        font-size: large;
+      }
+
+      #header-container {
+        padding-bottom: 25px;
+      }
+
+      .header {
+        font-size: 25px;
+      }
+
+      .header-element {
+        padding-right: 25px;
+        font-size: 15px;
+      }
+
+      tr.caller {
+        width: 400px;
+        font-weight: bold;
+      }
+
+      tr.callee {
+        width: 400px;
+      }
+
+      td.indent {
+        padding-left: 25px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div id="header-container">
+        <span class="header-element header"><%= "#{@pod.name} Report" %></span>
+        <span class="header-element">Active callers: <%= @pod.callers.filter { |c| c.active }.count %></span>
+        <span class="header-element">Active callees: <%= @pod.callees.filter { |c| c.active }.count %></span>
+      </div>
+      <div id="content">
+        <table>
+          <tr>
+            <th></th>
+            <% @reports_by_month.keys.sort.each do |month| %>
+              <th><%= month.strftime("%Y-%m") %></th>
+            <% end %>
+          </tr>
+          <% @pod.callers.sort_by(&:name).each do |caller| %>
+            <tr class="caller">
+              <td><%= caller.name %></td>
+              <% @reports_by_month.keys.sort.each do |month| %>
+                <td><%= @reports.for_caller(caller.id).for_month(month).count %></td>
+              <% end %>
+            </tr>
+            <% caller.matches.sort_by(&:match_names).each do |match| %>
+              <tr class="callee">
+                <td class="indent"><%= match.callee.name %></td>
+                <% @reports_by_month.keys.sort.each do |month| %>
+                  <td><%= match.reports.for_month(month).count %></td>
+                <% end %>
+              </tr>
+            <% end %>
+          <% end %>
+          <tr class="totals">
+            <td>TOTAL</td>
+            <% @reports_by_month.keys.sort.each do |month| %>
+              <td><%= @reports_by_month[month] %></td>
+            <% end %>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

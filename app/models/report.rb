@@ -43,6 +43,9 @@ class Report < ApplicationRecord
                   }
   scope :inbox, -> { where(archived_at: nil) }
   scope :newest_first, -> { order(created_at: :desc) }
+  scope :for_match, ->(match_id) { where(match_id: match_id) }
+  scope :for_caller, ->(caller_id) { where(match_id: Caller.find(caller_id).matches) }
+  scope :for_month, ->(month_start) { where("cast(date_trunc('month', created_at) as date) = '#{month_start.strftime("%Y-%m-%d")}'") }
 
   def legacy?
     legacy_caller_email.present? || legacy_caller_name.present?

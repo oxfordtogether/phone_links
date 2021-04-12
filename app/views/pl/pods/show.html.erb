@@ -36,7 +36,14 @@
             </span>
           </div>
           <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-            <h2 class="text-gray-800 text-xs font-medium uppercase tracking-wide">Pod <%= @pod.name %> summary</h2>
+            <div class="flex justify-between items-center mr-2">
+              <h2 class="text-gray-800 text-xs font-medium uppercase tracking-wide">Pod <%= @pod.name %> summary</h2>
+              <div class="">
+                <%= link_to reporting_pl_pod_path(@pod), target: "_blank" do %>
+                  <%= icon("download") %>
+                <% end %>
+              </div>
+            </div>
             <ul class="grid grid-cols-1 gap-3 sm:gap-6 sm:grid-cols-2 xl:grid-cols-3 mt-3">
               <li class="relative col-span-1 flex shadow-sm rounded-md">
                 <div class="flex-shrink-0 flex items-center justify-center w-12 bg-pink-600 text-white text-sm font-medium rounded-l-md"></div>
@@ -87,7 +94,7 @@
                   <a href="https://www.oxfordhub.org/safeguarding" class="focus:outline-none" target="_blank">
                     <h3 class="text-sm md:text-lg font-medium">
                       <span class="absolute inset-0" aria-hidden="true"></span>
-                        Safeguarding concern?
+                      Safeguarding concern?
                     </h3>
                     <div class="inline-flex items-center mt-1">
                       <span class="rounded-lg inline-flex p-1 bg-red-50 ring-4 ring-white mr-3">

@@ -143,6 +143,8 @@ Rails.application.routes.draw do
         resources :callees, only: %i[index]
 
         resources :matches, only: %i[index new create]
+
+        get "reporting", to: "reporting#pod_reporting_pdf"
       end
     end
 
