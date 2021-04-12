@@ -38,5 +38,9 @@ class LegacyReportWorker
     # E
     syncer = LegacyReportSyncer.new(13, "1hBt7hUBUf5OQ8wcYTsPnLO26Y8IPtDsf-68xOx8WFRU", worksheet_index: 2)
     syncer.sync
+
+    # BM
+    syncer = LegacyReportSyncer.new(14, "16Iz_i04o3tYFOGWQeV8yfHe1JVES2Zg30ggfCPjKAI8", worksheet_index: 0, timestamp_format: "%d/%m/%Y %H:%M:%S")
+    syncer.sync
   end
 end
