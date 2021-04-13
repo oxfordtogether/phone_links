@@ -107,9 +107,14 @@ Rails.application.routes.draw do
         get :callers
         get :callees
 
+        get :pod_supporters
+        post "save_pod_supporters" => "pods#save_pod_supporters"
+
         get "match/new", to: "matches#new"
       end
     end
+
+    resources :pod_supporters, only: %i[destroy]
 
     get "inbox" => "inbox#index"
 

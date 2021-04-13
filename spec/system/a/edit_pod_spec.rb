@@ -10,6 +10,13 @@ RSpec.describe "edit pod", type: :system do
     Pod.all
   end
 
+  let!(:pod_supporters) do
+    ps1 = create(:pod_supporter, pod: pods[2], supporter: pod_leaders[8])
+    ps2 = create(:pod_supporter, pod: pods[2], supporter: pod_leaders[9])
+
+    [ps1, ps2]
+  end
+
   it "works" do
     login_as nil
 
@@ -68,5 +75,45 @@ RSpec.describe "edit pod", type: :system do
 
     click_on "Cancel"
     expect(page).to have_current_path("/a/pods/#{pods[0].id}/matches")
+  end
+
+  it "creates pod supporters" do
+    login_as nil
+
+    pod = pods[2]
+
+    visit "/a"
+    click_on "Pods"
+    find("tr", text: pod.name).click
+    click_on "Pod supporters"
+
+    select pod_leaders[9].name, from: "New pod supporter"
+    expect do
+      click_on "Save"
+    end.to change { PodSupporter.count }.by(1)
+
+    expect(PodSupporter.last.supporter.id).to eq(pod_leaders[9].id)
+  end
+
+
+  it "deletes pod supporters" do
+    login_as nil
+
+    pod = pods[2]
+
+    visit "/a"
+    click_on "Pods"
+    find("tr", text: pod.name).click
+    click_on "Pod supporters"
+
+    expect do
+      first(".delete").click
+    end.to change { PodSupporter.count }.by(-1)
+
+    expect do
+      find(".delete").click
+    end.to change { PodSupporter.count }.by(-1)
+
+    expect(page).to have_content("This pod has no pod supporters.")
   end
 end

@@ -58,7 +58,8 @@
       <% if @person&.callee&.matches.present? %>
         <% @person&.callee&.matches.each do |match| %>
           <dd class="mt-1 text-sm text-gray-900">
-            <%= link_to match.caller.name, a_match_path(match) %>, <span class="italic"><%= match.humanized_status %></span>
+            <%= link_to match.caller.name, a_match_path(match) %>,
+            <span class="italic"><%= match.humanized_status %></span>
           </dd>
         <% end %>
       <% else %>
@@ -93,7 +94,8 @@
       <% if @person&.caller&.matches.present? %>
         <% @person&.caller&.matches.each do |match| %>
           <dd class="mt-1 text-sm text-gray-900">
-            <%= link_to match.callee.name, a_match_path(match) %>, <span class="italic"><%= match.humanized_status %></span>
+            <%= link_to match.callee.name, a_match_path(match) %>,
+            <span class="italic"><%= match.humanized_status %></span>
           </dd>
         <% end %>
       <% else %>
@@ -135,6 +137,18 @@
         <div class="mt-1 text-sm text-gray-900 italic">Not assigned to a pod</div>
       <% end %>
     </div>
+    <% if @person&.pod_leader&.pod_supporters.present? %>
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">
+          Supports
+        </dt>
+        <% @person&.pod_leader&.pod_supporters.each do |pod_supporter| %>
+          <dd class="mt-1 text-sm text-gray-900">
+            <%= link_to pod_supporter.pod.name, a_pod_path(pod_supporter.pod) %>
+          </dd>
+        <% end %>
+      </div>
+    <% end %>
   </dl>
 <% end %>
 <%= nav_tabs do |nav| %>

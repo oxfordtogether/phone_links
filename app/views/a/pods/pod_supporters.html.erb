@@ -1,0 +1,49 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Pods", a_pods_path %>
+    <% list.link "Pod #{@pod.name}", a_pod_path(@pod) %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <%= render PodHeadComponent.new(pod: @pod) %>
+<% end %>
+
+<div>
+  <div class="text-gray-600 text-sm">Pod supporters have the same access levels as the pod leader</div>
+  <% if @pod.pod_supporters.present? %>
+    <ul class="ml-2 mt-2">
+      <% @pod.pod_supporters.each do |pod_supporter| %>
+        <li class="flex items-start">
+          <div class="h-6 mr-2">
+            <%= link_to pod_supporter.supporter.name, a_person_path(pod_supporter.supporter.person) %>
+          </div>
+          <%= button_to a_pod_supporter_path(pod_supporter), method: "delete", class: "delete" do %>
+            <div class="flex items-center justify-center h-6 w-6 rounded-full hover:bg-gray-200">
+              <%= icon('cross', class: "w-4 h-4 text-gray-500") %>
+            </div>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <div class="ml-2 mt-2 italic">This pod has no pod supporters.</div>
+  <% end %>
+</div>
+<div class="mt-10">
+  <%= tailwind_form_with(
+      model: [:a, @pod],
+      url: save_pod_supporters_a_pod_path(@pod),
+      method: :post,
+      local: true) do |form| %>
+    <%= form.compact_section do %>
+      <%= form.fields_for :pod_supporters, PodSupporter.new do |pod_supporter_fields| %>
+        <%= pod_supporter_fields.hidden_field :pod_id, value: @pod.id %>
+        <%= pod_supporter_fields.collection_select :supporter_id, PodLeader.where(status: 'active').sort_by(&:name), :id, :name, label: "New pod supporter", width: :half %>
+      <% end %>
+    <% end %>
+    <%= form.button_section do %>
+      <%= form.cancel pod_supporters_a_pod_path(@pod), compact: true %>
+      <%= form.submit compact: true %>
+    <% end %>
+  <% end %>
+</div>

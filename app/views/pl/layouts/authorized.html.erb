@@ -6,7 +6,7 @@
   <% end %>
   <% if @pod.present? %>
     <div class="px-2 space-y-1">
-      <%= render(SidebarLinkComponent.new(name: "Home", url: pl_pod_leader_path(@pod_leader || @pod.pod_leader), icon: "heroicon-home-unfilled")) %>
+      <%= render(SidebarLinkComponent.new(name: "Home", url: "/", icon: "heroicon-home-unfilled")) %>
     </div>
     <div class="my-4" aria-hidden="true"></div>
     <div class="px-2 space-y-1">
