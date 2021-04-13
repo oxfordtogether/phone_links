@@ -6,7 +6,6 @@
 <div data-controller="new-match">
   <%= tailwind_form_with(model: [:a, @match], local: true) do |form| %>
     <%= form.section do %>
-      <%= form.hidden_field :redirect_on_cancel, value: @redirect_on_cancel %>
       <%= form.hidden_field :status, value: "provisional" %>
       <%= form.collection_select :pod_id, Pod.all.sort_by(&:name), :id, :name_and_leader, label: "Pod", width: :third, required_asterix: true, info_message: "Select a pod to filter the list of callers and callees", html_options: {"data-new-match-target": 'podId', "data-action": "change->new-match#filterCallersAndCallees"} %>
       <div class="col-span-4"></div>
@@ -15,7 +14,7 @@
       <%= form.text_area :status_change_notes, label: "Notes" %>
     <% end %>
     <%= form.button_section do %>
-      <%= form.cancel @redirect_on_cancel %>
+      <%= form.cancel a_waitlist_provisional_matches_path %>
       <%= form.submit %>
     <% end %>
   <% end %>

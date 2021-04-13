@@ -12,7 +12,7 @@ RSpec.describe "create pod leader", type: :system do
 
     visit "/a/admin/pod_leaders"
     click_on "New Pod Leader"
-    expect(page).to have_current_path("/a/people/new?role=pod_leader&redirect_on_cancel=/a/admin/pod_leaders")
+    expect(page).to have_current_path("/a/people/new?role=pod_leader")
 
     fill_in "First name", with: "Bob"
     fill_in "Last name", with: "Jones"
@@ -60,12 +60,12 @@ RSpec.describe "create pod leader", type: :system do
     expect(page).to have_current_path("/a/people/#{person.id}/events")
   end
 
-  it "redirect back to correct page on cancel" do
+  it "redirect back to home page on cancel" do
     login_as nil
 
     visit "/a/admin/pod_leaders"
     click_on "New Pod Leader"
     click_on "Cancel"
-    expect(page).to have_current_path("/a/admin/pod_leaders")
+    expect(page).to have_current_path("/a")
   end
 end

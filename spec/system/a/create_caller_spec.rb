@@ -13,7 +13,7 @@ RSpec.describe "create caller", type: :system do
 
     visit "/a/waitlist/callers"
     click_on "New Caller"
-    expect(page).to have_current_path("/a/people/new?role=caller&redirect_on_cancel=/a/waitlist/callers")
+    expect(page).to have_current_path("/a/people/new?role=caller")
 
     fill_in "First name", with: "Bob"
     fill_in "Last name", with: "Jones"
@@ -62,12 +62,12 @@ RSpec.describe "create caller", type: :system do
     expect(page).to have_current_path("/a/people/#{person.id}/events")
   end
 
-  it "redirect back to correct page on cancel" do
+  it "redirect back to home page on cancel" do
     login_as nil
 
     visit "/a/waitlist/callers"
     click_on "New Caller"
     click_on "Cancel"
-    expect(page).to have_current_path("/a/waitlist/callers")
+    expect(page).to have_current_path("/a")
   end
 end

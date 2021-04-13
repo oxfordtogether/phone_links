@@ -13,7 +13,7 @@ RSpec.describe "create admin", type: :system do
 
     visit "/a/admin/admins"
     click_on "New Admin"
-    expect(page).to have_current_path("/a/people/new?role=admin&redirect_on_cancel=/a/admin/admins")
+    expect(page).to have_current_path("/a/people/new?role=admin")
 
     fill_in "First name", with: "Bob"
     fill_in "Last name", with: "Jones"
@@ -59,12 +59,12 @@ RSpec.describe "create admin", type: :system do
     expect(page).to have_current_path("/a/people/#{person.id}/events")
   end
 
-  it "redirect back to correct page on cancel" do
+  it "redirect back to home page on cancel" do
     login_as nil
 
     visit "/a/admin/admins"
     click_on "New Admin"
     click_on "Cancel"
-    expect(page).to have_current_path("/a/admin/admins")
+    expect(page).to have_current_path("/a")
   end
 end
