@@ -57,9 +57,7 @@ class A::PodsController < A::AController
   end
 
   def save_pod_supporters
-    @pod.assign_attributes(pod_supporter_params)
-
-    if @pod.save
+    if @pod.assign_attributes(pod_supporter_params)
       redirect_to pod_supporters_a_pod_path(@pod), notice: "Pod supporter was created."
     else
       render :pod_supporters
