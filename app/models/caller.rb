@@ -27,7 +27,7 @@ class Caller < ApplicationRecord
   default_scope { includes(:person) }
   scope :with_matches, -> { includes(:matches) }
   scope :for_pod, ->(pod_id) { where(pod_id: pod_id) }
-  scope :for_pod_leader, ->(pod_leader_id) { where(pod_id: PodLeader.find(pod_leader_id).pods) }
+  scope :for_pod_leader, ->(pod_leader_id) { where(pod_id: PodLeader.find(pod_leader_id).accessible_pod_ids) }
 
   encrypts :experience, type: :string, key: :kms_key
   encrypts :status_change_notes, type: :string, key: :kms_key

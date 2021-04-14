@@ -15,11 +15,11 @@ GIT
 
 GIT
   remote: https://github.com/oxfordtogether/ocl_tools.git
-  revision: 3131ba0a08ab20a557b839514f7808306b146eaf
+  revision: 231ec77c3b6db362d9bad6f5c3c20d46b59d56f4
   specs:
     ocl_tools (0.1.0)
       pagy
-      rails (~> 6.0.3, >= 6.0.3.5)
+      rails
       stimulus_reflex
       view_component
 
@@ -210,7 +210,7 @@ GEM
       activesupport (>= 4)
       railties (>= 4)
       request_store (~> 1.0)
-    loofah (2.9.0)
+    loofah (2.9.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -232,7 +232,7 @@ GEM
     multipart-post (2.1.1)
     netrc (0.11.0)
     nio4r (2.5.7)
-    nokogiri (1.11.2)
+    nokogiri (1.11.3)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
     oauth2 (1.4.4)
@@ -424,7 +424,7 @@ GEM
       unf_ext
     unf_ext (0.0.7.7)
     unicode-display_width (2.0.0)
-    view_component (2.28.0)
+    view_component (2.30.0)
       activesupport (>= 5.0.0, < 7.0)
     web-console (4.1.0)
       actionview (>= 6.0.0)

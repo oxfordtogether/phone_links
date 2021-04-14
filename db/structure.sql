@@ -437,6 +437,36 @@ ALTER SEQUENCE public.pod_leaders_id_seq OWNED BY public.pod_leaders.id;
 
 
 --
+-- Name: pod_supporters; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.pod_supporters (
+    id bigint NOT NULL,
+    pod_id bigint NOT NULL,
+    supporter_id bigint NOT NULL
+);
+
+
+--
+-- Name: pod_supporters_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.pod_supporters_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: pod_supporters_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.pod_supporters_id_seq OWNED BY public.pod_supporters.id;
+
+
+--
 -- Name: pods; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -810,6 +840,13 @@ ALTER TABLE ONLY public.pod_leaders ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
+-- Name: pod_supporters id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pod_supporters ALTER COLUMN id SET DEFAULT nextval('public.pod_supporters_id_seq'::regclass);
+
+
+--
 -- Name: pods id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -952,6 +989,14 @@ ALTER TABLE ONLY public.person_flag_changes
 
 ALTER TABLE ONLY public.pod_leaders
     ADD CONSTRAINT pod_leaders_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pod_supporters pod_supporters_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pod_supporters
+    ADD CONSTRAINT pod_supporters_pkey PRIMARY KEY (id);
 
 
 --
@@ -1180,6 +1225,20 @@ CREATE INDEX index_pod_leaders_on_person_id ON public.pod_leaders USING btree (p
 
 
 --
+-- Name: index_pod_supporters_on_pod_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_pod_supporters_on_pod_id ON public.pod_supporters USING btree (pod_id);
+
+
+--
+-- Name: index_pod_supporters_on_supporter_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_pod_supporters_on_supporter_id ON public.pod_supporters USING btree (supporter_id);
+
+
+--
 -- Name: index_pods_on_pod_leader_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1282,6 +1341,14 @@ CREATE INDEX index_safeguarding_concerns_on_person_id ON public.safeguarding_con
 --
 
 CREATE INDEX safeguarding_concerns_on_status_changes ON public.safeguarding_concern_status_changes USING btree (safeguarding_concern_id);
+
+
+--
+-- Name: pod_supporters fk_rails_0ad7126891; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pod_supporters
+    ADD CONSTRAINT fk_rails_0ad7126891 FOREIGN KEY (supporter_id) REFERENCES public.pod_leaders(id);
 
 
 --
@@ -1549,6 +1616,14 @@ ALTER TABLE ONLY public.safeguarding_concerns
 
 
 --
+-- Name: pod_supporters fk_rails_d43ab75516; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.pod_supporters
+    ADD CONSTRAINT fk_rails_d43ab75516 FOREIGN KEY (pod_id) REFERENCES public.pods(id);
+
+
+--
 -- Name: referral_status_changes fk_rails_d532508123; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1620,6 +1695,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210324081428'),
 ('20210324112724'),
 ('20210329123023'),
-('20210411145446');
+('20210411145446'),
+('20210412170354');
 
 
