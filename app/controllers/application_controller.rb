@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   default_form_builder OclTools::TailwindFormBuilder
 
   before_action :set_current_user, :is_admin, :is_pod_leader, :is_caller
+  after_action :add_headers
 
   private
 
@@ -44,5 +45,9 @@ class ApplicationController < ActionController::Base
 
   def is_caller
     @is_caller ||= @current_user&.caller.present?
+  end
+
+  def add_headers
+    response.headers['Permissions-Policy'] = 'camera=(), gyroscope=(), microphone=(), usb=(), fullscreen=(), payment=(), geolocation=()'
   end
 end
