@@ -12,10 +12,14 @@ Rails.application.config.content_security_policy do |policy|
   policy.object_src  :none
 
   policy.script_src  :self
-  policy.style_src   :self, "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-gmU7gpWNHbPwaKFwQsqIaPxfJrfePryABWV5Txa2ttg='"
+  policy.style_src   :self, "'sha256-voXja0NHK+kj/CO6kVFGewEz+qyDFbxR+WW6e9vfN3o=' 'sha256-kwpt3lQZ21rs4cld7/uEm9qI5yAbjYzx+9FGm/XmwNU=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-gmU7gpWNHbPwaKFwQsqIaPxfJrfePryABWV5Txa2ttg='"
 
   # If you are using webpack-dev-server then specify webpack-dev-server host
-  policy.connect_src :self, :https, "http://localhost:3035", "ws://localhost:3035" if Rails.env.development?
+  policy.connect_src :self,
+                      :https,
+                      "http://localhost:3035",
+                      "ws://localhost:3035",
+                      "ws://127.0.0.1:53360/cable" if Rails.env.development? || Rails.env.test?
 
   # Specify URI for violation reports
   # policy.report_uri "/csp-violation-report-endpoint"
