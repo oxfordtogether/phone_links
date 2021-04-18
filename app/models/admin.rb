@@ -13,6 +13,7 @@ class Admin < ApplicationRecord
   encrypts :status_change_notes, type: :string, key: :kms_key
 
   default_scope { includes(:person) }
+  scope :login_enabled, -> { where(status: :active)}
 
   def name
     person.name

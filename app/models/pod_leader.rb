@@ -17,6 +17,7 @@ class PodLeader < ApplicationRecord
 
   default_scope { includes(:person) }
   scope :with_pods, -> { includes(pods: %i[callers callees]) }
+  scope :login_enabled, -> { where(status: :active)}
 
   def accessible_pod_ids
     pods.map(&:id) + pod_supporters.map(&:pod_id)
