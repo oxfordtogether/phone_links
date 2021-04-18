@@ -12,7 +12,7 @@ Rails.application.config.content_security_policy do |policy|
   policy.object_src  :none
 
   policy.script_src  :self
-  policy.style_src   :self, "'sha256-voXja0NHK+kj/CO6kVFGewEz+qyDFbxR+WW6e9vfN3o=' 'sha256-kwpt3lQZ21rs4cld7/uEm9qI5yAbjYzx+9FGm/XmwNU=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-gmU7gpWNHbPwaKFwQsqIaPxfJrfePryABWV5Txa2ttg='"
+  policy.style_src   :self, :unsafe_inline
 
   # If you are using webpack-dev-server then specify webpack-dev-server host
   policy.connect_src :self,
