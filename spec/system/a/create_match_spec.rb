@@ -59,7 +59,7 @@ RSpec.describe "create match", type: :system do
     visit "/a/pods/#{pods[1].id}/matches"
     click_on "New provisional match"
     click_on "Cancel"
-    expect(page).to have_current_path("/a/pods/#{pods[1].id}/matches")
+    expect(page).to have_current_path("/a/waitlist/provisional_matches")
 
     visit "/a/waitlist/provisional_matches"
     click_on "New provisional match"

@@ -74,7 +74,6 @@
     <div class="flex-1">
       <%= form.section "Create a new profile" do %>
         <div class="text-gray-500 -mt-5 text-sm sm:col-span-6">Is the person new to the program? Create a profile for them.</div>
-        <%= form.hidden_field :redirect_on_cancel, value: @redirect_on_cancel %>
         <%= form.hidden_field :role, value: @role %>
         <%= form.text_field :first_name, width: :full, required_asterix: true %>
         <%= form.text_field :last_name, width: :full, required_asterix: true %>
@@ -83,7 +82,7 @@
     </div>
   </div>
   <%= form.button_section do %>
-    <%= form.cancel @redirect_on_cancel %>
+    <%= form.cancel a_path %>
     <%= form.submit "Save" %>
   <% end %>
 <% end %>

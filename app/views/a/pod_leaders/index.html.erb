@@ -7,12 +7,13 @@
   <%= render AdminHeadComponent.new %>
 <% end %>
 <div class="flex justify-end pb-3">
-  <%= button_link_to "New Pod Leader", "#{new_a_person_path}?role=pod_leader&redirect_on_cancel=#{a_admin_pod_leaders_path}" %>
+  <%= button_link_to "New Pod Leader", "#{new_a_person_path}?role=pod_leader" %>
 </div>
 <% if @pod_leaders.length > 0 %>
   <%= table @pod_leaders.sort_by(&:name), row_url: nil do |tbl| %>
     <% tbl.col "Name" do |pod_leader| %>
-      <%= link_to pod_leader.name, a_person_path(pod_leader.person) %> <span><%= role_status(pod_leader) %></span>
+      <%= link_to pod_leader.name, a_person_path(pod_leader.person) %>
+      <span><%= role_status(pod_leader) %></span>
     <% end %>
     <% tbl.col "" do |pod_leader| %>
       <%= signup_action(person: pod_leader.person) %>

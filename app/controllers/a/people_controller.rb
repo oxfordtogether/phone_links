@@ -50,16 +50,14 @@ class A::PeopleController < A::AController
   def new
     @person = Person.new
     @role = params[:role]
-    @redirect_on_cancel = params[:redirect_on_cancel] || a_path # TO DO: better default
 
     @status ||= :start
     @results ||= []
   end
 
   def create
-    @redirect_on_cancel = person_params[:redirect_on_cancel]
     @role = person_params[:role]
-    @person = Person.new(person_params.except(:role, :redirect_on_cancel))
+    @person = Person.new(person_params.except(:role))
 
     if %w[caller callee].include?(@role)
       @person.send("build_#{@role}", { status: "waiting_list", status_change_datetime: DateTime.now })
@@ -71,8 +69,6 @@ class A::PeopleController < A::AController
       SearchCacheRefresh.perform_async
       redirect_to personal_details_a_edit_person_path(@person), notice: "Profile was successfully created."
     else
-      @redirect_on_cancel || a_path
-
       @status ||= :start
       @results ||= []
 

@@ -8,12 +8,13 @@
   <%= render PodHeadComponent.new(pod: @pod) %>
 <% end %>
 <div class="flex justify-end pb-3">
-  <%= button_link_to "New provisional match", "#{new_a_match_path}?pod_id=#{@pod.id}&redirect_on_cancel=/a/pods/#{@pod.id}/matches" %>
+  <%= button_link_to "New provisional match", "#{new_a_match_path}?pod_id=#{@pod.id}" %>
 </div>
 <% if @matches.length > 0 %>
   <%= table @matches.sort_by { |m| m.caller.name }, row_url: ->(m) { a_match_path(m) } do |tbl| %>
     <% tbl.col "Caller & Callee" do |match| %>
-      <%= match.match_names %><span class="ml-1"><%= match_status(match) %></span>
+      <%= match.match_names %>
+      <span class="ml-1"><%= match_status(match) %></span>
     <% end %>
     <% tbl.col "", classes: "flex justify-end" do |match| %>
       <% if match.pod_mismatch.present? %>

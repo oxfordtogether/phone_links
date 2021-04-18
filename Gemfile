@@ -106,3 +106,4 @@ end
 gem "wicked_pdf", git: "https://github.com/mileszs/wicked_pdf", ref: "2dc96dd"
 gem "wkhtmltopdf-binary"
 
+gem 'no_cache_control'

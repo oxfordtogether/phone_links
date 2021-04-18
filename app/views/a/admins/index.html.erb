@@ -7,13 +7,14 @@
   <%= render AdminHeadComponent.new %>
 <% end %>
 <div class="flex justify-end pb-3">
-  <%= button_link_to "New Admin", "#{new_a_person_path}?role=admin&redirect_on_cancel=#{a_admin_admins_path}" %>
+  <%= button_link_to "New Admin", "#{new_a_person_path}?role=admin" %>
 </div>
 <% if @admins.length > 0 %>
   <%= table @admins.sort_by(&:name) do |tbl| %>
     <% tbl.col "Name" do |admin| %>
-      <%= link_to admin.name, a_person_path(admin.person) %> <span><%= role_status(admin) %></span>
-     <% end %>
+      <%= link_to admin.name, a_person_path(admin.person) %> 
+      <span><%= role_status(admin) %></span>
+    <% end %>
     <% tbl.col "" do |admin| %>
       <%= signup_action(person: admin.person) %>
     <% end %>

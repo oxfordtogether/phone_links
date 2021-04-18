@@ -27,13 +27,10 @@ class A::MatchesController < A::AController
       @callers = Caller.all
       @callees = Callee.all
     end
-
-    @redirect_on_cancel = params["redirect_on_cancel"] || a_waitlist_provisional_matches_path
   end
 
   def create
-    @redirect_on_cancel = new_provisional_match_params[:redirect_on_cancel]
-    @match = Match.new(new_provisional_match_params.except(:redirect_on_cancel).merge({ status_change_datetime: DateTime.now }))
+    @match = Match.new(new_provisional_match_params.merge({ status_change_datetime: DateTime.now }))
 
     if @match.save
       MatchStatusChange.create(match: @match, created_by: @current_user, status: @match.status, notes: @match.status_change_notes, datetime: @match.status_change_datetime)
@@ -42,7 +39,6 @@ class A::MatchesController < A::AController
       @callers = Caller.all
       @callees = Callee.all
 
-      @redirect_on_cancel ||= a_waitlist_provisional_matches_path
       render :new
     end
   end
@@ -67,7 +63,7 @@ class A::MatchesController < A::AController
   end
 
   def new_provisional_match_params
-    params.require(:match).permit(:pod_id, :caller_id, :callee_id, :status, :status_change_notes, :redirect_on_cancel)
+    params.require(:match).permit(:pod_id, :caller_id, :callee_id, :status, :status_change_notes)
   end
 
   def match_params
