@@ -7,6 +7,9 @@ class Pod < ApplicationRecord
   has_many :matches
   belongs_to :pod_leader, optional: true
   belongs_to :safeguarding_lead, class_name: "Person"
+  has_many :pod_supporters
+
+  accepts_nested_attributes_for :pod_supporters
 
   scope :with_matches, lambda {
     includes(callers: [
@@ -14,7 +17,7 @@ class Pod < ApplicationRecord
                { matches: { callee: :person } },
              ])
   }
-  scope :for_pod_leader, ->(pod_leader_id) { where("pod_leader_id = ?", pod_leader_id) }
+  scope :for_pod_leader, ->(pod_leader_id) { where(id: PodLeader.find(pod_leader_id).accessible_pod_ids) }
 
   def live_matches
     matches.live

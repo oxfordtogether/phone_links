@@ -27,7 +27,8 @@ RSpec.describe "login as", type: :system do
 
     click_link href: "/pl/pod_leaders/#{pod_leader.id}"
 
-    expect(page).to have_content("Hi #{pod_leader.name}")
+    expect(page).to have_content("Hi #{admin.name}")
+    expect(page).to have_content("Pod #{pod_leader.pods[0].name} (#{pod_leader.name})")
     expect(page).to have_content("Reports")
     expect(current_path).to eq("/pl/pods/#{pod_leader.pods[0].id}")
 

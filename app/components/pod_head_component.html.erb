@@ -26,9 +26,22 @@
   <div class="mt-2 sm:mt-2 mr-6 flex items-center text-base text-gray-900">
     <div class="mr-1.5 text-gray-600">Safeguarding lead: </div>
     <% if @pod.safeguarding_lead.present? %>
-      <%= @pod.safeguarding_lead.name %>
+      <%= link_to @pod.safeguarding_lead.name, a_person_path(@pod.safeguarding_lead) %>
     <% else %>
-      <span class="italic">unknown</span>
+      <span class="italic">not set</span>
+    <% end %>
+  </div>
+  <div class="mt-2 sm:mt-2 mr-6 flex items-center text-base text-gray-900">
+    <div class="mr-1.5 text-gray-600">Pod supporters: </div>
+    <% if @pod.pod_supporters.present? %>
+      <% @pod.pod_supporters.each_with_index do |pod_supporter, index| %>
+        <%= link_to pod_supporter.supporter.name, a_person_path(pod_supporter.supporter.person) %>
+        <% if index != @pod.pod_supporters.count - 1 %>
+          <span class="mr-1">, </span>
+        <% end %>
+      <% end %>
+    <% else %>
+      <span class="italic">none</span>
     <% end %>
   </div>
 </div>
@@ -37,4 +50,5 @@
   <% nav.link "Callers", callers_a_pod_path(@pod) %>
   <% nav.link "Callees", callees_a_pod_path(@pod) %>
   <% nav.link "Details", edit_a_pod_path(@pod) %>
+  <% nav.link "Pod supporters", pod_supporters_a_pod_path(@pod) %>
 <% end %>

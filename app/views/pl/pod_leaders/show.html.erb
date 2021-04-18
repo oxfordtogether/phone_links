@@ -33,7 +33,7 @@
             </span>
           </div>
           <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-            <% if @pod_leader.pods.empty? %>
+            <% if @all_pods.empty? %>
               <div class="mt-8">
                 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                   <div class="flex justify-center">
@@ -56,13 +56,12 @@
             <% else %>
               <h2 class="text-gray-800 text-xs font-medium uppercase tracking-wide">Pods</h2>
               <ul class="mb-6 mt-2 rounded-lg overflow-hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <% @pod_leader.pods.each do |pod| %>
+                <% @all_pods.each do |pod| %>
                   <li class="col-span-1 bg-white rounded-lg shadow-lg border-green-400 border-2 divide-y divide-gray-200">
                     <%= link_to pl_pod_path(pod) do %>
                       <div class="text-center flex md:flex-col px-6 py-3 md:p-8">
                         <h1>
                           <span class="text-2xl text-gray-600">Pod:</span>
- 
                           <span class="font-bold text-green-600 text-4xl"><%= pod.name %></span>
                         </h1>
                       </div>

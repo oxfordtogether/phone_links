@@ -9,6 +9,7 @@ class PodLeader < ApplicationRecord
   belongs_to :person
   has_many :pods
   has_many :role_status_changes
+  has_many :pod_supporters, foreign_key: "supporter"
 
   accepts_nested_attributes_for :person
 
@@ -16,6 +17,10 @@ class PodLeader < ApplicationRecord
 
   default_scope { includes(:person) }
   scope :with_pods, -> { includes(pods: %i[callers callees]) }
+
+  def accessible_pod_ids
+    pods.map(&:id) + pod_supporters.map(&:pod_id)
+  end
 
   def name
     person.name

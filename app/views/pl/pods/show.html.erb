@@ -9,11 +9,11 @@
                 <div class="flex items-center">
                   <%= icon("person-circle", class: "h-8 w-8 rounded-full sm:block text-gray-600") %>
                   <h1 class="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
-                    Hi <%= @pod&.pod_leader&.name || "No pod leader assigned" %>
+                    Hi <%= @current_user&.name || "Unknown User" %>
                   </h1>
                 </div>
                 <h2 class="mt-4 text-xl font-bold text-gray-500 sm:mr-1 sm:mt-0">
-                  Pod <%= @pod.name %>
+                  Pod <%= @pod.name %> (<%= @pod&.pod_leader ? @pod&.pod_leader&.name : "No pod leader" %>)
                 </h2>
               </div>
             </div>

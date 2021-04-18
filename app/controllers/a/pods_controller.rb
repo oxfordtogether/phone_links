@@ -1,5 +1,5 @@
 class A::PodsController < A::AController
-  before_action :set_pod, only: %i[show edit update]
+  before_action :set_pod, only: %i[show edit update pod_supporters save_pod_supporters]
 
   def index
     @pods = Pod.all
@@ -53,6 +53,19 @@ class A::PodsController < A::AController
     end
   end
 
+  def pod_supporters
+  end
+
+  def save_pod_supporters
+    @pod.assign_attributes(pod_supporter_params)
+
+    if @pod.save
+      redirect_to pod_supporters_a_pod_path(@pod), notice: "Pod supporter was created."
+    else
+      render :pod_supporters
+    end
+  end
+
   private
 
   def set_pod
@@ -61,5 +74,9 @@ class A::PodsController < A::AController
 
   def pod_params
     params.require(:pod).permit(:name, :pod_leader_id, :theme, :safeguarding_lead_id)
+  end
+
+  def pod_supporter_params
+    params.require(:pod).permit(:id, pod_supporters_attributes: %i[pod_id supporter_id])
   end
 end
