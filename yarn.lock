@@ -2307,9 +2307,9 @@ core-js@^3.6.5:
   integrity sha512-KPYXeVZYemC2TkNEkX/01I+7yd+nX3KddKwZ1Ww7SKWdI2wQprSgLmrTddT8nw92AjEklTsPBoSdQBhbI1bQ6Q==
 
 core-js@^3.9.1:
-  version "3.9.1"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.9.1.tgz#cec8de593db8eb2a85ffb0dbdeb312cb6e5460ae"
-  integrity sha512-gSjRvzkxQc1zjM/5paAmL4idJBFzuJoo+jDjF1tStYFMV2ERfD02HhahhCGXUyHxQRG4yFKVSdO6g62eoRMcDg==
+  version "3.10.1"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.10.1.tgz#e683963978b6806dcc6c0a4a8bd4ab0bdaf3f21a"
+  integrity sha512-pwCxEXnj27XG47mu7SXAwhLP3L5CrlvCB91ANUkIz40P27kUcvNfSdvyZJ9CLHiVoKSp+TTChMQMSKQEH/IQxA==
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -2614,14 +2614,13 @@ dashdash@^1.12.0:
     assert-plus "^1.0.0"
 
 date-fns@^2.16.1:
-  version "2.19.0"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.19.0.tgz#65193348635a28d5d916c43ec7ce6fbd145059e1"
-  integrity sha512-X3bf2iTPgCAQp9wvjOQytnf5vO5rESYRXlPIVcgSbtT5OTScPcsf9eZU+B/YIkKAtYr5WeCii58BgATrNitlWg==
+  version "2.20.3"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.20.3.tgz#5a28718edb95a80db96187b25340959867d36bc8"
+  integrity sha512-BbiJSlfmr1Fnfi1OHY8arklKdwtZ9n3NkjCeK8G9gtEe0ZSUwJuwHc6gYBl0uoC0Oa5RdpJV1gBBdXcZi8Efdw==
 
-debounced@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/debounced/-/debounced-0.0.5.tgz#e540b6eebfe703d93462711b4f3562ffd101b87f"
-  integrity sha512-8Bgheu1YxQB7ocqYmK2enbLGVoo4nCtu/V6UD/SMDOeV3g2LocG2CrA5oxudlyl79Ja07UiqGdp9pWZoJn52EQ==
+debounced@oxfordtogether/debounced:
+  version "0.0.4"
+  resolved "https://codeload.github.com/oxfordtogether/debounced/tar.gz/8c2e226d30aab295c117ae2e0fbbcdd23634ecdb"
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3:
   version "2.6.9"
@@ -5356,16 +5355,12 @@ obuf@^1.0.0, obuf@^1.1.2:
 
 ocl_tools@oxfordtogether/ocl_tools:
   version "0.1.0"
-  resolved "https://codeload.github.com/oxfordtogether/ocl_tools/tar.gz/1eebbf0f0182c42952de5f4c4fcf9e96fa6f24ab"
+  resolved "https://codeload.github.com/oxfordtogether/ocl_tools/tar.gz/231ec77c3b6db362d9bad6f5c3c20d46b59d56f4"
   dependencies:
     "@rails/ujs" "^6.0.0"
-    chart.js "^2.9.4"
-    chartjs-plugin-datalabels "^0.7.0"
-    core-js "^3.9.1"
+    "@rails/webpacker" "5.2.1"
     date-fns "^2.16.1"
-    debug "^4.3.1"
-    el-transition "https://github.com/tomclose/el-transition.git#d9ddd55"
-    nodemon "^2.0.7"
+    el-transition "^0.0.7"
     stimulus "^2.0.0"
     stimulus-use "^0.23.0"
     stimulus_reflex "^3.4.1"
