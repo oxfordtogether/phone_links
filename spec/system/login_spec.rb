@@ -1,15 +1,15 @@
 require "rails_helper"
 
 RSpec.describe "login", type: :system do
-  let(:admin) { create(:admin, status: "active", person: create(:person, email: 'admin@test.com', auth0_id: '123')) }
-  let(:admin_no_auth0) { create(:admin, person: create(:person, email: 'admin_no_auth@test.com', auth0_id: nil), status: "active") }
-  let(:admin_not_active) { create(:admin, person: create(:person, email: 'admin_not_active@test.com', auth0_id: '234'), status: "left_programme") }
+  let(:admin) { create(:admin, status: "active", person: create(:person, email: "admin@test.com", auth0_id: "123")) }
+  let(:admin_no_auth0) { create(:admin, person: create(:person, email: "admin_no_auth@test.com", auth0_id: nil), status: "active") }
+  let(:admin_not_active) { create(:admin, person: create(:person, email: "admin_not_active@test.com", auth0_id: "234"), status: "left_programme") }
 
-  let(:pod_leader) { create(:pod_leader, person: create(:person, email: 'pod_leader@test.com', auth0_id: '345'), status: "active") }
-  let(:pod_leader_not_active) { create(:pod_leader, person: create(:person, email: 'pod_leader_not_active@test.com', auth0_id: '456'), status: "left_programme") }
+  let(:pod_leader) { create(:pod_leader, person: create(:person, email: "pod_leader@test.com", auth0_id: "345"), status: "active") }
+  let(:pod_leader_not_active) { create(:pod_leader, person: create(:person, email: "pod_leader_not_active@test.com", auth0_id: "456"), status: "left_programme") }
 
-  let(:caller) { create(:caller, person: create(:person, email: 'caller@test.com', auth0_id: '567'), status: "active") }
-  let(:caller_not_active) { create(:caller, person: create(:person, email: 'caller_not_active@test.com', auth0_id: '789'), status: "left_programme") }
+  let(:caller) { create(:caller, person: create(:person, email: "caller@test.com", auth0_id: "567"), status: "active") }
+  let(:caller_not_active) { create(:caller, person: create(:person, email: "caller_not_active@test.com", auth0_id: "789"), status: "left_programme") }
 
   let(:callee) { create(:callee, status: "active") }
 
@@ -110,6 +110,44 @@ RSpec.describe "login", type: :system do
 
       visit "/"
       expect(current_path).to eq("/c/callers/#{caller.id}")
+    end
+  end
+
+  describe "when an active user becomes inactive" do
+    it "logs them out immediately (admin)" do
+      login_as admin.person
+
+      visit "/"
+      expect(current_path).to eq("/a")
+
+      admin.update(status: :left_programme)
+
+      visit "/"
+      expect(current_path).to eq("/invalid_permissions_for_app")
+    end
+
+    it "logs them out immediately (pod leader)" do
+      login_as pod_leader.person
+
+      visit "/"
+      expect(current_path).to eq("/pl/pod_leaders/#{pod_leader.id}")
+
+      pod_leader.update(status: :left_programme)
+
+      visit "/"
+      expect(current_path).to eq("/invalid_permissions_for_app")
+    end
+
+    it "logs them out immediately (admin)" do
+      login_as caller.person
+
+      visit "/"
+      expect(current_path).to eq("/c/callers/#{caller.id}")
+
+      caller.update(status: :left_programme)
+
+      visit "/"
+      expect(current_path).to eq("/invalid_permissions_for_app")
     end
   end
 

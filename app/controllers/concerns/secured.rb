@@ -37,6 +37,12 @@ module Secured
       return
     end
 
+    if current_person_id
+      session[:admin_id] = Admin.where(person_id: current_person_id).login_enabled.first&.id
+      session[:pod_leader_id] = PodLeader.where(person_id: current_person_id).login_enabled.first&.id
+      session[:caller_id] = Caller.where(person_id: current_person_id).login_enabled.first&.id
+    end
+
     return true if current_admin_id.present? || current_pod_leader_id.present? || current_caller_id.present?
 
     if session[:auth0_id].nil?
