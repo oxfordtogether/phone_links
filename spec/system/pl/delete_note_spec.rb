@@ -4,11 +4,7 @@ RSpec.describe "delete note", type: :system do
   let!(:pod) { create(:pod, pod_leader: nil) }
   let!(:callee) { create(:callee) }
   let!(:pod_leader) { create(:pod_leader, person: create(:person, email: "pod_leader@test.com", auth0_id: "234"), status: "active", pods: [pod]) }
-  let!(:note) do
-    note = create(:note, person: callee.person, created_by: pod_leader.person, deleted_at: nil)
-    note.create_events!
-    note
-  end
+  let!(:note) { create(:note, person: callee.person, created_by: pod_leader.person, deleted_at: nil) }
 
   before do
     ENV["BYPASS_AUTH"] = "false"
@@ -30,7 +26,7 @@ RSpec.describe "delete note", type: :system do
     expect(current_path).to eq("/pl/notes/#{note.id}/edit")
     expect(page).to have_content("Edit note")
 
-    expect { click_on "Delete" }.to change { Events::NoteChanged.count }.by(1)
+    click_on "Delete"
 
     expect(page).to have_current_path("/pl/people/#{callee.person.id}")
 

@@ -3,11 +3,7 @@ require "rails_helper"
 RSpec.describe "delete note", type: :system do
   let!(:callee) { create(:callee) }
   let!(:admin) { create(:admin, person: create(:person, email: "admin@test.com", auth0_id: "234"), status: "active") }
-  let!(:note) do
-    note = create(:note, person: callee.person, created_by: admin.person, deleted_at: nil)
-    note.create_events!
-    note
-  end
+  let!(:note) { create(:note, person: callee.person, created_by: admin.person, deleted_at: nil) }
 
   before do
     ENV["BYPASS_AUTH"] = "false"
@@ -29,7 +25,7 @@ RSpec.describe "delete note", type: :system do
     expect(current_path).to eq("/a/notes/#{note.id}/edit")
     expect(page).to have_content("Edit note")
 
-    expect { click_on "Delete" }.to change { Events::NoteChanged.count }.by(1)
+    click_on "Delete"
 
     expect(page).to have_current_path("/a/people/#{callee.person.id}/events")
 

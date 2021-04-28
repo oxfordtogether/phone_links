@@ -10,8 +10,6 @@ class A::NotesController < A::AController
     @note = Note.new(note_params)
 
     if @note.save
-      @note.create_events!
-
       redirect_to a_person_path(@note.person), notice: "Note was successfully created."
     else
       @person = @note.person
@@ -25,8 +23,6 @@ class A::NotesController < A::AController
 
   def update
     if @note.update(note_params)
-      @note.create_events!
-
       redirect_to a_person_path(@note.person), notice: "Note was successfully updated."
     else
       render :edit
@@ -35,8 +31,6 @@ class A::NotesController < A::AController
 
   def destroy
     @note.update(deleted_at: Time.now)
-    @note.create_events!
-
     redirect_to a_person_path(@note.person), notice: "Note was successfully deleted."
   end
 

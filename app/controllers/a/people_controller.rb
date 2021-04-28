@@ -16,10 +16,7 @@ class A::PeopleController < A::AController
   end
 
   def events
-    @std_events = Event.most_recent_first
-                       .where(person_id: @person.id)
-                       .all
-                       .filter(&:active?)
+    @notes = Note.where(person_id: @person.id)
 
     @match_events = if @person.callee.present?
                       MatchStatusChange.where(match_id: @person.callee.match_ids)
@@ -44,7 +41,7 @@ class A::PeopleController < A::AController
 
     @flag_events = PersonFlagChange.where(person_id: @person.id)
 
-    @events = (@std_events + @match_events + @report_events + @role_events + @flag_events).sort_by(&:created_at).reverse
+    @events = (@notes + @match_events + @report_events + @role_events + @flag_events).sort_by(&:created_at).reverse
   end
 
   def new
