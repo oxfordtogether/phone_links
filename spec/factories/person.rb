@@ -15,7 +15,7 @@ FactoryBot.define do
     auth0_id { rand(2) == 1 ? "auth0|#{(0...18).map { rand(10) }.join}" : nil }
 
     flag_in_progress { rand(10) == 1 }
-    flag_change_datetime { FFaker::Time.between(Date.today - 2.months, Date.today) }
+    flag_change_datetime { flag_in_progress ? FFaker::Time.between(Date.today - 2.months, Date.today) : nil }
     flag_change_notes { flag_in_progress ? FFaker::Lorem.phrase : nil }
 
     age_bracket { Person.age_brackets.keys.sample }

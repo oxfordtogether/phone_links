@@ -93,6 +93,8 @@ RSpec.describe "PodLeaderDataFetcher", type: :helper do
     expect do
       fetcher.note(note.id)
     end.to raise_error(ActiveRecord::RecordNotFound)
+
+    Current.person_id = nil
   end
 
   it "restricts access for pod leader who leads a pod" do
@@ -196,6 +198,8 @@ RSpec.describe "PodLeaderDataFetcher", type: :helper do
         fetcher.report(report.id)
       end.to raise_error(ActiveRecord::RecordNotFound)
     end
+
+    Current.person_id = nil
   end
 
   it "restricts access for pod supporter" do
@@ -299,5 +303,7 @@ RSpec.describe "PodLeaderDataFetcher", type: :helper do
         fetcher.report(report.id)
       end.to raise_error(ActiveRecord::RecordNotFound)
     end
+
+    Current.person_id = nil
   end
 end

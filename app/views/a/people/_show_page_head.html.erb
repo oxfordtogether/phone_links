@@ -13,7 +13,7 @@
         </div>
       <% end %>
       <% if @person.flag_in_progress %>
-        <%= link_to flag_a_edit_person_path do %>
+        <%= link_to edit_a_person_path(@person, :flag) do %>
           <%= icon('star-fill', class: "h-4 w-4 text-yellow-400") %>
         <% end %>
       <% end %>
@@ -58,7 +58,7 @@
     <% end %>
   </div>
   <div class="mt-4 sm:my-0">
-    <%= button_link_to "Edit", personal_details_a_edit_person_path(@person), icon: "heroicon-edit" %>
+    <%= button_link_to "Edit", edit_a_person_path(@person), icon: "heroicon-edit" %>
   </div>
 </div>
 <% if @person&.callee.present? %>

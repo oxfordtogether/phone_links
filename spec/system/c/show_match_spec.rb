@@ -13,6 +13,7 @@ RSpec.describe "show match", type: :system do
 
   after do
     ENV["BYPASS_AUTH"] = "true"
+    Current.person_id = nil
   end
 
   it "doesn't give access to callees that caller isn't matched to" do

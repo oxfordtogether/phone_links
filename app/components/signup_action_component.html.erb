@@ -1,6 +1,6 @@
 <div class="text-sm flex justify-center">
   <% if @person.missing_email %>
-    <%= link_to contact_details_a_edit_person_path(@person), class: "inline-block cursor-pointer shadow bg-red-400 hover:bg-red-500 text-gray-100 rounded px-2 py-0.5" do %>
+    <%= link_to edit_a_person_path(@person, :contact_details), class: "inline-block cursor-pointer shadow bg-red-400 hover:bg-red-500 text-gray-100 rounded px-2 py-0.5" do %>
       <div class="flex items-center">
         <%= icon("email-fill", class: "w-4 h-4 mr-1.5") %>
         <div>Missing email</div>

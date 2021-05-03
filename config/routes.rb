@@ -32,21 +32,8 @@ Rails.application.routes.draw do
         get :actions
         post "create_role", to: "people#create_role"
 
+        get :edit, path: "edit(/:page)"
         scope path: :edit, as: :edit do
-          get :personal_details
-          post :personal_details, action: :save_personal_details, as: :save_personal_details
-          get :contact_details
-          post :contact_details, action: :save_contact_details, as: :save_contact_details
-          get :flag
-          post :flag, action: :save_flag, as: :save_flag
-          get :referral_details
-          post :referral_details, action: :save_referral_details, as: :save_referral_details
-          get :experience
-          post :experience, action: :save_experience, as: :save_experience
-          get :pod_membership
-          post :pod_membership, action: :save_pod_membership, as: :save_pod_membership
-          get :emergency_contacts
-          post :emergency_contacts, action: :save_emergency_contacts, as: :save_emergency_contacts
           post :invite, action: :save_invite, as: :save_invite
         end
 

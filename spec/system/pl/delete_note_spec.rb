@@ -12,6 +12,7 @@ RSpec.describe "delete note", type: :system do
 
   after do
     ENV["BYPASS_AUTH"] = "true"
+    Current.person_id = nil
   end
 
   it "deletes note" do

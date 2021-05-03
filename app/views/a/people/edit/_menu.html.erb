@@ -1,17 +1,17 @@
 <div class="mr-8">
   <%= side_nav do |nav| %>
-    <% nav.link "Personal", personal_details_a_edit_person_path(@person), "user" %>
-    <% nav.link "Contact", contact_details_a_edit_person_path(@person), "book-open" %>
-    <% nav.link "Star", flag_a_edit_person_path(@person), "star-fill" %>
+    <% nav.link "Personal", edit_a_person_path(@person, :personal_details), "user" %>
+    <% nav.link "Contact", edit_a_person_path(@person, :contact_details), "book-open" %>
+    <% nav.link "Star", edit_a_person_path(@person, :flag), "star-fill" %>
     <% if @person.callee %>
-      <% nav.link "Referral details", referral_details_a_edit_person_path(@person), "heroicon-document-text-small" %>
-      <% nav.link "Emergency contacts", emergency_contacts_a_edit_person_path(@person), "people-fill" %>
+      <% nav.link "Referral details", edit_a_person_path(@person, :referral_details), "heroicon-document-text-small" %>
+      <% nav.link "Emergency contacts", edit_a_person_path(@person, :emergency_contacts), "people-fill" %>
     <% end %>
     <% if @person.caller %>
-      <% nav.link "Caller information", experience_a_edit_person_path(@person), "heroicon-document-text-small" %>
+      <% nav.link "Caller information", edit_a_person_path(@person, :experience), "heroicon-document-text-small" %>
     <% end %>
     <% if @person.caller || @person.callee %>
-      <% nav.link "Pod membership", pod_membership_a_edit_person_path(@person), "phone" %>
+      <% nav.link "Pod membership", edit_a_person_path(@person, :pod_membership), "phone" %>
     <% end %>
     <% if @person.callee %>
       <% nav.link "Status", status_a_edit_callee_path(@person.callee), "check-circle" %>

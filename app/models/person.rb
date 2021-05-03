@@ -1,6 +1,9 @@
 class Person < ApplicationRecord
   validates :first_name, :last_name, presence: { message: "This field is required" }
 
+  before_update :set_flag_change_datetime
+  after_update :create_person_flag_changed_record
+
   def self.titles
     %w[MR MRS MISS MS MX DR PROFESSOR]
   end
@@ -71,5 +74,25 @@ class Person < ApplicationRecord
 
   def invite_sent
     !signed_up && invite_email_sent_at.present?
+  end
+
+  def set_flag_change_datetime
+    self.flag_change_datetime = Time.now if flag_in_progress_changed? || flag_change_notes_changed?
+  end
+
+  def create_person_flag_changed_record
+    first_flag_change = person_flag_changes.empty? && flag_change_datetime.present?
+    flag_changed_on_save = !person_flag_changes.empty? && person_flag_changes.sort_by(&:created_at).last.datetime != flag_change_datetime
+
+    if first_flag_change || flag_changed_on_save
+      PersonFlagChange.create(
+        person: self,
+        flag_in_progress: flag_in_progress,
+        notes: flag_change_notes,
+        created_by: @current_user,
+        created_by_id: Current.person_id,
+        datetime: flag_change_datetime
+      )
+    end
   end
 end

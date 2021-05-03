@@ -40,6 +40,8 @@ RSpec.describe "CallerDataFetcher", type: :helper do
     matches.each do |match|
       expect(fetcher.match(match.id)).to eq(match)
     end
+
+    Current.person_id = nil
   end
 
   it "restricts access for callers" do
@@ -67,5 +69,7 @@ RSpec.describe "CallerDataFetcher", type: :helper do
     expect do
       fetcher.match(match_2_a.id)
     end.to raise_error(ActiveRecord::RecordNotFound)
+
+    Current.person_id = nil
   end
 end

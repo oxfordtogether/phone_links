@@ -15,6 +15,7 @@ RSpec.describe "edit note", type: :system do
 
   after do
     ENV["BYPASS_AUTH"] = "true"
+    Current.person_id = nil
   end
 
   it "edits note" do
