@@ -6,8 +6,8 @@
       <span class="text-gray-500 italic">Note deleted</span>
     <% else %>
       <% if @event.created_by_id == Current.person_id %>
-        <%= link_to edit_a_note_path(@event) do %>
-          <div class="text-xs text-gray-500 my-1">
+        <div class="text-xs text-gray-500 my-1">
+          <%= link_to edit_a_note_path(@event) do %>
             <% if @event.note_type.present? && @event.note_type != :other %>
               <span class="text-sm text-gray-900 mr-1"><%= @event.humanized_note_type %></span>
             <% else %>
@@ -21,8 +21,8 @@
               <span class="text-gray-500 italic">(edited)</span>
             <% end %>
             <span><%= icon("heroicon-edit", class: "inline text-gray-500 hover:text-blue-500 w-4 h-4") %></span>
-          </div>
-        <% end %>
+          <% end %>
+        </div>
       <% else %>
         <div class="text-xs text-gray-500 my-1">
           <% if @event.note_type.present? && @event.note_type != :other %>
