@@ -1,5 +1,5 @@
 class Pl::PeopleController < Pl::PlController
-  before_action :set_person, only: %i[show edit check_ins contact_details save_check_ins save_contact_details]
+  before_action :set_person, only: %i[show edit update]
 
   def show
     @events = []
@@ -35,26 +35,19 @@ class Pl::PeopleController < Pl::PlController
   end
 
   def edit
-    redirect_to contact_details_pl_edit_person_path(@person)
-  end
-
-  def check_ins; end
-
-  def contact_details; end
-
-  def save_check_ins
-    if @person.update(check_ins_params)
-      redirect_to pl_person_path(@person), notice: "Person was successfully updated."
-    else
-      render :check_ins
+    if @person.caller
+      redirect_to edit_pl_person_path(@person, :contact_details) unless params[:page]
+    elsif @person.callee
+      redirect_to edit_pl_person_path(@person, :referral_details) unless params[:page]
     end
   end
 
-  def save_contact_details
-    if @person.update(contact_details_params)
-      redirect_to pl_person_path(@person), notice: "Person was successfully updated."
+  def update
+    if @person.update(details_params)
+      SearchCacheRefresh.perform_async
+      redirect_to edit_pl_person_path(@person, params[:page]), notice: "Profile was successfully updated."
     else
-      render :contact_details
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -65,11 +58,10 @@ class Pl::PeopleController < Pl::PlController
     @pod = @person.callee.present? ? @person.callee.pod : @person.caller.pod
   end
 
-  def contact_details_params
-    params.require(:person).permit(:id, :address_line_1, :address_line_2, :address_town, :address_postcode, :phone)
-  end
-
-  def check_ins_params
-    params.require(:person).permit(:id, caller_attributes: %w[id check_in_frequency])
+  def details_params
+    params.require(:person)
+          .permit(:id, :address_line_1, :address_line_2, :address_town, :address_postcode, :phone,
+                  caller_attributes: %w[id check_in_frequency]
+          )
   end
 end

@@ -88,15 +88,12 @@ class A::PeopleController < A::AController
   end
 
   def edit
-    @person&.flag_change_notes = nil # OT DO: does this work
+    @person&.flag_change_notes = nil
 
     redirect_to edit_a_person_path(@person, :personal_details) unless params[:page]
   end
 
   def update
-
-
-
     if @person.update(details_params)
       SearchCacheRefresh.perform_async
       redirect_to edit_a_person_path(@person, params[:page]), notice: "Profile was successfully updated."

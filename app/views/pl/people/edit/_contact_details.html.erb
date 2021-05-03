@@ -1,0 +1,16 @@
+<%= tailwind_form_with(
+    model: [:pl, @person],
+    url: pl_person_path(@person, params: { page: "contact_details" }),
+    local: true) do |form| %>
+  <%= form.section do %>
+    <%= form.text_field :phone, width: :half %>
+    <%= form.text_field :address_line_1, width: :half %>
+    <%= form.text_field :address_line_2, width: :half %>
+    <%= form.text_field :address_town, label: "Town", width: :two_thirds %>
+    <%= form.text_field :address_postcode, label: "Postcode", width: :third %>
+  <% end %>
+  <%= form.button_section do %>
+    <%= form.cancel pl_person_path(@person) %>
+    <%= form.submit %>
+  <% end %>
+<% end %>

@@ -144,12 +144,7 @@ Rails.application.routes.draw do
       member do
         resources :notes, only: %i[new create]
 
-        scope path: :edit, as: :edit do
-          get :check_ins
-          get :contact_details
-          post :check_ins, action: :save_check_ins, as: :save_check_ins
-          post :contact_details, action: :save_contact_details, as: :save_contact_details
-        end
+        get :edit, path: "edit(/:page)"
       end
     end
 

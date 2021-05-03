@@ -1,0 +1,6 @@
+<div class="mr-8">
+  <%= side_nav do |nav| %>
+    <% nav.link "Contact", edit_pl_person_path(@person, :contact_details), "book-open" %>
+    <% nav.link "Check-ins", edit_pl_person_path(@person, :check_ins), "person-check" %>
+  <% end %>
+</div>

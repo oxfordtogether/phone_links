@@ -1,0 +1,11 @@
+<% content_for :page_head do %>
+  <%= render partial: "show_page_head" %>
+<% end %>
+<div class="grid grid-cols-4">
+  <div>
+    <%= render partial: "pl/people/edit/menu" %>
+  </div>
+  <div class="col-span-3 col-start-2">
+    <%= render partial: "pl/people/edit/#{params[:page]}" %>
+  </div>
+</div>
