@@ -103,8 +103,36 @@ RSpec.describe "edit caller", type: :system do
     uncheck "Is caller a member of the pod WhatsApp group?"
     click_on "Save"
 
+    capacity_last_updated = caller.capacity_last_updated
+
     caller.reload
     expect(caller.pod_whatsapp_membership).to eq(nil)
     expect(find_field("Is caller a member of the pod WhatsApp group?").checked?).to eq false
+
+    expect(caller.capacity_last_updated).to eq(capacity_last_updated)
+  end
+
+  it "edits capacity" do
+    login_as nil
+
+    visit "/pl/people/#{caller.person.id}"
+    click_on "Details"
+    click_on "Capacity"
+    expect(page).to have_current_path("/pl/people/#{caller.person.id}/edit/capacity")
+
+    expect(find_field("Does the caller have the capacity for another match?").checked?).to eq caller.has_capacity.present?
+    expect(find_field("Notes on caller's capacity").value).to eq caller.capacity_notes
+
+    check "Does the caller have the capacity for another match?"
+    fill_in "Notes on caller's capacity", with: "notes"
+
+    click_on "Save"
+
+    capacity_last_updated = caller.capacity_last_updated
+
+    caller.reload
+    expect(caller.has_capacity).to eq(true)
+    expect(caller.capacity_notes).to eq("notes")
+    expect(caller.capacity_last_updated).to_not eq(capacity_last_updated)
   end
 end

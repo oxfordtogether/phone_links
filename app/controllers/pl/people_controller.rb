@@ -61,7 +61,7 @@ class Pl::PeopleController < Pl::PlController
   def details_params
     params.require(:person)
           .permit(:id, :address_line_1, :address_line_2, :address_town, :address_postcode, :phone,
-                  caller_attributes: %w[id check_in_frequency pod_whatsapp_membership]
+                  caller_attributes: %w[id check_in_frequency pod_whatsapp_membership has_capacity capacity_notes]
           )
   end
 end
