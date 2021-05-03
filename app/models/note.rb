@@ -6,7 +6,8 @@ class Note < ApplicationRecord
   belongs_to :created_by, class_name: "Person"
 
   options_field :note_type, {
-    check_in: "Check-in",
+    admin_check_in: "Check-in (by admin)",
+    pod_leader_check_in: "Check-in (by pod leader)",
     caller_callee_initiated: "Caller/callee got in touch",
     pod_meeting: "Pod meeting",
     newsletter: "Newsletter sent out",
