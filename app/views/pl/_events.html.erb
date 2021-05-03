@@ -7,7 +7,12 @@
     <% else %>
       <% if @event.created_by_id == Current.person_id %>
         <%= link_to edit_pl_note_path(@event) do %>
-          <span class="my-1">
+          <div class="text-xs text-gray-500 my-1">
+            <% if @event.note_type.present? && @event.note_type != :other %>
+              <span class="text-sm text-gray-900 mr-1"><%= @event.humanized_note_type %></span>
+            <% else %>
+              <span class="text-sm text-gray-900 mr-1">Note</span>
+            <% end %>
             <% time = @event.updated_at %>
             <span><%= @event.created_by&.name || "?" %></span>
 
@@ -16,10 +21,15 @@
               <span class="text-gray-500 italic">(edited)</span>
             <% end %>
             <span><%= icon("heroicon-edit", class: "inline text-gray-500 hover:text-blue-500 w-4 h-4") %></span>
-          </span>
+          </div>
         <% end %>
       <% else %>
-        <span class="my-1">
+        <div class="text-xs text-gray-500 my-1">
+          <% if @event.note_type.present? && @event.note_type != :other %>
+            <span class="text-sm text-gray-900 mr-1"><%= @event.humanized_note_type %></span>
+          <% else %>
+            <span class="text-sm text-gray-900 mr-1">Note</span>
+          <% end %>
           <% time = @event.updated_at %>
           <span><%= @event.created_by&.name || "?" %></span>
 
@@ -27,7 +37,7 @@
           <% if @event.status == "edited" %>
             <span class="text-gray-500 italic">(edited)</span>
           <% end %>
-        </span>
+        </div>
       <% end %>
     <% end %>
   <% end %>

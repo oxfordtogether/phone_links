@@ -2,6 +2,7 @@
   <%= form.section do %>
     <%= form.hidden_field :person_id, value: @person.id %>
     <%= form.hidden_field :created_by_id, value: @note&.created_by&.id %>
+    <%= form.select :note_type, Note.note_type_options_for_select, label: "What is this note about? (optional)", width: :third %>
     <%= form.text_area :content, required_asterix: true, info_message: "Notes are visible by the pod leader and all admins" %>
   <% end %>
   <%= form.button_section do %>

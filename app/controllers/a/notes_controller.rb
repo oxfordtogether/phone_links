@@ -41,6 +41,6 @@ class A::NotesController < A::AController
   end
 
   def note_params
-    params.require(:note).permit(:created_by_id, :person_id, :content)
+    params.require(:note).permit(:created_by_id, :person_id, :note_type, :content)
   end
 end
