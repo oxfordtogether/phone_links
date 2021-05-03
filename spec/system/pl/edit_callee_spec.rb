@@ -39,7 +39,7 @@ RSpec.describe "edit callee", type: :system do
     click_on "Details"
     expect(page).to have_current_path("/pl/people/#{callee.person.id}/edit/summary")
 
-    expect(find_field("Summary").value).to eq callee.summary
+    expect(find_field("Summary").value).to eq callee.summary || ""
 
     fill_in "Summary", with: "notes"
 
