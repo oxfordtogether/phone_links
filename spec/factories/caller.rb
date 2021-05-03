@@ -11,5 +11,7 @@ FactoryBot.define do
     status { Caller.statuses.keys.sample }
     status_change_notes { FFaker::Lorem.phrase }
     status_change_datetime { FFaker::Time.between(Date.today - 1.year, Date.today) }
+
+    pod_whatsapp_membership { [true, false, nil].sample }
   end
 end

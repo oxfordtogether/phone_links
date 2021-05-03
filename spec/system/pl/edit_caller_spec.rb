@@ -83,4 +83,28 @@ RSpec.describe "edit caller", type: :system do
     expect(caller.person.address_town).to eq("Town")
     expect(caller.person.address_postcode).to eq("XXX")
   end
+
+  it "edits social" do
+    login_as nil
+
+    visit "/pl/people/#{caller.person.id}"
+    click_on "Details"
+    click_on "Social"
+    expect(page).to have_current_path("/pl/people/#{caller.person.id}/edit/social")
+
+    expect(find_field("Is caller a member of the pod WhatsApp group?").checked?).to eq caller.pod_whatsapp_membership.present?
+    check "Is caller a member of the pod WhatsApp group?"
+    click_on "Save"
+
+    caller.reload
+    expect(caller.pod_whatsapp_membership).to eq(true)
+    expect(find_field("Is caller a member of the pod WhatsApp group?").checked?).to eq true
+
+    uncheck "Is caller a member of the pod WhatsApp group?"
+    click_on "Save"
+
+    caller.reload
+    expect(caller.pod_whatsapp_membership).to eq(nil)
+    expect(find_field("Is caller a member of the pod WhatsApp group?").checked?).to eq false
+  end
 end

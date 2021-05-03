@@ -1,0 +1,14 @@
+<%= tailwind_form_with(
+    model: [:pl, @person],
+    url: pl_person_path(@person, params: { page: "social" }),
+    local: true) do |form| %>
+  <%= form.section do %>
+    <%= form.fields_for :caller do |caller_fields| %>
+      <%= caller_fields.check_box :pod_whatsapp_membership, true, "Is caller a member of the pod WhatsApp group?", width: :full %>
+    <% end %>
+  <% end %>
+  <%= form.button_section do %>
+    <%= form.cancel pl_person_path(@person) %>
+    <%= form.submit %>
+  <% end %>
+<% end %>
