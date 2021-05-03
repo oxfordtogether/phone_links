@@ -35,10 +35,12 @@ class Pl::PeopleController < Pl::PlController
   end
 
   def edit
+    @fields = %w[reason_for_referral living_arrangements other_information additional_needs call_frequency languages_notes]
+
     if @person.caller
       redirect_to edit_pl_person_path(@person, :contact_details) unless params[:page]
     elsif @person.callee
-      redirect_to edit_pl_person_path(@person, :referral_details) unless params[:page]
+      redirect_to edit_pl_person_path(@person, :summary) unless params[:page]
     end
   end
 
@@ -61,7 +63,8 @@ class Pl::PeopleController < Pl::PlController
   def details_params
     params.require(:person)
           .permit(:id, :address_line_1, :address_line_2, :address_town, :address_postcode, :phone,
-                  caller_attributes: %w[id check_in_frequency pod_whatsapp_membership has_capacity capacity_notes]
+                  caller_attributes: %w[id check_in_frequency pod_whatsapp_membership has_capacity capacity_notes],
+                  callee_attributes: %w[id summary],
           )
   end
 end

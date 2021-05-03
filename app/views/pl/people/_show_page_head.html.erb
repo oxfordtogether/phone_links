@@ -118,19 +118,11 @@
   <% else %>
     <% nav.link "New note", new_pl_note_path(@person) %>
   <% end %>
-  <% if @person.callee %>
-    <% nav.link "Details", details_pl_callee_path(@person.callee) %>
-  <% end %>
-  <% if @person.caller %>
-    <% nav.link "Details", edit_pl_person_path(@person), partial_match: true %>
-  <% end %>
+  <% nav.link "Details", edit_pl_person_path(@person), partial_match: true %>
   <% if @person.callee %>
     <% nav.link "Status", status_pl_callee_path(@person.callee) %>
   <% end %>
   <% if @person.caller %>
     <% nav.link "Status", status_pl_caller_path(@person.caller) %>
-  <% end %>
-  <% if @person.callee %>
-    <% nav.link "Emergency contacts", emergency_contacts_pl_callee_path(@person.callee) %>
   <% end %>
 <% end %>

@@ -159,9 +159,7 @@ Rails.application.routes.draw do
 
     resources :callees, only: %i[update] do
       member do
-        get "emergency_contacts"
         get "status"
-        get "details"
       end
     end
 

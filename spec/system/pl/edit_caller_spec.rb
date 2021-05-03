@@ -34,7 +34,7 @@ RSpec.describe "edit caller", type: :system do
     expect(status_change.notes).to eq("boo")
   end
 
-  it "edits check in frequency" do
+  it "edits check in" do
     login_as nil
 
     visit "/pl/people/#{caller.person.id}"

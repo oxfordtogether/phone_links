@@ -14,5 +14,14 @@ FactoryBot.define do
     status { Callee.statuses.keys.sample }
     status_change_notes { FFaker::Lorem.phrase }
     status_change_datetime { FFaker::Time.between(Date.today - 1.year, Date.today) }
+
+    summary { SUMMARY_EXAMPLES.sample }
   end
+
+  SUMMARY_EXAMPLES = [
+    "Low mobility so slow to get to the phone",
+    "Would like to also go for walks",
+    "Sleeps in late so no calls before 11am",
+    nil
+  ]
 end
