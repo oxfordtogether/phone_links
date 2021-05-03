@@ -27,6 +27,7 @@ RSpec.describe "login", type: :system do
 
   after do
     ENV["BYPASS_AUTH"] = "true"
+    Current.person_id = nil
   end
 
   it "redirects to /login if user isn't logged in" do

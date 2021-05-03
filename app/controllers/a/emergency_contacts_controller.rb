@@ -5,7 +5,7 @@ class A::EmergencyContactsController < A::AController
     @emergency_contact.update(emergency_contact_params)
 
     if @emergency_contact.save
-      redirect_to emergency_contacts_a_edit_person_path(@emergency_contact.callee.person), notice: "Emergency contact was successfully updated."
+      redirect_to edit_a_person_path(@emergency_contact.callee.person, :emergency_contacts), notice: "Emergency contact was successfully updated."
     else
       @person = @emergency_contact.callee.person
       render "a/people/edit/emergency_contacts"
@@ -15,7 +15,7 @@ class A::EmergencyContactsController < A::AController
   def destroy
     @emergency_contact.delete
 
-    redirect_to emergency_contacts_a_edit_person_path(@emergency_contact.callee.person), notice: "Emergency contact was successfully deleted."
+    redirect_to edit_a_person_path(@emergency_contact.callee.person, :emergency_contacts), notice: "Emergency contact was successfully deleted."
   end
 
   private

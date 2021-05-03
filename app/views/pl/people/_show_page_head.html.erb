@@ -17,7 +17,7 @@
       <% end %>
       <% if false %>
         <% if @person.flag_in_progress %>
-          <%= link_to flag_a_edit_person_path do %>
+          <%= link_to edit_a_person_path(@person, :flag) do %>
             <%= icon('bell-fill', class: "inline w-5 h-5 text-red-500") %>
           <% end %>
         <% end %>
@@ -118,19 +118,11 @@
   <% else %>
     <% nav.link "New note", new_pl_note_path(@person) %>
   <% end %>
-  <% if @person.callee %>
-    <% nav.link "Details", details_pl_callee_path(@person.callee) %>
-  <% end %>
-  <% if @person.caller %>
-    <% nav.link "Details", edit_pl_person_path(@person), partial_match: true %>
-  <% end %>
+  <% nav.link "Details", edit_pl_person_path(@person), partial_match: true %>
   <% if @person.callee %>
     <% nav.link "Status", status_pl_callee_path(@person.callee) %>
   <% end %>
   <% if @person.caller %>
     <% nav.link "Status", status_pl_caller_path(@person.caller) %>
-  <% end %>
-  <% if @person.callee %>
-    <% nav.link "Emergency contacts", emergency_contacts_pl_callee_path(@person.callee) %>
   <% end %>
 <% end %>

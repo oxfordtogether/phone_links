@@ -33,6 +33,7 @@ RSpec.describe "multiple roles", type: :system do
 
   after do
     ENV["BYPASS_AUTH"] = "true"
+    Current.person_id = nil
   end
 
   it "links between admin and pod leader areas for an admin with multiple roles" do

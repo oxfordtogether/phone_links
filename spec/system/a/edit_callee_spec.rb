@@ -24,19 +24,20 @@ RSpec.describe "edit callee", type: :system do
 
     visit "/a/people/#{person.id}"
     click_on "Edit"
+    expect(page).to have_content("Title") # wait for page to redirect
     expect(page).to have_current_path("/a/people/#{person.id}/edit/personal_details")
 
     expect(find_field("Title").value).to eq person.title
     expect(find_field("First name").value).to eq person.first_name
     expect(find_field("Last name").value).to eq person.last_name
     expect(find_field("Age bracket").value).to eq person.age_bracket.to_s
-    expect(find_field("OPAS ID (if appropriate)").value).to eq person.opas_id || ""
+    expect(find_field("OPAS ID (if applicable)").value).to eq person.opas_id || ""
 
     select "Mx", from: "Title"
     fill_in "First name", with: "Bob"
     fill_in "Last name", with: "Jones"
     select "18-35", from: "Age bracket"
-    fill_in "OPAS ID (if appropriate)", with: "123"
+    fill_in "OPAS ID (if applicable)", with: "123"
 
     expect { click_on "Save" }.to change { Person.count }.by(0)
 
@@ -167,7 +168,7 @@ RSpec.describe "edit callee", type: :system do
     expect(person.flag_change_notes).to eq("boo")
     expect(person.flag_change_datetime.strftime("%Y-%m-%d")).to eq(Date.today.strftime("%Y-%m-%d"))
 
-    expect(flag_change.person).to eq(person)
+    expect(flag_change.person.id).to eq(person.id)
     expect(flag_change.flag_in_progress).to eq(true)
     expect(flag_change.notes).to eq("boo")
     expect(flag_change.datetime).to eq(person.flag_change_datetime)

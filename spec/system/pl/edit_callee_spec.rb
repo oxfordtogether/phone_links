@@ -31,4 +31,22 @@ RSpec.describe "edit callee", type: :system do
     expect(status_change.status).to eq(:left_programme)
     expect(status_change.notes).to eq("boo")
   end
+
+  it "edits summary" do
+    login_as nil
+
+    visit "/pl/people/#{callee.person.id}"
+    click_on "Details"
+    expect(page).to have_current_path("/pl/people/#{callee.person.id}/edit/summary")
+
+    expect(find_field("Summary").value).to eq callee.summary
+
+    fill_in "Summary", with: "notes"
+
+    click_on "Save"
+
+    callee.reload
+
+    expect(callee.summary).to eq("notes")
+  end
 end

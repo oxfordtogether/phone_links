@@ -1,6 +1,8 @@
 class Caller < ApplicationRecord
   validates_associated :person
 
+  before_save :set_capacity_last_updated
+
   options_field :status, {
     waiting_list: "On waiting list",
     left_programme: "Left programme",
@@ -33,6 +35,7 @@ class Caller < ApplicationRecord
   encrypts :experience, type: :string, key: :kms_key
   encrypts :status_change_notes, type: :string, key: :kms_key
   encrypts :languages_notes, type: :string, key: :kms_key
+  encrypts :capacity_notes, type: :string, key: :kms_key
 
   def name
     person.name
@@ -93,5 +96,9 @@ class Caller < ApplicationRecord
 
   def inactive
     status == :left_programme
+  end
+
+  def set_capacity_last_updated
+    self.capacity_last_updated = Time.now if has_capacity_changed? || capacity_notes_changed?
   end
 end

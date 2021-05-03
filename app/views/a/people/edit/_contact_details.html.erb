@@ -1,0 +1,17 @@
+<%= tailwind_form_with(
+        model: [:a, @person],
+        url: a_person_path(@person, params: { page: :contact_details }),
+        local: true) do |form| %>
+  <%= form.section do %>
+    <%= form.email_field :email, width: :half, info_message: "Email is required for callers, pod leaders and admins" %>
+    <%= form.text_field :phone, width: :half %>
+    <%= form.text_field :address_line_1, width: :half %>
+    <%= form.text_field :address_line_2, width: :half %>
+    <%= form.text_field :address_town, label: "Town", width: :two_thirds %>
+    <%= form.text_field :address_postcode, label: "Postcode", width: :third %>
+  <% end %>
+  <%= form.button_section do %>
+    <%= form.cancel a_person_path(@person) %>
+    <%= form.submit %>
+  <% end %>
+<% end %>

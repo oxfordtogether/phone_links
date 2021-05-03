@@ -29,6 +29,7 @@ class Callee < ApplicationRecord
   encrypts :call_frequency, type: :string, key: :kms_key
   encrypts :status_change_notes, type: :string, key: :kms_key
   encrypts :languages_notes, type: :string, key: :kms_key
+  encrypts :summary, type: :string, key: :kms_key
 
   def name
     person.name

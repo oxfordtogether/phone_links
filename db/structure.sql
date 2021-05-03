@@ -78,7 +78,8 @@ CREATE TABLE public.callees (
     status_change_notes_ciphertext text,
     status character varying NOT NULL,
     status_change_datetime timestamp without time zone,
-    languages_notes_ciphertext text
+    languages_notes_ciphertext text,
+    summary_ciphertext text
 );
 
 
@@ -117,7 +118,12 @@ CREATE TABLE public.callers (
     status character varying NOT NULL,
     status_change_datetime timestamp without time zone,
     languages_notes_ciphertext text,
-    check_in_frequency character varying
+    check_in_frequency character varying,
+    next_check_in date,
+    pod_whatsapp_membership boolean,
+    has_capacity boolean,
+    capacity_notes_ciphertext text,
+    capacity_last_updated timestamp without time zone
 );
 
 
@@ -298,7 +304,8 @@ CREATE TABLE public.notes (
     person_id bigint,
     created_by_id bigint NOT NULL,
     deleted_at timestamp without time zone,
-    content_ciphertext text
+    content_ciphertext text,
+    note_type character varying
 );
 
 
@@ -1696,6 +1703,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210324112724'),
 ('20210329123023'),
 ('20210411145446'),
-('20210412170354');
+('20210412170354'),
+('20210503101028');
 
 

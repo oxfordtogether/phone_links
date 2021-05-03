@@ -1,0 +1,16 @@
+<%= tailwind_form_with(
+    model: [:pl, @person],
+    url: pl_person_path(@person, params: { page: "capacity" }),
+    local: true) do |form| %>
+  <%= form.section do %>
+    <%= form.fields_for :caller do |caller_fields| %>
+      <%= caller_fields.check_box :has_capacity, true, "Does the caller have the capacity for another match?", width: :full %>
+      <%= caller_fields.text_area :capacity_notes, label: "Notes on caller's capacity", width: :full %>
+      <div class="italic sm:col-span-6 text-sm text-gray-600">Capacity fields last updated: <%= @person.caller.capacity_last_updated.present? ? format_datetime(@person.caller.capacity_last_updated) : "never" %></div>
+    <% end %>
+  <% end %>
+  <%= form.button_section do %>
+    <%= form.cancel pl_person_path(@person) %>
+    <%= form.submit %>
+  <% end %>
+<% end %>

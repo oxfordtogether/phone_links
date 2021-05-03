@@ -1,3 +1,8 @@
-<h1 class="pb-8 text-2xl font-semibold text-gray-900">
-  Callers
-</h1>
+<%= header title: "Callers" do |head| %>
+  <% head.nav_tabs_section do %>
+    <%= nav_tabs do |nav| %>
+      <% nav.link "Summary", pl_callers_path %>
+      <% nav.link "Interactions", interactions_pl_callers_path %>
+    <% end %>
+  <% end %>
+<% end %>

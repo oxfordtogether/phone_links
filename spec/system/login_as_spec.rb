@@ -14,6 +14,7 @@ RSpec.describe "login as", type: :system do
 
   after do
     ENV["BYPASS_AUTH"] = "true"
+    Current.person_id = nil
   end
 
   it "allows admin to login as pod leader" do

@@ -1,0 +1,24 @@
+<% if @person&.callee&.referrals.present? %>
+  <div class=" mb-6">
+    <%= link_to "go to referral", a_referral_path(@person&.callee&.referrals[0]), class: "text-blue-600 text-sm" %>
+  </div>
+<% end %>
+<%= tailwind_form_with(
+        model: [:a, @person],
+        url: a_person_path(@person, params: { page: :referral_details }),
+        local: true) do |form| %>
+  <%= form.section do %>
+    <%= form.fields_for :callee do |callee_fields| %>
+      <%= callee_fields.text_area :reason_for_referral, width: :full %>
+      <%= callee_fields.text_area :living_arrangements, width: :full %>
+      <%= callee_fields.text_area :other_information, width: :full %>
+      <%= callee_fields.text_area :additional_needs, width: :full %>
+      <%= callee_fields.text_area :call_frequency, width: :full %>
+      <%= callee_fields.text_area :languages_notes, label: "Languages", width: :full %>
+    <% end %>
+  <% end %>
+  <%= form.button_section do %>
+    <%= form.cancel a_person_path(@person) %>
+    <%= form.submit %>
+  <% end %>
+<% end %>

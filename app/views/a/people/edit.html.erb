@@ -1,0 +1,17 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "People", a_search_path %>
+    <% list.link @person.name, a_person_path(@person) %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <%= render partial: "show_page_head" %>
+<% end %>
+<div class="grid grid-cols-4">
+  <div>
+    <%= render partial: "a/people/edit/menu" %>
+  </div>
+  <div class="col-span-3 col-start-2">
+    <%= render partial: "a/people/edit/#{params[:page]}" %>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<dl class="">
+  <% @fields.each do |field| %>
+    <div class="mb-6">
+      <dt class="text-sm text-gray-400">
+        <%= field.humanize %>
+      </dt>
+      <dd class="mt-1 text-base text-gray-800">
+        <% if @person.callee.send(field).present? %><%= @person.callee.send(field) %><% else %>
+          <span class="text-gray-500 text-sm italic">No information</span>
+        <% end %>
+      </dd>
+    </div>
+  <% end %>
+</dl>

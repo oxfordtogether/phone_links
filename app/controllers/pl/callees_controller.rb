@@ -12,10 +12,6 @@ class Pl::CalleesController < Pl::PlController
     render "pl/callees/edit/status"
   end
 
-  def details
-    @fields = %w[reason_for_referral living_arrangements other_information additional_needs call_frequency languages_notes]
-  end
-
   def update
     @callee.assign_attributes(update_params.merge({ "status_change_datetime": DateTime.now }))
 
@@ -28,8 +24,6 @@ class Pl::CalleesController < Pl::PlController
       render "pl/callees/edit/status"
     end
   end
-
-  def emergency_contacts; end
 
   private
 
