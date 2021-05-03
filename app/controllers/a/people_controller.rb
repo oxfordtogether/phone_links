@@ -18,11 +18,11 @@ class A::PeopleController < A::AController
   def events
     @events = []
 
-    if params["notes"] == "true"
+    if params["notes"] != "false"
       @events += Note.where(person_id: @person.id)
     end
 
-    if params["reports"] == "true"
+    if params["reports"] != "false"
       @events += if @person.callee.present?
         Report.where(match_id: @person.callee.match_ids)
       elsif @person.caller.present?
@@ -32,7 +32,7 @@ class A::PeopleController < A::AController
       end
     end
 
-    if params["status_changes"] == "true"
+    if params["status_changes"] != "false"
       @events += if @person.callee.present?
         MatchStatusChange.where(match_id: @person.callee.match_ids)
       elsif @person.caller.present?
