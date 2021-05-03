@@ -46,4 +46,8 @@ module ComponentHelper
   def signup_action(*args)
     render SignupActionComponent.new(*args)
   end
+
+  def toggle(*args)
+    render ToggleComponent.new(*args)
+  end
 end
