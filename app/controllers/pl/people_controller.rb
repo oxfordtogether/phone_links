@@ -2,28 +2,36 @@ class Pl::PeopleController < Pl::PlController
   before_action :set_person, only: %i[show edit check_ins contact_details save_check_ins save_contact_details]
 
   def show
-    @notes = Note.where(person_id: @person.id)
+    @events = []
 
-    @match_events = if @person.callee.present?
-                      MatchStatusChange.where(match_id: @person.callee.match_ids)
-                    elsif @person.caller.present?
-                      MatchStatusChange.where(match_id: @person.caller.match_ids)
-                    else
-                      []
-                    end
+    if params["notes"] != "false"
+      @events += Note.where(person_id: @person.id)
+    end
 
-    @role_events = @person.callee.present? ? RoleStatusChange.where(callee_id: @person.callee.id) : []
-    @role_events += @person.caller.present? ? RoleStatusChange.where(caller_id: @person.caller.id) : []
+    if params["reports"] != "false"
+      @events += if @person.callee.present?
+        Report.where(match_id: @person.callee.match_ids)
+      elsif @person.caller.present?
+        Report.where(match_id: @person.caller.match_ids)
+      else
+        []
+      end
+    end
 
-    @report_events = if @person.callee.present?
-                       Report.where(match_id: @person.callee.match_ids)
-                     elsif @person.caller.present?
-                       Report.where(match_id: @person.caller.match_ids)
-                     else
-                       []
-                     end
+    if params["status_changes"] != "false"
+      @events += if @person.callee.present?
+                        MatchStatusChange.where(match_id: @person.callee.match_ids)
+                      elsif @person.caller.present?
+                        MatchStatusChange.where(match_id: @person.caller.match_ids)
+                      else
+                        []
+                      end
 
-    @events = (@notes + @match_events + @report_events + @role_events).sort_by(&:created_at).reverse
+      @events += @person.callee.present? ? RoleStatusChange.where(callee_id: @person.callee.id) : []
+      @events += @person.caller.present? ? RoleStatusChange.where(caller_id: @person.caller.id) : []
+    end
+
+    @events = @events.sort_by(&:created_at).reverse
   end
 
   def edit
