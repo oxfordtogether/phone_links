@@ -6,6 +6,11 @@ class Pl::CallersController < Pl::PlController
     @callers = @pod.callers
   end
 
+  def interactions
+    @pod = @fetcher.pod(params[:id])
+    @callers = @pod.callers
+  end
+
   def status
     @caller&.status_change_notes = nil
 

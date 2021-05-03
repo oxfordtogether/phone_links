@@ -131,7 +131,11 @@ Rails.application.routes.draw do
         get "support", to: "pods#support"
 
         resources :reports, only: %i[index]
-        resources :callers, only: %i[index]
+        resources :callers, only: %i[index] do
+          collection do
+            get :interactions
+          end
+        end
         resources :callees, only: %i[index]
 
         resources :matches, only: %i[index new create]

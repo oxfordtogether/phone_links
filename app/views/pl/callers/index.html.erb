@@ -14,22 +14,26 @@
   <% end %>
   <%= table @callers.sort_by(&:name), row_url: ->(c) { pl_person_path(c.person) } do |tbl| %>
     <% tbl.col "Name" do |caller| %>
-      <%= caller.name %><span class="ml-1"><%= role_status(caller) %></span>
+      <%= caller.name %>
+      <span class="ml-1"><%= role_status(caller) %></span>
     <% end %>
     <% tbl.col "Check-in frequency" do |caller| %>
-      <% if caller.check_in_frequency.present? %><%= caller.humanized_check_in_frequency %></span><% else %><span class="italic">Unknown</span><% end %>
-    <% end %>
-    <% tbl.col "Active match(es)", classes: "text-right" do |caller| %>
-      <% @matches = caller.matches %>
-      <% if @matches.present? %>
-        <% @matches.each_with_index do |match, index| %>
-          <%= match.callee.name %> (<%= match.humanized_status.downcase %>)<% if @matches.count - 1 != index %>, <% end %>
-        <% end %>
-      <% else %>
-        <div class="italic">No active matches</div>
-      <% end %>
+      <% if caller.check_in_frequency.present? %><%= caller.humanized_check_in_frequency %></span>
+    <% else %>
+      <span class="italic">Unknown</span>
     <% end %>
   <% end %>
+  <% tbl.col "Active match(es)", classes: "text-right" do |caller| %>
+    <% @matches = caller.matches %>
+    <% if @matches.present? %>
+      <% @matches.each_with_index do |match, index| %>
+        <%= match.callee.name %> (<%= match.humanized_status.downcase %>)<% if @matches.count - 1 != index %>, <% end %>
+      <% end %>
+    <% else %>
+      <div class="italic">No active matches</div>
+    <% end %>
+  <% end %>
+<% end %>
 <% else %>
   <div class="flex justify-center text-gray-600">
     No Callers have been added yet :(
