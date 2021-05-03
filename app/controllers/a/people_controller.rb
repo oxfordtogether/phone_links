@@ -16,32 +16,40 @@ class A::PeopleController < A::AController
   end
 
   def events
-    @notes = Note.where(person_id: @person.id)
+    @events = []
 
-    @match_events = if @person.callee.present?
-                      MatchStatusChange.where(match_id: @person.callee.match_ids)
-                    elsif @person.caller.present?
-                      MatchStatusChange.where(match_id: @person.caller.match_ids)
-                    else
-                      []
-                    end
+    if params["notes"] == "true"
+      @events += Note.where(person_id: @person.id)
+    end
 
-    @role_events = @person.callee.present? ? RoleStatusChange.where(callee_id: @person.callee.id) : []
-    @role_events += @person.caller.present? ? RoleStatusChange.where(caller_id: @person.caller.id) : []
-    @role_events += @person.pod_leader.present? ? RoleStatusChange.where(pod_leader_id: @person.pod_leader.id) : []
-    @role_events += @person.admin.present? ? RoleStatusChange.where(admin_id: @person.admin.id) : []
+    if params["reports"] == "true"
+      @events += if @person.callee.present?
+        Report.where(match_id: @person.callee.match_ids)
+      elsif @person.caller.present?
+        Report.where(match_id: @person.caller.match_ids)
+      else
+        []
+      end
+    end
 
-    @report_events = if @person.callee.present?
-                       Report.where(match_id: @person.callee.match_ids)
-                     elsif @person.caller.present?
-                       Report.where(match_id: @person.caller.match_ids)
-                     else
-                       []
-                     end
+    if params["status_changes"] == "true"
+      @events += if @person.callee.present?
+        MatchStatusChange.where(match_id: @person.callee.match_ids)
+      elsif @person.caller.present?
+        MatchStatusChange.where(match_id: @person.caller.match_ids)
+      else
+        []
+      end
 
-    @flag_events = PersonFlagChange.where(person_id: @person.id)
+      @events += @person.callee.present? ? RoleStatusChange.where(callee_id: @person.callee.id) : []
+      @events += @person.caller.present? ? RoleStatusChange.where(caller_id: @person.caller.id) : []
+      @events += @person.pod_leader.present? ? RoleStatusChange.where(pod_leader_id: @person.pod_leader.id) : []
+      @events += @person.admin.present? ? RoleStatusChange.where(admin_id: @person.admin.id) : []
 
-    @events = (@notes + @match_events + @report_events + @role_events + @flag_events).sort_by(&:created_at).reverse
+      @events += PersonFlagChange.where(person_id: @person.id)
+    end
+
+    @events = @events.sort_by(&:created_at).reverse
   end
 
   def new

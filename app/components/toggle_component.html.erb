@@ -1,0 +1,12 @@
+<div>
+  <div class="mr-2 flex items-center">
+    <%= link_to toggled_on ? toggled_off_url : toggled_on_url, class: "flex-shrink-0 group relative rounded-full inline-flex items-center justify-center h-5 w-10 cursor-pointer focus:outline-none focus:ring-0" do %>
+      <span aria-hidden="true" class="pointer-events-none absolute w-full h-full rounded-md"></span>
+      <span aria-hidden="true" class="<%= toggled_on ? 'bg-green-200' : 'bg-gray-200' %> pointer-events-none absolute h-3 w-7 mx-auto rounded-full transition-colors ease-in-out duration-200"></span>
+      <span aria-hidden="true" class="<%= toggled_on ? 'translate-x-5' : 'translate-x-0' %> pointer-events-none absolute left-0 inline-block h-4 w-4 border border-gray-200 rounded-full bg-white shadow transform ring-0 transition-transform ease-in-out duration-200"></span>
+    <% end %>
+    <span class="ml-0.5 mb-0.5">
+      <span class="text-sm text-gray-500"><%= @label %></span>
+    </span>
+  </div>
+</div>
