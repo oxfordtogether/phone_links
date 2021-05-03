@@ -7,6 +7,9 @@
   <%= render partial: "index_page_head" %>
 <% end %>
 <% if @callers.length > 0 %>
+  <div class="my-4">
+    <%= info(title: "Interactions dashboard", info: "Any note added to the caller's timeline is counted as an interaction.") %>
+  </div>
   <%= table @callers.sort_by(&:name), row_url: ->(c) { pl_person_path(c.person) } do |tbl| %>
     <% tbl.col "Name" do |caller| %>
       <%= caller.name %>
