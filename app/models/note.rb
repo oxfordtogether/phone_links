@@ -4,15 +4,10 @@ class Note < ApplicationRecord
 
   belongs_to :person
   belongs_to :created_by, class_name: "Person"
-  has_many :events
 
   encrypts :content, type: :string, key: :kms_key
 
   scope :for_people, ->(people_ids) { where(person_id: people_ids) }
-
-  def create_events!
-    Events::NoteEventCreator.new(self).create_events!
-  end
 
   def status
     if deleted_at

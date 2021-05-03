@@ -29,7 +29,5 @@ RSpec.describe "create note", type: :system do
     expect(note.person).to eq(callee.person)
     expect(note.content).to eq("cool thing")
     expect(note.created_by).to eq(admin.person)
-
-    expect(Events::NoteChanged.count).to eq(1)
   end
 end

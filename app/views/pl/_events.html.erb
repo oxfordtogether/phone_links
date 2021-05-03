@@ -1,16 +1,16 @@
 <% case @event %>
-<% when Events::NoteChanged %>
-<%= render TimelineItemComponent.new(icon: "heroicon-document-text-small", icon_colour: 'bg-blue-300', time: @event.occurred_at, is_last: @last_event) do |c| %>
+<% when Note %>
+<%= render TimelineItemComponent.new(icon: "heroicon-document-text-small", icon_colour: 'bg-blue-300', time: @event.updated_at, is_last: @last_event) do |c| %>
   <% c.with(:title) do %>
     <% if @event.status == 'deleted' %>
       <span class="text-gray-500 italic">Note deleted</span>
     <% else %>
-      <% if @event.note.created_by_id == Current.person_id %>
-        <%= link_to edit_pl_note_path(@event.note) do %>
+      <% if @event.created_by_id == Current.person_id %>
+        <%= link_to edit_pl_note_path(@event) do %>
           <span class="my-1">
-            <% time = @event.occurred_at%>
+            <% time = @event.updated_at %>
             <span><%= @event.created_by&.name || "?" %></span>
- 
+
             <span class="text-xs text-gray-500 italic"><%= "at #{time.strftime("%l.%M%P")}" if time.hour != 0 %> on <%= time.strftime("%a #{time.day.ordinalize} %b") %></span>
             <% if @event.status == "edited" %>
               <span class="text-gray-500 italic">(edited)</span>
@@ -20,9 +20,9 @@
         <% end %>
       <% else %>
         <span class="my-1">
-          <% time = @event.occurred_at%>
+          <% time = @event.updated_at %>
           <span><%= @event.created_by&.name || "?" %></span>
- 
+
           <span class="text-xs text-gray-500 italic"><%= "at #{time.strftime("%l.%M%P")}" if time.hour != 0 %> on <%= time.strftime("%a #{time.day.ordinalize} %b") %></span>
           <% if @event.status == "edited" %>
             <span class="text-gray-500 italic">(edited)</span>
@@ -42,15 +42,15 @@
   <% c.with(:title) do %>
     <% if @event.status == :provisional %>
       <span class="font-semibold">Provisional</span>
-       match created for 
+      match created for
       <span class="font-semibold"><%= @event.match.caller.name %> and <%= @event.match.callee.name %></span>
       <% if @event.created_by %>
         <div class="text-sm text-gray-400 italic">Created by <%= @event.created_by&.name %></div>
       <% end %>
     <% else %>
-      Match between 
+      Match between
       <span class="font-semibold"><%= @event.match.caller.name %> and <%= @event.match.callee.name %></span>
-      changed; status updated to 
+      changed; status updated to
       <span class="font-semibold"><%= @event.humanized_status %></span>
       <% if @event.created_by %>
         <div class="text-sm text-gray-400 italic">Change made by <%= @event.created_by&.name %></div>
@@ -138,7 +138,7 @@
 <% when RoleStatusChange %>
 <%= render TimelineItemComponent.new(icon: "check-circle", icon_colour: 'bg-gray-400', time: @event.datetime, is_last: @last_event) do |c| %>
   <% c.with(:title) do %>
-    <%= @event.role_description.to_s.humanize %> status updated to 
+    <%= @event.role_description.to_s.humanize %> status updated to
     <span class="font-semibold"><%= @event.humanized_status %></span>
     <% if @event.created_by %>
       <div class="text-sm text-gray-400 italic">Change made by <%= @event.created_by&.name %></div>

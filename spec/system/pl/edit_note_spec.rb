@@ -6,17 +6,8 @@ RSpec.describe "edit note", type: :system do
   let!(:pod_leader) { create(:pod_leader, person: create(:person, email: "pod_leader@test.com", auth0_id: "123"), status: "active", pods: [pod]) }
   let!(:admin) { create(:admin, person: create(:person, email: "admin@test.com", auth0_id: "234"), status: "active") }
 
-  let!(:note) do
-    note = create(:note, person: callee.person, created_by: pod_leader.person, deleted_at: nil)
-    note.create_events!
-    note
-  end
-
-  let!(:note_2) do
-    note = create(:note, person: callee.person, created_by: admin.person, deleted_at: nil)
-    note.create_events!
-    note
-  end
+  let!(:note) { create(:note, person: callee.person, created_by: pod_leader.person, deleted_at: nil) }
+  let!(:note_2) { create(:note, person: callee.person, created_by: admin.person, deleted_at: nil) }
 
   before do
     ENV["BYPASS_AUTH"] = "false"
@@ -40,7 +31,7 @@ RSpec.describe "edit note", type: :system do
 
     fill_in "Content", with: "cool thing"
 
-    expect { click_on "Save" }.to change { Events::NoteChanged.count }.by(1)
+    click_on "Save"
 
     expect(page).to have_current_path("/pl/people/#{callee.person.id}")
 
