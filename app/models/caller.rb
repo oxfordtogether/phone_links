@@ -31,6 +31,7 @@ class Caller < ApplicationRecord
   scope :for_pod, ->(pod_id) { where(pod_id: pod_id) }
   scope :for_pod_leader, ->(pod_leader_id) { where(pod_id: PodLeader.find(pod_leader_id).accessible_pod_ids) }
   scope :login_enabled, -> { where(status: :active)}
+  scope :active, -> { where(status: :active)}
 
   encrypts :experience, type: :string, key: :kms_key
   encrypts :status_change_notes, type: :string, key: :kms_key

@@ -1,0 +1,160 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Analytics", a_dashboard_index_path %>
+  <% end %>
+<% end %>
+
+<div class="max-w-6xl mx-auto px-2">
+  <div class="flex justify-end">
+    <div class="pb-6">
+      <select id="tabs" name="tabs"  onchange="location = this.value;" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+        <% @date_range_options.each do |link| %>
+          <% if current_page?(link.path) %>
+            <option selected value="<%= link.path %>">
+              <%= link.name %>
+            </option>
+          <% else %>
+            <option value="<%= link.path %>">
+              <%= link.name %>
+            </option>
+          <% end %>
+        <% end %>
+      </select>
+    </div>
+  </div>
+
+  <dl class="sm:grid sm:grid-cols-6 sm:gap-x-8">
+    <div class="bg-white rounded-lg shadow flex flex-col border-b border-gray-100 p-6 text-center sm:border-0 sm:border-r">
+      <dt class="order-2 mt-2 text-md leading-6 font-medium text-gray-500">
+        Active<br>
+        matches
+      </dt>
+      <dd class="order-1 text-5xl font-extrabold text-indigo-500">
+        <%= Match.live.count %>
+      </dd>
+    </div>
+    <div class="bg-white rounded-lg shadow flex flex-col border-t border-gray-100 p-6 text-center sm:border-0 sm:border-l">
+      <dt class="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
+        Active<br>
+        callers
+      </dt>
+      <dd class="order-1 text-5xl font-extrabold text-pink-500">
+        <%= Caller.active.count %>
+      </dd>
+    </div>
+    <div class="bg-white rounded-lg shadow flex flex-col border-t border-gray-100 p-6 text-center sm:border-0 sm:border-l">
+      <dt class="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
+        Active<br>
+        callees
+      </dt>
+      <dd class="order-1 text-5xl font-extrabold text-yellow-500">
+        <%= Callee.active.count %>
+      </dd>
+    </div>
+    <div class="bg-white rounded-lg shadow flex flex-col border-b border-gray-100 p-6 text-center sm:border-0 sm:border-r">
+      <dt class="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
+        New<br>
+        matches
+      </dt>
+      <dd class="order-1 text-5xl font-extrabold text-green-500">
+        <%= @new_matches %>
+      </dd>
+    </div>
+    <div class="bg-white rounded-lg shadow flex flex-col border-t border-gray-100 p-6 text-center sm:border-0 sm:border-l">
+      <dt class="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
+        New<br>
+        callers
+      </dt>
+      <dd class="order-1 text-5xl font-extrabold text-purple-500">
+        <%= @new_callers %>
+      </dd>
+    </div>
+    <div class="bg-white rounded-lg shadow flex flex-col border-t border-gray-100 p-6 text-center sm:border-0 sm:border-l">
+      <dt class="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
+        New<br>
+        callees
+      </dt>
+      <dd class="order-1 text-5xl font-extrabold text-blue-500">
+        <%= @new_callees %>
+      </dd>
+    </div>
+  </dl>
+
+  <div class="sm:grid sm:grid-cols-3 sm:gap-x-6 mt-8 max-w-6xl mx-auto">
+    <div class="flex-1 bg-white overflow-hidden shadow rounded-lg">
+      <div class="p-3 sm:p-8">
+        <div class="text-lg font-bold text-gray-700 truncate">
+          Call duration
+        </div>
+        <div class="mt-2">
+          <div class="h-48" class="px-4 py-2" data-controller="bar-chart" data-bar-chart-data='<%= @call_duration.to_json.html_safe %>' data-bar-chart-title=""  data-bar-chart-squashable="true">
+            <canvas data-bar-chart-target="chart" ></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex-1 bg-white overflow-hidden shadow rounded-lg">
+      <div class="p-3 sm:p-8">
+        <div class="text-lg font-bold text-gray-700 truncate">
+          Callee feeling
+        </div>
+        <div class="mt-2">
+          <div class="h-48" class="px-4 py-2" data-controller="bar-chart" data-bar-chart-data='<%= @callee_feeling.to_json.html_safe %>' data-bar-chart-title=""  data-bar-chart-squashable="true">
+            <canvas data-bar-chart-target="chart" ></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex-1 bg-white overflow-hidden shadow rounded-lg">
+      <div class="p-3 sm:p-8">
+        <div class="text-lg font-bold text-gray-700 truncate">
+          Caller feeling
+        </div>
+        <div class="mt-2">
+          <div class="h-48" class="px-4 py-2" data-controller="bar-chart" data-bar-chart-data='<%= @caller_feeling.to_json.html_safe %>' data-bar-chart-title=""  data-bar-chart-squashable="true">
+            <canvas data-bar-chart-target="chart" ></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <dl class="sm:grid sm:grid-cols-2 sm:gap-x-8">
+    <div class="overflow-y-auto h-72 mt-8 bg-white rounded-lg flex flex-col px-6 pb-3 pt-1 shadow">
+      <div class="mt-6 text-xl font-bold text-gray-700">
+        Milestones: 50 reports
+      </div>
+      <div class="mt-2 text-xs text-gray-500">
+        Table shows matches that hit milestone in time period
+      </div>
+      <div class="my-5">
+        <%= table @match_milestones, row_url: ->(m) { "/" }, small: true do |tbl| %>
+          <% tbl.col "Name" do |match| %>
+            <%= match.match_names %>
+          <% end %>
+          <% tbl.col "Milestones", classes: "text-right" do |match| %>
+            <div class="font-semibold text-green-500">10 reports!</div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class="overflow-y-auto h-72 mt-8 bg-white rounded-lg flex flex-col px-6 pb-3 pt-1 shadow">
+      <div class="mt-6 text-xl font-bold text-gray-700">
+        Milestones: 1 year in programme
+      </div>
+      <div class="mt-2 text-xs text-gray-500">
+        Table shows callers that hit milestone in time period
+      </div>
+      <div class="my-5">
+        <%= table @caller_milestones, row_url: ->(m) { "/" }, small: true do |tbl| %>
+          <% tbl.col "Name" do |caller| %>
+            <%= caller.name %>
+          <% end %>
+          <% tbl.col "Milestones", classes: "text-right" do |caller| %>
+            <div class="font-semibold text-green-500">1 year in programme!</div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </dl>
+</div>

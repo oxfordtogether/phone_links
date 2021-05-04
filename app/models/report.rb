@@ -13,27 +13,27 @@ class Report < ApplicationRecord
   encrypts :legacy_outcome, type: :string, key: :kms_key
 
   options_field :duration, {
+    no_answer: "I did not get through",
     less_than_fifteen: "less than 15 minutes",
     fifteen_thirty: "15 - 30 minutes",
     thirty_sixty: "30 minutes - 1 hour",
     over_sixty: "Over 1 hour",
-    no_answer: "I did not get through",
   }
 
   options_field :caller_feeling, {
-    great: "great",
-    good: "good",
-    neutral: "neutral",
-    bad: "bad",
     awful: "awful",
+    bad: "bad",
+    neutral: "neutral",
+    good: "good",
+    great: "great",
   }
 
   options_field :callee_feeling, {
-    great: "great",
-    good: "good",
-    neutral: "neutral",
-    bad: "bad",
     awful: "awful",
+    bad: "bad",
+    neutral: "neutral",
+    good: "good",
+    great: "great",
   }
 
   scope :for_pod, lambda { |pod_id|

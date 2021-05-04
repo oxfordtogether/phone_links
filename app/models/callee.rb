@@ -21,6 +21,7 @@ class Callee < ApplicationRecord
   scope :with_matches, -> { includes(:matches) }
   scope :for_pod, ->(pod_id) { where(pod_id: pod_id) }
   scope :for_pod_leader, ->(pod_leader_id) { where(pod_id: PodLeader.find(pod_leader_id).accessible_pod_ids) }
+  scope :active, -> { where(status: :active)}
 
   encrypts :reason_for_referral, type: :string, key: :kms_key
   encrypts :living_arrangements, type: :string, key: :kms_key

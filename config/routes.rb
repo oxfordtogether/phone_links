@@ -23,6 +23,8 @@ Rails.application.routes.draw do
     get "admin/callers", to: "pages#callers"
     get "form_responses", to: "pages#form_responses"
 
+    resources "dashboard", only: %i[index], path: "dashboard/(:filter)", constraints: { filter: /6_months|3_months|1_month|2_weeks/ }
+
     # need this to get search to work on people/new after failed validation in form
     get "people" => "people#new"
 
