@@ -42,7 +42,7 @@ class A::DashboardController < A::AController
     @caller_feeling_raw = Report.where(legacy_pod_id: nil).where("created_at > ?", period_start).group(:caller_feeling).count
     @caller_feeling = caller_feeling_hash.map { |k, v| {label: v, value: @caller_feeling_raw[k.to_s] || 0, background_color: "rgba(54, 162, 235, 0.2)", border_color: "rgba(54, 162, 235, 1)" } }
 
-    @caller_milestones = Caller.where("created_at > ? and created_at < ?", period_start - 12.months, 12.months.ago)
+    @caller_milestones = Person.where("created_at > ? and created_at < ?", period_start - 12.months, 12.months.ago).filter { |a| a.caller.present? }.map(&:caller)
 
     @match_report_counts_period_start = Report.where("created_at < ?", period_start).where.not(match_id: nil).group(:match).count.filter { |k, v| v < 50 }
     @match_report_counts_now = Report.where.not(match_id: nil).group(:match).count.filter { |k, v| v >= 50 }

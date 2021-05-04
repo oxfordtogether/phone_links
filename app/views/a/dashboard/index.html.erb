@@ -132,8 +132,8 @@
           <% tbl.col "Name" do |match| %>
             <%= match.match_names %>
           <% end %>
-          <% tbl.col "Milestones", classes: "text-right" do |match| %>
-            <div class="font-semibold text-green-500">10 reports!</div>
+          <% tbl.col "Reports", classes: "text-right" do |match| %>
+            <div class="font-semibold text-green-500"><%= match.reports.count %></div>
           <% end %>
         <% end %>
       </div>
@@ -150,8 +150,8 @@
           <% tbl.col "Name" do |caller| %>
             <%= caller.name %>
           <% end %>
-          <% tbl.col "Milestones", classes: "text-right" do |caller| %>
-            <div class="font-semibold text-green-500">1 year in programme!</div>
+          <% tbl.col "Joined", classes: "text-right" do |caller| %>
+            <div class="font-semibold text-green-500"><%= format_date(caller.person.created_at) %></div>
           <% end %>
         <% end %>
       </div>
