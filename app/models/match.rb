@@ -22,7 +22,16 @@ class Match < ApplicationRecord
   scope :for_caller, ->(caller_id) { where("caller_id = ?", caller_id) }
   scope :for_pod_leader, ->(pod_leader_id) { where(pod_id: PodLeader.find(pod_leader_id).accessible_pod_ids) }
 
+  before_save :set_status_change_datetime
+  after_save :create_status_changed_record
+
   encrypts :status_change_notes, type: :string, key: :kms_key
+
+  options_field :report_frequency, {
+    "7": "weekly",
+    "14": "fortnightly",
+    "30": "monthly",
+  }
 
   # TO DO: combine following methods
   def names
@@ -73,5 +82,26 @@ class Match < ApplicationRecord
     return "Callee is assigned to #{callee.pod.name}, match is assigned to #{pod.name}." unless callee.pod == pod
 
     false
+  end
+
+  def set_status_change_datetime
+    if status_changed? || status_change_notes_changed?
+      self.status_change_datetime = DateTime.now
+    end
+  end
+
+  def create_status_changed_record
+    first_status_change = match_status_changes.count == 0 && status_change_datetime.present?
+    subsequent_status_change = match_status_changes.count != 0 && (match_status_changes.sort_by(&:created_at).last.datetime != status_change_datetime)
+
+    if first_status_change || subsequent_status_change
+      MatchStatusChange.create(
+        match: self,
+        created_by_id: Current.person_id,
+        status: status,
+        datetime: status_change_datetime,
+        notes: status_change_notes,
+      )
+    end
   end
 end

@@ -79,6 +79,10 @@ class Caller < ApplicationRecord
     matches.filter { |m| m.ended }
   end
 
+  def live_matches
+    active_matches + paused_matches + winding_down_matches
+  end
+
   def active
     status == :active
   end

@@ -18,7 +18,10 @@ RSpec.describe "edit match", type: :system do
     select pods[1].name, from: "Pod"
     select "Ended", from: "Status"
     fill_in "Status change notes", with: "some note"
-    click_on "Save"
+
+    expect do
+      click_on "Save"
+    end.to change { MatchStatusChange.count }.by(1)
 
     match.reload
 

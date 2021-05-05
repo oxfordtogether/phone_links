@@ -8,7 +8,12 @@ class Pl::CallersController < Pl::PlController
 
   def interactions
     @pod = @fetcher.pod(params[:id])
-    @callers = @pod.callers
+    @callers = @pod.callers.filter { |c| c.status != :left_programme }
+  end
+
+  def alerts
+    @pod = @fetcher.pod(params[:id])
+    @callers = @pod.callers.filter { |c| c.status != :left_programme }
   end
 
   def status

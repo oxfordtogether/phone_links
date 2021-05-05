@@ -270,7 +270,9 @@ CREATE TABLE public.matches (
     deleted_at timestamp without time zone,
     status character varying,
     status_change_notes_ciphertext text,
-    status_change_datetime timestamp without time zone
+    status_change_datetime timestamp without time zone,
+    report_frequency character varying,
+    alerts_paused_until date
 );
 
 
@@ -1704,6 +1706,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210329123023'),
 ('20210411145446'),
 ('20210412170354'),
-('20210503101028');
+('20210503101028'),
+('20210505110236');
 
 
