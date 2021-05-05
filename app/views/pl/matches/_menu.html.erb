@@ -1,0 +1,6 @@
+<div class="mr-8">
+  <%= side_nav do |nav| %>
+    <% nav.link "Status", edit_pl_match_path(@match, :status), "check-circle" %>
+    <% nav.link "Alerts", edit_pl_match_path(@match, :alerts), "exclamation-diamond" %>
+  <% end %>
+</div>

@@ -30,10 +30,9 @@ class A::MatchesController < A::AController
   end
 
   def create
-    @match = Match.new(new_provisional_match_params.merge({ status_change_datetime: DateTime.now }))
+    @match = Match.new(new_provisional_match_params)
 
     if @match.save
-      MatchStatusChange.create(match: @match, created_by: @current_user, status: @match.status, notes: @match.status_change_notes, datetime: @match.status_change_datetime)
       redirect_to a_match_path(@match), notice: "Provisional match was successfully created."
     else
       @callers = Caller.all
@@ -48,8 +47,7 @@ class A::MatchesController < A::AController
   end
 
   def update
-    if @match.update(match_params.merge({ status_change_datetime: DateTime.now }))
-      MatchStatusChange.create(match: @match, created_by: @current_user, status: @match.status, notes: @match.status_change_notes, datetime: @match.status_change_datetime)
+    if @match.update(match_params)
       redirect_to a_match_path(@match), notice: "Match was successfully updated."
     else
       render :edit

@@ -24,9 +24,8 @@ class Pl::MatchesController < Pl::PlController
     @fetcher.callee(new_match_params[:callee_id])
     @fetcher.caller(new_match_params[:caller_id])
 
-    @match = Match.new(new_match_params.merge({ status_change_datetime: DateTime.now }))
+    @match = Match.new(new_match_params)
     if @match.save
-      MatchStatusChange.create(match: @match, created_by: @current_user, status: @match.status, notes: @match.status_change_notes, datetime: @match.status_change_datetime)
       redirect_to pl_match_path(@match), notice: "Match was successfully created."
     else
       @callees = @fetcher.callees(@match.pod_id)
@@ -37,6 +36,8 @@ class Pl::MatchesController < Pl::PlController
 
   def edit
     @match.status_change_notes = nil
+
+    redirect_to edit_pl_match_path(@match, :status) unless params[:page]
   end
 
   def update
@@ -44,8 +45,7 @@ class Pl::MatchesController < Pl::PlController
     @fetcher.callee(@match.callee_id)
     @fetcher.caller(@match.caller_id)
 
-    if @match.update(edit_match_params.merge({ status_change_datetime: DateTime.now }))
-      MatchStatusChange.create(match: @match, created_by: @current_user, status: @match.status, notes: @match.status_change_notes, datetime: @match.status_change_datetime)
+    if @match.update(edit_match_params)
       redirect_to pl_match_path(@match), notice: "Match was successfully updated."
     else
       render :edit
@@ -64,6 +64,6 @@ class Pl::MatchesController < Pl::PlController
   end
 
   def edit_match_params
-    params.require(:match).permit(:status, :status_change_notes)
+    params.require(:match).permit(:status, :status_change_notes, :report_frequency, :alerts_paused_until)
   end
 end

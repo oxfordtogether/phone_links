@@ -1,0 +1,10 @@
+<%= tailwind_form_with(model: @match, url: pl_match_path(@match), local: true) do |form| %>
+  <%= form.section "" do %>
+    <%= form.select :report_frequency, Match.report_frequency_options_for_select, label: "Expected report frequency", width: :half, info_message: "" %>
+    <%= form.date_field :alerts_paused_until, label: "Pause alerts until", width: :full %>
+  <% end %>
+  <%= form.button_section do %>
+    <%= form.cancel pl_match_path(@match) %>
+    <%= form.submit "Save" %>
+  <% end %>
+<% end %>

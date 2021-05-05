@@ -1,0 +1,88 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs home_path: pl_pod_path(@pod) do |list| %>
+    <% list.link "Callers", pl_callers_path(@pod) %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <%= render partial: "index_page_head" %>
+<% end %>
+<% if @callers.length > 0 %>
+  <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="shadow overflow-hidden border-b border-gray-200">
+        <table class="table-fixed min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
+                Caller
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
+                Callee
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
+                Last report
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
+                Report<br>
+                frequency
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
+                Alerts
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% @callers.each do |caller| %>
+              <% caller.live_matches.each_with_index do |match, index| %>
+                <% has_report = match.reports.count > 0 %>
+                <% if has_report %>
+                  <% last_report = match.reports.sort_by(&:created_at).last.created_at %>
+                  <% days_since_last_report = (Date.today.to_date - last_report.to_date).to_i %>
+                  <% alert = match.report_frequency.present? && (match.report_frequency.to_s.to_i * 2 < days_since_last_report) %>
+                <% end %>
+                <tr>
+                  <% if index == 0 %>
+                    <td rowspan="<%= caller.live_matches.count %>" class="px-6 py-4 text-sm text-gray-500">
+                      <%= link_to caller.name, pl_person_path(caller.person) %>
+                    </td>
+                  <% end %>
+                  <td class="px-6 py-4 text-sm text-gray-500">
+                    <%= link_to match.callee.name, pl_person_path(match.callee.person) %>
+                  </td>
+                  <td class="px-6 py-4 text-sm text-gray-500">
+                    <% if has_report %>
+                      <div class="<%= alert ? 'text-red-600' : 'text-gray-500' %>"><%= format_date_as_days_since(last_report) %></div>
+                    <% else %>
+                      <div class="italic">No reports</div>
+                    <% end %>
+                  </td>
+                  <td class="px-6 py-4 text-sm text-gray-500">
+                    <%= match.humanized_report_frequency %>
+                  </td>
+                  <td class="px-6 py-4 text-sm text-gray-500">
+                    <% if match.alerts_paused_until && match.alerts_paused_until > Date.today %>
+                      Paused until <%= format_date(match.alerts_paused_until) %>
+                    <% elsif alert %>
+                      <div class="flex justify-start">
+                        <%= icon("exclamation-diamond", class: "icon__alert h-5 w-5 text-red-600") %>
+                      </div>
+                    <% end %>
+                  </td>
+                  <td class="px-6 py-4 text-sm text-gray-500">
+                    <%= link_to "Edit", edit_pl_match_path(match, :alerts), class: "text-blue-500 hover:text-blue-700" %>
+                  </td>
+                </tr>
+              <% end %>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <div class="flex justify-center text-gray-600">
+    No Callers have been added yet :(
+  </div>
+<% end %>

@@ -136,6 +136,7 @@ Rails.application.routes.draw do
         resources :callers, only: %i[index] do
           collection do
             get :interactions
+            get :alerts
           end
         end
         resources :callees, only: %i[index]
@@ -169,7 +170,11 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :matches, only: %i[show edit update]
+    resources :matches, only: %i[show edit update] do
+      member do
+        get :edit, path: "edit(/:page)"
+      end
+    end
 
     resources :notes, only: %i[edit update destroy]
   end
