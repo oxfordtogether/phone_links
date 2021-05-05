@@ -21,5 +21,5 @@
 <% end %>
 <%= nav_tabs do |nav| %>
   <% nav.link "Events", pl_match_path(@match) %>
-  <% nav.link "Details", edit_pl_match_path(@match) %>
+  <% nav.link "Details", edit_pl_match_path(@match), partial_match: true %>
 <% end %>

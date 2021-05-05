@@ -6,6 +6,9 @@
 <% content_for :page_head do %>
   <%= render partial: "index_page_head" %>
 <% end %>
+<div class="mb-5">
+  <%= info(title: 'Alerts', info: "Alerts highlight if no report has been received for a match for a period of time. To set up alerts, set the expected report frequency for a match on the match profile.") %>
+</div>
 <% if @callers.length > 0 %>
   <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
