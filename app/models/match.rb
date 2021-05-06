@@ -108,7 +108,7 @@ class Match < ApplicationRecord
   def support_index
     feeling_to_numeric_hash = {awful: -2, bad: -1, neutral: 0, good: 1, great: 1}
 
-    if reports.count >= 3
+    if reports.last(10).filter { |r| r.caller_feeling.present? }.count >= 3
       reports.sort_by(&:created_at).last(10).map(&:caller_feeling).map { |v| feeling_to_numeric_hash[v] }.compact.sum
     else
       nil
