@@ -1,0 +1,48 @@
+<% content_for :breadcrumbs do %>
+  <%= breadcrumbs do |list| %>
+    <% list.link "Analytics", a_analytics_path %>
+    <% list.link "Matches", matches_a_analytics_path %>
+  <% end %>
+<% end %>
+<% content_for :page_head do %>
+  <div class="-mt-6">
+    <%= render partial: "index_page_head" %>
+  </div>
+<% end %>
+<div class="mb-4">
+  <%= info(title: 'Support index', info: "The support index is based on the caller's feeling after the phone call. Negative values indicate more support may be helpful") %>
+</div>
+<% if @matches.length > 0 %>
+  <%= table @matches, row_url: ->(m) { a_match_path(m) } do |tbl| %>
+    <% tbl.col "Match" do |match| %>
+      <%= match.match_names %>
+    <% end %>
+    <% tbl.col "Support index" do |match| %>
+      <% if match.support_index.present? %>
+        <%= match.support_index %>
+      <% else %>
+        <div class="italic">Waiting for more data</div>
+      <% end %>
+    <% end %>
+    <% tbl.col "Caller feeling" do |match| %>
+      <%= bar_sparklines(data: match.reports.sort_by(&:created_at).last(10).map(&:caller_feeling)) %>
+    <% end %>
+    <% tbl.col "Callee feeling" do |match| %>
+      <%= bar_sparklines(data: match.reports.sort_by(&:created_at).last(10).map(&:callee_feeling)) %>
+    <% end %>
+    <% tbl.col "Last report" do |match| %>
+      <% if match.reports.count > 0 %>
+        <% last_report = match.reports.sort_by(&:created_at).last %>
+        <% days_since_last_report = (Date.today.to_date - last_report.created_at.to_date).to_i %>
+        <% alert = 30 < days_since_last_report %>
+        <div class="<%= alert ? 'text-red-600' : 'text-gray-500' %>"><%= format_date_as_days_since(last_report.created_at) %></div>
+      <% else %>
+        <div class="italic">No reports</div>
+      <% end %>
+    <% end %>
+  <% end %>
+<% else %>
+  <div class="flex justify-center text-gray-600">
+    No Matches have been added yet :(
+  </div>
+<% end %>

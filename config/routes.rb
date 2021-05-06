@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     resources "analytics", only: %i[index] do
       collection do
         get :dashboard, path: "dashboard/(:filter)", constraints: { filter: /6_months|3_months|1_month|2_weeks/ }, to: "analytics#dashboard"
-        get "callers", to: "analytics#callers"
+        get "matches", to: "analytics#matches"
       end
     end
 

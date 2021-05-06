@@ -53,7 +53,7 @@ class A::AnalyticsController < A::AController
     @match_milestones = @match_report_counts_period_start.keys & @match_report_counts_now.keys
   end
 
-  def callers
-    @callers = Caller.all.filter { |c| c.live }
+  def matches
+    @matches = Match.live.all.sort_by { |m| m.support_index ? m.support_index : 1000 }
   end
 end

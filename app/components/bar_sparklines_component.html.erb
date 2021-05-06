@@ -1,0 +1,18 @@
+<div class="flex mt-3 mb-1">
+  <% @data.each do |d| %>
+    <% case d %>
+    <% when :awful %>
+    <div class="w-2 h-6 mt-3 bg-red-400 rounded-sm mx-0.25"></div>
+    <% when :bad %>
+    <div class="w-2 h-3 mt-3 bg-red-300 rounded-sm mx-0.25"></div>
+    <% when :neutral %>
+    <div class="w-2 h-1 mt-3 bg-yellow-300 rounded-sm mx-0.25"></div>
+    <% when :good %>
+    <div class="w-2 h-3 mt-1 bg-green-300 rounded-sm mx-0.25"></div>
+    <% when :great %>
+    <div class="w-2 h-6 -mt-2 bg-green-400 rounded-sm mx-0.25"></div>
+  <% else %>
+    <div class="w-2 h-1 mt-3 bg-gray-300 rounded-sm mx-0.25"></div>
+  <% end %>
+<% end %>
+</div>

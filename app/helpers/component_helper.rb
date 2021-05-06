@@ -54,4 +54,8 @@ module ComponentHelper
   def tooltip(*args)
     render TooltipComponent.new(*args)
   end
+
+  def bar_sparklines(*args)
+    render BarSparklinesComponent.new(*args)
+  end
 end

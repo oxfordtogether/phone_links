@@ -4,7 +4,11 @@ module.exports = {
   // },
   darkMode: false,
   theme: {
-    extend: {},
+    extend: {
+      margin: {
+        "0.25": "0.0625rem"
+      }
+    },
     rotate: {
       '-180': '-180deg',
       '-135': '-135deg',
