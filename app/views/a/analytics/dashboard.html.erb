@@ -1,9 +1,14 @@
 <% content_for :breadcrumbs do %>
   <%= breadcrumbs do |list| %>
-    <% list.link "Analytics", a_dashboard_index_path %>
+    <% list.link "Analytics", a_analytics_path %>
+    <% list.link "Dashboard", dashboard_a_analytics_path %>
   <% end %>
 <% end %>
-
+<% content_for :page_head do %>
+  <div class="-mt-6">
+    <%= render partial: "index_page_head" %>
+  </div>
+<% end %>
 <div class="max-w-6xl mx-auto px-2">
   <div class="flex justify-end">
     <div class="pb-6">

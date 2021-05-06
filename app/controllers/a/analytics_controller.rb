@@ -1,18 +1,22 @@
-class A::DashboardController < A::AController
+class A::AnalyticsController < A::AController
   NavTabsLinkWithActive = Struct.new(:name, :path, :active?)
   NavTabsLink = Struct.new(:name, :path, :partial_match)
 
   def index
+    redirect_to dashboard_a_analytics_path("6_months")
+  end
+
+  def dashboard
     if !params[:filter]
-      redirect_to a_dashboard_index_path("6_months") unless params[:filter]
+      redirect_to dashboard_a_analytics_path("6_months") unless params[:filter]
       return
     end
 
     @date_range_options = [
-        NavTabsLink.new("Last 6 months", a_dashboard_index_path("6_months")),
-        NavTabsLink.new("Last 3 months", a_dashboard_index_path("3_months")),
-        NavTabsLink.new("Last month", a_dashboard_index_path("1_month")),
-        NavTabsLink.new("Last 2 weeks", a_dashboard_index_path("2_weeks"))
+        NavTabsLink.new("Last 6 months", dashboard_a_analytics_path("6_months")),
+        NavTabsLink.new("Last 3 months", dashboard_a_analytics_path("3_months")),
+        NavTabsLink.new("Last month", dashboard_a_analytics_path("1_month")),
+        NavTabsLink.new("Last 2 weeks", dashboard_a_analytics_path("2_weeks"))
       ]
 
     period_start = case params[:filter]
@@ -47,5 +51,9 @@ class A::DashboardController < A::AController
     @match_report_counts_period_start = Report.where("created_at < ?", period_start).where.not(match_id: nil).group(:match).count.filter { |k, v| v < 50 }
     @match_report_counts_now = Report.where.not(match_id: nil).group(:match).count.filter { |k, v| v >= 50 }
     @match_milestones = @match_report_counts_period_start.keys & @match_report_counts_now.keys
+  end
+
+  def callers
+    @callers = Caller.all.filter { |c| c.live }
   end
 end
