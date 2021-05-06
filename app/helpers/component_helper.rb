@@ -50,4 +50,8 @@ module ComponentHelper
   def toggle(*args)
     render ToggleComponent.new(*args)
   end
+
+  def tooltip(*args)
+    render TooltipComponent.new(*args)
+  end
 end

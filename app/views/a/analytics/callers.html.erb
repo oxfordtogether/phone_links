@@ -53,9 +53,24 @@
                   <td class="px-6 py-4 text-sm text-gray-500">
                     <div class="flex">
                       <% match.reports.sort_by(&:created_at).take(3).each do |report| %>
-                        <div class="flex justify-center items-center mr-4 border-2 py-0.5 pl-0.5 pr-1 rounded-md">
-                          <%= callee_feeling(feeling: last_report.callee_feeling) %>
-                          <%= caller_feeling(feeling: last_report.caller_feeling) %>
+                        <div>
+                          <%= render TooltipComponent.new do |t| %>
+                            <% t.content do %>
+                              <div>
+                                Report submitted: <%= format_date_as_days_since(report.created_at) %>
+                              </div>
+                              <div>
+                                Caller: <%= report.humanized_caller_feeling %>, Callee: <%= report.humanized_callee_feeling %>
+                              </div>
+                            <% end %>
+
+                            <% t.target do %>
+                              <div class="flex justify-center items-center mr-4 border-2 py-0.5 pl-0.5 pr-1 rounded-md">
+                                <%= callee_feeling(feeling: last_report.callee_feeling) %>
+                                <%= caller_feeling(feeling: last_report.caller_feeling) %>
+                              </div>
+                            <% end %>
+                          <% end %>
                         </div>
                       <% end %>
                     </div>
