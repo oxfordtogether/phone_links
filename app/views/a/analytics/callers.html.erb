@@ -55,7 +55,7 @@
                       <% match.reports.sort_by(&:created_at).take(3).each do |report| %>
                         <div>
                           <%= render TooltipComponent.new do |t| %>
-                            <% t.content do %>
+                            <% t.target_content do %>
                               <div>
                                 Report submitted: <%= format_date_as_days_since(report.created_at) %>
                               </div>
