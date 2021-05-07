@@ -21,6 +21,7 @@ class Match < ApplicationRecord
   scope :live, -> { where(status: %i[active paused winding_down]) }
   scope :for_caller, ->(caller_id) { where("caller_id = ?", caller_id) }
   scope :for_pod_leader, ->(pod_leader_id) { where(pod_id: PodLeader.find(pod_leader_id).accessible_pod_ids) }
+  scope :with_reports, -> { includes(:reports) }
 
   before_save :set_status_change_datetime
   after_save :create_status_changed_record

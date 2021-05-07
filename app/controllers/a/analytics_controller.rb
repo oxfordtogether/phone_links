@@ -54,6 +54,6 @@ class A::AnalyticsController < A::AController
   end
 
   def matches
-    @matches = Match.live.all.sort_by { |m| m.support_index ? m.support_index : 1000 }
+    @matches = Match.live.with_reports.all.sort_by { |m| m.support_index ? m.support_index : 1000 }
   end
 end
