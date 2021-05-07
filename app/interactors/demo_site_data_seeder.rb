@@ -25,24 +25,24 @@ class DemoSiteDataSeeder
   def seed
     # pod and pod leaders
     FactoryBot.create_list(:pod_leader, 10)
-    FactoryBot.create(:pod_leader,
-                      person: FactoryBot.create(:person, auth0_id: nil, first_name: "Paula", last_name: "PodLeader", email: "paula_podleader@teztr.com"),
-                      status: "active")
+    # FactoryBot.create(:pod_leader,
+    #                   person: FactoryBot.create(:person, auth0_id: nil, first_name: "Paula", last_name: "PodLeader", email: "paula_podleader@teztr.com"),
+    #                   status: "active")
 
     FactoryBot.create_list(:pod, 10)
     FactoryBot.create(:pod, pod_leader: nil)
 
     # admins
     FactoryBot.create_list(:admin, 2)
-    FactoryBot.create(:admin,
-                      person: FactoryBot.create(:person, auth0_id: nil, first_name: "Agatha", last_name: "Admin", email: "agatha_admin@teztr.com"),
-                      status: "active")
+    # FactoryBot.create(:admin,
+    #                   person: FactoryBot.create(:person, auth0_id: nil, first_name: "Agatha", last_name: "Admin", email: "agatha_admin@teztr.com"),
+    #                   status: "active")
 
     # callers
     FactoryBot.create_list(:caller, 75)
-    FactoryBot.create(:caller,
-                      person: FactoryBot.create(:person, auth0_id: nil, first_name: "Clare", last_name: "Caller", email: "clare_caller@teztr.com"),
-                      status: "active")
+    # FactoryBot.create(:caller,
+    #                   person: FactoryBot.create(:person, auth0_id: nil, first_name: "Clare", last_name: "Caller", email: "clare_caller@teztr.com"),
+    #                   status: "active")
 
     # callees
     FactoryBot.create_list(:callee, 150)

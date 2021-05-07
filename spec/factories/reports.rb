@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :report do
-    created_at { FFaker::Time.between("2019-01-01", Date.today) }
+    created_at { FFaker::Time.between("2020-06-01", Date.today) }
     match { Match.order("RANDOM()").first || create(:match) }
     duration { Report.durations.keys.sample }
     summary { SUMMARY_EXAMPLE.sample }
