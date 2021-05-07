@@ -17,20 +17,25 @@
     <% tbl.col "Match" do |match| %>
       <%= match.match_names %>
     <% end %>
-    <% tbl.col "Support index" do |match| %>
+    <% tbl.col "Support index", classes: "text-right" do |match| %>
       <% if match.support_index.present? %>
         <%= match.support_index %>
       <% else %>
         <div class="italic">Waiting for more data</div>
       <% end %>
     <% end %>
-    <% tbl.col "Caller feeling" do |match| %>
-      <%= bar_sparklines(data: match.reports.sort_by(&:created_at).last(10).map(&:caller_feeling)) %>
+
+    <% tbl.col "Caller feeling", classes: "text-right" do |match| %>
+      <div class="flex justify-end">
+        <%= bar_sparklines(data: match.reports.sort_by(&:created_at).last(10).map(&:caller_feeling)) %>
+      </div>
     <% end %>
-    <% tbl.col "Callee feeling" do |match| %>
-      <%= bar_sparklines(data: match.reports.sort_by(&:created_at).last(10).map(&:callee_feeling)) %>
+    <% tbl.col "Callee feeling", classes: "text-right" do |match| %>
+      <div class="flex justify-end">
+        <%= bar_sparklines(data: match.reports.sort_by(&:created_at).last(10).map(&:callee_feeling)) %>
+      </div>
     <% end %>
-    <% tbl.col "Last report" do |match| %>
+    <% tbl.col "Last report", classes: "text-right" do |match| %>
       <% if match.reports.count > 0 %>
         <% last_report = match.reports.sort_by(&:created_at).last %>
         <% days_since_last_report = (Date.today.to_date - last_report.created_at.to_date).to_i %>

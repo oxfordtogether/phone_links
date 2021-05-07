@@ -11,7 +11,7 @@
     <%= render(SidebarLinkComponent.new(name: "Referrals", url: a_referrals_path, icon: 'heroicon-document-text-small')) %>
     <%= render(SidebarLinkComponent.new(name: "Safeguarding", url: a_safeguarding_concerns_path, icon: 'cone-stripped')) %>
     <%= render(SidebarLinkComponent.new(name: "Admin", url: a_admin_path, icon: 'person-badge')) %>
-    <!-- <%= render(SidebarLinkComponent.new(name: "Analytics", url: a_analytics_path, icon: 'bar-chart-line-fill')) %> -->
+    <%= render(SidebarLinkComponent.new(name: "Analytics", url: a_analytics_path, icon: 'bar-chart-line-fill')) %>
   </div>
   <% if @is_caller %>
     <hr class="border-t border-gray-700 my-5" aria-hidden="true">
