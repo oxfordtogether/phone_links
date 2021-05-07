@@ -28,60 +28,69 @@
     </div>
   </div>
 
-  <dl class="sm:grid sm:grid-cols-6 sm:gap-x-8">
+  <dl class="sm:grid sm:grid-cols-3 sm:gap-x-8">
     <div class="bg-white rounded-lg shadow flex flex-col border-b border-gray-100 p-6 text-center sm:border-0 sm:border-r">
-      <dt class="order-2 mt-2 text-md leading-6 font-medium text-gray-500">
-        Active<br>
-        matches
-      </dt>
-      <dd class="order-1 text-5xl font-extrabold text-indigo-500">
-        <%= Match.live.count %>
-      </dd>
-    </div>
-    <div class="bg-white rounded-lg shadow flex flex-col border-t border-gray-100 p-6 text-center sm:border-0 sm:border-l">
-      <dt class="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
-        Active<br>
-        callers
-      </dt>
-      <dd class="order-1 text-5xl font-extrabold text-pink-500">
-        <%= Caller.active.count %>
-      </dd>
-    </div>
-    <div class="bg-white rounded-lg shadow flex flex-col border-t border-gray-100 p-6 text-center sm:border-0 sm:border-l">
-      <dt class="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
-        Active<br>
-        callees
-      </dt>
-      <dd class="order-1 text-5xl font-extrabold text-yellow-500">
-        <%= Callee.active.count %>
-      </dd>
+      <div class="mb-4 text-lg leading-6 font-bold text-gray-500">Callers</div>
+      <div class="flex justify-evenly">
+        <div class="flex flex-col">
+          <dt class="order-2 mt-1 text-md leading-6 font-medium text-gray-500">
+            Active
+          </dt>
+          <dd class="order-1 text-5xl font-extrabold text-indigo-500">
+            <%= Caller.active.count %>
+          </dd>
+        </div>
+        <div class="flex flex-col">
+          <dt class="order-2 mt-1 text-md leading-6 font-medium text-gray-500">
+            New
+          </dt>
+          <dd class="order-1 text-5xl font-extrabold text-indigo-500">
+            <%= @new_callers %>
+          </dd>
+        </div>
+      </div>
     </div>
     <div class="bg-white rounded-lg shadow flex flex-col border-b border-gray-100 p-6 text-center sm:border-0 sm:border-r">
-      <dt class="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
-        New<br>
-        matches
-      </dt>
-      <dd class="order-1 text-5xl font-extrabold text-green-500">
-        <%= @new_matches %>
-      </dd>
+      <div class="mb-4 text-lg leading-6 font-bold text-gray-500">Callees</div>
+      <div class="flex justify-evenly">
+        <div class="flex flex-col">
+          <dt class="order-2 mt-1 text-md leading-6 font-medium text-gray-500">
+            Active
+          </dt>
+          <dd class="order-1 text-5xl font-extrabold text-yellow-500">
+            <%= Callee.active.count %>
+          </dd>
+        </div>
+        <div class="flex flex-col">
+          <dt class="order-2 mt-1 text-md leading-6 font-medium text-gray-500">
+            New
+          </dt>
+          <dd class="order-1 text-5xl font-extrabold text-yellow-500">
+            <%= @new_callees %>
+          </dd>
+        </div>
+      </div>
     </div>
-    <div class="bg-white rounded-lg shadow flex flex-col border-t border-gray-100 p-6 text-center sm:border-0 sm:border-l">
-      <dt class="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
-        New<br>
-        callers
-      </dt>
-      <dd class="order-1 text-5xl font-extrabold text-purple-500">
-        <%= @new_callers %>
-      </dd>
-    </div>
-    <div class="bg-white rounded-lg shadow flex flex-col border-t border-gray-100 p-6 text-center sm:border-0 sm:border-l">
-      <dt class="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
-        New<br>
-        callees
-      </dt>
-      <dd class="order-1 text-5xl font-extrabold text-blue-500">
-        <%= @new_callees %>
-      </dd>
+    <div class="bg-white rounded-lg shadow flex flex-col border-b border-gray-100 p-6 text-center sm:border-0 sm:border-r">
+      <div class="mb-4 text-lg leading-6 font-bold text-gray-500">Matches</div>
+      <div class="flex justify-evenly">
+        <div class="flex flex-col">
+          <dt class="order-2 mt-1 text-md leading-6 font-medium text-gray-500">
+            Active
+          </dt>
+          <dd class="order-1 text-5xl font-extrabold text-green-500">
+            <%= Match.live.count %>
+          </dd>
+        </div>
+        <div class="flex flex-col">
+          <dt class="order-2 mt-1 text-md leading-6 font-medium text-gray-500">
+            New
+          </dt>
+          <dd class="order-1 text-5xl font-extrabold text-green-500">
+            <%= @new_matches %>
+          </dd>
+        </div>
+      </div>
     </div>
   </dl>
 
@@ -89,10 +98,10 @@
     <div class="flex-1 bg-white overflow-hidden shadow rounded-lg">
       <div class="p-3 sm:p-8">
         <div class="text-lg font-bold text-gray-700 truncate">
-          Call duration
+          Caller feeling
         </div>
         <div class="mt-2">
-          <div class="h-48" class="px-4 py-2" data-controller="bar-chart" data-bar-chart-data='<%= @call_duration.to_json.html_safe %>' data-bar-chart-title=""  data-bar-chart-squashable="true">
+          <div class="h-48" class="px-4 py-2" data-controller="bar-chart" data-bar-chart-data='<%= @caller_feeling.to_json.html_safe %>' data-bar-chart-title=""  data-bar-chart-squashable="true">
             <canvas data-bar-chart-target="chart" ></canvas>
           </div>
         </div>
@@ -113,10 +122,10 @@
     <div class="flex-1 bg-white overflow-hidden shadow rounded-lg">
       <div class="p-3 sm:p-8">
         <div class="text-lg font-bold text-gray-700 truncate">
-          Caller feeling
+          Call duration
         </div>
         <div class="mt-2">
-          <div class="h-48" class="px-4 py-2" data-controller="bar-chart" data-bar-chart-data='<%= @caller_feeling.to_json.html_safe %>' data-bar-chart-title=""  data-bar-chart-squashable="true">
+          <div class="h-48" class="px-4 py-2" data-controller="bar-chart" data-bar-chart-data='<%= @call_duration.to_json.html_safe %>' data-bar-chart-title=""  data-bar-chart-squashable="true">
             <canvas data-bar-chart-target="chart" ></canvas>
           </div>
         </div>
