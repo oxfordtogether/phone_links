@@ -21,7 +21,7 @@ class Match < ApplicationRecord
   scope :live, -> { where(status: %i[active paused winding_down]) }
   scope :for_caller, ->(caller_id) { where("caller_id = ?", caller_id) }
   scope :for_pod_leader, ->(pod_leader_id) { where(pod_id: PodLeader.find(pod_leader_id).accessible_pod_ids) }
-  scope :with_reports, -> { includes(:reports) }
+  scope :with_reports, -> { includes(:reports, :caller, :callee) }
 
   before_save :set_status_change_datetime
   after_save :create_status_changed_record
@@ -109,8 +109,10 @@ class Match < ApplicationRecord
   def support_index
     feeling_to_numeric_hash = {awful: -2, bad: -1, neutral: 0, good: 1, great: 1}
 
-    if reports.last(10).filter { |r| r.caller_feeling.present? }.count >= 3
-      reports.sort_by(&:created_at).last(10).map(&:caller_feeling).map { |v| feeling_to_numeric_hash[v] }.compact.sum
+    sorted_reports = reports.sort_by(&:created_at)
+
+    if sorted_reports.last(10).filter { |r| r.caller_feeling.present? }.count >= 3
+      sorted_reports.last(10).map(&:caller_feeling).map { |v| feeling_to_numeric_hash[v] }.compact.sum
     else
       nil
     end

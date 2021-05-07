@@ -3,12 +3,12 @@ class A::AnalyticsController < A::AController
   NavTabsLink = Struct.new(:name, :path, :partial_match)
 
   def index
-    redirect_to dashboard_a_analytics_path("6_months")
+    redirect_to dashboard_a_analytics_path("2_weeks")
   end
 
   def dashboard
     if !params[:filter]
-      redirect_to dashboard_a_analytics_path("6_months") unless params[:filter]
+      redirect_to dashboard_a_analytics_path("2_weeks") unless params[:filter]
       return
     end
 
