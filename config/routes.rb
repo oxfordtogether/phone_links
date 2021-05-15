@@ -149,6 +149,7 @@ Rails.application.routes.draw do
         resources :matches, only: %i[index new create]
 
         get "reporting", to: "reporting#pod_reporting_pdf"
+        get "reporting/pod_reports_csv", to: "reporting#pod_reports_csv"
       end
     end
 
