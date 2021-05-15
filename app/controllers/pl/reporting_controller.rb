@@ -51,7 +51,7 @@ class Pl::ReportingController < Pl::PlController
           report.summary,
           report.no_answer_notes,
           report.humanized_duration || report.legacy_duration,
-          report.concerns,
+          report.concerns ? true : false
           report.concerns_notes,
           report.caller_feeling,
           report.callee_feeling,
