@@ -63,8 +63,10 @@ class SearchCache
     norm_caller_languages = caller_languages ? normalize(caller_languages) : ""
     norm_callee_languages = callee_languages ? normalize(callee_languages) : ""
 
+    phone = person&.phone ? normalize(person&.phone) : ""
+
     # configure, e.g. if you want to be able to search by DoB as well
-    normalize(person.name) + norm_caller_languages + norm_callee_languages
+    normalize(person.name) + norm_caller_languages + norm_callee_languages + phone
   end
 
   def self.normalize(string)
