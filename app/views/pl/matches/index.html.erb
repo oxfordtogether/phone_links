@@ -7,9 +7,10 @@
   <%= render partial: "index_page_head" %>
 <% end %>
 <% if @matches.length > 0 %>
-  <%= table @matches.sort_by { |m| m.caller.name }, row_url: ->(m) { pl_match_path(m) } do |tbl| %>
+  <%= table @matches.filter { |m| m.status != :ended }.sort_by { |m| m.caller.name }, row_url: ->(m) { pl_match_path(m) } do |tbl| %>
     <% tbl.col "Caller & Callee" do |match| %>
-      <%= match.match_names %><span class="ml-1"><%= match_status(match) %></span>
+      <%= match.match_names %>
+      <span class="ml-1"><%= match_status(match) %></span>
     <% end %>
   <% end %>
 <% else %>
