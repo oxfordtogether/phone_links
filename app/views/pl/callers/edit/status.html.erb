@@ -8,7 +8,7 @@
         method: :post,
         local: true) do |form| %>
     <%= form.section do %>
-      <%= form.select :status, Caller.status_options_for_select, include_blank: false, width: :half %>
+      <%= form.select :status, Caller.status_options_for_select, include_blank: false, width: :half, info_message: "Changing the caller's status to left programme will end all their matches" %>
       <%= form.text_area :status_change_notes %>
     <% end %>
     <%= form.button_section do %>
