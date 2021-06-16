@@ -3,7 +3,7 @@ class Pl::CallersController < Pl::PlController
 
   def index
     @pod = @fetcher.pod(params[:id])
-    @callers = @pod.callers
+    @callers = @pod.callers.filter { |m| m.status != :left_programme }
   end
 
   def interactions
