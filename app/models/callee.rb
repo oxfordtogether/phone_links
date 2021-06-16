@@ -7,6 +7,20 @@ class Callee < ApplicationRecord
     active: "Active",
   }
 
+  after_save :update_matches, if: :saved_change_to_status?
+  def update_matches
+    if status == :left_programme
+      matches.each do |m|
+        if m.status != :ended
+          m.status = :ended
+          m.status_change_datetime = Time.now()
+          m.status_change_notes = "Callee left programme"
+          m.save
+        end
+      end
+    end
+  end
+
   belongs_to :person
   belongs_to :pod, optional: true
   has_many :matches
