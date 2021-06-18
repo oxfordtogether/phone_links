@@ -422,7 +422,8 @@ CREATE TABLE public.pod_leaders (
     person_id bigint NOT NULL,
     status_change_notes_ciphertext text,
     status character varying NOT NULL,
-    status_change_datetime timestamp without time zone
+    status_change_datetime timestamp without time zone,
+    report_received_email_updates boolean
 );
 
 
@@ -1707,6 +1708,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210411145446'),
 ('20210412170354'),
 ('20210503101028'),
-('20210505110236');
+('20210505110236'),
+('20210618114520');
 
 

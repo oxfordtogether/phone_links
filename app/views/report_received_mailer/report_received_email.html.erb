@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>
+      Hi <%= @recipient.name %>
+    </p>
+    <p>
+      A new report has been submitted. View the report <a href='<%= "#{@site_url}/pl/pods/#{@pod.id}/reports?view=inbox" %>' target="_blank">here</a>.
+    </p>
+    <p>
+      From, Oxford Hub
+    </p>
+  </body>
+</html>

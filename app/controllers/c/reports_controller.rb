@@ -24,6 +24,7 @@ class C::ReportsController < C::CController
     @report = Report.new(report_params_hash)
 
     if @report.save
+      ReportReceivedEmailWorker.perform_async(@report.id)
       redirect_to c_match_path(@match), notice: "Report was successfully created."
     else
       render :new
