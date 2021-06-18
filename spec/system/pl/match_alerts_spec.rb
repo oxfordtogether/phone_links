@@ -36,6 +36,7 @@ RSpec.describe "edit match", type: :system do
   it "handles no recent reports, weekly report frequency" do
     FactoryBot.create(:report, match: match, created_at: Date.today - 8.weeks)
     match.report_frequency = "7"
+    match.alerts_paused_until = nil
     match.save
 
     login_as nil
