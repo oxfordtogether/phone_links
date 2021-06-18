@@ -5,7 +5,7 @@ class ReportReceivedMailer < ApplicationMailer
     @recipient = recipient
     @site_url = ENV["SITE_URL"] || Rails.application.credentials.site_url
 
-    mail(to: clean_email(recipient.email), subject: "Oxford Hub Phone Links: report submitted")
+    mail(to: clean_email(recipient.email), subject: "Oxford Hub Phone Links: Report Submitted")
   end
 
   private
