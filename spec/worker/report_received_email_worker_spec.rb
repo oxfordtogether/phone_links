@@ -10,7 +10,10 @@ RSpec.describe "ReportReceivedEmailWorker", type: :worker do
   it "only sends email if configuration is correct" do
     params = {report: report, pod: pod, recipient: pod_leader.person}
 
-    expect(ReportReceivedMailer).to receive(:report_received_email).with(params).and_return( double("Mailer", :deliver => true) )
+    expect(ReportReceivedMailer)
+        .to receive(:report_received_email)
+        .with(report, pod, pod_leader.person)
+        .and_return( double("Mailer", :deliver => true) )
 
     ReportReceivedEmailWorker.new.perform(report.id)
   end

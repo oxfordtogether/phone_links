@@ -11,6 +11,6 @@ class ReportReceivedEmailWorker
     return unless pod.present? && pod_leader.present?
     return unless pod_leader.report_received_email_updates
 
-    ReportReceivedMailer.report_received_email(report: report, pod: pod, recipient: pod_leader.person).deliver
+    ReportReceivedMailer.report_received_email(report, pod, pod_leader.person).deliver
   end
 end

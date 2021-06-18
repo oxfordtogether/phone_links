@@ -1,11 +1,11 @@
 class ReportReceivedMailer < ApplicationMailer
-  def report_received_email
-    @report = params[:report]
-    @pod = params[:pod]
-    @recipient = params[:recipient]
+  def report_received_email(report, pod, recipient)
+    @report = report
+    @pod = pod
+    @recipient = recipient
     @site_url = ENV["SITE_URL"] || Rails.application.credentials.site_url
 
-    mail(to: clean_email(@recipient.email), subject: "Oxford Hub Phone Links: report submitted")
+    mail(to: clean_email(recipient.email), subject: "Oxford Hub Phone Links: report submitted")
   end
 
   private
