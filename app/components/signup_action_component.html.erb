@@ -34,11 +34,10 @@
       <% end %>
     <% end %>
   </div>
-  <div>
+  <div class="flex gap-x-2">
     <% if @person.invite_sent %>
-      Invite sent <%= time_ago_in_words(@person.invite_email_sent_at) %> ago
-      <%= button_link_to "resend", save_invite_a_edit_person_path(@person), size: "very_small" %>
+      <span> Invite sent <%= time_ago_in_words(@person.invite_email_sent_at) %> ago</span>
+      <%= button_to "resend", save_invite_a_edit_person_path(@person), class: "inline-flex items-center px-1.5 py-0.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
     <% end %>
-
   </div>
 </div>
