@@ -10,28 +10,26 @@ class A::PeopleController < A::AController
   def events
     @events = []
 
-    if params["notes"] != "false"
-      @events += Note.where(person_id: @person.id)
-    end
+    @events += Note.where(person_id: @person.id) if params["notes"] != "false"
 
     if params["reports"] != "false"
       @events += if @person.callee.present?
-        Report.where(match_id: @person.callee.match_ids)
-      elsif @person.caller.present?
-        Report.where(match_id: @person.caller.match_ids)
-      else
-        []
-      end
+                   Report.where(match_id: @person.callee.match_ids)
+                 elsif @person.caller.present?
+                   Report.where(match_id: @person.caller.match_ids)
+                 else
+                   []
+                 end
     end
 
     if params["status_changes"] != "false"
       @events += if @person.callee.present?
-        MatchStatusChange.where(match_id: @person.callee.match_ids)
-      elsif @person.caller.present?
-        MatchStatusChange.where(match_id: @person.caller.match_ids)
-      else
-        []
-      end
+                   MatchStatusChange.where(match_id: @person.callee.match_ids)
+                 elsif @person.caller.present?
+                   MatchStatusChange.where(match_id: @person.caller.match_ids)
+                 else
+                   []
+                 end
 
       @events += @person.callee.present? ? RoleStatusChange.where(callee_id: @person.callee.id) : []
       @events += @person.caller.present? ? RoleStatusChange.where(caller_id: @person.caller.id) : []
@@ -105,9 +103,9 @@ class A::PeopleController < A::AController
   def save_invite
     InviteEmailWorker.perform_async(@person.id)
     if @person.update(invite_email_sent_at: DateTime.now)
-      redirect_back(fallback_location: root_path)
+      redirect_back(fallback_location: root_path, notice: "Email sent!")
     else
-      redirect_back(fallback_location: root_path)
+      redirect_back(fallback_location: root_path, notice: "Email sent!")
     end
   end
 
@@ -135,7 +133,6 @@ class A::PeopleController < A::AController
                   :address_line_1, :address_line_2, :address_town, :address_postcode, :email, :phone,
                   :flag_in_progress, :flag_change_notes,
                   callee_attributes: [:id, :reason_for_referral, :living_arrangements, :other_information, :call_frequency, :additional_needs, :languages_notes, :pod_id, { emergency_contacts_attributes: %w[name contact_details relationship] }],
-                  caller_attributes: %w[id experience languages_notes check_in_frequency pod_id]
-          )
+                  caller_attributes: %w[id experience languages_notes check_in_frequency pod_id])
   end
 end

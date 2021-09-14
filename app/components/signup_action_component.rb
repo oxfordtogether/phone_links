@@ -1,5 +1,5 @@
 class SignupActionComponent < ViewComponent::Base
-  delegate :icon, to: :helpers
+  delegate :icon, :button_link_to, to: :helpers
 
   def initialize(person:)
     @person = person

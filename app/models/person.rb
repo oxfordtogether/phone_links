@@ -82,7 +82,7 @@ class Person < ApplicationRecord
 
   def create_person_flag_changed_record
     first_flag_change = person_flag_changes.empty? && flag_change_datetime.present?
-    flag_changed_on_save = !person_flag_changes.empty? && person_flag_changes.sort_by(&:created_at).last.datetime != flag_change_datetime
+    flag_changed_on_save = !person_flag_changes.empty? && person_flag_changes.max_by(&:created_at).datetime != flag_change_datetime
 
     if first_flag_change || flag_changed_on_save
       PersonFlagChange.create(
@@ -91,7 +91,7 @@ class Person < ApplicationRecord
         notes: flag_change_notes,
         created_by: @current_user,
         created_by_id: Current.person_id,
-        datetime: flag_change_datetime
+        datetime: flag_change_datetime,
       )
     end
   end
