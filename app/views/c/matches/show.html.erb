@@ -10,10 +10,10 @@
   <section>
     <div class="mb-4">
       <%= render(OclTools::BlockAlertComponent.new) do |component| %>
-        <% component.with(:title) do %>
+        <% component.title do %>
           Safeguarding
         <% end %>
-        <% component.with(:info) do %>
+        <% component.info do %>
           <p>If you have any safeguarding concerns or something that needs addressing urgently, please fill out the <%= link_to("safeguarding form", "https://www.oxfordhub.org/safeguarding", target: "_blank", class: "underline") %>.</p>
         <% end %>
       <% end %>

@@ -74,7 +74,7 @@ gem "dotenv-rails"
 
 gem "view_component", require: "view_component/engine"
 
-gem "ocl_tools", git: "https://github.com/oxfordtogether/ocl_tools.git"
+gem "ocl_tools", git: "https://github.com/oxfordtogether/ocl_tools.git", ref: "1b273e0"
 # gem "ocl_tools", path: "../ocl_tools"
 
 gem "auth0"
@@ -97,8 +97,8 @@ gem "mailgun-ruby", "~>1.1.6"
 gem "rack-attack"
 
 group :development do
-  gem "solargraph"
   gem "htmlbeautifier", git: "https://github.com/jeremyf/htmlbeautifier", ref: "4d4467f"
+  gem "solargraph"
 end
 
 gem "wicked_pdf", git: "https://github.com/mileszs/wicked_pdf", ref: "2dc96dd"
@@ -111,5 +111,4 @@ group :development do
   gem "wkhtmltopdf-binary-edge"
 end
 
-
-gem 'no_cache_control'
+gem "no_cache_control"
