@@ -3,7 +3,7 @@
       icon: @event.legacy_duration == "did not answer" ? "phone-missed-call" : 'phone-outgoing',
       icon_colour: @event.legacy_duration == "did not answer" ? 'bg-red-300' : 'bg-green-300',
       time: @event.created_at, is_last: @last_event) do |c| %>
-    <% c.with(:title) do %>
+    <% c.title do %>
       <div class="flex flex-wrap items-center">
         <div class="mr-2">Call made on <% if @event.legacy_time_and_date.present? %><%= @event.legacy_time_and_date %><% elsif @event.legacy_date.present? %><% @event.legacy_date %><% else %>?<% end %></div>
         <% if @event.legacy_duration %>
@@ -24,7 +24,7 @@
         </div>
       <% end %>
     <% end %>
-    <% c.with(:body) do %>
+    <% c.body do %>
       <%= simple_format(@event.summary) %>
     <% end %>
   <% end %>

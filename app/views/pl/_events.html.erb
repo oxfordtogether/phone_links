@@ -1,7 +1,7 @@
 <% case @event %>
 <% when Note %>
 <%= render TimelineItemComponent.new(icon: "heroicon-document-text-small", icon_colour: 'bg-blue-300', time: @event.updated_at, is_last: @last_event) do |c| %>
-  <% c.with(:title) do %>
+  <% c.title do %>
     <% if @event.status == 'deleted' %>
       <span class="text-gray-500 italic">Note deleted</span>
     <% else %>
@@ -42,7 +42,7 @@
       <% end %>
     <% end %>
   <% end %>
-  <% c.with(:body) do %>
+  <% c.body do %>
     <% if @event.status != 'deleted' %>
       <%= @event.content %>
     <% end %>
@@ -50,7 +50,7 @@
 <% end %>
 <% when MatchStatusChange %>
 <%= render TimelineItemComponent.new(icon: "link-45deg", icon_colour: 'bg-blue-400', time: @event.datetime, is_last: @last_event) do |c| %>
-  <% c.with(:title) do %>
+  <% c.title do %>
     <% if @event.status == :provisional %>
       <span class="font-semibold">Provisional</span>
       match created for
@@ -68,7 +68,7 @@
       <% end %>
     <% end %>
   <% end %>
-  <% c.with(:body) do %>
+  <% c.body do %>
     <%= @event.notes %>
   <% end %>
 <% end %>
@@ -78,7 +78,7 @@
       icon: @event.legacy_duration == "did not answer" ? "phone-missed-call" : 'phone-outgoing',
       icon_colour: @event.legacy_duration == "did not answer" ? 'bg-red-300' : 'bg-green-300',
       time: @event.created_at, is_last: @last_event) do |c| %>
-    <% c.with(:title) do %>
+    <% c.title do %>
       <div class="flex flex-wrap items-center">
         <div class="mr-2"><%= @event.match.caller.name %> called <%= @event.match.callee.name %> on <% if @event.legacy_time_and_date.present? %><%= @event.legacy_time_and_date %><% elsif @event.legacy_date.present? %><% @event.legacy_date %><% else %>?<% end %></div>
         <% if @event.legacy_duration %>
@@ -99,7 +99,7 @@
         </div>
       <% end %>
     <% end %>
-    <% c.with(:body) do %>
+    <% c.body do %>
       <%= simple_format(@event.summary) %>
     <% end %>
   <% end %>
@@ -108,7 +108,7 @@
           icon: @event.duration == :no_answer ? "phone-missed-call" : 'phone-outgoing',
           icon_colour: @event.duration == :no_answer ? 'bg-red-300' : 'bg-green-300',
           time: @event.created_at, is_last: @last_event) do |c| %>
-    <% c.with(:title) do %>
+    <% c.title do %>
       <div class="flex flex-wrap items-center">
         <div class="mr-2"><%= @event.match.caller.name %> called <%= @event.match.callee.name %> on <%= format_date(@event.date_of_call) %></div>
         <% if @event.duration == :no_answer %>
@@ -141,21 +141,21 @@
         <% end %>
       </div>
     <% end %>
-    <% c.with(:body) do %>
+    <% c.body do %>
       <% if @event.duration != :no_answer %><%= simple_format(@event.summary) %><% else %><%= simple_format(@event.no_answer_notes) %><% end %>
     <% end %>
   <% end %>
 <% end %>
 <% when RoleStatusChange %>
 <%= render TimelineItemComponent.new(icon: "check-circle", icon_colour: 'bg-gray-400', time: @event.datetime, is_last: @last_event) do |c| %>
-  <% c.with(:title) do %>
+  <% c.title do %>
     <%= @event.role_description.to_s.humanize %> status updated to
     <span class="font-semibold"><%= @event.humanized_status %></span>
     <% if @event.created_by %>
       <div class="text-sm text-gray-400 italic">Change made by <%= @event.created_by&.name %></div>
     <% end %>
   <% end %>
-  <% c.with(:body) do %>
+  <% c.body do %>
     <%= @event.notes %>
   <% end %>
 <% end %>
