@@ -4,7 +4,7 @@ jobs:
     parallelism: 1
     docker:
       # this is important to use proper image with browsers support
-      - image: circleci/ruby:2.7.4-browsers
+      - image: circleci/ruby:2.7.2-node-browsers
         environment:
           PGHOST: 127.0.0.1
           PGUSER: postgres
@@ -50,6 +50,10 @@ jobs:
           key: yarn-cache-v2-{{ checksum "yarn.lock" }}
 
       # Get psql
+      - run: sudo rm -rf /var/lib/apt/lists/*
+      # delete Apt cache to avoid the error seen in failed mount https://app.circleci.com/pipelines/github/oxfordtogether/move_together/249/workflows/e3b770b3-d701-4e13-be35-de6c2ef22a5b/jobs/260
+      #   Repository 'http://security.debian.org/debian-security buster/updates InRelease' changed its 'Suite' value from 'stable' to 'oldstable'
+      # see https://support.circleci.com/hc/en-us/articles/360051749992-Build-fails-on-apt-get-update-command
       - run: sudo apt-get update && sudo apt install -y postgresql-client
       - run: which psql
 
