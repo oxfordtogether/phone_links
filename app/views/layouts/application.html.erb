@@ -15,7 +15,7 @@
     <% end %>
     <div data-controller="sidebar" class="sidebar h-screen flex overflow-hidden bg-gray-100">
       <%= render SidebarComponent.new() do |component| %>
-        <% component.with(:navbar_content) do %>
+        <% component.navbar_content do %>
           <%= yield(:navbar_content) %>
         <% end %>
       <% end %>

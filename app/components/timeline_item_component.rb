@@ -1,5 +1,7 @@
 class TimelineItemComponent < ViewComponent::Base
-  with_content_areas :title, :meta, :body
+  renders_one :title
+  renders_one :meta
+  renders_one :body
   delegate :icon, :format_date, to: :helpers
 
   attr_reader :icon_name, :icon_colour, :time
