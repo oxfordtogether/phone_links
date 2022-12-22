@@ -19,6 +19,8 @@ class Pl::ReportsController < Pl::PlController
                   end
 
     current_report_index = @report_ids.index(params[:id].to_i)
+    return redirect_to pl_reports_path(@pod, { view: params[:view] }) if current_report_index.nil?
+
     @current_report_number = current_report_index + 1
 
     @prev_url = if current_report_index != 0
@@ -51,6 +53,8 @@ class Pl::ReportsController < Pl::PlController
       if params[:view] != "all"
         @report_ids = @fetcher.inbox_reports(@pod.id).map(&:id)
         current_report_index = @report_ids.index(params[:id].to_i)
+
+        return redirect_to pl_reports_path(@pod, { view: params[:view] }) if current_report_index.nil?
         next_url = if current_report_index != @report_ids.size - 1
                      pl_report_path(@report_ids[current_report_index + 1], { view: params[:view] })
                    else
