@@ -10,7 +10,7 @@ module Login
         "last_name": user&.last_name || "Userman",
       },
       "extra": {
-        "raw_info": {
+        "raw_infos": {
           "email_verified": email_verified,
         },
       },
