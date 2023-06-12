@@ -12,7 +12,7 @@ class Referral < ApplicationRecord
   options_field :referrer_type, {
     professional: "A professional referring someone",
     friend_or_family_or_contact: "Referring a friend, family member or contact",
-    referring_self: 'I would like to receive a phone call myself',
+    referring_self: "I would like to receive a phone call myself",
   }
 
   options_field :age_bracket, {
@@ -27,27 +27,27 @@ class Referral < ApplicationRecord
   belongs_to :callee, optional: true
   has_many :referral_status_changes
 
-  encrypts :referrer_organisation, type: :string, key: :kms_key
-  encrypts :referrer_full_name, type: :string, key: :kms_key
-  encrypts :referrer_phone, type: :string, key: :kms_key
-  encrypts :referrer_email, type: :string, key: :kms_key
-  encrypts :first_name, type: :string, key: :kms_key
-  encrypts :last_name, type: :string, key: :kms_key
-  encrypts :phone, type: :string, key: :kms_key
-  encrypts :date_of_birth, type: :date, key: :kms_key
-  encrypts :address_line_1, type: :string, key: :kms_key
-  encrypts :address_line_2, type: :string, key: :kms_key
-  encrypts :address_town, type: :string, key: :kms_key
-  encrypts :address_postcode, type: :string, key: :kms_key
-  encrypts :reason_for_referral, type: :string, key: :kms_key
-  encrypts :additional_needs, type: :string, key: :kms_key
-  encrypts :other_information, type: :string, key: :kms_key
-  encrypts :other_support, type: :string, key: :kms_key
-  encrypts :languages, type: :string, key: :kms_key
-  encrypts :emergency_contact_name, type: :string, key: :kms_key
-  encrypts :emergency_contact_relationship, type: :string, key: :kms_key
-  encrypts :emergency_contact_details, type: :string, key: :kms_key
-  encrypts :notes, type: :string, key: :kms_key
+  has_encrypted :referrer_organisation, type: :string, key: :kms_key
+  has_encrypted :referrer_full_name, type: :string, key: :kms_key
+  has_encrypted :referrer_phone, type: :string, key: :kms_key
+  has_encrypted :referrer_email, type: :string, key: :kms_key
+  has_encrypted :first_name, type: :string, key: :kms_key
+  has_encrypted :last_name, type: :string, key: :kms_key
+  has_encrypted :phone, type: :string, key: :kms_key
+  has_encrypted :date_of_birth, type: :date, key: :kms_key
+  has_encrypted :address_line_1, type: :string, key: :kms_key
+  has_encrypted :address_line_2, type: :string, key: :kms_key
+  has_encrypted :address_town, type: :string, key: :kms_key
+  has_encrypted :address_postcode, type: :string, key: :kms_key
+  has_encrypted :reason_for_referral, type: :string, key: :kms_key
+  has_encrypted :additional_needs, type: :string, key: :kms_key
+  has_encrypted :other_information, type: :string, key: :kms_key
+  has_encrypted :other_support, type: :string, key: :kms_key
+  has_encrypted :languages, type: :string, key: :kms_key
+  has_encrypted :emergency_contact_name, type: :string, key: :kms_key
+  has_encrypted :emergency_contact_relationship, type: :string, key: :kms_key
+  has_encrypted :emergency_contact_details, type: :string, key: :kms_key
+  has_encrypted :notes, type: :string, key: :kms_key
 
   def name
     "#{first_name} #{last_name}"
@@ -63,7 +63,7 @@ class Referral < ApplicationRecord
         address_line_2: address_line_2,
         address_town: address_town,
         address_postcode: address_postcode,
-        age_bracket: age_bracket
+        age_bracket: age_bracket,
       },
       reason_for_referral: reason_for_referral,
       additional_needs: additional_needs,
@@ -73,11 +73,11 @@ class Referral < ApplicationRecord
         {
           name: emergency_contact_name,
           contact_details: emergency_contact_details,
-          relationship: emergency_contact_relationship
-        }
+          relationship: emergency_contact_relationship,
+        },
       ],
       referrals: [self],
-      status: 'waiting_list'
+      status: "waiting_list",
     )
   end
   # date_of_birth

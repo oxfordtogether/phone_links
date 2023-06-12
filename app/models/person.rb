@@ -37,16 +37,16 @@ class Person < ApplicationRecord
     age_75_plus: "75+",
   }
 
-  encrypts :title, type: :string, key: :kms_key
-  encrypts :first_name, type: :string, key: :kms_key
-  encrypts :last_name, type: :string, key: :kms_key
-  encrypts :phone, type: :string, key: :kms_key
-  encrypts :email, type: :string, key: :kms_key
-  encrypts :address_line_1, type: :string, key: :kms_key
-  encrypts :address_line_2, type: :string, key: :kms_key
-  encrypts :address_town, type: :string, key: :kms_key
-  encrypts :address_postcode, type: :string, key: :kms_key
-  encrypts :flag_change_notes, type: :string, key: :kms_key
+  has_encrypted :title, type: :string, key: :kms_key
+  has_encrypted :first_name, type: :string, key: :kms_key
+  has_encrypted :last_name, type: :string, key: :kms_key
+  has_encrypted :phone, type: :string, key: :kms_key
+  has_encrypted :email, type: :string, key: :kms_key
+  has_encrypted :address_line_1, type: :string, key: :kms_key
+  has_encrypted :address_line_2, type: :string, key: :kms_key
+  has_encrypted :address_town, type: :string, key: :kms_key
+  has_encrypted :address_postcode, type: :string, key: :kms_key
+  has_encrypted :flag_change_notes, type: :string, key: :kms_key
 
   def name
     "#{first_name} #{last_name}"

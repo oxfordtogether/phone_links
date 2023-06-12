@@ -44,7 +44,7 @@ group :test do
   gem "capybara", ">= 2.15"
   gem "selenium-webdriver"
   # Easy installation and use of web drivers to run system tests with browsers
-  gem "webdrivers"
+  gem "webdrivers", "~> 5.2.0"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -72,7 +72,7 @@ gem "aws-sdk-kms"
 
 gem "dotenv-rails"
 
-gem "view_component", require: "view_component/engine"
+gem "view_component"
 
 gem "ocl_tools", git: "https://github.com/oxfordtogether/ocl_tools.git", ref: "1b273e0"
 # gem "ocl_tools", path: "../ocl_tools"

@@ -13,5 +13,5 @@ class MatchStatusChange < ApplicationRecord
   belongs_to :match
   belongs_to :created_by, class_name: "Person", optional: true
 
-  encrypts :notes, type: :string, key: :kms_key
+  has_encrypted :notes, type: :string, key: :kms_key
 end

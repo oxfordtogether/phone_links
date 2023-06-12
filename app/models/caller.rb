@@ -7,12 +7,12 @@ class Caller < ApplicationRecord
   def update_matches
     if status == :left_programme
       matches.each do |m|
-        if m.status != :ended
-          m.status = :ended
-          m.status_change_datetime = Time.now()
-          m.status_change_notes = "Caller left programme"
-          m.save
-        end
+        next unless m.status != :ended
+
+        m.status = :ended
+        m.status_change_datetime = Time.now
+        m.status_change_notes = "Caller left programme"
+        m.save
       end
     end
   end
@@ -44,13 +44,13 @@ class Caller < ApplicationRecord
   scope :with_matches, -> { includes(:matches) }
   scope :for_pod, ->(pod_id) { where(pod_id: pod_id) }
   scope :for_pod_leader, ->(pod_leader_id) { where(pod_id: PodLeader.find(pod_leader_id).accessible_pod_ids) }
-  scope :login_enabled, -> { where(status: :active)}
-  scope :active, -> { where(status: :active)}
+  scope :login_enabled, -> { where(status: :active) }
+  scope :active, -> { where(status: :active) }
 
-  encrypts :experience, type: :string, key: :kms_key
-  encrypts :status_change_notes, type: :string, key: :kms_key
-  encrypts :languages_notes, type: :string, key: :kms_key
-  encrypts :capacity_notes, type: :string, key: :kms_key
+  has_encrypted :experience, type: :string, key: :kms_key
+  has_encrypted :status_change_notes, type: :string, key: :kms_key
+  has_encrypted :languages_notes, type: :string, key: :kms_key
+  has_encrypted :capacity_notes, type: :string, key: :kms_key
 
   def name
     person.name

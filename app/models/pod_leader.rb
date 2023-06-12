@@ -13,11 +13,11 @@ class PodLeader < ApplicationRecord
 
   accepts_nested_attributes_for :person
 
-  encrypts :status_change_notes, type: :string, key: :kms_key
+  has_encrypted :status_change_notes, type: :string, key: :kms_key
 
   default_scope { includes(:person) }
   scope :with_pods, -> { includes(pods: %i[callers callees]) }
-  scope :login_enabled, -> { where(status: :active)}
+  scope :login_enabled, -> { where(status: :active) }
 
   def accessible_pod_ids
     pods.map(&:id) + pod_supporters.map(&:pod_id)

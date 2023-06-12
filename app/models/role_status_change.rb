@@ -18,7 +18,7 @@ class RoleStatusChange < ApplicationRecord
     callee caller pod_leader admin
   ]
 
-  encrypts :notes, type: :string, key: :kms_key
+  has_encrypted :notes, type: :string, key: :kms_key
 
   def role
     if callee
