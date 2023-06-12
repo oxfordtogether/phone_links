@@ -1,22 +1,35 @@
-version: 2
+version: 2.1
+orbs:
+  aws-s3: circleci/aws-s3@3.1.1
+  browser-tools: circleci/browser-tools@1.4.1
+  ruby: circleci/ruby@1.8.0
+  node: circleci/node@5.0.2
 jobs:
   build:
     parallelism: 1
     docker:
       # this is important to use proper image with browsers support
-      - image: circleci/ruby:2.7.2-node-browsers
+      - image: cimg/ruby:2.7.2-browsers
         environment:
           PGHOST: 127.0.0.1
           PGUSER: postgres
           RAILS_ENV: test
-      - image: circleci/postgres:12.6
+          PAGER: cat # https://stackoverflow.com/a/53055116
+      - image: cimg/postgres:14.2
         environment:
           POSTGRES_DB: oxford_hub_phone_links_test
           POSTGRES_PASSWORD: ""
           POSTGRES_USER: postgres
-          POSTGRES_HOST_AUTH_METHOD: trust
       - image: redis:3.2.7
     steps:
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
+      - run:
+          command: |
+            google-chrome --version
+            chromedriver --version
+          name: Check install
+
       - checkout
 
       # Restore bundle cache
@@ -36,24 +49,11 @@ jobs:
           paths:
             - vendor/bundle
 
-      - restore_cache:
-          keys:
-            # when lock file changes, use increasingly general patterns to restore cache
-            - yarn-cache-v2-{{ checksum "yarn.lock" }}
-            - yarn-cache-v2-
-
-      - run: yarn
-
-      - save_cache:
-          paths:
-            - ~/.cache/yarn
-          key: yarn-cache-v2-{{ checksum "yarn.lock" }}
+      - node/install-packages:
+          cache-path: ~/yarn.lock
+          pkg-manager: yarn
 
       # Get psql
-      - run: sudo rm -rf /var/lib/apt/lists/*
-      # delete Apt cache to avoid the error seen in failed mount https://app.circleci.com/pipelines/github/oxfordtogether/move_together/249/workflows/e3b770b3-d701-4e13-be35-de6c2ef22a5b/jobs/260
-      #   Repository 'http://security.debian.org/debian-security buster/updates InRelease' changed its 'Suite' value from 'stable' to 'oldstable'
-      # see https://support.circleci.com/hc/en-us/articles/360051749992-Build-fails-on-apt-get-update-command
       - run: sudo apt-get update && sudo apt install -y postgresql-client
       - run: which psql
 
@@ -64,20 +64,27 @@ jobs:
       # Database setup
       - run:
           name: Database setup
-          command: bin/rails db:structure:load --trace
+          command: bin/rails db:schema:load --trace
 
-      # Run rspec in parallel
-      - type: shell
-        command: |
-          bundle exec rspec --profile 10 \
-                            --format RspecJunitFormatter \
-                            --out /tmp/test-results/rspec.xml \
-                            --format progress
+      - run:
+          name: Zeitwerk check
+          command: bin/rails zeitwerk:check
 
-      # Save results
-      - type: store_test_results
-        path: /tmp/results
+      - ruby/rspec-test:
+          include: spec/**/*_spec.rb
 
       # Save artifacts
-      - type: store_artifacts
-        path: ./tmp/screenshots
+      - store_artifacts:
+          path: ./tmp/screenshots
+
+      # - store_artifacts:
+      #     path: coverage
+
+      # - when:
+      #     condition:
+      #       equal: [master, << pipeline.git.branch >>]
+      #     steps:
+      #       - run: cp coverage/coverage_badge_total.svg coverage/carers_coverage_badge_total.svg
+      #       - aws-s3/copy:
+      #           from: coverage/carers_coverage_badge_total.svg
+      #           to: s3://simplecov-badges
