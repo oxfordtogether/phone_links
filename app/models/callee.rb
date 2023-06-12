@@ -11,12 +11,12 @@ class Callee < ApplicationRecord
   def update_matches
     if status == :left_programme
       matches.each do |m|
-        if m.status != :ended
-          m.status = :ended
-          m.status_change_datetime = Time.now()
-          m.status_change_notes = "Callee left programme"
-          m.save
-        end
+        next unless m.status != :ended
+
+        m.status = :ended
+        m.status_change_datetime = Time.now
+        m.status_change_notes = "Callee left programme"
+        m.save
       end
     end
   end
@@ -35,16 +35,16 @@ class Callee < ApplicationRecord
   scope :with_matches, -> { includes(:matches) }
   scope :for_pod, ->(pod_id) { where(pod_id: pod_id) }
   scope :for_pod_leader, ->(pod_leader_id) { where(pod_id: PodLeader.find(pod_leader_id).accessible_pod_ids) }
-  scope :active, -> { where(status: :active)}
+  scope :active, -> { where(status: :active) }
 
-  encrypts :reason_for_referral, type: :string, key: :kms_key
-  encrypts :living_arrangements, type: :string, key: :kms_key
-  encrypts :other_information, type: :string, key: :kms_key
-  encrypts :additional_needs, type: :string, key: :kms_key
-  encrypts :call_frequency, type: :string, key: :kms_key
-  encrypts :status_change_notes, type: :string, key: :kms_key
-  encrypts :languages_notes, type: :string, key: :kms_key
-  encrypts :summary, type: :string, key: :kms_key
+  has_encrypted :reason_for_referral, type: :string, key: :kms_key
+  has_encrypted :living_arrangements, type: :string, key: :kms_key
+  has_encrypted :other_information, type: :string, key: :kms_key
+  has_encrypted :additional_needs, type: :string, key: :kms_key
+  has_encrypted :call_frequency, type: :string, key: :kms_key
+  has_encrypted :status_change_notes, type: :string, key: :kms_key
+  has_encrypted :languages_notes, type: :string, key: :kms_key
+  has_encrypted :summary, type: :string, key: :kms_key
 
   def name
     person.name

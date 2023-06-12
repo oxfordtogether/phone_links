@@ -14,7 +14,7 @@ class Event < ApplicationRecord
   scope :active, -> { where(replacement_event_id: nil) }
   scope :most_recent_first, -> { order(occurred_at: :desc) }
 
-  encrypts :sensitive_data, type: :json, key: :kms_key
+  has_encrypted :sensitive_data, type: :json, key: :kms_key
 
   def note_created?
     false

@@ -7,8 +7,8 @@ class SafeguardingConcern < ApplicationRecord
   belongs_to :created_by, class_name: "Person"
   has_many :safeguarding_concern_status_changes
 
-  encrypts :concerns, type: :string, key: :kms_key
-  encrypts :status_changed_notes, type: :string, key: :kms_key
+  has_encrypted :concerns, type: :string, key: :kms_key
+  has_encrypted :status_changed_notes, type: :string, key: :kms_key
 
   options_field :status, {
     unread: "unread",

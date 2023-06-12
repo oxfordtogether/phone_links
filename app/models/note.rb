@@ -11,10 +11,10 @@ class Note < ApplicationRecord
     caller_callee_initiated: "Caller/callee got in touch",
     pod_meeting: "Pod meeting",
     newsletter: "Newsletter sent out",
-    other: "Note: other"
+    other: "Note: other",
   }
 
-  encrypts :content, type: :string, key: :kms_key
+  has_encrypted :content, type: :string, key: :kms_key
 
   scope :for_people, ->(people_ids) { where(person_id: people_ids) }
 

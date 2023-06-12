@@ -26,7 +26,7 @@ class Match < ApplicationRecord
   before_save :set_status_change_datetime
   after_save :create_status_changed_record
 
-  encrypts :status_change_notes, type: :string, key: :kms_key
+  has_encrypted :status_change_notes, type: :string, key: :kms_key
 
   options_field :report_frequency, {
     "7": "weekly",
@@ -86,9 +86,7 @@ class Match < ApplicationRecord
   end
 
   def set_status_change_datetime
-    if status_changed? || status_change_notes_changed?
-      self.status_change_datetime = DateTime.now
-    end
+    self.status_change_datetime = DateTime.now if status_changed? || status_change_notes_changed?
   end
 
   def create_status_changed_record
@@ -107,14 +105,10 @@ class Match < ApplicationRecord
   end
 
   def support_index
-    feeling_to_numeric_hash = {awful: -2, bad: -1, neutral: 0, good: 1, great: 1}
+    feeling_to_numeric_hash = { awful: -2, bad: -1, neutral: 0, good: 1, great: 1 }
 
     sorted_reports = reports.sort_by(&:created_at)
 
-    if sorted_reports.last(10).filter { |r| r.caller_feeling.present? }.count >= 3
-      sorted_reports.last(10).map(&:caller_feeling).map { |v| feeling_to_numeric_hash[v] }.compact.sum
-    else
-      nil
-    end
+    sorted_reports.last(10).map(&:caller_feeling).map { |v| feeling_to_numeric_hash[v] }.compact.sum if sorted_reports.last(10).filter { |r| r.caller_feeling.present? }.count >= 3
   end
 end

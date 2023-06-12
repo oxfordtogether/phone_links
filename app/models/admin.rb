@@ -10,10 +10,10 @@ class Admin < ApplicationRecord
   accepts_nested_attributes_for :person
   has_many :role_status_changes
 
-  encrypts :status_change_notes, type: :string, key: :kms_key
+  has_encrypted :status_change_notes, type: :string, key: :kms_key
 
   default_scope { includes(:person) }
-  scope :login_enabled, -> { where(status: :active)}
+  scope :login_enabled, -> { where(status: :active) }
 
   def name
     person.name
