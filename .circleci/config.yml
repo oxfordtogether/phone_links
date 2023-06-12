@@ -64,7 +64,7 @@ jobs:
       # Database setup
       - run:
           name: Database setup
-          command: bin/rails db:schema:load --trace
+          command: bin/rails db:structure:load --trace
 
       - run:
           name: Zeitwerk check
