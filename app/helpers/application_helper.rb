@@ -89,7 +89,7 @@ module ApplicationHelper
   end
 
   def current_page_starts_with?(url_string)
-    request_uri = URI.parser.unescape(request.fullpath).force_encoding(Encoding::BINARY)
+    request_uri = URI::DEFAULT_PARSER.unescape(request.fullpath).force_encoding(Encoding::BINARY)
 
     request_uri.starts_with?(url_string)
   end
