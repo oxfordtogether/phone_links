@@ -69,7 +69,7 @@ gem "aws-sdk-kms"
 
 gem "dotenv-rails"
 
-gem "view_component", require: "view_component/engine"
+gem "view_component"
 
 gem "ocl_tools", git: "https://github.com/oxfordtogether/ocl_tools.git", ref: "1b273e0"
 # gem "ocl_tools", path: "../ocl_tools"
