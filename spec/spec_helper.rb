@@ -12,7 +12,7 @@ RSpec.configure do |config|
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
   config.before(:each, type: :system) do
-    if ENV["CI"]
+    if ENV["CI"] == "true"
       driven_by :selenium, using: :headless_chrome
     elsif ENV["WSL"]
       # If the tests are being run on windows in WSL, we need to use a remote version of chrome
